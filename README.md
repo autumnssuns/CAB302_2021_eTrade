@@ -24,5 +24,9 @@ _Note: Set the project SDK to SDK 15, if it has not been done so:_
 (Windows) --module-path "\path\to\javafx-sdk\lib" --add-modules javafx.controls,javafx.fxml
 (Linux/Mac) --module-path /path/to/javafx-sdk/lib --add-modules javafx.controls,javafx.fxml
 Replace the path\to\javafx-sdk\lib with the appropriate location of the JavaSDK "lib" directory.
+
+For more information, access https://openjfx.io/openjfx-docs/
  
-#### SQLite3 for DB
+#### SQLite3 for DB (Guide on how to download & add jdbc-driver library)
+
+Information source: https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
