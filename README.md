@@ -31,6 +31,6 @@ For more information, access https://openjfx.io/openjfx-docs/
 
 Information source: https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
 
-Install driver for Intellij (video tutorial): https://www.youtube.com/watch?v=293M9-QRZ0c&t=741s&ab_channel=CodeJava
+Install driver for SQLite (video tutorial): https://www.youtube.com/watch?v=293M9-QRZ0c&t=741s&ab_channel=CodeJava
 
 For intellij: https://www.jetbrains.com/help/idea/connecting-to-a-database.html
