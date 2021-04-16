@@ -1,0 +1,1 @@
+This package contains files used only by server.

@@ -1,0 +1,1 @@
+This package contains classes that are used by both server and client.
