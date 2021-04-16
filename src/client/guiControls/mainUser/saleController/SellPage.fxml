@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.mainUser.saleController.SaleController">
+    <children>
+        <TextField fx:id="homeSearchField" layoutX="150.0" layoutY="46.0" prefHeight="64.0" prefWidth="1167.0">
+            <font>
+                <Font size="28.0" />
+            </font>
+        </TextField>
+        <Pane fx:id="shippingPane" layoutX="61.0" layoutY="154.0" prefHeight="716.0" prefWidth="423.0" style="-fx-border-color: black;" styleClass="bodyPane" />
+        <Pane fx:id="assetsPane" layoutX="545.0" layoutY="154.0" prefHeight="716.0" prefWidth="772.0" style="-fx-border-color: black;" styleClass="bodyPane">
+            <children>
+                <ScrollPane fx:id="stockScroller" hbarPolicy="NEVER" layoutX="29.0" layoutY="100.0" prefHeight="547.0" prefWidth="714.0" style="-fx-background: transparent;" styleClass="bodyPane">
+                    <content>
+                        <VBox fx:id="stockBox" spacing="20.0" styleClass="bodyPane" />
+                    </content>
+                </ScrollPane>
+            </children>
+        </Pane>
+        <Button layoutX="1324.0" layoutY="154.0" mnemonicParsing="false" onAction="#addAsset" prefHeight="45.0" prefWidth="114.0" text="Debug: Add Item" />
+    </children>
+</AnchorPane>

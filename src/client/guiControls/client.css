@@ -1,0 +1,93 @@
+.root{
+    -fx-background-color: "#2B4358";
+}
+
+.button{
+    -fx-background-radius: 10px;
+    -fx-background-color: "#51B765";
+    -fx-text-fill: "#F3F1F1";
+    -fx-font-size: 20px;
+}
+
+.button:hover{
+    -fx-background-color: "#4d965b";
+}
+
+.displayPane{
+    -fx-background-color: "#2B4358";
+}
+
+.buttonPane{
+     -fx-background-color: "#2F6D80";
+}
+
+.menuPane{
+    -fx-background-color: "#78999F";
+}
+
+.bodyPane{
+    -fx-background-color: "#8792A5";
+}
+
+.whitePane{
+    -fx-background-color: "#FFFFFF";
+}
+
+.assetInfoBox{
+    -fx-background-color: "#526D5F"
+}
+
+.tabButton{
+    -fx-background-color: "#78999F";
+    -fx-text-fill: "#F3F1F1";
+}
+
+.tabButton:hover{
+    -fx-background-color: "#697c80";
+}
+
+.tabButton:disabled{
+    -fx-background-color: "#71ADB8";
+    -fx-opacity: 1;
+}
+
+.transparentButton{
+    -fx-background-color: transparent;
+}
+
+.label{
+    -fx-text-fill: "#F3F1F1";
+    -fx-alignment: "center";
+}
+
+.itemTotalLabel{
+    -fx-background-color: "#FEDB41";
+    -fx-font-size: 14px;
+}
+
+.cartTotalLabel{
+    -fx-background-radius: 10px;
+    -fx-background-color: "#F4B844";
+    -fx-font-size: 18px;
+}
+
+.blackLabel{
+    -fx-text-fill: "#000000";
+}
+
+.text-field{
+    -fx-text-fill: "#000000";
+    -fx-font-size: 20px;
+}
+
+.smallTextField{
+    -fx-font-size: 12px;
+}
+
+.rectangle{
+    -fx-background-radius: 10px;
+}
+
+.circularButton{
+    -fx-background-radius: 100%;
+}
