@@ -1,5 +1,5 @@
 __NO APPLICATION RELATED CODE - DOCUMENT ONLY__
-_This folder contains how the application's features are implemented._
+_This folder contains documents related to the development of the application._
 
 # GUI
 - Uses the JavaFX Framework.
