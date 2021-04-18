@@ -3,7 +3,7 @@ __NO APPLICATION RELATED CODE - DOCUMENT ONLY__
 _This folder contains documents related to the development of the application._
 
 # Table of content
-1. [Database](Documents/Database)
+1. [Database](Database)
 
 # GUI
 - Uses the JavaFX Framework.
