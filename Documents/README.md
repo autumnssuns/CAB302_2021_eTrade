@@ -1,5 +1,9 @@
 __NO APPLICATION RELATED CODE - DOCUMENT ONLY__
+
 _This folder contains documents related to the development of the application._
+
+# Table of content
+1. [Database](https://github.com/autumnssuns/Sem1_2021_CAB302_Group024_eTrade/blob/master/Documents/Database.md)
 
 # GUI
 - Uses the JavaFX Framework.
