@@ -16,5 +16,20 @@ User(String username): Connects to server and fetch all information related to t
 
 | Organisation |
 | ------------ |
-| -name: String <br> -balance: Float <br> -stock: Stock <br> -sellOrders: SellOrders <br> -buyOrders: BuyOrders|
-| +getName(): String <br> +getBalance(): Float <br> +setBalance() <br> +getStock(): Stock <br> +getSellOrders(): SellOrders <br> +getBuyOrders(): BuyOrders <br> +Update|
+| -name: String <br> -credit: Credit <br> -stock: Stock <br> -sellOrders: SellOrders <br> -buyOrders: BuyOrders|
+| +getName(): String <br> +getCredit(): Float <br> +getStock(): Stock <br> +getSellOrders(): SellOrders <br> +getBuyOrders(): BuyOrders|
+
+3. Base class OrganisationData: base class for other data classes used by Organiation
+
+| OrganisationData |
+|---|
+| +Download(): void <br> +Upload(): void|
+
+| Method | Function |
+| - | - |
+| +Update(): void | Request server to query related data |
+| +Commit(): void | Request server to change related data |
+
+Children of OrganisationData
+
+| Credit |
