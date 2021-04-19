@@ -32,6 +32,8 @@ This section contains the contribution of each member, ensuring that everyone me
 ## Unit Testing
 ### Dan
 | Contribution | Date / Week | Note |
+| Unit testing for Login System | 11/4/2021 | |
+| Unit testing for Register Function | 11/4/2021 | |
 |---|---|---|
 
 ### Daniel
@@ -57,6 +59,8 @@ This section contains the contribution of each member, ensuring that everyone me
 | Contribution | Date / Week | Note |
 |---|---|---|
 |Login System| 11/4/2021 | |
+|Hash Password Function| 12/4/2021 | On Slack, "resources" channel|
+|Account Register Function| 12/4/2021 | On Slack, "resources" channel|
 
 ### Lyn
 | Contribution | Date / Week | Note |
