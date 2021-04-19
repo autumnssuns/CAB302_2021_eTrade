@@ -50,7 +50,7 @@ public class LoginController {
     }
 
     private void switchToMainScreen(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("../mainUser/Main.fxml"));
+        root = FXMLLoader.load(getClass().getResource("../userMain/userMain.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 

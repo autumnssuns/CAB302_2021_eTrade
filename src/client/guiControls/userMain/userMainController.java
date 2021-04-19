@@ -1,4 +1,4 @@
-package client.guiControls.mainUser;
+package client.guiControls.userMain;
 
 import client.data.Session;
 import client.data.sessionalClasses.*;
@@ -18,7 +18,7 @@ import java.io.IOException;
 //TODO: Refactor magic numbers & Node creation
 //TODO: Commenting & Documenting
 
-public class MainController {
+public class userMainController {
     private Stage stage;
     private Scene scene;
 
@@ -48,6 +48,10 @@ public class MainController {
         userLabel.setText(Session.getUsername());
         sellPane = loader.load(getClass().getResource("saleController/SellPage.fxml"));
         buyPane = loader.load(getClass().getResource("buyController/BuyPage.fxml"));
+
+        // TODO: Implement these panes
+        historyPane = new Pane();
+        profilePane = new Pane();
 
         displayStack.getChildren().addAll(sellPane, buyPane);
         toHome();

@@ -1,4 +1,4 @@
-package client.guiControls.mainUser.saleController;
+package client.guiControls.userMain.saleController;
 
 import client.data.Session;
 import client.data.sessionalClasses.Cart;
@@ -25,8 +25,6 @@ public class SaleController {
     //Reusable elements that can be updated
     Label cartTotalLabel;
 
-    @FXML
-    Pane displayPane;
     @FXML Pane assetsPane;
     @FXML Pane filterPane;
     @FXML
@@ -146,7 +144,7 @@ public class SaleController {
         HBox quantityBox = new HBox();
         Label quantityLabel = new Label("Quantity: ");
         TextField quantityTextField = new TextField(String.valueOf(itemToDisplay.getQuantity()));
-        quantityTextField.getStyleClass().add("smallTextField");
+        quantityTextField.getStyleClass().addAll("smallTextField");
         quantityTextField.setPrefWidth(30);
         quantityLabel.getStyleClass().add("blackLabel");
         quantityBox.getChildren().addAll(quantityLabel, quantityTextField);
@@ -154,7 +152,7 @@ public class SaleController {
         HBox priceBox = new HBox();
         Label priceLabel = new Label("Price: ");
         TextField priceTextField = new TextField(String.valueOf(itemToDisplay.getPrice()));
-        priceTextField.getStyleClass().add("smallTextField");
+        priceTextField.getStyleClass().addAll("smallTextField");
         priceTextField.setPrefWidth(30);
         priceLabel.getStyleClass().add("blackLabel");
         priceBox.getChildren().addAll(priceLabel, priceTextField);
@@ -271,8 +269,6 @@ public class SaleController {
         CartItem newItem = itemToAdd.moveToCart(quantity, price);
         shippingCart.add(newItem);
         Update();
-
-        filterPane.setVisible(false);
     }
 
     //TODO: Add to trades database when checkout.

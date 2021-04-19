@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="911" prefWidth="1444" styleClass="displayPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.mainUser.buyController.BuyController">
+<AnchorPane prefHeight="911" prefWidth="1444" styleClass="displayPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.buyController.BuyController">
    <children>
       <TextField fx:id="homeSearchField" layoutX="160.0" layoutY="56.0" prefHeight="64.0" prefWidth="1167.0">
          <font>

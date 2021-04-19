@@ -1,6 +1,14 @@
+# Common classes 
 This package contains design of classes that are used by both server and client.
 
-# Normal User
+Includes class design: Designs of the (public) Java classes that will comprise your programs:
+- Descriptions of all public methods and fields.
+- Descriptions of the arguments each method takes and what the method returns.
+- Any assumptions (preconditions and postconditions).
+- Any checked exceptions that may be thrown by the method, and the circumstances under which the exceptions will be thrown.
+- How these classes interact with each other (UML Diagram).
+
+## As Normal User
 1. class User: stores the username & role of the user.
 
 | User        |
@@ -21,13 +29,17 @@ User(String username): Connects to server and fetch all information related to t
 
 | OrganisationData |
 |---|
-| +Download(): void <br> +Upload(): void|
+| +Update(): OrganisationData <br> +Request(): void|
 
-| Method | Function |
-| - | - |
-| +Update(): void | Request server to query related data |
-| +Commit(): void | Request server to change related data |
+`Update() `
+- Requests server to query related data
+
+`Commit()`
+- Requests server to change related data
 
 Children of OrganisationData
 
 | Credit |
+| --- |
+| -balance: Float |
+| +get() <br> +set(Float newBalance) <br> +add(Float amount) <br> +remove(Float amount) |

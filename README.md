@@ -2,8 +2,16 @@
 CAB302 Semester 1 2021 Group 024 Major Project - Electronic Trading Platform
 
 # Table of content
-1. [Installation Guide](Documents/Installation.md)
-2. [Database Design](Documents/Database)
+1. [Documents](Documents)
+    1. [Installation Guide](Documents/Installation.md)
+    2. [Requirements](Documents/Requirements/README.md)
+    3. [Database](Documents/Database)
+        1. [Database Design](Documents/Database/README.md)
+        2. [Server-Database Interaction Design](Documents/Server_Design/README.md)
+    4. [Contribution Management](Documents/Contribution_Management/)
+        1. [To Do List](Documents/Contribution_Management/To_Do_List.md)
+        2. [Contribution Details](Documents/Contribution_Management/Contribution_Details.md)
+2. [Roadmap](#roadmap)
 
 # ROADMAP
 
@@ -41,7 +49,7 @@ _Data Type & Server implementation on database interaction_
 - [x] Create a roadmap to log future progress (Past weeks were filled with already made progress)
 - [ ] Implement common data types that are used by both the server (as package of information) and client (as stored information to view)
     - [ ] Each has methods to generate request strings, based on the action.
-    - [ ] Design & Implement the [data classes](Documents/Classes/Common.md)
+    - [ ] Design & Implement the [data classes](Documents/Common_Classes/README.md)
 - [ ] Server can interact with database
     - [ ] Command-Line Application that loops indefinitely and
         - [ ] Display texts

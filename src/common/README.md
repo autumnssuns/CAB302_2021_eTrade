@@ -26,7 +26,7 @@ User(String username): Connects to server and fetch all information related to t
 | +Download(): void <br> +Upload(): void|
 
 | Method | Function |
-| - | - |
+| --- | --- |
 | +Update(): void | Request server to query related data |
 | +Commit(): void | Request server to change related data |
 
