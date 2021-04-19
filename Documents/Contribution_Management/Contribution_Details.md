@@ -35,8 +35,8 @@ This section contains the contribution of each member, ensuring that everyone me
 |---|---|---|
 
 ### Daniel
-|---|---|---|
 | Contribution | Date / Week | Note |
+|---|---|---|
 | Unit testing for Login System | 11/4/2021 | |
 | Unit testing for Register Function | 11/4/2021 | |
 
