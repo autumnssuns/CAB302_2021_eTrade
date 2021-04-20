@@ -8,7 +8,11 @@ CAB302 Semester 1 2021 Group 024 Major Project - Electronic Trading Platform
     3. [Database](Documents/Database)
         1. [Database Design](Documents/Database/README.md)
         2. [Server-Database Interaction Design](Documents/Server_Design/README.md)
-    4. [Contribution Management](Documents/Contribution_Management/)
+    4. Application Design (Class Interaction)
+        1. [Client](Documents/Client_Design)
+        2. [Server](Documents/Server_Design)
+        3. [Common Classes](Documents/Common_Classes)
+    5. [Contribution Management](Documents/Contribution_Management)
         1. [To Do List](Documents/Contribution_Management/To_Do_List.md)
         2. [Contribution Details](Documents/Contribution_Management/Contribution_Details.md)
 2. [Roadmap](#roadmap)
@@ -73,10 +77,23 @@ _Data Type & Server implementation on database interaction_
         - [ ] Users
 
 ### WEEK 8 (26/4 - 2/5) _Milestone #1: 2/5_
-_Client - Server interaction via Socket_
-- [ ] Impliment Socket communication on both sides
+_Client - Server interaction via Socket; Update Document_
 
-___Milestone #1 Checklist, the application allows, in terms of:___
+- [ ] Impliment Socket communication on both sides
+___Milestone #1 Checklist___
+
+Documentation:
+- [ ] [Requirement](Documents/Requirements)
+
+In each of the design below, include:
+- Class Name
+- Class Methods and what each of them does
+- UML Class Diagram (to show class interaction)
+
+- [ ] [Client Design](Documents/Client_Design)
+- [ ] [Server Design](Documents/Server_Design)
+- [ ] [Common Classes](Documents/Common_Classes)
+
 User Interaction:
 - [ ] Common
     - [ ] Login with username & password in database
