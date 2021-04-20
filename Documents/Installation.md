@@ -23,6 +23,7 @@ _Note: Set the project SDK to SDK 15, if it has not been done so:_
 Replace the path\to\javafx-sdk\lib with the appropriate location of the JavaSDK "lib" directory.
 
 Video Tutorial: https://www.youtube.com/watch?v=Ope4icw6bVk&ab_channel=BroCode
+
 For more information, access https://openjfx.io/openjfx-docs/
  
 #### SQLite3 for DB (Guide on how to download & add jdbc-driver library)
