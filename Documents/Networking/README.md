@@ -6,3 +6,5 @@ and how that data should be interpreted.
 - Basically, this part should contain all the information required to create a compatible
 server or client that could be used to replace the server or client that your team
 creates.
+  
+# Request - Response Classes

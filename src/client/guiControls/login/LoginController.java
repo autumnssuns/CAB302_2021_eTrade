@@ -30,11 +30,10 @@ public class LoginController {
         //TODO: Connect to server to authenticate the user
         String username = nameTextField.getText();
         String password = passwordField.getText();
-        boolean loginSuccess = authenticate(username,password);
+        boolean loginSuccess = Session.attemptLogin(username, password);;
 
         //TODO: Wait for response from server
         if(loginSuccess){
-            Session.startSession(username);
             switchToMainScreen(event);
         }
         else{

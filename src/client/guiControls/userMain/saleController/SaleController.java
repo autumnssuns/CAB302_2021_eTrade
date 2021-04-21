@@ -2,8 +2,9 @@ package client.guiControls.userMain.saleController;
 
 import client.data.Session;
 import client.data.sessionalClasses.Cart;
-import client.data.sessionalClasses.CartItem;
-import client.data.sessionalClasses.Item;
+import common.dataClasses.CartItem;
+import common.dataClasses.Asset;
+import common.dataClasses.Item;
 import client.data.sessionalClasses.Stock;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,7 +36,8 @@ public class SaleController {
 
     //TODO: Connect and display asset based on database.
     public void addAsset(){
-        stock.add(new Item("Item " + stock.size(), 99));
+        Asset asset = new Asset(0, "Item" + stock.size(), "");
+        stock.add(new Item(asset, 99));
         Update();
     }
 

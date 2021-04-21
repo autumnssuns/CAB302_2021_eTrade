@@ -1,8 +1,10 @@
 package client.data.sessionalClasses;
 
+import common.dataClasses.CartItem;
+
 import java.util.ArrayList;
 
-public class Cart extends ArrayList<client.data.sessionalClasses.CartItem> {
+public class Cart extends ArrayList<CartItem> {
     public boolean add(CartItem item){
         boolean result = false;
 
