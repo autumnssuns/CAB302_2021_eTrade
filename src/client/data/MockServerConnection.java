@@ -3,28 +3,21 @@ package client.data;
 import common.Request;
 import common.Response;
 import common.dataClasses.User;
+import server.IServer;
+import server.MockServer;
 
 import java.util.ArrayList;
 
 public final class MockServerConnection implements IServerConnection{
+    IServer server = null;
 
-    @Override
-    public void Connect() {
-
+    public MockServerConnection() {
+        server = new MockServer();
     }
 
     @Override
-    public Response respond(Request request) {
-        // Unidentified requests are denied by default
-        Response response = new Response(false, null);
-
-        switch (request.getAction()){
-            case "login":
-                String[] attachment = (String[])request.getAttachment();
-                User user = new User(attachment[0], attachment[1], "user",1);
-                response = new Response(true, user);
-        }
-
+    public Response sendRequest(Request request) {
+        Response response = server.sendResponse(request);
         return response;
     }
 

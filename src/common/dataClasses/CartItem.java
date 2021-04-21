@@ -40,30 +40,4 @@ public class CartItem extends common.dataClasses.Item{
     public float getTotalPrice() {
         return price * quantity;
     }
-
-    /**
-     * Sets the quantity of the item in cart to a new value.
-     * @param quantity The new quantity.
-     */
-    public void setQuantity(int quantity){
-        this.quantity = quantity;
-    }
-
-    /**
-     * Sets the price of the item in cart to a new value.
-     * @param price The new price.
-     */
-    public void setPrice(float price){
-        this.price = price;
-    }
-
-    /**
-     * Sets the quantity and price of the item in cart to new values.
-     * @param quantity The new quantity.
-     * @param price The new price.
-     */
-    public void update(int quantity, float price){
-        setQuantity(quantity);
-        setPrice(price);
-    }
 }

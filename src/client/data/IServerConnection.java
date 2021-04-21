@@ -7,16 +7,11 @@ import common.Request;
  */
 public interface IServerConnection {
     /**
-     * Connects to the server using Socket.
-     */
-    void Connect();
-
-    /**
      * Send a request to the server. This should be included in a new thread.
      * @param request The request to be sent.
      * @return The server's response.
      */
-    Object respond(Request request);
+    Object sendRequest(Request request);
 
     /**
      * Close the connection to the server.

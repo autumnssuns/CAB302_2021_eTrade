@@ -1,5 +1,6 @@
 package client.guiControls.userMain;
 
+import client.Main;
 import client.data.Session;
 import client.data.sessionalClasses.*;
 import javafx.event.ActionEvent;
@@ -22,10 +23,6 @@ public class userMainController {
     private Stage stage;
     private Scene scene;
 
-    //TODO: Replace with data from database (current assets and shipping cart)
-    private Stock stock = Session.organisation.stock;
-    private Cart shippingCart = Session.shippingCart;
-
     //Reusable elements that can be updated
     Label cartTotalLabel;
     Pane sellPane;
@@ -45,7 +42,7 @@ public class userMainController {
     @FXML
     public void initialize() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        userLabel.setText(Session.getUsername());
+        userLabel.setText(Main.session.getUser().getUsername());
         sellPane = loader.load(getClass().getResource("saleController/SellPage.fxml"));
         buyPane = loader.load(getClass().getResource("buyController/BuyPage.fxml"));
 

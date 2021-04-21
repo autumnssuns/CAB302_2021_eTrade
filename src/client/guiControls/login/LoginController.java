@@ -1,5 +1,8 @@
 package client.guiControls.login;
 
+import client.Main;
+import client.data.InvalidUserException;
+import client.data.MockServerConnection;
 import client.data.Session;
 import client.guiControls.LoginSystem;
 import javafx.event.ActionEvent;
@@ -26,11 +29,11 @@ public class LoginController {
     @FXML Label userLabel;
 
     // Attempt to log the user in
-    public void attemptLogin(ActionEvent event) throws IOException {
+    public void attemptLogin(ActionEvent event) throws IOException, InvalidUserException {
         //TODO: Connect to server to authenticate the user
         String username = nameTextField.getText();
         String password = passwordField.getText();
-        boolean loginSuccess = Session.attemptLogin(username, password);;
+        boolean loginSuccess = Main.session.requestLogin(username, password);;
 
         //TODO: Wait for response from server
         if(loginSuccess){

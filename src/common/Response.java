@@ -1,21 +1,19 @@
 package common;
 
-import common.dataClasses.User;
-
 import java.io.Serializable;
 
 public class Response implements Serializable {
     private boolean status;
-    private Object object;
+    private Object attachment;
 
     /**
      * Initialises a response that can be sent back to the client.
      * @param status The status of whether or not the request was fulfilled.
-     * @param object The object attached to the response.
+     * @param attachment The object attached to the response.
      */
-    public Response(boolean status, Object object){
+    public Response(boolean status, Object attachment){
         this.status = status;
-        this.object = object;
+        this.attachment = attachment;
     }
 
     /**
@@ -30,7 +28,7 @@ public class Response implements Serializable {
      * Retrieves the object attached to the response.
      * @return The object attached to the response.
      */
-    public Object getObject(){
-        return object;
+    public Object getAttachment(){
+        return attachment;
     }
 }

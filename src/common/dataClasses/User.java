@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Represents a user.
  */
-public class User implements Serializable {
+public class User extends Object implements Serializable {
     private String username;
     private String password;
     private String accountType;
@@ -75,5 +75,13 @@ public class User implements Serializable {
      */
     public void setOrganisation(int organisationId){
         this.organisationId = organisationId;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        User userToCompare = (User) o;
+        return userToCompare.getUsername() == username && userToCompare.getPassword() == password
+                && userToCompare.getAccountType() == accountType
+                && userToCompare.getOrganisationId() == organisationId;
     }
 }

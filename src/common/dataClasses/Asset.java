@@ -16,6 +16,7 @@ public class Asset implements Serializable {
      * @param description
      */
     public Asset(int assetId, String assetName, String description){
+        this.assetId = assetId;
         setName(assetName);
         setDescription(description);
     }

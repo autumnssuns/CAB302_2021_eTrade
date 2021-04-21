@@ -1,5 +1,7 @@
 package client;
 
+import client.data.MockServerConnection;
+import client.data.Session;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,9 +11,13 @@ import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
+    public static Session session;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         primaryStage.initStyle(StageStyle.UNDECORATED);
+        session = new Session();
+        session.setServerConnection(new MockServerConnection());
         Parent root = FXMLLoader.load(getClass().getResource("guiControls/login/Login.fxml"));
         Scene scene = new Scene(root);
 
