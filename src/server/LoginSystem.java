@@ -1,4 +1,4 @@
-package client.guiControls;
+package server;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.*;
@@ -23,7 +23,6 @@ public class LoginSystem {
         }catch (SQLException e){System.out.println(e.getMessage());}
         return conn;
     }
-
 
     /*register method*/
 

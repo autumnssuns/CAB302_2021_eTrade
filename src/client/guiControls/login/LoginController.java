@@ -2,9 +2,7 @@ package client.guiControls.login;
 
 import client.Main;
 import client.data.InvalidUserException;
-import client.data.MockServerConnection;
-import client.data.Session;
-import client.guiControls.LoginSystem;
+import server.LoginSystem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
