@@ -1,5 +1,28 @@
 # Sem1_2021_CAB302_Group024_eTrade
-CAB302 Semester 1 2021 Group 024 Major Project - Electronic Trading Platform
+CAB302 Semester 1 2021 Group 024 Major Project - Electronic Trading Platform.
+
+[Specification](https://blackboard.qut.edu.au/bbcswebdav/pid-9209104-dt-content-rid-38013728_1/courses/CAB302_21se1/Assignment%20Specification%282%29.pdf)
+
+[Marking Criteria](https://blackboard.qut.edu.au/bbcswebdav/pid-9209104-dt-content-rid-38013729_1/courses/CAB302_21se1/Marking%20Criteria%20%28CRA%29_%20Electronic%20Asset%20Trading%20Platform.pdf)
+
+# Notice Board: Milestone #1 Submission ([Link](https://blackboard.qut.edu.au/webapps/assignment/uploadAssignment?content_id=_9209123_1&course_id=_154919_1&group_id=&mode=view))
+__Milestone #1 is due at the end of Week 8. Only one member submits__ and the submission will need to cover:
+- The requirement documents as it currently stands
+- The detailed design document as it currently stands.
+- The current plan for the next 2 weeks (sprint planning). Keep this realistic and achievable; and describe what each team member will be doing in that time.
+- A video showing the progress (including showing the documents and the plan for the next
+2 weeks.) Maximum length: 4 minutes.
+
+The client may not have time to read the documents, so make sure __everything is covered in the video__. You can then use this submission to get some useful feedback on how you are going, to check that you are on the right track etc.
+
+The maximum length for this video is __4 minutes__. If you submit a longer video, we will watch the first 4 minutes of it and give you marks based on that. You may want to rehearse what you are going to say and present in the video to keep within this time limit.
+
+| Mark | Criterion | Status |
+| --- | --- | --- |
+| 1.5 |  The requirements document covers a substantial fraction of the client's requirements | Draft [Requirements](Documents/Requirements/README.md)|
+| 1.5 | The detailed design addresses many of the identified requirements, with some classes explicitly documented | Needs composing |
+| 1   |  Plan for next 2 weeks is substantial, but also realistic and achievable | Decide in week 8's meeting |
+| 1   |  Plan for next 2 weeks includes what each group member will be doing | Decide in week 8's meeting |
 
 # Table of content
 1. [Documents](Documents)
@@ -51,9 +74,7 @@ _GUI implementation using JavaFX & Login System_
 ### -> WEEK 7 (19/4 - 25/4)
 _Data Type & Server implementation on database interaction_
 - [x] Create a roadmap to log future progress (Past weeks were filled with already made progress)
-- [ ] Implement common data types that are used by both the server (as package of information) and client (as stored information to view)
-    - [ ] Each has methods to generate request strings, based on the action.
-    - [ ] Design & Implement the [data classes](Documents/Common_Classes/README.md)
+- [x] Implement common data types that are used by both the server (as package of information) and client (as stored information to view)
 - [ ] Server can interact with database
     - [ ] Command-Line Application that loops indefinitely and
         - [ ] Display texts
@@ -65,16 +86,17 @@ _Data Type & Server implementation on database interaction_
         - [ ] Query from tables
         - [ ] Update tables
     - [ ] Implement methods for server, based on prepared SQL Scripts and use JavaSQL to interact with database
-- [ ] Client can interact with a mock class that contains all the organisation related data (balance, stock, orders)
+- [ ] Finish up GUI Implementation (No Database Interaction Needed)
     - [ ] User Tabs:
-        - [ ] Sell
-        - [ ] Buy
-        - [ ] History
-        - [ ] Profile
-    - [ ] Admin Tabs (GUI Only)
-        - [ ] Organisations
-        - [ ] Assets
-        - [ ] Users
+        - [ ] Sell: Can display assets, add assets to cart and checkout
+        - [ ] Buy: Same as above
+        - [ ] History: Can display orders (id, type, asset, unit price, placed_quantity, resolved_quantity, date_placed, status) and cancel pending orders.
+        - [ ] Profile: Has labels to display username, name, organisations, role & password field to change password
+    - [ ] Admin Tabs:
+        - [x] Organisations: Can add / edit / remove organisations (name, credit, assets owned)
+        - [x] Assets: Can add / edit / remove assets (name, description)
+        - [x] Users: Can add / edit /remove users (name, username, password, organisation, role)
+- [ ] Client can interact with a mock class that contains all the organisation related data (balance, stock, orders)
 
 ### WEEK 8 (26/4 - 2/5) _Milestone #1: 2/5_
 _Client - Server interaction via Socket; Update Document_
