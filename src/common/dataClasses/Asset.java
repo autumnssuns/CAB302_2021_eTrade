@@ -28,6 +28,7 @@ public class Asset implements Serializable {
     public int getId() {
         return assetId;
     }
+    public void setId(int Id) {this.assetId = Id;}
 
     /**
      * Retrieves the name of the asset.

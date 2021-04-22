@@ -33,6 +33,11 @@ public class User extends Object implements Serializable {
     }
 
     /**
+     * @return set username of the user.
+     */
+    public void setUsername(String UserName) { this.username = UserName; }
+
+    /**
      * @return The password of the user.
      */
     public String getPassword(){

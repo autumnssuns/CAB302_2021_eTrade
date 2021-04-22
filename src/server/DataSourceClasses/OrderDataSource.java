@@ -5,13 +5,27 @@ import server.DBconnection;
 
 import java.sql.*;
 
-public class OrganisationsDataSource {
-    public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `cab302_eTrade`.`organisations` (\n" +
-            "  `organisation_id` INT NOT NULL AUTO_INCREMENT,\n" +
-            "  `organisation_name` VARCHAR(16) NOT NULL,\n" +
-            "  `credits` DECIMAL(2) NOT NULL DEFAULT 0,\n" +
-            "  PRIMARY KEY (`organisation_id`))\n" +
-            "ENGINE = InnoDB;";
+public class OrderDataSource {
+    public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `cab302_eTrade`.`orders` (\n" +
+            "  `order_id` INT NOT NULL AUTO_INCREMENT,\n" +
+            "  `order_type` ENUM('buy', 'sell') NOT NULL,\n" +
+            "  `organisation_id` INT NOT NULL,\n" +
+            "  `asset_id` INT NOT NULL,\n" +
+            "  `placed_quantity` INT NOT NULL DEFAULT 0,\n" +
+            "  `resolved_quantity` INT NOT NULL DEFAULT 0,\n" +
+            "  `price` DECIMAL(2) NOT NULL,\n" +
+            "  `order_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
+            "  `finished_date` DATETIME NULL DEFAULT NULL,\n" +
+            "  `status` ENUM('placed', 'finished', 'cancelled') NOT NULL DEFAULT 'placed',\n" +
+            "  PRIMARY KEY (`order_id`),\n" +
+            "  CONSTRAINT `buy_organisation`\n" +
+            "    FOREIGN KEY (`organisation_id` , `asset_id`)\n" +
+            "    REFERENCES `cab302_eTrade`.`stock` (`organisation_id` , `asset_id`)\n" +
+            "    ON DELETE NO ACTION\n" +
+            "    ON UPDATE NO ACTION)\n" +
+            "ENGINE = InnoDB;\n" +
+            "\n" +
+            "CREATE INDEX `organisation_idx` ON `cab302_eTrade`.`orders` (`organisation_id` ASC, `asset_id` ASC) VISIBLE;";
     private static final String ADD_ORGANISATION = "INSERT INTO organisations(organisation_id, organisation_name, credits) VALUES (?, ?, ?);";
     private static final String DELETE_ORGANISATION = "DELETE FROM organisations WHERE organisation_name=?";
     private static final String GET_ORGANISATION = "SELECT FROM organisations WHERE organisation_name=?";
@@ -21,7 +35,7 @@ public class OrganisationsDataSource {
     private PreparedStatement deleteOrganisation;
     private PreparedStatement getOrganisation;
 
-    public OrganisationsDataSource() {
+    public OrderDataSource() {
         connection = DBconnection.getInstance();
         try {
             Statement st = connection.createStatement();
