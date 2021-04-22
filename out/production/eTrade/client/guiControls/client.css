@@ -91,3 +91,13 @@
 .circularButton{
     -fx-background-radius: 100%;
 }
+
+.combo-box:disabled, .combo-box:disabled > * {
+  -fx-opacity: 1.0 ;
+  -fx-background-color: transparent;
+}
+
+.text-field:disabled, textarea:disabled > * {
+  -fx-opacity: 1.0 ;
+  -fx-background-color: transparent;
+}

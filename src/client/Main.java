@@ -16,8 +16,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        session = new Session();
-        session.setServerConnection(new MockServerConnection());
         Parent root = FXMLLoader.load(getClass().getResource("guiControls/login/Login.fxml"));
         Scene scene = new Scene(root);
 
@@ -29,6 +27,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        session = new Session();
+        session.setServerConnection(new MockServerConnection());
         launch(args);
     }
 }
