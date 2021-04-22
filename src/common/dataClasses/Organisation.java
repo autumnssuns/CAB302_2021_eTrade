@@ -4,10 +4,12 @@ import client.data.sessionalClasses.Stock;
 import common.Request;
 import common.Response;
 
+import java.io.Serializable;
+
 /**
  * Represents an organisation.
  */
-public class Organisation {
+public class Organisation implements Serializable, IData{
     private int organisationId;
     private String organisationName;
     public float balance;

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Represents a user.
  */
-public class User extends Object implements Serializable {
+public class User extends Object implements Serializable, IData {
     private String username;
     private String password;
     private String accountType;

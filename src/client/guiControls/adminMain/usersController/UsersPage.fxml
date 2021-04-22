@@ -32,7 +32,7 @@
             <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="41.0" layoutY="180.0" prefHeight="80.0" prefWidth="1363.0" spacing="20.0">
+      <HBox alignment="CENTER" layoutX="41.0" layoutY="180.0" prefHeight="80.0" prefWidth="1363.0" spacing="20.0" styleClass="whitePane">
          <children>
             <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
             <TextField fx:id="newNameTextField" prefHeight="30.0" prefWidth="190.0" promptText="Name">
