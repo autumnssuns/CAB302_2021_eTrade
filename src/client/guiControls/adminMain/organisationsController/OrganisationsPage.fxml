@@ -1,5 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="911" prefWidth="1444" styleClass="displayPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.adminMain.organisationsController.OrganisationsController" />
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="911.0" prefWidth="1444.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.adminMain.organisationsController.OrganisationsController">
+   <children>
+      <StackPane prefHeight="911.0" prefWidth="1444.0">
+         <children>
+            <AnchorPane fx:id="editPane" prefHeight="911" prefWidth="1444" styleClass="displayPane">
+               <children>
+                  <TextField fx:id="nameTextField" layoutX="309.0" layoutY="36.0" prefHeight="43.0" prefWidth="1083.0" promptText="Set organisational unit name" />
+                  <ScrollPane hbarPolicy="NEVER" layoutX="41.0" layoutY="264.0" prefHeight="422.0" prefWidth="1362.0" styleClass="bodyPane">
+                     <content>
+                        <VBox fx:id="organisationalAssetsBox" prefWidth="1362.0" spacing="20.0" />
+                     </content>
+                  </ScrollPane>
+                  <HBox alignment="CENTER" layoutX="42.0" layoutY="184.0" prefHeight="80.0" prefWidth="1363.0" spacing="20.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="300.0" text="Asset Name" />
+                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="300.0" text="Asset Quantity" />
+                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
+                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="42.0" layoutY="686.0" prefHeight="80.0" prefWidth="1363.0" spacing="20.0" styleClass="whitePane">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
+                        <TextField fx:id="newAssetNameTextField" prefHeight="30.0" prefWidth="300.0" promptText="New Asset Name" />
+                        <TextField fx:id="newAssetQuantityTextField" prefHeight="30.0" prefWidth="300.0" promptText="Quantity" />
+                        <Button fx:id="addAssetButton" mnemonicParsing="false" onAction="#addOrganisationalAssetInfoBox" prefHeight="48.0" prefWidth="200.0" text="Add Asset" />
+                     </children>
+                  </HBox>
+                  <Label alignment="CENTER_RIGHT" layoutX="78.0" layoutY="36.0" prefHeight="43.0" prefWidth="217.0" text="Organisational Unit's Name" />
+                  <Label alignment="CENTER_RIGHT" layoutX="78.0" layoutY="91.0" prefHeight="43.0" prefWidth="217.0" text="Credit" />
+                  <TextField fx:id="creditTextField" layoutX="310.0" layoutY="91.0" prefHeight="43.0" prefWidth="1083.0" promptText="Set organisational unit credit" />
+                  <Label alignment="CENTER" layoutX="87.0" layoutY="141.0" prefHeight="43.0" prefWidth="217.0" text="Asset List">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="confirmButton" layoutX="503.0" layoutY="783.0" mnemonicParsing="false" onAction="#confirmEditor" prefHeight="48.0" prefWidth="200.0" text="Confirm" />
+                  <Button fx:id="cancelButton" layoutX="743.0" layoutY="783.0" mnemonicParsing="false" onAction="#closeEditor" prefHeight="48.0" prefWidth="200.0" text="Cancel" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="displayPane" prefHeight="911" prefWidth="1444" styleClass="displayPane">
+               <children>
+                  <TextField layoutX="212.0" layoutY="97.0" prefHeight="64.0" prefWidth="1191.0" promptText="Search for organisational unit" />
+                  <ScrollPane hbarPolicy="NEVER" layoutX="42.0" layoutY="340.0" prefHeight="481.0" prefWidth="1362.0" styleClass="bodyPane">
+                     <content>
+                        <VBox fx:id="organisationsDisplayBox" prefWidth="1362.0" spacing="20.0" />
+                     </content>
+                  </ScrollPane>
+                  <HBox alignment="CENTER" layoutX="41.0" layoutY="260.0" prefHeight="80.0" prefWidth="1363.0" spacing="20.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" text="ID" />
+                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="300.0" text="Name" />
+                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="300.0" text="Credit" />
+                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="400.0" text="Asset Quantity" />
+                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
+                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" layoutX="41.0" layoutY="180.0" prefHeight="80.0" prefWidth="1363.0" spacing="20.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
+                        <Button mnemonicParsing="false" onAction="#startEditor" prefHeight="48.0" prefWidth="200.0" text="Add">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>
