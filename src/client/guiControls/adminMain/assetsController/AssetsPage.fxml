@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="911" prefWidth="1444" styleClass="displayPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.adminMain.assetsController.AssetsController">
+   <children>
+      <Label layoutX="708.0" layoutY="369.0" text="Assets" />
+   </children>
+</AnchorPane>
