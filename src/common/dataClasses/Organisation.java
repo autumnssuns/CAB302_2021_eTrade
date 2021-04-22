@@ -1,9 +1,15 @@
 package common.dataClasses;
 
+import client.data.sessionalClasses.Stock;
+import common.Request;
+import common.Response;
+
+import java.io.Serializable;
+
 /**
  * Represents an organisation.
  */
-public class Organisation {
+public class Organisation implements Serializable, IData{
     private int organisationId;
     private String organisationName;
     public float balance;
@@ -27,7 +33,7 @@ public class Organisation {
     public int getId(){
         return organisationId;
     }
-    public void setId(int Id) {this.organisationId = Id; }
+
     /**
      * Returns the name of the organisation.
      * @return The name of the organisation.

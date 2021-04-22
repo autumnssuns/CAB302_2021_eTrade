@@ -52,7 +52,7 @@
                   <Button fx:id="cancelButton" layoutX="743.0" layoutY="783.0" mnemonicParsing="false" onAction="#closeEditor" prefHeight="48.0" prefWidth="200.0" text="Cancel" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="displayPane" prefHeight="911" prefWidth="1444" styleClass="displayPane">
+            <AnchorPane fx:id="displayPane" prefHeight="911" prefWidth="1444" styleClass="displayPane" visible="false">
                <children>
                   <TextField layoutX="212.0" layoutY="97.0" prefHeight="64.0" prefWidth="1191.0" promptText="Search for organisational unit" />
                   <ScrollPane hbarPolicy="NEVER" layoutX="42.0" layoutY="340.0" prefHeight="481.0" prefWidth="1362.0" styleClass="bodyPane">

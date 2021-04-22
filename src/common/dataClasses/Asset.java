@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Represents an asset that can be traded in the system.
  */
-public class Asset implements Serializable {
+public class Asset implements Serializable, IData {
     protected int assetId;
     protected String assetName;
     protected String description;
