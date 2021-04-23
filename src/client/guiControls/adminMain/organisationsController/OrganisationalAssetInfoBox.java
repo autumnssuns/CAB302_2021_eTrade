@@ -28,7 +28,7 @@ public class OrganisationalAssetInfoBox extends HBox {
         super();
         this.setAlignment(Pos.CENTER);
         this.setPrefHeight(80);
-        this.setPrefWidth(1363);
+        this.setPrefWidth(600);
         this.setLayoutX(41);
         this.setLayoutY(260);
         this.setSpacing(20);
@@ -73,7 +73,7 @@ public class OrganisationalAssetInfoBox extends HBox {
      */
     private void createNameTextField(){
         nameTextField = new TextField(name);
-        nameTextField.setPrefWidth(300);
+        nameTextField.setPrefWidth(250);
         nameTextField.setPrefHeight(30);
     }
 
@@ -82,7 +82,7 @@ public class OrganisationalAssetInfoBox extends HBox {
      */
     private void createQuantityTextField(){
         quantityTextField = new TextField(String.valueOf(quantity));
-        quantityTextField.setPrefWidth(700);
+        quantityTextField.setPrefWidth(100);
         quantityTextField.setPrefHeight(30);
     }
 
