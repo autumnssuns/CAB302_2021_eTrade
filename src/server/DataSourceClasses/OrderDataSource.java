@@ -80,8 +80,7 @@ public class OrderDataSource {
     }
 
     public Order getOrder(int OrderId){
-        Order dummy = new Order( -1, null, null, null, -1,
-        null, null, null, null);
+        Order dummy = new Order( -1, null, null, null, null, null);
         ResultSet rs = null;
         try {
             getOrder.setInt(1, OrderId);
