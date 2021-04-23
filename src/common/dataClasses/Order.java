@@ -7,25 +7,26 @@ public class Order implements Serializable {
     protected String OrderType; //buy/sell
     protected int organisationid;
     protected int AssetId;
-    protected int PlacedQuantity;
-    protected int ResolvedQuantity;
+    protected int PlacedQuantity;//cartitem
+    protected int ResolvedQuantity = 0;
     protected float price;
-    protected String FinishedDate; //
+    protected String FinishedDate = null; //Cartitem
     protected String OrderDate; //
     protected String Status; //
 
-    public Order(int OrderId, Organisation organisation, Asset asset, CartItem item, int resolvedQuantity,
-                 String FinishedDate, String OrderDate, String Status, String OrderType){
+    public Order(int OrderId/**/, Organisation organisation, CartItem item, String OrderDate, String Status, String OrderType){
         this.organisationid = organisation.getId();
         this.OrderId = OrderId;
-        this.AssetId = asset.getId();
+        this.AssetId = item.getId();
         this.PlacedQuantity = item.getQuantity();
         this.price = item.getPrice();
         this.Status = Status;
-        this.FinishedDate = FinishedDate;
         this.OrderDate = OrderDate;
         this.OrderType = OrderType;
 
+    }
+    public  void ResolvedQuantity(int assetnumber) {
+        ResolvedQuantity += assetnumber;
     }
     public int getOrderId(){return OrderId;}
 
