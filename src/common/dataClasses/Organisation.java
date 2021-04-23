@@ -35,6 +35,14 @@ public class Organisation implements Serializable, IData{
     }
 
     /**
+     * Set the id of the organisation to a new value.
+     * @param organisationId The new value for the organisation.
+     */
+    public void setId(int organisationId){
+        this.organisationId = organisationId;
+    }
+
+    /**
      * Returns the name of the organisation.
      * @return The name of the organisation.
      */
