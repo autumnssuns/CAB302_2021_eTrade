@@ -1,28 +1,14 @@
 package server;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
  */
 public class LoginSystem {
 
-
-    /*Method to connect to database*/
-    /**
-     *
-     * @return  Connection value
-     */
-    public static Connection ConnectToDatabase(){
-        Connection conn = null;
-        try{
-            String url = "jdbc:sqlite:/D:\\SQLite\\sqlite-tools-win32-x86-3350400\\Accounts.db";
-            conn = DriverManager.getConnection(url);
-
-        }catch (SQLException e){System.out.println(e.getMessage());}
-        return conn;
-    }
 
     /*register method*/
 
@@ -38,7 +24,7 @@ public class LoginSystem {
         Connection conn;
         try {
             // create a connection to the database
-            conn = ConnectToDatabase();
+            conn = DBconnection.getInstance();
 
             //create statement for sql queries
             Statement statement = conn.createStatement();
@@ -80,7 +66,7 @@ public class LoginSystem {
         Connection conn;
         try {
             //connect to database
-            conn = ConnectToDatabase();
+            conn = DBconnection.getInstance();
             //create statement for sql queries
             Statement statement = conn.createStatement();
 
@@ -133,7 +119,7 @@ public class LoginSystem {
 
         try {
             //connect to database
-            Connection conn = ConnectToDatabase();
+            Connection conn = DBconnection.getInstance();
             statement = conn.createStatement();
             ResultSet name = statement.executeQuery(Query);
             while (name.next()){
@@ -160,7 +146,7 @@ public class LoginSystem {
         String existPass = null;
         try {
             //connect to database
-            Connection conn = LoginSystem.ConnectToDatabase();
+            Connection conn = DBconnection.getInstance();
             statement = conn.createStatement();
             ResultSet name = statement.executeQuery(Query);
             while (name.next()) {

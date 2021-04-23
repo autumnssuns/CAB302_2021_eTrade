@@ -1,6 +1,7 @@
 package client.data;
 
-import client.data.sessionalClasses.*;
+import client.data.sessionalClasses.Cart;
+import client.data.sessionalClasses.Stock;
 import common.Request;
 import common.Response;
 import common.dataClasses.Organisation;

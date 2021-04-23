@@ -1,0 +1,32 @@
+package server;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DBconnection {
+//create statement for database connection.
+    private static Connection instance = null;
+
+
+    /**
+     * Provides global access to the singleton instance of the UrlSet.
+     *
+     * @return a handle to the singleton instance of the UrlSet.
+     */
+    public static Connection getInstance() {
+        if (instance == null) {
+             DBConnection();
+        }
+        return instance;
+    }
+
+    private static void DBConnection(){
+        try{
+            String url = "jdbc:sqlite:/D:\\SQLite\\sqlite-tools-win32-x86-3350400\\Accounts.db";
+            instance = DriverManager.getConnection(url);
+        }catch (SQLException e){System.out.println(e.getMessage());}
+
+    }
+
+}
