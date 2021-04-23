@@ -1,6 +1,6 @@
 package server.DataSourceClasses;
 
-import common.dataClasses.Organisation;
+import common.dataClasses.Order;
 import server.DBconnection;
 
 import java.sql.*;
@@ -26,57 +26,76 @@ public class OrderDataSource {
             "ENGINE = InnoDB;\n" +
             "\n" +
             "CREATE INDEX `organisation_idx` ON `cab302_eTrade`.`orders` (`organisation_id` ASC, `asset_id` ASC) VISIBLE;";
-    private static final String ADD_ORGANISATION = "INSERT INTO organisations(organisation_id, organisation_name, credits) VALUES (?, ?, ?);";
-    private static final String DELETE_ORGANISATION = "DELETE FROM organisations WHERE organisation_name=?";
-    private static final String GET_ORGANISATION = "SELECT FROM organisations WHERE organisation_name=?";
+
+    private static final String ADD_ORDER = "INSERT INTO orders(order_id, order_type, organisation_id, " +
+            "asset_id, placed_quantity, resolved_quantity, price, order_date, finished_date, status) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String DELETE_ORDER = "DELETE FROM orders WHERE order_id=?";
+    private static final String GET_ORDER = "SELECT FROM orders WHERE order_id=?";
 
     private Connection connection;
-    private PreparedStatement addOrganisation;
-    private PreparedStatement deleteOrganisation;
-    private PreparedStatement getOrganisation;
+    private PreparedStatement addOrder;
+    private PreparedStatement deleteOrder;
+    private PreparedStatement getOrder;
 
     public OrderDataSource() {
         connection = DBconnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);
-            addOrganisation = connection.prepareStatement(ADD_ORGANISATION);
-            deleteOrganisation = connection.prepareStatement(DELETE_ORGANISATION);
-            getOrganisation = connection.prepareStatement(GET_ORGANISATION);
+            addOrder = connection.prepareStatement(ADD_ORDER);
+            deleteOrder = connection.prepareStatement(DELETE_ORDER);
+            getOrder = connection.prepareStatement(GET_ORDER);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void addOrganisation(Organisation newOrganisation){
+    public void addOrder(Order order){
         try {
-            addOrganisation.setInt(1, newOrganisation.getId());
-            addOrganisation.setString(2, newOrganisation.getName());
-            addOrganisation.setFloat(3, newOrganisation.getBalance());
-            addOrganisation.executeQuery();
+            addOrder.setInt(1, order.getOrderId());
+            addOrder.setString(2, order.getOrderType());
+            addOrder.setFloat(3, order.getOrganisationid());
+            addOrder.setInt(4, order.getAssetId());
+            addOrder.setInt(5, order.getPlacedQuantity());
+            addOrder.setFloat(6, order.getResolvedQuantity());
+            addOrder.setFloat(7, order.getPrice());
+            addOrder.setString(8, order.getOrderDate());
+            addOrder.setString(9, order.getFinishedDate());
+            addOrder.setString(10, order.getStatus());
+
+            addOrder.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteOrganisation(String Name){
+    public void deleteOrder(int OrderId){
         try {
-            deleteOrganisation.setString(1, Name);
-            deleteOrganisation.executeQuery();
+            deleteOrder.setInt(1, OrderId);
+            deleteOrder.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public Organisation getOrganisation(String Name){
-        Organisation dummy = new Organisation(-1,null, -1);
+    public Order getOrder(int OrderId){
+        Order dummy = new Order( -1, null, null, null, -1,
+        null, null, null, null);
         ResultSet rs = null;
         try {
-            getOrganisation.setString(1, Name);
-            rs = getOrganisation.executeQuery();
-            dummy.setId(rs.getInt("organisation_id"));
-            dummy.setName(rs.getString("organisation_name"));
-            dummy.setBalance(rs.getFloat("credits"));
+            getOrder.setInt(1, OrderId);
+            rs = getOrder.executeQuery();
+            dummy.setOrderID(rs.getInt("order_id"));
+            dummy.setOrderType(rs.getString("order_type"));
+            dummy.setOrganisationID(rs.getInt("organisation_id"));
+            dummy.setAssetID(rs.getInt("asset_id"));
+            dummy.setPlacedQuantity(rs.getInt("placed_quantity"));
+            dummy.setResolvedQuantity(rs.getInt("resolved_quantity"));
+            dummy.setPrice(rs.getFloat("price"));
+            dummy.setOrderDate(rs.getString("order_date"));
+            dummy.setFinishedDate(rs.getString("finished_date"));
+            dummy.setStatus(rs.getString("status"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
