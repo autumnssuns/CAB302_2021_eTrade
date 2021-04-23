@@ -36,8 +36,8 @@ public class OrganisationInfoBox extends HBox {
         super();
         this.setAlignment(Pos.CENTER);
         this.setPrefHeight(80);
-        this.setPrefWidth(1363);
-        this.setLayoutX(41);
+        this.setPrefWidth(700);
+        //this.setLayoutX(41);
         this.setLayoutY(260);
         this.setSpacing(20);
 
@@ -70,7 +70,7 @@ public class OrganisationInfoBox extends HBox {
         idLabel = new Label(String.valueOf(organisationId));
         idLabel.getStyleClass().add("blackLabel");
         idLabel.setAlignment(Pos.CENTER);
-        idLabel.setPrefWidth(100);
+        idLabel.setPrefWidth(50);
         idLabel.setPrefHeight(80);
     }
 
@@ -80,7 +80,7 @@ public class OrganisationInfoBox extends HBox {
     private void createNameLabel(){
         nameLabel = new Label(name);
         nameLabel.getStyleClass().add("blackLabel");
-        nameLabel.setPrefWidth(300);
+        nameLabel.setPrefWidth(200);
         nameLabel.setPrefHeight(30);
     }
 
@@ -98,7 +98,7 @@ public class OrganisationInfoBox extends HBox {
     private void createCreditLabel(){
         creditLabel = new Label(String.valueOf(credit));
         creditLabel.getStyleClass().add("blackLabel");
-        creditLabel.setPrefWidth(300);
+        creditLabel.setPrefWidth(100);
         creditLabel.setPrefHeight(30);
     }
 
@@ -108,7 +108,7 @@ public class OrganisationInfoBox extends HBox {
     private void createAssetQuantityLabel(){
         assetQuantityLabel = new Label(String.valueOf(assetQuantity));
         assetQuantityLabel.getStyleClass().add("blackLabel");
-        assetQuantityLabel.setPrefWidth(400);
+        assetQuantityLabel.setPrefWidth(100);
         assetQuantityLabel.setPrefHeight(30);
     }
 

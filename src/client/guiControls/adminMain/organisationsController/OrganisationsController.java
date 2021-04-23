@@ -49,7 +49,7 @@ public class OrganisationsController {
      * Adds a new entry, representing a new organisational unit.
      */
     public void startEditor(){
-        editPane.toFront();
+        editPane.setVisible(true);
         confirmButton.setOnAction(e -> confirmEditor());
     }
 
@@ -57,7 +57,7 @@ public class OrganisationsController {
      * Edit an existing organisational unit.
      */
     public void startEditor(OrganisationInfoBox caller){
-        editPane.toFront();
+        editPane.setVisible(true);
         nameTextField.setText(caller.getName());
         creditTextField.setText(String.valueOf(caller.getCredit()));
         organisationalAssetsBox.getChildren().addAll(caller.getOrganisationalAssetsBox().getChildren());
@@ -96,7 +96,7 @@ public class OrganisationsController {
      * Close the editor.
      */
     public void closeEditor(){
-        editPane.toBack();
+        editPane.setVisible(false);
         clearEditor();
     }
 
