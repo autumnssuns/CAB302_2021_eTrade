@@ -61,6 +61,8 @@ This section contains the contribution of each member, ensuring that everyone me
 |Login System| 11/4/2021 | |
 |Hash Password Function| 12/4/2021 | On Slack, "resources" channel|
 |Account Register Function| 12/4/2021 | On Slack, "resources" channel|
+|DBconnection and Order classes | 23/4/2021 | |
+|DatabaseSource Classes| 23/4/2021 | |
 
 ### Lyn
 | Contribution | Date / Week | Note |
