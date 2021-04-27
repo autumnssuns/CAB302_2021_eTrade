@@ -26,6 +26,7 @@ Unclaimed Tasks:
 | Design server side classes to interact with database |19/4/2021 | | Initial Commit of [ServerSideClasses](../Server_Design/README.md)|
 | Implement GUI design of Admin View | 22/4/2021 | | GUI only, no database interaction |
 | Documentation: Admin GUI | 22/4/2021 | | |
+| Documentation: Common Classes | 27/4/2021 | | |
 
 ## Daniel
 | Task | Assume Date | Finish Date | Note |
