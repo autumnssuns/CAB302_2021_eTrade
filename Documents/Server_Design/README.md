@@ -66,13 +66,13 @@ The classes below inherits `DataSource` and can modify the SQL Strings (`INSERT`
 ||
 
 ### AssetsDataSource
-|OrganisationsDataSource|
+|AssetsDataSource|
 |---|
 ||
 ||
 
 ### OrdersDataSource
-|OrganisationsDataSource|
+|OrdersDataSource|
 |---|
 ||
 ||
