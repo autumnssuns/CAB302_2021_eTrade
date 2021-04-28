@@ -35,7 +35,6 @@ public class Order implements Serializable {
         this.Status = Status;
         this.OrderDate = OrderDate;
         this.OrderType = OrderType;
-
     }
 
     /**
