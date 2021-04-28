@@ -101,13 +101,14 @@ public class OrderDataSource {
         return dummy;
     }
 
+    /**
+     * Close the connection to database
+     */
     public void close() {
-        /* BEGIN MISSING CODE */
         try {
             connection.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        /* END MISSING CODE */
     }
 }

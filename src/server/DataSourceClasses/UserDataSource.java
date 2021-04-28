@@ -10,6 +10,7 @@ import java.sql.*;
  */
 public class UserDataSource {
     //Create the environment
+    //SQL queries
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `cab302_eTrade`.`users` (\n" +
             "  `username` VARCHAR(16) NOT NULL,\n" +
             "  `password` VARCHAR(32) NOT NULL,\n" +
@@ -29,10 +30,10 @@ public class UserDataSource {
             "SET SQL_MODE=@OLD_SQL_MODE;\n" +
             "SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;\n" +
             "SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;";
-    //SQL queries
     private static final String ADD_USER = "INSERT INTO users(username, password, user_type, organisation_id) VALUES (?, ?, ?, ?);";
     private static final String DELETE_USER = "DELETE FROM users WHERE username=?";
     private static final String GET_USER = "SELECT FROM users WHERE username=?";
+
     //Prepared statements
     private Connection connection;
     private PreparedStatement addUser;
@@ -117,6 +118,4 @@ public class UserDataSource {
             ex.printStackTrace();
         }
     }
-
-
 }
