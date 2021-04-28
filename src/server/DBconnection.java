@@ -13,7 +13,6 @@ public class DBconnection {
 
     /**
      * Provides global access to the singleton instance of the UrlSet.
-     *
      * @return a handle to the singleton instance of the UrlSet.
      */
     public static Connection getInstance() {
