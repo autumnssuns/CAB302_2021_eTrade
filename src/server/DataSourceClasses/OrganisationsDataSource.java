@@ -5,6 +5,9 @@ import server.DBconnection;
 
 import java.sql.*;
 
+/**
+ * Provides needed functions to interact with "organisations" database for data
+ */
 public class OrganisationsDataSource {
     //Create environment
     //SQL queries
