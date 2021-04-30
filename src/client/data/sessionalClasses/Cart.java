@@ -4,10 +4,31 @@ import common.dataClasses.CartItem;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a cart of items.
+ */
 public class Cart extends ArrayList<CartItem> {
+    private final String cartType;
+
+    /**
+     * Sets the type of the cart ('buy' or 'sell')
+     * @param cartType The type of the cart ('buy' or 'sell')
+     */
+    public Cart(String cartType){
+        this.cartType = cartType;
+    }
+
+    /**
+     * Adds a new item into the cart. If the item has already existed in the cart with the same price, they are
+     * stacked up.
+     * @param item The new item.
+     * @return true if the item is added successfully, false otherwise.
+     */
+    @Override
     public boolean add(CartItem item){
         boolean result = false;
 
+        // Checks if the item has already exist. If yes, add the new item on top.
         for(int i = 0; i < this.size(); i++){
             CartItem currentItem = this.get(i);
             if (currentItem.getName() == item.getName() && currentItem.getPrice() == item.getPrice()){
@@ -17,14 +38,15 @@ public class Cart extends ArrayList<CartItem> {
             }
         }
 
+        // If the item is new, add it to the cart.
         result = result ? result : super.add(item);
         return result;
     }
 
-    public void update(String itemName){
-
-    }
-
+    /**
+     * Retrieves the total price of all the items in this cart.
+     * @return
+     */
     public float getTotalPrice() {
         float total = 0;
         for (CartItem item : this){
@@ -33,7 +55,11 @@ public class Cart extends ArrayList<CartItem> {
         return total;
     }
 
-    public void clear(){
+    /**
+     * Checks out the current cart.
+     */
+    public void checkOut(){
         super.clear();
+        //TODO: Request server to place orders on all items.
     }
 }

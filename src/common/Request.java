@@ -1,16 +1,17 @@
 package common;
 
+import common.dataClasses.IData;
 import common.dataClasses.User;
 
 import java.io.Serializable;
 
 /**
- * A package containing the the request to be send over the server.
+ * A package containing the request to be sent over the server.
  */
 public class Request implements Serializable {
-    private String senderName;
+    private User sender;
     private String action;
-    private Object attachment;
+    private IData attachment;
 
     /**
      * Initialises a request without attachment (mostly query requests) that can be serialised and sent to the server.
@@ -18,18 +19,8 @@ public class Request implements Serializable {
      * @param query The query string.
      */
     public Request(User sender, String query){
-        this.senderName = sender.getUsername();
+        this.sender = sender;
         this.action = query;
-    }
-
-    /**
-     * Initialises a request that can be serialised and sent to the server
-     * @param action The action as a string (update, commit or delete).
-     * @param attachment The data to be sent.
-     */
-    public Request(String action, Object attachment){
-        this.action = action;
-        this.attachment = attachment;
     }
 
     /**
@@ -38,17 +29,18 @@ public class Request implements Serializable {
      * @param action The action as a string (update, commit or delete).
      * @param attachment The data to be sent.
      */
-    public Request(User sender, String action, Object attachment) {
-        this(action, attachment);
-        senderName = sender.getUsername();
+    public Request(User sender, String action, IData attachment) {
+        this.sender = sender;
+        this.action = action;
+        this.attachment = attachment;
     }
 
     /**
      * Returns the username of the current client's user.
      * @return The username of the current client's user.
      */
-    public String getSenderName(){
-        return senderName;
+    public User getUser(){
+        return sender;
     }
 
     /**
@@ -63,7 +55,7 @@ public class Request implements Serializable {
      * The object attached to the attachment.
      * @return The attached object.
      */
-    public Object getAttachment(){
+    public IData getAttachment(){
         return attachment;
     }
 }

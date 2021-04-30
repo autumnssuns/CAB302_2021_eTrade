@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * A box to display user information and can be interacted with.
+ * A box to display the assets that belong to an organisation and can be interacted with.
  */
 public class OrganisationalAssetInfoBox extends HBox {
     private String name;

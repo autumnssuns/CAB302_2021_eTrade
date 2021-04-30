@@ -16,14 +16,14 @@ public class CartItem extends common.dataClasses.Item{
         super(item, cartQuantity);
         this.price = price;
     }
-
-    /**
-     * Retrieves the quantity of the item in cart.
-     * @return The quantity of the item in cart.
-     */
-    public int getQuantity(){
-        return quantity;
-    }
+//
+//    /**
+//     * Retrieves the quantity of the item in cart.
+//     * @return The quantity of the item in cart.
+//     */
+//    public int getQuantity(){
+//        return quantity;
+//    }
 
     /**
      * Retrieves the unit price of the item in cart.

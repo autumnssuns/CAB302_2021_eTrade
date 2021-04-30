@@ -1,15 +1,18 @@
 package client.data;
 
 import client.data.sessionalClasses.Cart;
-import client.data.sessionalClasses.Stock;
+import common.dataClasses.Stock;
 import common.Request;
 import common.Response;
 import common.dataClasses.Organisation;
 import common.dataClasses.User;
 
-// Mimics a static class as a temporary data storage
-public final class Session {
-    // Client - Server Session:
+/**
+ * The main controller that gets called when a session starts.
+ * // TODO: Needs redesign & refactor & documentation.
+ */
+public class MainController {
+    // Client - Server MainController:
     // 1. User Login with username -> Request login
     // 2. Login successful -> Request user-related information:
     //    User level: employee, manager or administrator, and whether user belongs to an organisation
@@ -25,13 +28,13 @@ public final class Session {
     private Cart shippingCart;
     private Cart shoppingCart;
 
-    // Initialise the session after user login.
+    // Initialise the mainController after user login.
     // TODO: retrieve and add organisation data
     public void startSession(User user){
         setUser(user);
         setOrganisation((Organisation) requestQuery("query organisation"));
         setStock((Stock) requestQuery("query stock"));
-        setShippingCart(new Cart());
+        setShippingCart(new Cart("sell"));
     }
 
     private Object requestQuery(String query){
@@ -41,8 +44,8 @@ public final class Session {
     }
 
     public boolean requestLogin(String username, String password) {
-        String[] data = new String[]{username, password};
-        Request request = new Request("login",data);
+        User tempUser = new User(username, password);
+        Request request = new Request(tempUser, "login");
 
         Response response = (Response) serverConnection.sendRequest(request);
 

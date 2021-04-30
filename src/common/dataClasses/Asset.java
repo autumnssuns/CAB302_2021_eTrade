@@ -1,19 +1,17 @@
 package common.dataClasses;
 
-import java.io.Serializable;
-
 /**
  * Represents an asset that can be traded in the system.
  */
-public class Asset implements Serializable, IData {
+public class Asset implements IData {
     protected int assetId;
     protected String assetName;
     protected String description;
 
     /**
      * Initialise the asset. This constructor should be called by the server and packed into the server's response.
-     * @param assetName
-     * @param description
+     * @param assetName The name of the asset.
+     * @param description The description of the asset.
      */
     public Asset(int assetId, String assetName, String description){
         this.assetId = assetId;
@@ -28,6 +26,11 @@ public class Asset implements Serializable, IData {
     public int getId() {
         return assetId;
     }
+
+    /**
+     * Sets the ID of the asset.
+     * @param Id the ID of the asset.
+     */
     public void setId(int Id) {this.assetId = Id;}
 
     /**

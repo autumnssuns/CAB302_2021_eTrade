@@ -1,0 +1,15 @@
+client
+client.data
+client.data.localDatabase
+client.data.sessionalClasses
+client.guiControls.adminMain
+client.guiControls.adminMain.assetsController
+client.guiControls.adminMain.organisationsController
+client.guiControls.adminMain.usersController
+client.guiControls.login
+client.guiControls.userMain
+client.guiControls.userMain.buyController
+client.guiControls.userMain.saleController
+common
+common.dataClasses
+server

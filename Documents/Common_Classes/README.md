@@ -8,38 +8,40 @@ Includes class design: Designs of the (public) Java classes that will comprise y
 - Any checked exceptions that may be thrown by the method, and the circumstances under which the exceptions will be thrown.
 - How these classes interact with each other (UML Diagram).
 
-## As Normal User
-1. class User: stores the username & role of the user.
+# Detailed Class Description
+Follow the links for detailed description of each class, including its fields & methods.
+## Data Types
+### [`IData`](../Detailed_Class_Description/common/dataClasses/IData.html)
+Represents a data-containing object that can be serialised and transferred between client and server.
 
-| User        |
-| ------------- |
-| -name: String <br> -username: String <br> -role: String <br> -organisation: Organisation|
-| +getUsername(): String <br> +getRole(): String <br> +getOrganisation(): Organisation|
+### [`Asset`](../Detailed_Class_Description/common/dataClasses/Asset.html)
+Represents an asset that can be traded in the system.
 
-User(String username): Connects to server and fetch all information related to the user.
+### [`Item`](../Detailed_Class_Description/common/dataClasses/Item.html)
+Represents an item - an quantifiable version of an asset possessed by an organisation.
 
-2. class Organisation: stores all the data related to an organisation.
+### [`CartItem`](../Detailed_Class_Description/common/dataClasses/CartItem.html)
+Represents an item in cart - a version of an asset that is considered to be placed into an order, at a certain quantity and price.
 
-| Organisation |
-| ------------ |
-| -name: String <br> -credit: Credit <br> -stock: Stock <br> -sellOrders: SellOrders <br> -buyOrders: BuyOrders|
-| +getName(): String <br> +getCredit(): Float <br> +getStock(): Stock <br> +getSellOrders(): SellOrders <br> +getBuyOrders(): BuyOrders|
+### [`User`](../Detailed_Class_Description/common/dataClasses/User.html)
+Represents a user in the system.
 
-3. Base class OrganisationData: base class for other data classes used by Organiation
+### [`Organisation`](../Detailed_Class_Description/common/dataClasses/Organisation.html)
+Represents an organisation.
 
-| OrganisationData |
-|---|
-| +Update(): OrganisationData <br> +Request(): void|
+### [`Stock`](../Detailed_Class_Description/common/dataClasses/Stock.html)
+Represents a collection of items owned by an organisation.
 
-`Update() `
-- Requests server to query related data
+### [`Order`](../Detailed_Class_Description/common/dataClasses/Order.html)
+Represents an order placed by an organisation.
 
-`Commit()`
-- Requests server to change related data
+## Networking Data
+### [`Request`](../Detailed_Class_Description/common/Request.html)
+A package containing the request to be sent over the server.
 
-Children of OrganisationData
+### [`Response`](../Detailed_Class_Description/common/Response.html)
+A package containing a response sent from the server to the client, including the state of whether the request were successfully executed and an optional data-containing object (IData).
 
-| Credit |
-| --- |
-| -balance: Float |
-| +get() <br> +set(Float newBalance) <br> +add(Float amount) <br> +remove(Float amount) |
+# Classes Interaction
+The interaction between the common classes is summarised in the Class Diagram below.
+![alt text](CAB302_Common_Classes.png "UML Class Diagram of Data Transmission Design and Data Types Design")

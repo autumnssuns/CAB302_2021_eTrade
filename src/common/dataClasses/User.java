@@ -3,13 +3,23 @@ package common.dataClasses;
 import java.io.Serializable;
 
 /**
- * Represents a user.
+ * Represents a user in the system.
  */
-public class User extends Object implements Serializable, IData {
+public class User extends Object implements IData {
     private String username;
     private String password;
     private String accountType;
     private int organisationId;
+
+    /**
+     * Initiates a user without a role and organisation.
+     * @param username The username of the user.
+     * @param password The password of the user.
+     */
+    public User(String username, String password){
+        this.username = username;
+        setPassword(password);
+    }
 
     /**
      * Initiates a user with all parameters.
@@ -82,9 +92,14 @@ public class User extends Object implements Serializable, IData {
         this.organisationId = organisationId;
     }
 
+    /**
+     * Indicate whether some other User is "equal" to this one.
+     * @param obj The reference Object (casted as User) with which to compare.
+     * @return true if this User is the same as the object argument; false otherwise.
+     */
     @Override
-    public boolean equals(Object o){
-        User userToCompare = (User) o;
+    public boolean equals(Object obj){
+        User userToCompare = (User) obj;
         return userToCompare.getUsername() == username && userToCompare.getPassword() == password
                 && userToCompare.getAccountType() == accountType
                 && userToCompare.getOrganisationId() == organisationId;

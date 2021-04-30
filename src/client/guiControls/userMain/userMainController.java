@@ -1,8 +1,6 @@
 package client.guiControls.userMain;
 
 import client.Main;
-import client.data.Session;
-import client.data.sessionalClasses.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,7 +40,7 @@ public class userMainController {
     @FXML
     public void initialize() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        userLabel.setText(Main.session.getUser().getUsername());
+        userLabel.setText(Main.mainController.getUser().getUsername());
         sellPane = loader.load(getClass().getResource("saleController/SellPage.fxml"));
         buyPane = loader.load(getClass().getResource("buyController/BuyPage.fxml"));
 
