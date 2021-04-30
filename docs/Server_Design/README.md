@@ -83,4 +83,4 @@ _Uses a DataSource and its methods to retrieve data._
 
 ## Data Type Classes
 _Stores detailed information of certain objects._
-These classes will also be used by the client, see [Common_Classes Design](../../Documents/Common_Classes).
+These classes will also be used by the client, see [Common_Classes Design](../../docs/Common_Classes).

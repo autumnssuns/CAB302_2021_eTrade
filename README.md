@@ -25,19 +25,19 @@ The maximum length for this video is __4 minutes__. If you submit a longer video
 | 1   |  Plan for next 2 weeks includes what each group member will be doing | Decide in week 8's meeting |
 
 # Table of content
-1. [Documents](Documents)
+1. [Documents](docs)
     1. [Installation Guide](docs/Installation.md)
     2. [Requirements](docs/Requirements/README.md)
-    3. [Database](Documents/Database)
-        1. [Database Design](Documents/Database/README.md)
+    3. [Database](docs/Database)
+        1. [Database Design](docs/Database/README.md)
         2. [Server-Database Interaction Design](docs/Server_Design/README.md)
     4. Application Design (Class Interaction)
-        1. [Client](Documents/Client_Design)
+        1. [Client](docs/Client_Design)
         2. [Server](docs/Server_Design)
-        3. [Common Classes](Documents/Common_Classes)
-    5. [Contribution Management](Documents/Contribution_Management)
-        1. [To Do List](Documents/Contribution_Management/To_Do_List.md)
-        2. [Contribution Details](Documents/Contribution_Management/Contribution_Details.md)
+        3. [Common Classes](docs/Common_Classes)
+    5. [Contribution Management](docs/Contribution_Management)
+        1. [To Do List](docs/Contribution_Management/To_Do_List.md)
+        2. [Contribution Details](docs/Contribution_Management/Contribution_Details.md)
 2. [Roadmap](#roadmap)
 
 # ROADMAP
@@ -112,9 +112,9 @@ In each of the design below, include:
 - Class Methods and what each of them does
 - UML Class Diagram (to show class interaction)
 
-- [ ] [Client Design](Documents/Client_Design)
+- [ ] [Client Design](docs/Client_Design)
 - [ ] [Server Design](docs/Server_Design)
-- [ ] [Common Classes](Documents/Common_Classes)
+- [ ] [Common Classes](docs/Common_Classes)
 
 User Interaction:
 - [ ] Common
