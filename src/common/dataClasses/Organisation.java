@@ -1,6 +1,4 @@
 package common.dataClasses;
-
-import client.data.sessionalClasses.Stock;
 import common.Request;
 import common.Response;
 
