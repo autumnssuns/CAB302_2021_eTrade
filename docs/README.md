@@ -4,7 +4,7 @@ _This folder contains documents related to the development of the application._
 
 # Document Deliverables
 ## [Requirements](Requirements/README.md)
-## Detailed Design ([Client](Client_Design), [Server](Server_Design) & [Common](../Documents/Common_Classes))
+## Detailed Design ([Client](Client_Design), [Server](Server_Design) & [Common](Common_Classes))
 ## [Database Design](Database)
 ## [Network Protocol](Networking)
 
