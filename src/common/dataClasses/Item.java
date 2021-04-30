@@ -5,6 +5,7 @@ package common.dataClasses;
  */
 public class Item extends Asset {
     protected int quantity;
+    protected int alterquantity;
 
     /**
      * Initialises an item by linking it to an asset and includes the quantity to be stored.
