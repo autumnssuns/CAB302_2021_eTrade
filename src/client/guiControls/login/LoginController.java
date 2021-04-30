@@ -2,7 +2,7 @@ package client.guiControls.login;
 
 import client.Main;
 import client.data.InvalidUserException;
-import server.LoginSystem;
+import server.Features.LoginSystem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

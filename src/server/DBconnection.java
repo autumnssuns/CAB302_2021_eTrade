@@ -5,13 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBconnection {
-//create statement for database connection.
+    /**
+     * create statement for database connection.
+     */
     private static Connection instance = null;
 
 
     /**
      * Provides global access to the singleton instance of the UrlSet.
-     *
      * @return a handle to the singleton instance of the UrlSet.
      */
     public static Connection getInstance() {
@@ -21,6 +22,9 @@ public class DBconnection {
         return instance;
     }
 
+    /**
+     * Constructor initializes the connection.
+     */
     private static void DBConnection(){
         try{
             String url = "jdbc:sqlite:/D:\\SQLite\\sqlite-tools-win32-x86-3350400\\Accounts.db";
