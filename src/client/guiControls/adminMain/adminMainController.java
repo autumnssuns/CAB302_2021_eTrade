@@ -42,7 +42,7 @@ public class adminMainController {
     @FXML
     public void initialize() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        userLabel.setText(Main.session.getUser().getUsername());
+        userLabel.setText(Main.mainController.getUser().getUsername());
         usersPane = loader.load(getClass().getResource("usersController/UsersPage.fxml"));
 
         // TODO: Implement these panes

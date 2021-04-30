@@ -58,15 +58,17 @@ class AssetTest {
             testAssets[i].setName(testAssets[i].getName() + " Clearance");
             String actualResult = testAssets[i].getName();
             String expectedResult = assets[i][1] + " Clearance";
+            assertEquals(expectedResult, actualResult);
         }
     }
 
     @Test
     void setDescription() {
         for (int i = 0; i < assets.length; i++){
-            testAssets[i].setName(testAssets[i].getDescription() + ". Now sold at a lower price.");
+            testAssets[i].setDescription(testAssets[i].getDescription() + ". Now sold at a lower price.");
             String actualResult = testAssets[i].getDescription();
             String expectedResult = assets[i][2] + ". Now sold at a lower price.";
+            assertEquals(expectedResult, actualResult);
         }
     }
 }

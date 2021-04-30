@@ -4,7 +4,7 @@ import common.dataClasses.User;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SessionTest {
+public class MainControllerTest {
 
     private static Object[][] users = new Object[][] {
             {"admin", "root", "admin", 0},
@@ -41,12 +41,12 @@ public class SessionTest {
             },
     };
 
-    private Session session;
+    private MainController mainController;
 
     @BeforeEach
     void setUp() {
-        this.session = new Session();
-        session.setServerConnection(new MockServerConnection());
+        this.mainController = new MainController();
+        mainController.setServerConnection(new MockServerConnection());
     }
 
     @Test
@@ -54,12 +54,12 @@ public class SessionTest {
         for (int i = 0; i < users.length; i++) {
             Object[] userData = users[i];
             User user = new User((String) userData[0], (String) userData[1], (String) userData[2], (int) userData[3]);
-            session.startSession(user);
+            mainController.startSession(user);
 
             Object[] actualCurrentOrganisationData = new Object[]{
-                    session.getOrganisation().getId(),
-                    session.getOrganisation().getName(),
-                    session.getOrganisation().getBalance()
+                    mainController.getOrganisation().getId(),
+                    mainController.getOrganisation().getName(),
+                    mainController.getOrganisation().getBalance()
             };
 
             Object[] expectedCurrentOrganisationData = organisations[user.getOrganisationId()];
@@ -67,10 +67,10 @@ public class SessionTest {
             assertArrayEquals(expectedCurrentOrganisationData, actualCurrentOrganisationData);
 
             Object[][] actualCurrentStockData = new Object[][]{
-                    {session.getStock().get(0).getName(), session.getStock().get(0).getQuantity()},
-                    {session.getStock().get(1).getName(), session.getStock().get(1).getQuantity()},
-                    {session.getStock().get(2).getName(), session.getStock().get(2).getQuantity()},
-                    {session.getStock().get(3).getName(), session.getStock().get(3).getQuantity()}
+                    {mainController.getStock().get(0).getName(), mainController.getStock().get(0).getQuantity()},
+                    {mainController.getStock().get(1).getName(), mainController.getStock().get(1).getQuantity()},
+                    {mainController.getStock().get(2).getName(), mainController.getStock().get(2).getQuantity()},
+                    {mainController.getStock().get(3).getName(), mainController.getStock().get(3).getQuantity()}
             };
 
             Object[][] expectedCurrentStockData = organisationStocks[user.getOrganisationId()];
@@ -83,7 +83,7 @@ public class SessionTest {
         for (Object[] userData : users){
             String username = userData[0].toString();
             String password = userData[1].toString();
-            boolean actualResult = session.requestLogin(username, password);
+            boolean actualResult = mainController.requestLogin(username, password);
             assertTrue(actualResult);
         }
     }
@@ -92,7 +92,7 @@ public class SessionTest {
     void testInvalidRequestLogin() {
         String username = "asdbcasdfsa";
         String password = "12adasb23r4";
-        boolean actualResult = session.requestLogin(username, password);
+        boolean actualResult = mainController.requestLogin(username, password);
         assertFalse(actualResult);
     }
 }

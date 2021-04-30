@@ -23,12 +23,27 @@ public class UsersController {
     ComboBox newRoleSelectionBox;
 
     /**
-     * Initialses the page.
+     * Initialses the page by sending a request to server and add initial data based on response(s).
      */
     @FXML
     public void initialize(){
         newOrganisationSelectionBox.getItems().addAll("TestOrg", "The Justice League", "The supervillains", "The random civilians");
         newRoleSelectionBox.getItems().addAll("user", "admin");
+    }
+
+    /**
+     * Adds a new entry, representing a new user.
+     */
+    public void addEntry(){
+        int userId = usersDisplayBox.getChildren().size();
+        String name = newNameTextField.getText();
+        String username = newUsernameTextField.getText();
+        String password = newPasswordField.getText();
+        String organisation = (String) newOrganisationSelectionBox.getValue();
+        String role = (String) newRoleSelectionBox.getValue();
+
+        addUserInfoBox(userId, name, username, password, organisation, role);
+        clearAddEntry();
     }
 
     /**
@@ -56,21 +71,6 @@ public class UsersController {
         newOrganisationSelectionBox.setPromptText("Organisation Unit");
         newRoleSelectionBox.valueProperty().set(null);
         newRoleSelectionBox.setPromptText("Role");
-    }
-
-    /**
-     * Adds a new entry, representing a new user.
-     */
-    public void addEntry(){
-        int userId = usersDisplayBox.getChildren().size();
-        String name = newNameTextField.getText();
-        String username = newUsernameTextField.getText();
-        String password = newPasswordField.getText();
-        String organisation = (String) newOrganisationSelectionBox.getValue();
-        String role = (String) newRoleSelectionBox.getValue();
-
-        addUserInfoBox(userId, name, username, password, organisation, role);
-        clearAddEntry();
     }
 
     //TODO: Gets data from database
