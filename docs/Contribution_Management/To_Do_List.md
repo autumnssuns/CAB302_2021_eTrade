@@ -37,6 +37,7 @@ Unclaimed Tasks:
 | Task | Assume Date | Finish Date | Note |
 | --- | --- | ---| --- |
 | Implement GUI into client application | 19/4/2021 | |  |
+| Connect to database to get stock data | 2/5/2021 | |  |
 
 ## Rodo
 | Task | Assume Date | Finish Date | Note |
