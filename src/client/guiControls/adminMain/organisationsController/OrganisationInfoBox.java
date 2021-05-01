@@ -132,7 +132,7 @@ public class OrganisationInfoBox extends HBox {
         removeButton.setPrefHeight(30);
         removeButton.setOnAction(e -> removeEntry());
     }
-
+    //NOTE: Get info from display
     /**
      * Begins editing the current entry.
      */
