@@ -36,10 +36,10 @@ Represents a collection of items owned by an organisation.
 Represents an order placed by an organisation.
 
 ## Networking Data
-### [`Request`](../../docs/Detailed_Class_Description/common/Request.html)
+### [`Request`](../Detailed_Class_Description/common/Request.html)
 A package containing the request to be sent over the server.
 
-### [`Response`](../../docs/Detailed_Class_Description/common/Response.html)
+### [`Response`](../Detailed_Class_Description/common/Response.html)
 A package containing a response sent from the server to the client, including the state of whether the request were successfully executed and an optional data-containing object (IData).
 
 # Classes Interaction
