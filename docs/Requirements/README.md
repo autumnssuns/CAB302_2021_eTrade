@@ -15,7 +15,8 @@ Synthesise all relevant facts contained within appendices A & B.
 | 7 | Admin can edit & create new asset |As a member of the IT Administration team, I require that only we (the IT Administration team) have the ability to create new organisational units| HIGH | |
 | 8 | Admin can edit & create new user | As a member of the IT Administration team, I can add new users and assign them passwords and assign them to organisational units. We can also add new users with the same level of access, so we can give it to anyone new that joins the IT Administration. | HIGH | |
 | 9 | Password are hashed before being sent and is stored in hashed form |As the head of IT Security, I do not want plaintext passwords being sent over our network. At least hash the password before sending it over | HIGH | |
-| 10 | Has database server | | HIGH | Designed, Unimplemented | |
+| 10 | Has a server that can interact with database and return reponse to client's request  | | HIGH | Designed, Unimplemented | |
+|10 | Server can facilitate and match sell-buy order| | HIGH| | | 
 |  | Has MariDB database to store user information, asset information, organisational unit information and trade information  | | HIGH | | |
 | 11 | User can access and remove a listed order from their organisation |As a user, sometimes after adding an offer I might decide that I want to remove that offer, perhaps to relist it again at a different price. | MEDIUM | |
 | 12 | Client & Server can run from a config file |As a systems administrator, I would like the client to read from some kind of configuration file to get the server IP address and port to connect to. | MEDIUM | |
