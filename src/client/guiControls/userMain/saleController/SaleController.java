@@ -1,9 +1,12 @@
 package client.guiControls.userMain.saleController;
 
 import client.Main;
+import client.data.MainController;
+import client.data.sessionalClasses.Cart;
 import common.dataClasses.CartItem;
 import common.dataClasses.Asset;
 import common.dataClasses.Item;
+import common.dataClasses.Stock;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -17,26 +20,31 @@ import javafx.scene.shape.Rectangle;
 import java.io.IOException;
 
 public class SaleController {
-    //Reusable elements that can be updated
-    Label cartTotalLabel;
+        //Reusable elements that can be updated
+        Label cartTotalLabel;
 
-    @FXML Pane assetsPane;
-    @FXML Pane filterPane;
-    @FXML
-    AnchorPane anchorPane;
-    @FXML Pane shippingPane;
-    @FXML ScrollPane stockScroller;
-    @FXML VBox stockBox;
-
-    @FXML
-    public void initialize(){
-        Update();
-    }
+        @FXML Pane assetsPane;
+        @FXML Pane filterPane;
+        @FXML
+        AnchorPane anchorPane;
+        @FXML Pane shippingPane;
+        @FXML ScrollPane stockScroller;
+        @FXML VBox stockBox;
+        @FXML Button checkOutButton;
+        private cartItemController cartItem;
+        private stockController stock;
+        @FXML
+        public void initialize(){
+            cartItem = new cartItemController();
+            stock = new stockController();
+            Update();
+        }
 
     //TODO: Connect and display asset based on database.
     public void addAsset(){
         Asset asset = new Asset(0, "Item" + Main.mainController.getStock().size(), "");
         Main.mainController.getStock().add(new Item(asset, 99));
+        checkOutButton.setVisible(true);
         Update();
     }
 
@@ -133,6 +141,9 @@ public class SaleController {
         Label itemNameLabel = new Label(itemToDisplay.getName());
         itemNameLabel.getStyleClass().add("blackLabel");
         Button removeButton = new Button("Remove");
+        removeButton.setOnAction((event) -> {
+            System.out.println("Button clicked");
+        });
         removeButton.getStyleClass().addAll("transparentButton", "smallTextField");
         cartItemNameBox.getChildren().addAll(itemNameLabel, removeButton);
 
@@ -200,7 +211,7 @@ public class SaleController {
             displayStockItem(i);
         }
 
-        shippingPane.getChildren().clear();
+        //shippingPane.getChildren().clear();
         for (int j = 0; j < Main.mainController.getShippingCart().size(); j++){
             System.out.println(j);
             displayCartItem(j);
@@ -274,7 +285,9 @@ public class SaleController {
 
     //TODO: Add to trades database when checkout.
     public void checkOut(){
-        Main.mainController.getShippingCart().checkOut();
+        Main.mainController.getShippingCart().clear();
         Update();
     }
+
+    //TODO: Allow users to update checkout info before submitting
 }
