@@ -6,8 +6,7 @@ Synthesise all relevant facts contained within appendices A & B.
 |  | Requirement | User Stories | Importance | Progress | Notes |
 | --- | --- | --- | --- | --- | --- |
 | 1 | Has a graphical user interface. | As a user, I think it’s important to have a nice, friendly GUI interface, not a dusty old command line interface. | HIGH | WIP |
-| 2 | User authentication: User needs to log in to use the application | As the leader of an organisational unit, I do not want to accidentally put in a BUY offer for more
-credits than my organisational unit has | HIGH | Implemented |
+| 2 | User authentication: User needs to log in to use the application | As the leader of an organisational unit, I do not want to accidentally put in a BUY offer for more | HIGH | Implemented |
 | 3 | User can see & trades using organisation's credits & assets |As the leader of an organisational unit, I need all of the members of my team to have access to
 this system, through their own individual usernames and passwords. I need them all to be trading
 using the credit balance and assets of the organisational unit they are part of.| HIGH | Mocked |
