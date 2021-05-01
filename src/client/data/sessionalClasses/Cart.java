@@ -10,6 +10,7 @@ public class Cart extends ArrayList<CartItem> {
 
         for(int i = 0; i < this.size(); i++){
             CartItem currentItem = this.get(i);
+            //Todo: change the condition the itemID
             if (currentItem.getName() == item.getName() && currentItem.getPrice() == item.getPrice()){
                 this.get(i).add(item.getQuantity());
                 result = true;

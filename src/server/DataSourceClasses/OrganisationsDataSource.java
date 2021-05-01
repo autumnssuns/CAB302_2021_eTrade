@@ -61,7 +61,7 @@ public class OrganisationsDataSource {
         try {
             getOrganisation.setString(1, Name);
             rs = getOrganisation.executeQuery();
-            dummy.setId(rs.getInt("organisation_id"));
+            //dummy.setId(rs.getInt("organisation_id"));
             dummy.setName(rs.getString("organisation_name"));
             dummy.setBalance(rs.getFloat("credits"));
         } catch (SQLException e) {

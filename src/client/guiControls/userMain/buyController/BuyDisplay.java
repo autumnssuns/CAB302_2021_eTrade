@@ -1,20 +1,17 @@
-package client.guiControls.adminMain.organisationsController;
+package client.guiControls.userMain.buyController;
 
+import client.guiControls.adminMain.organisationsController.OrganisationsController;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-/**
- * A box to display user information and can be interacted with.
- */
-public class OrganisationInfoBox extends HBox {
-    private int organisationId;
+public class BuyDisplay extends HBox {
+    private int stockID;
     private String name;
-    private float credit;
-    private int assetQuantity;
-
+    private int quantity;
+    // buttons
     private Label idLabel;
     private Label nameLabel;
     private Label creditLabel;
@@ -24,15 +21,14 @@ public class OrganisationInfoBox extends HBox {
     private Button editButton;
     private Button removeButton;
 
-    private OrganisationsController controller;
-
+    private BuyController controller;
     /**
      * Initiates the box with asset information.
-     * @param organisationId The asset's id.
+     * @param stockID The asset's id.
      * @param name The name of the asset.
-     * @param credit The description of the asset.
+     * @param quantity The quantity.
      */
-    public OrganisationInfoBox(int organisationId, String name, float credit, int assetQuantity){
+    public BuyDisplay(int stockID, String name, int quantity){
         super();
         this.setAlignment(Pos.CENTER);
         this.setPrefHeight(80);
@@ -41,10 +37,10 @@ public class OrganisationInfoBox extends HBox {
         this.setLayoutY(260);
         this.setSpacing(20);
 
-        this.organisationId = organisationId;
+        this.stockID = stockID;
         this.name = name;
-        this.credit = credit;
-        this.assetQuantity = assetQuantity;
+        this.quantity = quantity;
+
 
         initiateNodes();
 
@@ -59,7 +55,6 @@ public class OrganisationInfoBox extends HBox {
         createNameLabel();
         createCreditLabel();
         createAssetQuantityLabel();
-        createEditButton();
         createRemoveButton();
     }
 
@@ -67,7 +62,7 @@ public class OrganisationInfoBox extends HBox {
      * Creates a label to display the asset's id.
      */
     private void createIdLabel(){
-        idLabel = new Label(String.valueOf(organisationId));
+        idLabel = new Label(String.valueOf(stockID));
         idLabel.getStyleClass().add("blackLabel");
         idLabel.setAlignment(Pos.CENTER);
         idLabel.setPrefWidth(50);
@@ -89,14 +84,14 @@ public class OrganisationInfoBox extends HBox {
      */
     public void reloadEntries(){
         nameLabel.setText(name);
-        creditLabel.setText(String.valueOf(credit));
+        creditLabel.setText(String.valueOf(quantity));
     }
 
     /**
      * Creates a text field to display the asset's description.
      */
     private void createCreditLabel(){
-        creditLabel = new Label(String.valueOf(credit));
+        creditLabel = new Label(String.valueOf(quantity));
         creditLabel.getStyleClass().add("blackLabel");
         creditLabel.setPrefWidth(100);
         creditLabel.setPrefHeight(30);
@@ -106,21 +101,21 @@ public class OrganisationInfoBox extends HBox {
      * Creates a text field to display the asset's description.
      */
     private void createAssetQuantityLabel(){
-        assetQuantityLabel = new Label(String.valueOf(assetQuantity));
+        assetQuantityLabel = new Label(String.valueOf(quantity));
         assetQuantityLabel.getStyleClass().add("blackLabel");
         assetQuantityLabel.setPrefWidth(100);
         assetQuantityLabel.setPrefHeight(30);
     }
 
     /**
-     * Creates a button that allows the admin to edit a asset's info.
+     * Creates a button that allows the users to remove the stock display
      */
-    private void createEditButton(){
-        editButton = new Button("Edit");
-        editButton.setPrefWidth(100);
-        editButton.setPrefHeight(30);
-        editButton.setOnAction(e -> startEdit());
-    }
+   /* private void createRemoveButton(){
+        removeButton = new Button("Remove");
+        removeButton.setPrefWidth(100);
+        removeButton.setPrefHeight(30);
+        removeButton.setOnAction(e -> );
+    }*/
 
     /**
      * Creates a button that allows the admin to remove an asset.
@@ -131,19 +126,13 @@ public class OrganisationInfoBox extends HBox {
         removeButton.setPrefHeight(30);
         removeButton.setOnAction(e -> removeEntry());
     }
-    //NOTE: Get info from display
-    /**
-     * Begins editing the current entry.
-     */
-    private void startEdit(){
-        controller.startEditor(this);
-    }
+
 
     /**
      * Set the controller for this box.
      * @param controller The controller for this box.
      */
-    public void setController(OrganisationsController controller){
+    public void setController(BuyController controller){
         this.controller = controller;
     }
 
@@ -155,54 +144,23 @@ public class OrganisationInfoBox extends HBox {
         return name;
     }
 
-    /**
-     * Returns the credit of the organisation.
-     * @return The credit of the organisation.
-     */
-    public float getCredit(){
-        return credit;
-    }
+
+
 
     /**
-     * Returns the Assets Box of the current organisation.
-     * @return The Assets Box of the current organisation.
-     */
-    public VBox getOrganisationalAssetsBox(){
-        System.out.println(organisationalAssetsBox);
-        System.out.println(organisationalAssetsBox.getChildren().size());
-        return this.organisationalAssetsBox;
-    }
-
-    /**
-     * Sets a new assets box for the organisation.
-     * @param newBox The new assets box.
-     */
-    public void setOrganisationalAssetsBox(VBox newBox){
-        organisationalAssetsBox.getChildren().addAll(newBox.getChildren());
-        System.out.println(organisationalAssetsBox);
-        System.out.println(organisationalAssetsBox.getChildren().size());
-    }
-
-    /**
-     * Removes the current entry.
+     * Removes the current cart item.
      */
     private void removeEntry() {
         ((VBox) this.getParent()).getChildren().remove(this);
     }
 
     /**
-     * Sets the name of the current organisation to a new value.
-     * @param name The new name.
+     * Sets the quantity of the stock item to the new value
+     * @param quantity The new quantity.
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    /**
-     * Sets the credit of the current organisation to a new value.
-     * @param credit The new credit.
-     */
-    public void setCredit(float credit){
-        this.credit=credit;
-    }
+
 }
