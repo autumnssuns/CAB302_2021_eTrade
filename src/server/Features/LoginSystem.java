@@ -1,18 +1,21 @@
 package server.Features;
+
 import server.DBconnection;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.sql.*;
 
-/**
- *
- */
+
 public class LoginSystem {
 
+    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchProviderException
+    {
+        register("Duy", "123456");
+        login("Duy", "123456");
+    }
 
-    /*register method*/
+/*register method*/
 
     /**
      *
@@ -24,6 +27,8 @@ public class LoginSystem {
         // "status" available for demonstrating the behaviour of the method.
         Boolean status = false;
         Connection conn;
+        //Hash the password
+        String HashedPassword = HashPassword.HashPassword(PassWord);
         try {
             // create a connection to the database
             conn = DBconnection.getInstance();
@@ -34,7 +39,7 @@ public class LoginSystem {
 
             //input username (and password) to check for existed account in the database
             try {
-                String Insertquery = String.format("INSERT INTO users (AccountName, Password) VALUES ('%s', '%s');", UserName, PassWord);
+                String Insertquery = String.format("INSERT INTO users (AccountName, Password) VALUES ('%s', '%s');", UserName, HashedPassword);
                 statement.executeUpdate(Insertquery);
                 status = true;
             } catch (SQLException e) {
@@ -54,7 +59,7 @@ public class LoginSystem {
         return status;
     }
 
-    /*Login method*/
+/*Login method*/
     /**
      *
      * @param UserName get UserName input
@@ -66,6 +71,8 @@ public class LoginSystem {
         Boolean status = false;
         ResultSet result;
         Connection conn;
+        //Hash password
+        String HashedPassword = HashPassword.HashPassword(PassWord);
         try {
             //connect to database
             conn = DBconnection.getInstance();
@@ -73,13 +80,13 @@ public class LoginSystem {
             Statement statement = conn.createStatement();
 
             //create queries, input the username and password keywords for authentication.
-            String sql = String.format("SELECT * FROM users WHERE AccountName = '%s'  AND Password = '%s';",UserName,PassWord);
+            String sql = String.format("SELECT * FROM users WHERE AccountName = '%s'  AND Password = '%s';",UserName,HashedPassword);
             result = statement.executeQuery(sql);
             //checking each values to be the same (Password and Account)
             while (result.next()) {
                 String databaseUserName = result.getString("AccountName");
                 String databasePassWord = result.getString("Password");
-                if (UserName.equals(databaseUserName) && PassWord.equals(databasePassWord)) {
+                if (UserName.equals(databaseUserName) && HashedPassword.equals(databasePassWord)) {
                     status = true;
                 }
             }
@@ -119,17 +126,17 @@ public class LoginSystem {
         String existName = null;
 
 
-        try {
-            //connect to database
-            Connection conn = DBconnection.getInstance();
-            statement = conn.createStatement();
-            ResultSet name = statement.executeQuery(Query);
-            while (name.next()){
+            try {
+                //connect to database
+                Connection conn = DBconnection.getInstance();
+                statement = conn.createStatement();
+                ResultSet name = statement.executeQuery(Query);
+                while (name.next()){
                 existName = name.getString("AccountName");}
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         //return the existed name
         return existName;
     }
@@ -146,18 +153,21 @@ public class LoginSystem {
         String Query = "SELECT * FROM users LIMIT 1;";
 
         String existPass = null;
-        try {
-            //connect to database
-            Connection conn = DBconnection.getInstance();
-            statement = conn.createStatement();
-            ResultSet name = statement.executeQuery(Query);
-            while (name.next()) {
-                existPass = name.getString("Password");
+            try {
+                //connect to database
+                Connection conn = DBconnection.getInstance();
+                statement = conn.createStatement();
+                ResultSet name = statement.executeQuery(Query);
+                while (name.next()) {
+                    existPass = name.getString("Password");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         //return the existed password
         return existPass;
     }
 }
+
+
+

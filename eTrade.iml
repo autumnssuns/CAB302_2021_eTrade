@@ -40,7 +40,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="lib" level="project" />
-    <orderEntry type="library" name="sqlite-jdbc-3.34.0" level="project" />
+    <orderEntry type="library" name="sqlite-jdbc-3.34.01" level="project" />
+    <orderEntry type="library" name="lib1" level="project" />
   </component>
 </module>
