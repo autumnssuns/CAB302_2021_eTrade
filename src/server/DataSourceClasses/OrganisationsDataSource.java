@@ -5,8 +5,12 @@ import server.DBconnection;
 
 import java.sql.*;
 
-/*GONNA DO THIS DATASOURCE LATER*/
+/**
+ * Provides needed functions to interact with "organisations" database for data
+ */
 public class OrganisationsDataSource {
+    //Create environment
+    //SQL queries
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `cab302_eTrade`.`organisations` (\n" +
             "  `organisation_id` INT NOT NULL AUTO_INCREMENT,\n" +
             "  `organisation_name` VARCHAR(16) NOT NULL,\n" +
@@ -17,11 +21,15 @@ public class OrganisationsDataSource {
     private static final String DELETE_ORGANISATION = "DELETE FROM organisations WHERE organisation_name=?";
     private static final String GET_ORGANISATION = "SELECT FROM organisations WHERE organisation_name=?";
 
+    //Prepared statements
     private Connection connection;
     private PreparedStatement addOrganisation;
     private PreparedStatement deleteOrganisation;
     private PreparedStatement getOrganisation;
 
+    /**
+     * Connect to the database then create table if not exists
+     */
     public OrganisationsDataSource() {
         connection = DBconnection.getInstance();
         try {
@@ -35,8 +43,13 @@ public class OrganisationsDataSource {
         }
     }
 
+    /**
+     * Add new organisation if not exists
+     * @param newOrganisation Organisation object to input
+     */
     public void addOrganisation(Organisation newOrganisation){
         try {
+            //set values into the above query
             addOrganisation.setInt(1, newOrganisation.getId());
             addOrganisation.setString(2, newOrganisation.getName());
             addOrganisation.setFloat(3, newOrganisation.getBalance());
@@ -46,8 +59,13 @@ public class OrganisationsDataSource {
         }
     }
 
+    /**
+     * Delete an Organisation if exists
+     * @param Name
+     */
     public void deleteOrganisation(String Name){
         try {
+            //set values into the above query
             deleteOrganisation.setString(1, Name);
             deleteOrganisation.executeQuery();
         } catch (SQLException e) {
@@ -55,13 +73,20 @@ public class OrganisationsDataSource {
         }
     }
 
+    /**
+     * Return already existed organisation.
+     * @param Name Organisation Object input to get values from
+     * @return Object-Organisation
+     */
     public Organisation getOrganisation(String Name){
+        //Create dummy object to store data
         Organisation dummy = new Organisation(-1,null, -1);
         ResultSet rs = null;
         try {
             getOrganisation.setString(1, Name);
             rs = getOrganisation.executeQuery();
-            //dummy.setId(rs.getInt("organisation_id"));
+            //Store data into the dummy
+            dummy.setId(rs.getInt("organisation_id"));
             dummy.setName(rs.getString("organisation_name"));
             dummy.setBalance(rs.getFloat("credits"));
         } catch (SQLException e) {
@@ -70,13 +95,14 @@ public class OrganisationsDataSource {
         return dummy;
     }
 
+    /**
+     * Close the connection to database
+     */
     public void close() {
-        /* BEGIN MISSING CODE */
         try {
             connection.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        /* END MISSING CODE */
     }
 }

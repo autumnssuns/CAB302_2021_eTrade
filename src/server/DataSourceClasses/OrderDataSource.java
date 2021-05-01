@@ -4,8 +4,12 @@ import common.dataClasses.Order;
 import server.DBconnection;
 
 import java.sql.*;
-
+/**
+ * Provides needed functions to interact with "orders" database for data
+ */
 public class OrderDataSource {
+    //Setting up the environment.
+    //SQL queries
     public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `cab302_eTrade`.`orders` (\n" +
             "  `order_id` INT NOT NULL AUTO_INCREMENT,\n" +
             "  `order_type` ENUM('buy', 'sell') NOT NULL,\n" +
@@ -32,12 +36,15 @@ public class OrderDataSource {
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String DELETE_ORDER = "DELETE FROM orders WHERE order_id=?";
     private static final String GET_ORDER = "SELECT FROM orders WHERE order_id=?";
-
+    //Prepare statements.
     private Connection connection;
     private PreparedStatement addOrder;
     private PreparedStatement deleteOrder;
     private PreparedStatement getOrder;
 
+    /**
+     * Connect to the database and create one if not exists
+     */
     public OrderDataSource() {
         connection = DBconnection.getInstance();
         try {
@@ -51,8 +58,13 @@ public class OrderDataSource {
         }
     }
 
+    /**
+     * Add an order object into the database
+     * @param order Order Object wanted to add
+     */
     public void addOrder(Order order){
         try {
+            //input values into the query string above
             addOrder.setInt(1, order.getOrderId());
             addOrder.setString(2, order.getOrderType());
             addOrder.setFloat(3, order.getOrganisationid());
@@ -63,13 +75,17 @@ public class OrderDataSource {
             addOrder.setString(8, order.getOrderDate());
             addOrder.setString(9, order.getFinishedDate());
             addOrder.setString(10, order.getStatus());
-
+            //execute the query
             addOrder.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Delete an order based on its' ID
+     * @param OrderId ID of the order (int value)
+     */
     public void deleteOrder(int OrderId){
         try {
             deleteOrder.setInt(1, OrderId);
@@ -79,13 +95,20 @@ public class OrderDataSource {
         }
     }
 
+    /**
+     * Return existed order
+     * @param OrderId ID of the order wanted to return (Int value)
+     * @return Order Object
+     */
     public Order getOrder(int OrderId){
-        Order dummy = new Order( -1, null, null, null, -1,
-        null, null, null, null);
+        //create a dummy Order Object to store values
+        Order dummy = new Order( -1, null, null, null, null, null);
         ResultSet rs = null;
         try {
+            //set value
             getOrder.setInt(1, OrderId);
             rs = getOrder.executeQuery();
+            //Stores values into the dummy object
             dummy.setOrderID(rs.getInt("order_id"));
             dummy.setOrderType(rs.getString("order_type"));
             dummy.setOrganisationID(rs.getInt("organisation_id"));
@@ -102,13 +125,14 @@ public class OrderDataSource {
         return dummy;
     }
 
+    /**
+     * Close the connection to database
+     */
     public void close() {
-        /* BEGIN MISSING CODE */
         try {
             connection.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        /* END MISSING CODE */
     }
 }

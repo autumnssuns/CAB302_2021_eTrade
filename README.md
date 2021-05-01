@@ -19,25 +19,25 @@ The maximum length for this video is __4 minutes__. If you submit a longer video
 
 | Mark | Criterion | Status |
 | --- | --- | --- |
-| 1.5 |  The requirements document covers a substantial fraction of the client's requirements | Draft [Requirements](Documents/Requirements/README.md)|
+| 1.5 |  The requirements document covers a substantial fraction of the client's requirements | Draft [Requirements](docs/Requirements/README.md)|
 | 1.5 | The detailed design addresses many of the identified requirements, with some classes explicitly documented | Needs composing |
 | 1   |  Plan for next 2 weeks is substantial, but also realistic and achievable | Decide in week 8's meeting |
 | 1   |  Plan for next 2 weeks includes what each group member will be doing | Decide in week 8's meeting |
 
 # Table of content
-1. [Documents](Documents)
-    1. [Installation Guide](Documents/Installation.md)
-    2. [Requirements](Documents/Requirements/README.md)
-    3. [Database](Documents/Database)
-        1. [Database Design](Documents/Database/README.md)
-        2. [Server-Database Interaction Design](Documents/Server_Design/README.md)
+1. [Documents](docs)
+    1. [Installation Guide](docs/Installation.md)
+    2. [Requirements](docs/Requirements/README.md)
+    3. [Database](docs/Database)
+        1. [Database Design](docs/Database/README.md)
+        2. [Server-Database Interaction Design](docs/Server_Design/README.md)
     4. Application Design (Class Interaction)
-        1. [Client](Documents/Client_Design)
-        2. [Server](Documents/Server_Design)
-        3. [Common Classes](Documents/Common_Classes)
-    5. [Contribution Management](Documents/Contribution_Management)
-        1. [To Do List](Documents/Contribution_Management/To_Do_List.md)
-        2. [Contribution Details](Documents/Contribution_Management/Contribution_Details.md)
+        1. [Client](docs/Client_Design)
+        2. [Server](docs/Server_Design)
+        3. [Common Classes](docs/Common_Classes)
+    5. [Contribution Management](docs/Contribution_Management)
+        1. [To Do List](docs/Contribution_Management/To_Do_List.md)
+        2. [Contribution Details](docs/Contribution_Management/Contribution_Details.md)
 2. [Roadmap](#roadmap)
 
 # ROADMAP
@@ -105,16 +105,16 @@ _Client - Server interaction via Socket; Update Document_
 ___Milestone #1 Checklist___
 
 Documentation:
-- [ ] [Requirement](Documents/Requirements)
+- [ ] [Requirement](docs/Requirements)
 
 In each of the design below, include:
 - Class Name
 - Class Methods and what each of them does
 - UML Class Diagram (to show class interaction)
 
-- [ ] [Client Design](Documents/Client_Design)
-- [ ] [Server Design](Documents/Server_Design)
-- [ ] [Common Classes](Documents/Common_Classes)
+- [ ] [Client Design](docs/Client_Design)
+- [ ] [Server Design](docs/Server_Design)
+- [ ] [Common Classes](docs/Common_Classes)
 
 User Interaction:
 - [ ] Common

@@ -11,6 +11,9 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
+/**
+ * A controller to control the ORGANISATIONS Page (which allows the admin to add / remove or edit organisations' information).
+ */
 public class OrganisationsController {
     @FXML
     VBox organisationsDisplayBox;

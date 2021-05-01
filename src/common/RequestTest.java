@@ -1,7 +1,6 @@
 package common;
 
 import common.dataClasses.User;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,8 +17,8 @@ class RequestTest {
     void setUp(){
         String username = "username";
         String password = "password";
-        String[] attachment = new String[]{username, password};
-        loginRequest = new Request("login", attachment);
+        User tempUser = new User(username, password);
+        loginRequest = new Request(tempUser, "login");
 
         User user = new User(username, password, "user", 0);
         queryRequest = new Request(user, "query stock");
@@ -33,10 +32,10 @@ class RequestTest {
 
     @Test
     void getSenderName() {
-        assertNull(loginRequest.getSenderName());
-        assertEquals("username", queryRequest.getSenderName());
-        assertEquals("username", updateRequest.getSenderName());
-        assertEquals("username", deleteRequest.getSenderName());
+        assertNull(loginRequest.getUser());
+        assertEquals("username", queryRequest.getUser());
+        assertEquals("username", updateRequest.getUser());
+        assertEquals("username", deleteRequest.getUser());
     }
 
     @Test
@@ -49,9 +48,9 @@ class RequestTest {
 
     @Test
     void getAttachment() {
-        assertArrayEquals(new String[]{"username", "password"}, (String[]) loginRequest.getAttachment());
+        assertEquals(new User("username", "password"), loginRequest.getAttachment());
         assertNull(queryRequest.getAttachment());
-        assertEquals(new User("Do something", "with this", "user", 0), (User) updateRequest.getAttachment());
-        assertEquals(new User("Delete", "this", "user", 0), (User) deleteRequest.getAttachment());
+        assertEquals(new User("Do something", "with this", "user", 0), updateRequest.getAttachment());
+        assertEquals(new User("Delete", "this", "user", 0), deleteRequest.getAttachment());
     }
 }

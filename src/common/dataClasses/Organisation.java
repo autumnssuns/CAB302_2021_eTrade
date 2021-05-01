@@ -1,6 +1,4 @@
 package common.dataClasses;
-
-import client.data.sessionalClasses.Stock;
 import common.Request;
 import common.Response;
 
@@ -32,6 +30,14 @@ public class Organisation implements Serializable, IData{
      */
     public int getId(){
         return organisationId;
+    }
+
+    /**
+     * Set the id of the organisation to a new value.
+     * @param organisationId The new value for the organisation.
+     */
+    public void setId(int organisationId){
+        this.organisationId = organisationId;
     }
 
     /**

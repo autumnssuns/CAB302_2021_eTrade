@@ -1,7 +1,7 @@
 package client;
 
+import client.data.MainController;
 import client.data.MockServerConnection;
-import client.data.Session;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,7 +11,7 @@ import javafx.stage.StageStyle;
 
 public class  Main extends Application {
 
-    public static Session session;
+    public static MainController mainController;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -27,8 +27,8 @@ public class  Main extends Application {
     }
 
     public static void main(String[] args) {
-        session = new Session();
-        session.setServerConnection(new MockServerConnection());
+        mainController = new MainController();
+        mainController.setServerConnection(new MockServerConnection());
         launch(args);
     }
 }

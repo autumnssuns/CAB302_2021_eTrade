@@ -1,12 +1,11 @@
 package common.dataClasses;
 
-import java.io.Serializable;
-
 /**
  * Represents an item - an quantifiable version of an asset possessed by an organisation.
  */
-public class Item extends Asset implements Serializable {
+public class Item extends Asset {
     protected int quantity;
+    protected int alterquantity;
 
     /**
      * Initialises an item by linking it to an asset and includes the quantity to be stored.
@@ -46,7 +45,7 @@ public class Item extends Asset implements Serializable {
      * Checks if the asset is out of stock.
      * @return true if there are no asset left in the stock, false otherwise.
      */
-    public boolean outOfStock(){
+    public boolean isOutOfStock(){
         return quantity == 0;
     }
 

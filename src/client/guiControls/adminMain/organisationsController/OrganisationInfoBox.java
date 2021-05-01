@@ -7,7 +7,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * A box to display user information and can be interacted with.
+ * A box to display organisation information and can be interacted with.
+ * // TODO: Fix a bug where organisation info is not stored properly when added.
  */
 public class OrganisationInfoBox extends HBox {
     private int organisationId;
@@ -27,10 +28,10 @@ public class OrganisationInfoBox extends HBox {
     private OrganisationsController controller;
 
     /**
-     * Initiates the box with asset information.
-     * @param organisationId The asset's id.
-     * @param name The name of the asset.
-     * @param credit The description of the asset.
+     * Initiates the box with organisation information.
+     * @param organisationId The organisation's id.
+     * @param name The name of the organisation.
+     * @param credit The credit of the organisation.
      */
     public OrganisationInfoBox(int organisationId, String name, float credit, int assetQuantity){
         super();
@@ -52,7 +53,7 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Draw the nodes displaying the asset's info.
+     * Draw the nodes displaying the organisation's info.
      */
     private void initiateNodes(){
         createIdLabel();
@@ -64,7 +65,7 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Creates a label to display the asset's id.
+     * Creates a label to display the organisation's id.
      */
     private void createIdLabel(){
         idLabel = new Label(String.valueOf(organisationId));
@@ -75,7 +76,7 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Creates a text field to display the asset's name.
+     * Creates a text field to display the organisation's name.
      */
     private void createNameLabel(){
         nameLabel = new Label(name);
@@ -85,7 +86,7 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Reload the box using the stored asset's info.
+     * Reload the box using the stored organisation's info.
      */
     public void reloadEntries(){
         nameLabel.setText(name);
@@ -93,7 +94,7 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Creates a text field to display the asset's description.
+     * Creates a text field to display the organisation's description.
      */
     private void createCreditLabel(){
         creditLabel = new Label(String.valueOf(credit));
@@ -103,7 +104,7 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Creates a text field to display the asset's description.
+     * Creates a text field to display the organisation's description.
      */
     private void createAssetQuantityLabel(){
         assetQuantityLabel = new Label(String.valueOf(assetQuantity));
@@ -113,7 +114,7 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Creates a button that allows the admin to edit a asset's info.
+     * Creates a button that allows the admin to edit an organisation's info.
      */
     private void createEditButton(){
         editButton = new Button("Edit");
@@ -123,7 +124,7 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Creates a button that allows the admin to remove an asset.
+     * Creates a button that allows the admin to remove an organisation.
      */
     private void createRemoveButton(){
         removeButton = new Button("Remove");

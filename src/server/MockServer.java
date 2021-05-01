@@ -1,6 +1,6 @@
 package server;
 
-import client.data.sessionalClasses.Stock;
+import common.dataClasses.Stock;
 import common.Request;
 import common.Response;
 import common.dataClasses.Asset;
@@ -21,9 +21,9 @@ public class MockServer implements IServer{
         Response response = new Response(false, null);
         switch (request.getAction()){
             case "login":
-                String[] attachment = (String[])request.getAttachment();
-                String username = attachment[0];
-                String password = attachment[1];
+                User tempUser = (User) request.getUser();
+                String username = tempUser.getUsername();
+                String password = tempUser.getPassword();
 
                 Object[][] conditions = new Object[][]{{0, username},{1, password}};
                 MockDatabase.MockDataTable findResult = findInDB(mockdb.USERS, conditions);
@@ -36,7 +36,7 @@ public class MockServer implements IServer{
                 break;
 
             case "query organisation":
-                String senderName = request.getSenderName();
+                String senderName = request.getUser().getUsername();
                 int organisationId = -1;
 
                 conditions = new Object[][]{{0, senderName}};
@@ -57,7 +57,7 @@ public class MockServer implements IServer{
                 break;
 
             case "query stock":
-                senderName = request.getSenderName();
+                senderName = request.getUser().getUsername();
                 organisationId = -1;
 
                 conditions = new Object[][]{{0, senderName}};
@@ -69,7 +69,7 @@ public class MockServer implements IServer{
 
                     conditions = new Object[][]{{0, organisationId}};
                     MockDatabase.MockDataTable stockInDB = findInDB(mockdb.STOCK, conditions);
-                    Stock stock = new Stock();
+                    Stock stock = new Stock(organisationId);
 
                     for (Object[] item : stockInDB){
                         conditions = new Object[][]{{0, item[1]}};

@@ -2,7 +2,7 @@ package client.guiControls.login;
 
 import client.Main;
 import client.data.InvalidUserException;
-import server.LoginSystem;
+import server.Features.LoginSystem;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,7 +31,7 @@ public class LoginController {
         //TODO: Connect to server to authenticate the user
         String username = nameTextField.getText();
         String password = passwordField.getText();
-        boolean loginSuccess = Main.session.requestLogin(username, password);;
+        boolean loginSuccess = Main.mainController.requestLogin(username, password);;
 
         //TODO: Wait for response from server
         if(loginSuccess){
@@ -51,7 +51,7 @@ public class LoginController {
 
     private void switchToMainScreen(ActionEvent event) throws IOException {
         String resourcePath = "";
-        switch(Main.session.getUser().getAccountType()){
+        switch(Main.mainController.getUser().getAccountType()){
             case "user":
                 resourcePath = "../userMain/userMain.fxml";
                 break;
