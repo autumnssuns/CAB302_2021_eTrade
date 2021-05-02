@@ -1,5 +1,5 @@
 ## Installations
-The project were developed using Amazon Corretto Java Development Toolkit (jdk15.0.2_7). To install, follow the instructions at https://docs.aws.amazon.com/corretto/latest/corretto-15-ug/downloads-list.html
+The project were developed using Amazon Corretto Java Development Toolkit (jdk15.0.2_7). To install, follow the instructions [here]( https://docs.aws.amazon.com/corretto/latest/corretto-15-ug/downloads-list.html)
 ### A. Download This Project
 Please skip this step if you have access to the project via a .zip file.
 
@@ -24,17 +24,17 @@ _Note: Set the project SDK to SDK 15, if it has not been done so:_
 (Linux/Mac) --module-path /path/to/javafx-sdk/lib --add-modules javafx.controls,javafx.fxml
 Replace the path\to\javafx-sdk\lib with the appropriate location of the JavaSDK "lib" directory.
 
-Video Tutorial: https://www.youtube.com/watch?v=Ope4icw6bVk&ab_channel=BroCode
+[Video Tutorial](https://www.youtube.com/watch?v=Ope4icw6bVk&ab_channel=BroCode)
 
-For more information, access https://openjfx.io/openjfx-docs/
+For more information, access the [official documentation](https://openjfx.io/openjfx-docs/).
  
 #### SQLite3 for DB (Guide on how to download & add jdbc-driver library)
 
-Information source: https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
+[Information source](https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/)
 
-Install driver for SQLite (video tutorial): https://www.youtube.com/watch?v=293M9-QRZ0c&t=741s&ab_channel=CodeJava
+Install driver for SQLite ([video tutorial](https://www.youtube.com/watch?v=293M9-QRZ0c&t=741s&ab_channel=CodeJava))
 
-For intellij: https://www.jetbrains.com/help/idea/connecting-to-a-database.html
+[For IntelliJ](https://www.jetbrains.com/help/idea/connecting-to-a-database.html): 
 
 ### C. Run this project
 1. Open the project in IntelliJ.
