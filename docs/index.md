@@ -5,7 +5,7 @@ ___This site is intended for the developers and marker(s) only. Please do not sh
 # Overview
 The project includes the development of an Electronic Asset Trading Platform for an unnamed client corporation, allowing their organisational units (which will be referred to as "divisions") to trade resources (computational resources, hardware resources, software licenses etc.) across the organisation. Specification of the client's requirement is listed in a separated [Requirement document](Requirements/README.md). The applications in this project is developed in Java and utilises a relational (SQL) database for data storage.
 
-{% include youtubePlayer.html id=4Uho9p0yUww}
+{% include youtubePlayer.html id=4Uho9p0yUww %}
 
 ## System Architecture
 The project embraces a typical Model - View - Controller (MVC) architecture, with the Client (User-facing application) consists of a View and a Controller. Meanwhile, the Server consits of the Model which can interact with a MySQL server.
