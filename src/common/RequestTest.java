@@ -31,7 +31,7 @@ class RequestTest {
     }
 
     @Test
-    void getSenderName() {
+    void getSender() {
         assertNull(loginRequest.getUser());
         assertEquals("username", queryRequest.getUser());
         assertEquals("username", updateRequest.getUser());
