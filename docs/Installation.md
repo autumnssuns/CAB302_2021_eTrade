@@ -1,6 +1,8 @@
 ## Installations
 The project were developed using Amazon Corretto Java Development Toolkit (jdk15.0.2_7). To install, follow the instructions at https://docs.aws.amazon.com/corretto/latest/corretto-15-ug/downloads-list.html
 ### A. Download This Project
+Please skip this step if you have access to the project via a .zip file.
+
 1. In IntelliJ IDEA, go to File -> New -> Project from Version Control...
 2. In this project's GitHub, click "Code" and copy the HTTPS URL (https://github.com/autumnssuns/Sem1_2021_CAB302_Group024_eTrade.git)
 3. Paste this URL into the URL field in "Get from Version Control" window in IntelliJ.
@@ -33,3 +35,8 @@ Information source: https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-drive
 Install driver for SQLite (video tutorial): https://www.youtube.com/watch?v=293M9-QRZ0c&t=741s&ab_channel=CodeJava
 
 For intellij: https://www.jetbrains.com/help/idea/connecting-to-a-database.html
+
+### C. Run this project
+1. Open the project in IntelliJ.
+2. Navigate to `src` -> `client` -> `Main`
+3. Right click on Main and select `Run 'Main'`
