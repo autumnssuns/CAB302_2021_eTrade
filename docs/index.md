@@ -52,11 +52,12 @@ The application(s) in this project depends on the following libraries:
 - SQLite JDBC 3.34.0
 
 # Other Documents
-1. [Requirements](Requirements/README.md)
-2. [Database Design](Database)
-3. Application Design
+1. [Installation](Installation.md)
+2. [Requirements](Requirements/README.md)
+3. [Database Design](Database)
+4. Application Design
     1. [Client](Client_Design)
     2. [Server](Server_Design)
     3. [Common](Common_Classes)
     4. [Detailed Class Description](Detailed_Class_Description/index.html)
-4. [Network Protocol](Networking)
+5. [Network Protocol](Networking)
