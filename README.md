@@ -1,5 +1,4 @@
-# Sem1_2021_CAB302_Group024_eTrade
-CAB302 Semester 1 2021 Group 024 Major Project - Electronic Trading Platform.
+# 2021 CAB302 Major Project | Group 24 | Electronic Trading Platform
 
 [Specification](https://blackboard.qut.edu.au/bbcswebdav/pid-9209104-dt-content-rid-38013728_1/courses/CAB302_21se1/Assignment%20Specification%282%29.pdf)
 
