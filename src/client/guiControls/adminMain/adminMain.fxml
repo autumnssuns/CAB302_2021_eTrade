@@ -11,7 +11,7 @@
    <children>
       <Pane fx:id="tabPane" prefHeight="1080.0" prefWidth="476.0" styleClass="buttonPane">
          <children>
-            <Button fx:id="organisationsButton" layoutY="169.0" mnemonicParsing="false" onAction="#toOrganisations" prefHeight="166.0" prefWidth="476.0" styleClass="tabButton" text="ORGANISATIONS">
+            <Button fx:id="organisationUnitsButton" layoutY="169.0" mnemonicParsing="false" onAction="#toOrganisationUnits" prefHeight="166.0" prefWidth="476.0" styleClass="tabButton" text="ORGANISATIONS">
                <font>
                   <Font size="40.0" />
                </font>
@@ -36,7 +36,7 @@
       <StackPane fx:id="displayStack" layoutX="476.0" layoutY="169.0" prefHeight="911.0" prefWidth="1444.0" />
       <Pane fx:id="menuPane" layoutX="476.0" prefHeight="169.0" prefWidth="1444.0" styleClass="menuPane">
          <children>
-            <Button layoutX="1317.0" layoutY="36.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="112.0" prefWidth="118.0" style="-fx-border-radius: 50;" styleClass="circularButton" />
+            <Button layoutX="1317.0" layoutY="36.0" mnemonicParsing="false" onAction="#logOut" prefHeight="112.0" prefWidth="118.0" style="-fx-border-radius: 50;" styleClass="circularButton" />
             <Label fx:id="userLabel" layoutX="1087.0" layoutY="66.0" prefHeight="47.0" prefWidth="212.0" text="username">
                <font>
                   <Font size="30.0" />

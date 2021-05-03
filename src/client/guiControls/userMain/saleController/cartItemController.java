@@ -1,12 +1,6 @@
 package client.guiControls.userMain.saleController;
 import client.Main;
-import client.data.MainController;
-import client.data.sessionalClasses.Cart;
 import common.dataClasses.CartItem;
-import common.dataClasses.Asset;
-import common.dataClasses.Item;
-import common.dataClasses.Stock;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -14,16 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
-import javafx.event.EventHandler;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
-import java.io.IOException;
 public class cartItemController {
 
         //Reusable elements that can be updated

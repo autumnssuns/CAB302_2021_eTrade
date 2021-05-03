@@ -1,6 +1,7 @@
 package client.guiControls.userMain;
 
 import client.Main;
+import client.guiControls.MainController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +18,7 @@ import java.io.IOException;
 //TODO: Refactor magic numbers & Node creation
 //TODO: Commenting & Documenting
 
-public class userMainController {
+public class userMainController extends MainController {
     private Stage stage;
     private Scene scene;
 

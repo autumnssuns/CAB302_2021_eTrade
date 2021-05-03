@@ -1,32 +1,25 @@
 package client.guiControls.adminMain;
 
 import client.Main;
-import javafx.event.ActionEvent;
+import client.guiControls.MainController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
 //TODO: Refactor magic numbers & Node creation
 //TODO: Commenting & Documenting
 
-public class adminMainController {
-    private Stage stage;
-    private Scene scene;
-
+public class adminMainController extends MainController {
     //Reusable elements that can be updated
-    Label cartTotalLabel;
     Pane usersPane;
-    Pane organisationPane;
+    Pane organisationUnitsPane;
     Pane assetsPane;
     Pane profilePane;
 
@@ -35,55 +28,57 @@ public class adminMainController {
     @FXML Pane filterPane;
     @FXML Button assetsButton;
     @FXML Button usersButton;
-    @FXML Button organisationsButton;
+    @FXML Button organisationUnitsButton;
     @FXML AnchorPane anchorPane;
     @FXML Label userLabel;
 
+    /**
+     * Initialises the controller by loading the sub-panes.
+     * @throws IOException
+     */
     @FXML
     public void initialize() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        userLabel.setText(Main.mainController.getUser().getUsername());
-        usersPane = loader.load(getClass().getResource("usersController/UsersPage.fxml"));
+        // https://stackoverflow.com/questions/14370183/passing-parameters-to-a-controller-when-loading-an-fxml
+        // Used to wait until the non-GUI component (controller) is finished, making sure getUser() is not null.
+        Platform.runLater(() -> {
+            userLabel.setText(getUser().getUsername());
+        });
 
-        // TODO: Implement these panes
-        organisationPane = loader.load(getClass().getResource("organisationsController/organisationsPage.fxml"));
-        assetsPane = loader.load(getClass().getResource("assetsController/AssetsPage.fxml"));
+        usersPane = FXMLLoader.load(getClass().getResource("usersController/UsersPage.fxml"));
+        organisationUnitsPane = FXMLLoader.load(getClass().getResource("organisationsController/organisationsPage.fxml"));
+        assetsPane = FXMLLoader.load(getClass().getResource("assetsController/AssetsPage.fxml"));
         profilePane = new Pane();
 
-        displayStack.getChildren().addAll(usersPane, organisationPane, assetsPane, profilePane);
-        toOrganisations();
+        displayStack.getChildren().addAll(usersPane, organisationUnitsPane, assetsPane, profilePane);
+        toOrganisationUnits();
     }
 
-    //TODO: Implement a logout method
-    public void LogOut(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../login/Login.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        String css = this.getClass().getResource("../client.css").toExternalForm();
-        scene.getStylesheets().add(css);
-        stage.setScene(scene);
-        stage.centerOnScreen();
-        stage.show();
-    }
-
-    //Pane switching methods
-    public void toOrganisations(){
-        organisationPane.toFront();
-        organisationsButton.setDisable(true);
+    /**
+     * Switch the display to the ORGANISATION UNITS pane.
+     */
+    public void toOrganisationUnits(){
+        organisationUnitsPane.toFront();
+        organisationUnitsButton.setDisable(true);
         assetsButton.setDisable(false);
         usersButton.setDisable(false);
     }
 
-    public void toUsers() throws IOException {
+    /**
+     * Switch the display to the USERS pane.
+     */
+    public void toUsers(){
         usersPane.toFront();
-        organisationsButton.setDisable(false);
+        organisationUnitsButton.setDisable(false);
         assetsButton.setDisable(false);
         usersButton.setDisable(true);
     }
 
+    /**
+     * Switch the display to the ASSETS pane.
+     */
     public void toAssets(){
         assetsPane.toFront();
-        organisationsButton.setDisable(false);
+        organisationUnitsButton.setDisable(false);
         assetsButton.setDisable(true);
         usersButton.setDisable(false);
     }
