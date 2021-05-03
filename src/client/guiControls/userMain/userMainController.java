@@ -9,10 +9,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
 
+import javax.security.auth.callback.ConfirmationCallback;
 import java.io.IOException;
 
 //TODO: Refactor magic numbers & Node creation
@@ -63,6 +66,24 @@ public class userMainController extends MainController {
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
+    }
+
+    // Exit button
+    public void exit(ActionEvent event) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit Program");
+        alert.setHeaderText("Close the program?");
+        alert.setContentText("Do you want to exit?");
+        if (alert.showAndWait().get() == ButtonType.OK){
+            Parent root = FXMLLoader.load(getClass().getResource("userMain.fxml"));
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.close();
+            System.out.println("You successfully exit the program");
+        }
+
+
     }
 
     //Pane switching methods
