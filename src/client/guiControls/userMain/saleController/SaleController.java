@@ -1,12 +1,9 @@
 package client.guiControls.userMain.saleController;
 
 import client.Main;
-import client.data.MainController;
-import client.data.sessionalClasses.Cart;
 import common.dataClasses.CartItem;
 import common.dataClasses.Asset;
 import common.dataClasses.Item;
-import common.dataClasses.Stock;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
