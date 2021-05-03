@@ -23,6 +23,7 @@ import org.testfx.matcher.control.LabeledMatchers;
 import java.util.concurrent.TimeoutException;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
@@ -80,5 +81,21 @@ public class MainTest extends ApplicationTest{
         clickOn("#organisationUnitsButton");
     }
 
+    @Test
+    public void adminLogoutTest(){
+        adminLoginSuccessTest();
+        clickOn("#logoutButton");
+        FxAssert.verifyThat("#loginButton", NodeMatchers.isNotNull());
+    }
+
     //TODO: Add more test suite
+
+    @Test
+    public void userLoginSuccessTest(){
+        clickOn("#nameTextField");
+        write("dan");
+        clickOn("#passwordField");
+        write("123");
+        clickOn("#loginButton");
+    }
 }
