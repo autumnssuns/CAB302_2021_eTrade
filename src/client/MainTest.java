@@ -13,8 +13,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
+import org.testfx.assertions.api.Assertions;
 import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.matcher.base.NodeMatchers;
+import org.testfx.matcher.control.LabeledMatchers;
 
 import java.util.concurrent.TimeoutException;
 
@@ -40,12 +44,7 @@ public class MainTest extends ApplicationTest{
         primaryStage.show();
     }
 
-    @BeforeEach
-    public void setUp() {
-
-    }
-
-    @After
+    @AfterEach
     public void tearDown() throws TimeoutException {
         FxToolkit.hideStage();
         release(new KeyCode[]{});
@@ -60,7 +59,7 @@ public class MainTest extends ApplicationTest{
         clickOn("#passwordField");
         write("abcdefg");
         clickOn("#loginButton");
-        verifyThat("#statusLabel", hasText("Incorrect username or password. Please try again!"));
+        FxAssert.verifyThat("#statusLabel", LabeledMatchers.hasText("Incorrect username or password. Please try again!"));
     }
 
     @Test
@@ -70,7 +69,15 @@ public class MainTest extends ApplicationTest{
         clickOn("#passwordField");
         write("root");
         clickOn("#loginButton");
-        verifyThat("#userLabel", hasText("admin"));
+        FxAssert.verifyThat("#userLabel", LabeledMatchers.hasText("admin"));
+    }
+
+    @Test
+    public void adminMainControllerTest(){
+        adminLoginSuccessTest();
+        clickOn("#assetsButton");
+        clickOn("#usersButton");
+        clickOn("#organisationUnitsButton");
     }
 
     //TODO: Add more test suite

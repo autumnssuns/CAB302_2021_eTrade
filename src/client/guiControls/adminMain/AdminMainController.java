@@ -16,7 +16,9 @@ import java.io.IOException;
 //TODO: Refactor magic numbers & Node creation
 //TODO: Commenting & Documenting
 
-public class adminMainController extends MainController {
+public class AdminMainController extends MainController {
+    protected AdminData adminData;
+
     //Reusable elements that can be updated
     Pane usersPane;
     Pane organisationUnitsPane;
@@ -54,7 +56,7 @@ public class adminMainController extends MainController {
     }
 
     /**
-     * Switch the display to the ORGANISATION UNITS pane.
+     * Switches the display to the ORGANISATION UNITS pane.
      */
     public void toOrganisationUnits(){
         organisationUnitsPane.toFront();
@@ -64,7 +66,7 @@ public class adminMainController extends MainController {
     }
 
     /**
-     * Switch the display to the USERS pane.
+     * Switches the display to the USERS pane.
      */
     public void toUsers(){
         usersPane.toFront();
@@ -74,7 +76,7 @@ public class adminMainController extends MainController {
     }
 
     /**
-     * Switch the display to the ASSETS pane.
+     * Switches the display to the ASSETS pane.
      */
     public void toAssets(){
         assetsPane.toFront();

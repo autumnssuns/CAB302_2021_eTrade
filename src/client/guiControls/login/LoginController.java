@@ -3,7 +3,6 @@ package client.guiControls.login;
 import client.data.IServerConnection;
 import client.data.MockServerConnection;
 import client.guiControls.MainController;
-import client.guiControls.adminMain.adminMainController;
 import common.Request;
 import common.Response;
 import common.dataClasses.User;
@@ -76,7 +75,7 @@ public class LoginController extends MainController {
                 break;
 
             case "admin":
-                resourcePath = "../adminMain/adminMain.fxml";
+                resourcePath = "../adminMain/AdminMain.fxml";
         }
 
         // Gets the loader
