@@ -90,6 +90,7 @@ public class AssetInfoBox extends HBox {
         nameTextField = new TextField(name);
         nameTextField.setPrefWidth(300);
         nameTextField.setPrefHeight(30);
+        nameTextField.setId("assetName" + assetId);
     }
 
     /**
@@ -99,6 +100,7 @@ public class AssetInfoBox extends HBox {
         descriptionTextField = new TextField(description);
         descriptionTextField.setPrefWidth(700);
         descriptionTextField.setPrefHeight(30);
+        descriptionTextField.setId("assetDescription" + assetId);
     }
 
     /**
@@ -109,6 +111,7 @@ public class AssetInfoBox extends HBox {
         editButton.setPrefWidth(100);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
+        editButton.setId("assetEditButton" + assetId);
     }
 
     /**
@@ -119,6 +122,7 @@ public class AssetInfoBox extends HBox {
         removeButton.setPrefWidth(100);
         removeButton.setPrefHeight(30);
         removeButton.setOnAction(e -> removeEntry());
+        removeButton.setId("assetRemoveButton" + assetId);
     }
 
     /**

@@ -12,7 +12,7 @@ public class UsersController {
     @FXML
     VBox usersDisplayBox;
     @FXML
-    TextField newNameTextField;
+    TextField newUserNameTextField;
     @FXML
     TextField newUsernameTextField;
     @FXML
@@ -36,7 +36,7 @@ public class UsersController {
      */
     public void addEntry(){
         int userId = usersDisplayBox.getChildren().size();
-        String name = newNameTextField.getText();
+        String name = newUserNameTextField.getText();
         String username = newUsernameTextField.getText();
         String password = newPasswordField.getText();
         String organisation = (String) newOrganisationSelectionBox.getValue();
@@ -64,7 +64,7 @@ public class UsersController {
      * Resets the fields in the new user row.
      */
     private void clearAddEntry(){
-        newNameTextField.clear();
+        newUserNameTextField.clear();
         newUsernameTextField.clear();
         newPasswordField.clear();
         newOrganisationSelectionBox.valueProperty().set(null);

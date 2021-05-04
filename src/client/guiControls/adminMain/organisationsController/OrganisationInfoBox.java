@@ -76,13 +76,14 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Creates a text field to display the organisation's name.
+     * Creates a label to display the organisation's name.
      */
     private void createNameLabel(){
         nameLabel = new Label(name);
         nameLabel.getStyleClass().add("blackLabel");
         nameLabel.setPrefWidth(200);
         nameLabel.setPrefHeight(30);
+        nameLabel.setId("organisationName" + organisationId);
     }
 
     /**
@@ -101,6 +102,7 @@ public class OrganisationInfoBox extends HBox {
         creditLabel.getStyleClass().add("blackLabel");
         creditLabel.setPrefWidth(100);
         creditLabel.setPrefHeight(30);
+        creditLabel.setId("organisationCredit" + organisationId);
     }
 
     /**
@@ -121,6 +123,7 @@ public class OrganisationInfoBox extends HBox {
         editButton.setPrefWidth(100);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
+        editButton.setId("organisationEditButton" + organisationId);
     }
 
     /**
@@ -131,6 +134,7 @@ public class OrganisationInfoBox extends HBox {
         removeButton.setPrefWidth(100);
         removeButton.setPrefHeight(30);
         removeButton.setOnAction(e -> removeEntry());
+        removeButton.setId("organisationRemoveButton" + organisationId);
     }
     //NOTE: Get info from display
     /**
