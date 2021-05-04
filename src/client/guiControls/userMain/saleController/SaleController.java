@@ -1,9 +1,12 @@
 package client.guiControls.userMain.saleController;
 
 import client.Main;
+import client.data.sessionalClasses.Cart;
+import client.guiControls.MainController;
 import common.dataClasses.CartItem;
 import common.dataClasses.Asset;
 import common.dataClasses.Item;
+import common.dataClasses.Stock;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -16,38 +19,41 @@ import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 
-public class SaleController {
-        //Reusable elements that can be updated
-        Label cartTotalLabel;
+public class SaleController extends MainController {
+    // Temporary data storage
+    Cart shippingCart;  // The "sell" cart
+    Stock stock;        // The stock of assets by the current organisation
 
-        @FXML Pane assetsPane;
-        @FXML Pane filterPane;
-        @FXML
-        AnchorPane anchorPane;
-        @FXML Pane shippingPane;
-        @FXML ScrollPane stockScroller;
-        @FXML VBox stockBox;
-        @FXML Button checkOutButton;
-        private cartItemController cartItem;
-        private stockController stock;
-        @FXML
-        public void initialize(){
-            cartItem = new cartItemController();
-            stock = new stockController();
-            Update();
-        }
+    //Reusable elements that can be updated
+    Label cartTotalLabel;
+
+    @FXML Pane assetsPane;
+    @FXML Pane filterPane;
+    @FXML
+    AnchorPane anchorPane;
+    @FXML Pane shippingPane;
+    @FXML ScrollPane stockScroller;
+    @FXML VBox stockBox;
+    @FXML Button checkOutButton;
+
+    @FXML
+    public void initialize(){
+        shippingCart = new Cart("sell");
+        stock = new Stock(0);   //TODO: link the stock to the organisation
+        Update();
+    }
 
     //TODO: Connect and display asset based on database.
     public void addAsset(){
-        Asset asset = new Asset(0, "Item" + Main.mainController.getStock().size(), "");
-        Main.mainController.getStock().add(new Item(asset, 99));
+        Asset asset = new Asset(0, "Item" + stock.size(), "");
+        stock.add(new Item(asset, 99));
         checkOutButton.setVisible(true);
         Update();
     }
 
     // Displays the items on the stock pane
     private void displayStockItem(int displayIndex){
-        Item itemToDisplay = Main.mainController.getStock().get(displayIndex);
+        Item itemToDisplay = stock.get(displayIndex);
 
         HBox assetBox = new HBox();
         assetBox.setPrefWidth(1000);
@@ -101,7 +107,7 @@ public class SaleController {
         orderButton.getStyleClass().add("greenButton");
         orderButton.setOnAction((e) -> {
             try {
-                Item itemToAdd = Main.mainController.getStock().get(displayIndex);
+                Item itemToAdd = stock.get(displayIndex);
                 int quantity = Integer.parseInt(quantityTextField.getText());
                 float price = Float.parseFloat(priceTextField.getText());
                 placeOrder(e, itemToAdd, quantity, price);
@@ -117,7 +123,7 @@ public class SaleController {
 
     // Displays the items on the cart pane
     private void displayCartItem(int displayIndex){
-        CartItem itemToDisplay = Main.mainController.getShippingCart().get(displayIndex);
+        CartItem itemToDisplay = shippingCart.get(displayIndex);
 
         HBox cartBox = new HBox();
         cartBox.setPrefHeight(80);
@@ -196,20 +202,20 @@ public class SaleController {
         });
 
         shippingPane.getChildren().addAll(cartBox, cartTotalLabel, checkOutButton);
-        cartTotalLabel.setText("TOTAL: " + Main.mainController.getShippingCart().getTotalPrice());
+        cartTotalLabel.setText("TOTAL: " + shippingCart.getTotalPrice());
         System.out.println("Success");
     }
 
     // Update the two dynamic panes
     public void Update(){
         stockBox.getChildren().clear();
-        Main.mainController.getStock().removeIf(Item::isOutOfStock);
-        for (int i = 0; i < Main.mainController.getStock().size(); i++){
+        stock.removeIf(Item::isOutOfStock);
+        for (int i = 0; i < stock.size(); i++){
             displayStockItem(i);
         }
 
         //shippingPane.getChildren().clear();
-        for (int j = 0; j < Main.mainController.getShippingCart().size(); j++){
+        for (int j = 0; j < shippingCart.size(); j++){
             System.out.println(j);
             displayCartItem(j);
         }
@@ -217,7 +223,7 @@ public class SaleController {
 
     //TODO: Connect and make change to database.
     public void startOrder(ActionEvent event, int assetIndex, int quantity, float price) throws IOException {
-        Item itemToAdd = Main.mainController.getStock().get(assetIndex);
+        Item itemToAdd = stock.get(assetIndex);
         filterPane.setVisible(true);
 
         Pane orderPane = new Pane();
@@ -276,13 +282,13 @@ public class SaleController {
             throw new Exception("Maximum quantity to add is " + itemToAdd.getQuantity());
         }
         CartItem newItem = itemToAdd.moveToCart(quantity, price);
-        Main.mainController.getShippingCart().add(newItem);
+        shippingCart.add(newItem);
         Update();
     }
 
     //TODO: Add to trades database when checkout.
     public void checkOut(){
-        Main.mainController.getShippingCart().clear();
+        shippingCart.clear();
         Update();
     }
 
