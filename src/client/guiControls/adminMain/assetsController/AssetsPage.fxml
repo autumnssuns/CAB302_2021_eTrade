@@ -39,7 +39,7 @@
                   <Insets />
                </HBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" onAction="#addEntry" prefHeight="48.0" prefWidth="200.0" text="Add">
+            <Button fx:id="newAssetButton" mnemonicParsing="false" onAction="#addEntry" prefHeight="48.0" prefWidth="200.0" text="Add">
                <HBox.margin>
                   <Insets />
                </HBox.margin>

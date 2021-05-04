@@ -26,6 +26,6 @@
     </orderEntry>
     <orderEntry type="library" name="sqlite-jdbc-3.34.0" level="project" />
     <orderEntry type="library" name="lib" level="project" />
-    <orderEntry type="library" name="org.testfx:testfx-junit:4.0.15-alpha" level="project" />
+    <orderEntry type="library" name="org.testfx:testfx-junit5:4.0.16-alpha" level="project" />
   </component>
 </module>
