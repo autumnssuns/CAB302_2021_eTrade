@@ -1,50 +1,48 @@
 package client;
 
+import client.guiControls.adminMain.AdminGUITest;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxToolkit;
-import org.testfx.assertions.api.Assertions;
-import org.testfx.framework.junit.ApplicationTest;
-import org.testfx.matcher.base.NodeMatchers;
+import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.framework.junit5.Start;
 import org.testfx.matcher.control.LabeledMatchers;
-
 import java.util.concurrent.TimeoutException;
 
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.matcher.control.LabeledMatchers.hasText;
-
 /**
- * Robot GUI Tester
+ * The main GUI test that runs through all expected GUI activities as a whole.
  */
-public class MainTest extends ApplicationTest{
+public class MainGUITest extends ApplicationTest{
 
-    @Override
+    /**
+     * Starts the test by initialising a scene in a window.
+     * @param primaryStage The stage where the scene is contained.
+     * @throws Exception Required by javafx start() method.
+     */
+    @Start
     public void start(Stage primaryStage) throws Exception{
         //primaryStage.initStyle(StageStyle.UNDECORATED);
-        Parent root = FXMLLoader.load(getClass().getResource("guiControls/login/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/client/guiControls/login/Login.fxml"));
         Scene scene = new Scene(root);
 
-        String css = this.getClass().getResource("guiControls/client.css").toExternalForm();
+        String css = this.getClass().getResource("/client/guiControls/client.css").toExternalForm();
         scene.getStylesheets().add(css);
 
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
+    /**
+     * Clean up after each test.
+     * @throws TimeoutException Required by FxToolKit methods.
+     */
     @AfterEach
     public void tearDown() throws TimeoutException {
         FxToolkit.hideStage();
@@ -53,6 +51,22 @@ public class MainTest extends ApplicationTest{
         FxToolkit.cleanupStages();
     }
 
+    /**
+     * Bulk testing all features in the admin GUI in one session.
+     */
+    @Test
+    public void adminBulkTest(){
+        AdminGUITest adminGUITest = new AdminGUITest();
+        adminLoginSuccessTest();
+        adminGUITest.adminMainControllerTest();
+        adminGUITest.adminUsersControlTest();
+        adminGUITest.adminAssetsControlTest();
+        adminGUITest.adminOrganisationsControlTest();
+    }
+
+    /**
+     * Test for failed login attempts.
+     */
     @Test
     public void loginFailTest() {
         clickOn("#nameTextField");
@@ -63,6 +77,9 @@ public class MainTest extends ApplicationTest{
         FxAssert.verifyThat("#statusLabel", LabeledMatchers.hasText("Incorrect username or password. Please try again!"));
     }
 
+    /**
+     * Test for successful admin login.
+     */
     @Test
     public void adminLoginSuccessTest() {
         clickOn("#nameTextField");
@@ -73,23 +90,9 @@ public class MainTest extends ApplicationTest{
         FxAssert.verifyThat("#userLabel", LabeledMatchers.hasText("admin"));
     }
 
-    @Test
-    public void adminMainControllerTest(){
-        adminLoginSuccessTest();
-        clickOn("#assetsButton");
-        clickOn("#usersButton");
-        clickOn("#organisationUnitsButton");
-    }
-
-    @Test
-    public void adminLogoutTest(){
-        adminLoginSuccessTest();
-        clickOn("#logoutButton");
-        FxAssert.verifyThat("#loginButton", NodeMatchers.isNotNull());
-    }
-
-    //TODO: Add more test suite
-
+    /**
+     * Test for successful user login.
+     */
     @Test
     public void userLoginSuccessTest(){
         clickOn("#nameTextField");
@@ -98,4 +101,6 @@ public class MainTest extends ApplicationTest{
         write("123");
         clickOn("#loginButton");
     }
+
+    //TODO: Add more test suite
 }

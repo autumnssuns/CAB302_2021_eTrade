@@ -110,6 +110,7 @@ public class UserInfoBox extends HBox {
         nameTextField = new TextField(name);
         nameTextField.setPrefWidth(190);
         nameTextField.setPrefHeight(30);
+        nameTextField.setId("userName" + userId);
     }
 
     /**
@@ -119,6 +120,7 @@ public class UserInfoBox extends HBox {
         usernameTextField = new TextField(username);
         usernameTextField.setPrefWidth(190);
         usernameTextField.setPrefHeight(30);
+        usernameTextField.setId("username" + userId);
     }
 
     /**
@@ -129,6 +131,7 @@ public class UserInfoBox extends HBox {
         passwordField.setText(password);
         passwordField.setPrefWidth(190);
         passwordField.setPrefHeight(30);
+        passwordField.setId("password" + userId);
     }
 
     /**
@@ -142,6 +145,7 @@ public class UserInfoBox extends HBox {
         organisationSelectionBox.setEditable(true);
         organisationSelectionBox.setValue(organisation);
         organisationSelectionBox.getItems().addAll("TestOrg", "The Justice League", "The supervillains", "The random civilians");
+        organisationSelectionBox.setId("userOrganisation" + userId);
     }
 
     /**
@@ -155,6 +159,7 @@ public class UserInfoBox extends HBox {
         roleSelectionBox.setEditable(true);
         roleSelectionBox.setValue(role);
         roleSelectionBox.getItems().addAll("user","admin");
+        roleSelectionBox.setId("userRole" + userId);
     }
 
     /**
@@ -165,6 +170,7 @@ public class UserInfoBox extends HBox {
         editButton.setPrefWidth(100);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
+        editButton.setId("userEditButton" + userId);
     }
 
     /**
@@ -175,6 +181,7 @@ public class UserInfoBox extends HBox {
         removeButton.setPrefWidth(100);
         removeButton.setPrefHeight(30);
         removeButton.setOnAction(e -> removeEntry());
+        removeButton.setId("userRemoveButton" + userId);
     }
 
     /**

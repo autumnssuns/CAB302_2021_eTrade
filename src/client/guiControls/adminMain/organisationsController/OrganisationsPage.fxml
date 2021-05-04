@@ -32,7 +32,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" layoutX="41.0" layoutY="180.0" prefHeight="80.0" prefWidth="650.0" spacing="20.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#startEditor" prefHeight="48.0" prefWidth="200.0" text="Add">
+                  <Button fx:id="addNewOrganisationButton" mnemonicParsing="false" onAction="#startEditor" prefHeight="48.0" prefWidth="200.0" text="Add">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -41,9 +41,9 @@
             </HBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="editPane" layoutX="750.0" prefHeight="911.0" prefWidth="700.0" styleClass="displayPane" visible="false">
+      <AnchorPane fx:id="organisationEditPane" layoutX="750.0" prefHeight="911.0" prefWidth="700.0" styleClass="displayPane">
          <children>
-            <TextField fx:id="nameTextField" layoutX="309.0" layoutY="36.0" prefHeight="43.0" prefWidth="300.0" promptText="Set organisational unit name" />
+            <TextField fx:id="organisationNameTextField" layoutX="309.0" layoutY="36.0" prefHeight="43.0" prefWidth="300.0" promptText="Set organisational unit name" />
             <ScrollPane hbarPolicy="NEVER" layoutX="41.0" layoutY="264.0" prefHeight="422.0" prefWidth="600.0" styleClass="bodyPane">
                <content>
                   <VBox fx:id="organisationalAssetsBox" prefWidth="600.0" spacing="20.0" />
@@ -60,9 +60,9 @@
             <HBox alignment="CENTER" layoutX="42.0" layoutY="686.0" prefHeight="80.0" prefWidth="600.0" spacing="20.0" styleClass="whitePane">
                <children>
                   <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
-                  <TextField fx:id="newAssetNameTextField" prefHeight="30.0" prefWidth="250.0" promptText="New Asset Name" />
-                  <TextField fx:id="newAssetQuantityTextField" prefHeight="30.0" prefWidth="100.0" promptText="Quantity" />
-                  <Button fx:id="addAssetButton" mnemonicParsing="false" onAction="#addOrganisationalAssetInfoBox" prefHeight="48.0" prefWidth="200.0" text="Add Asset" />
+                  <TextField fx:id="newOrganisationAssetNameTextField" prefHeight="30.0" prefWidth="250.0" promptText="New Asset Name" />
+                  <TextField fx:id="newOrganisationAssetQuantityTextField" prefHeight="30.0" prefWidth="100.0" promptText="Quantity" />
+                  <Button fx:id="addNewOrganisationAssetButton" mnemonicParsing="false" onAction="#addOrganisationalAssetInfoBox" prefHeight="48.0" prefWidth="200.0" text="Add Asset" />
                </children>
             </HBox>
             <Label alignment="CENTER_RIGHT" layoutX="78.0" layoutY="36.0" prefHeight="43.0" prefWidth="217.0" text="Organisational Unit's Name" />
@@ -73,8 +73,8 @@
                   <Font size="27.0" />
                </font>
             </Label>
-            <Button fx:id="confirmButton" layoutX="118.0" layoutY="774.0" mnemonicParsing="false" onAction="#confirmEditor" prefHeight="48.0" prefWidth="200.0" text="Confirm" />
-            <Button fx:id="cancelButton" layoutX="358.0" layoutY="774.0" mnemonicParsing="false" onAction="#closeEditor" prefHeight="48.0" prefWidth="200.0" text="Cancel" />
+            <Button fx:id="confirmOrganisationButton" layoutX="118.0" layoutY="774.0" mnemonicParsing="false" onAction="#confirmEditor" prefHeight="48.0" prefWidth="200.0" text="Confirm" />
+            <Button fx:id="cancelOrganisationButton" layoutX="358.0" layoutY="774.0" mnemonicParsing="false" onAction="#closeEditor" prefHeight="48.0" prefWidth="200.0" text="Cancel" />
          </children>
       </AnchorPane>
    </children>

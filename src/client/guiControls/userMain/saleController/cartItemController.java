@@ -1,5 +1,6 @@
 package client.guiControls.userMain.saleController;
 import client.Main;
+import client.data.sessionalClasses.Cart;
 import common.dataClasses.CartItem;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -11,21 +12,23 @@ import javafx.scene.layout.*;
 
 public class cartItemController {
 
-        //Reusable elements that can be updated
-        Label cartTotalLabel;
+    //Reusable elements that can be updated
+    Label cartTotalLabel;
 
-        @FXML Pane assetsPane;
-        @FXML Pane filterPane;
-        @FXML
-        AnchorPane anchorPane;
-        @FXML Pane shippingPane;
-        @FXML ScrollPane stockScroller;
-        @FXML VBox stockBox;
+    @FXML Pane assetsPane;
+    @FXML Pane filterPane;
+    @FXML
+    AnchorPane anchorPane;
+    @FXML Pane shippingPane;
+    @FXML ScrollPane stockScroller;
+    @FXML VBox stockBox;
 
-        /*@FXML
-        public void initialize(){
-            Update();
-        }*/
+    Cart shippingCart;
+
+    @FXML
+    public void initialize(){
+        shippingCart = new Cart("sell");
+    }
 
     // Displays the items on the cart pane
 
@@ -34,7 +37,7 @@ public class cartItemController {
      * @param displayIndex the stock ID
      */
     private void displayCartItem(int displayIndex){
-        CartItem itemToDisplay = Main.mainController.getShippingCart().get(displayIndex);
+        CartItem itemToDisplay = shippingCart.get(displayIndex);
 
         HBox cartBox = new HBox();
         cartBox.setPrefHeight(80);
@@ -110,7 +113,7 @@ public class cartItemController {
         });
 
         shippingPane.getChildren().addAll(cartBox, cartTotalLabel, checkOutButton);
-        cartTotalLabel.setText("TOTAL: " + Main.mainController.getShippingCart().getTotalPrice());
+        cartTotalLabel.setText("TOTAL: " + shippingCart.getTotalPrice());
         System.out.println("Success");
     }
 
@@ -118,7 +121,7 @@ public class cartItemController {
      * Check out functions when the check out button is clicked
      */
     public void checkOut(){
-        Main.mainController.getShippingCart().clear();
+        shippingCart.clear();
         //Update();
     }
 

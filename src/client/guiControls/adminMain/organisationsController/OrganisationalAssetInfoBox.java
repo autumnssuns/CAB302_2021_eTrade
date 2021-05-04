@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
  * A box to display the assets that belong to an organisation and can be interacted with.
  */
 public class OrganisationalAssetInfoBox extends HBox {
+    private static int counter = 0; // TODO: Replace with identification using both asset ID and organisation ID
     private String name;
     private int quantity;
 
@@ -40,6 +41,7 @@ public class OrganisationalAssetInfoBox extends HBox {
 
         this.getChildren().addAll(nameTextField, quantityTextField, editButton, removeButton);
         disable();
+        counter++;
     }
 
     /**
@@ -75,6 +77,7 @@ public class OrganisationalAssetInfoBox extends HBox {
         nameTextField = new TextField(name);
         nameTextField.setPrefWidth(250);
         nameTextField.setPrefHeight(30);
+        nameTextField.setId("organisationAssetName" + counter);
     }
 
     /**
@@ -84,6 +87,7 @@ public class OrganisationalAssetInfoBox extends HBox {
         quantityTextField = new TextField(String.valueOf(quantity));
         quantityTextField.setPrefWidth(100);
         quantityTextField.setPrefHeight(30);
+        quantityTextField.setId("organisationAssetQuantity" + counter);
     }
 
     /**
@@ -94,6 +98,7 @@ public class OrganisationalAssetInfoBox extends HBox {
         editButton.setPrefWidth(100);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
+        editButton.setId("organisationAssetEditButton" + counter);
     }
 
     /**
@@ -104,6 +109,7 @@ public class OrganisationalAssetInfoBox extends HBox {
         removeButton.setPrefWidth(100);
         removeButton.setPrefHeight(30);
         removeButton.setOnAction(e -> removeEntry());
+        removeButton.setId("organisationAssetRemoveButton" + counter);
     }
 
     /**

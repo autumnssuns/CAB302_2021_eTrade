@@ -1,7 +1,9 @@
 package client.guiControls.userMain.saleController;
 import client.Main;
+import client.data.sessionalClasses.Cart;
 import common.dataClasses.CartItem;
 import common.dataClasses.Item;
+import common.dataClasses.Stock;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +29,8 @@ import java.util.ResourceBundle;
 public class stockController {
     //Reusable elements that can be updated
     Label cartTotalLabel;
+    Cart shippingCart;  // The "sell" cart
+    Stock stock;        // The stock of assets by the current organisation
 
     @FXML
     Pane assetsPane;
@@ -39,14 +43,15 @@ public class stockController {
 
     @FXML
     public void initialize(){
+        stock = new Stock(0);
         Update();
     }
 
     // Update the two dynamic panes
     public void Update(){
         stockBox.getChildren().clear();
-        Main.mainController.getStock().removeIf(Item::isOutOfStock);
-        for (int i = 0; i < Main.mainController.getStock().size(); i++){
+        stock.removeIf(Item::isOutOfStock);
+        for (int i = 0; i < stock.size(); i++){
             displayStockItem(i);
         }
 
@@ -58,7 +63,7 @@ public class stockController {
     }
     // Displays the items on the stock pane
     private void displayStockItem(int displayIndex){
-        Item itemToDisplay = Main.mainController.getStock().get(displayIndex);
+        Item itemToDisplay = stock.get(displayIndex);
 
         HBox assetBox = new HBox();
         assetBox.setPrefWidth(1000);
@@ -112,7 +117,7 @@ public class stockController {
         orderButton.getStyleClass().add("greenButton");
         orderButton.setOnAction((e) -> {
             try {
-                Item itemToAdd = Main.mainController.getStock().get(displayIndex);
+                Item itemToAdd = stock.get(displayIndex);
                 int quantity = Integer.parseInt(quantityTextField.getText());
                 float price = Float.parseFloat(priceTextField.getText());
                 placeOrder(e, itemToAdd, quantity, price);
@@ -131,7 +136,7 @@ public class stockController {
             throw new Exception("Maximum quantity to add is " + itemToAdd.getQuantity());
         }
         CartItem newItem = itemToAdd.moveToCart(quantity, price);
-        Main.mainController.getShippingCart().add(newItem);
+        shippingCart.add(newItem);
         Update();
     }
     public void displayOrder(){

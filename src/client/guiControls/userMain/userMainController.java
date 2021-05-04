@@ -2,6 +2,7 @@ package client.guiControls.userMain;
 
 import client.Main;
 import client.guiControls.MainController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,7 +45,11 @@ public class userMainController extends MainController {
     @FXML
     public void initialize() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        userLabel.setText(Main.mainController.getUser().getUsername());
+        // Run later to wait for non-GUI thread to finish before loading GUI thread
+        Platform.runLater(() -> {
+            userLabel.setText(getUser().getUsername());
+        });
+
         sellPane = loader.load(getClass().getResource("saleController/SellPage.fxml"));
         buyPane = loader.load(getClass().getResource("buyController/BuyPage.fxml"));
 

@@ -17,7 +17,7 @@ import java.io.IOException;
 //TODO: Commenting & Documenting
 
 public class AdminMainController extends MainController {
-    protected AdminData adminData;
+    //protected AdminData adminData;
 
     //Reusable elements that can be updated
     Pane usersPane;
