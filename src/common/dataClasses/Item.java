@@ -6,6 +6,7 @@ package common.dataClasses;
 public class Item extends Asset {
     protected int quantity;
     protected int alterquantity;
+    private float price;
 
     /**
      * Initialises an item by linking it to an asset and includes the quantity to be stored.
@@ -15,6 +16,18 @@ public class Item extends Asset {
     public Item(Asset asset, int quantity){
         super(asset.getId(), asset.getName(), asset.getDescription());
         setQuantity(quantity);
+    }
+
+    /**
+     * Initialises a buy item by linking it to an asset and includes the quantity and price to be stored.
+     * @param asset the asset type of the item
+     * @param quantity the quanity of the buy order
+     * @param price the price set in the buy order
+     */
+    public Item (Asset asset, int quantity, float price){
+        super(asset.getId(), asset.getName(), asset.getDescription());
+        setQuantity(quantity); //Set this to the quantity got from user input
+        setPrice(price); // Set this to the price taken from user input
     }
 
     /**
@@ -58,5 +71,21 @@ public class Item extends Asset {
     public CartItem moveToCart(int amount, float price){
         this.quantity -= amount;
         return new CartItem(this, amount, price);
+    }
+    public CartItem moveToBuyCart (int amount, float price){
+        return new CartItem(this, amount , price );
+
+    }
+    public void removefromCart (int amount){
+        this.quantity += amount;
+    }
+
+    public float getPrice (){
+        return price;
+    }
+
+    public float setPrice (float price){
+        this.price = price;
+        return price;
     }
 }

@@ -1,166 +1,205 @@
 package client.guiControls.userMain.buyController;
 
-import client.guiControls.adminMain.organisationsController.OrganisationsController;
+import client.Main;
+import common.dataClasses.Item;
+import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class BuyDisplay extends HBox {
     private int stockID;
     private String name;
-    private int quantity;
-    // buttons
-    private Label idLabel;
-    private Label nameLabel;
-    private Label creditLabel;
-    private Label assetQuantityLabel;
-    private VBox organisationalAssetsBox = new VBox();
+    private int quantity; //This is the quantity displayed in the basket
+    private float price; //This is the price displayed in the basket
 
-    private Button editButton;
-    private Button removeButton;
+    //private VBox stockBox = new VBox();
+    @FXML
+    TextField quantityTextField;
+    @FXML
+    TextField orderPrice;
+    @FXML
+    private Button orderButton;
+    @FXML
+    private Button historyButton;
+    @FXML
+    private Label stockName;
+    @FXML
+    private Label stockQuantity;
+    @FXML
+    private VBox basket;
 
     private BuyController controller;
-    /**
-     * Initiates the box with asset information.
-     * @param stockID The asset's id.
-     * @param name The name of the asset.
-     * @param quantity The quantity.
-     */
-    public BuyDisplay(int stockID, String name, int quantity){
-        super();
-        this.setAlignment(Pos.CENTER);
-        this.setPrefHeight(80);
-        this.setPrefWidth(700);
-        //this.setLayoutX(41);
-        this.setLayoutY(260);
-        this.setSpacing(20);
 
+    public BuyDisplay(int stockID, String name, int quantity, float price) {
         this.stockID = stockID;
         this.name = name;
         this.quantity = quantity;
-
-
+        this.price = price;
+        this.getChildren().addAll(stockName, stockQuantity, orderButton, historyButton, quantityTextField, orderPrice);
         initiateNodes();
-
-        this.getChildren().addAll(idLabel, nameLabel, creditLabel, assetQuantityLabel, editButton, removeButton);
     }
 
-    /**
-     * Draw the nodes displaying the asset's info.
-     */
-    private void initiateNodes(){
-        createIdLabel();
-        createNameLabel();
-        createCreditLabel();
-        createAssetQuantityLabel();
-        createRemoveButton();
+    private void initiateNodes() {
+        // Create stock Box and buy box
+        /*VBox descriptionBox = new VBox();
+        descriptionBox.setPrefWidth(140);
+        descriptionBox.setMaxHeight(140);
+        descriptionBox.setAlignment(Pos.CENTER);
+        descriptionBox.setLayoutX(50);
+        descriptionBox.getStyleClass().add("assetInfoBox");
+        descriptionBox.setSpacing(20);*/
+
+        createQuantityTextField();
+        createPriceTextField();
+        createBuyButton();
+        createHistoryButton();
+        //displayStock();
+
+        //stockBox.getChildren().addAll(priceTextField, quantityTextField);
     }
 
-    /**
-     * Creates a label to display the asset's id.
-     */
-    private void createIdLabel(){
-        idLabel = new Label(String.valueOf(stockID));
-        idLabel.getStyleClass().add("blackLabel");
-        idLabel.setAlignment(Pos.CENTER);
-        idLabel.setPrefWidth(50);
-        idLabel.setPrefHeight(80);
+    public void createQuantityTextField(){
+        TextField priceTextField = new TextField();
+        priceTextField.setPromptText("Price");
+        priceTextField.setPrefWidth(315);
     }
 
-    /**
-     * Creates a text field to display the asset's name.
-     */
-    private void createNameLabel(){
-        nameLabel = new Label(name);
-        nameLabel.getStyleClass().add("blackLabel");
-        nameLabel.setPrefWidth(200);
-        nameLabel.setPrefHeight(30);
+    public void createPriceTextField(){
+        TextField priceTextField = new TextField();
+        priceTextField.setPromptText("Price");
+        priceTextField.setPrefWidth(315);
     }
 
-    /**
-     * Reload the box using the stored asset's info.
-     */
-    public void reloadEntries(){
-        nameLabel.setText(name);
-        creditLabel.setText(String.valueOf(quantity));
+    public void createBuyButton(){
+        Button orderButton = new Button("Buy");
+        orderButton.setPrefHeight(56);
+        orderButton.setPrefWidth(140);
+        orderButton.getStyleClass().add("greenButton");
+        /*orderButton.setOnAction((e) -> {
+            try {
+                Item itemToAdd = Main.mainController.getStock().get(displayIndex);
+                int quantity = Integer.parseInt(quantityTextField.getText());
+                float price = Float.parseFloat(priceTextField.getText());
+                placeOrder(e, itemToAdd, quantity, price);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        });*/
+        orderButton.setOnAction((e) -> addToCart());
     }
+    public void createHistoryButton(){
+        Button historyButton = new Button("History");
+        historyButton.setPrefWidth(140);
+        historyButton.setPrefHeight(40);
+        historyButton.getStyleClass().add("greenButton");
 
-    /**
-     * Creates a text field to display the asset's description.
-     */
-    private void createCreditLabel(){
-        creditLabel = new Label(String.valueOf(quantity));
-        creditLabel.getStyleClass().add("blackLabel");
-        creditLabel.setPrefWidth(100);
-        creditLabel.setPrefHeight(30);
     }
+    public void displayStock(){
+        Label stockName = new Label("Stock 1");
+        stockName.getStyleClass().add("blackLabel");
 
-    /**
-     * Creates a text field to display the asset's description.
-     */
-    private void createAssetQuantityLabel(){
-        assetQuantityLabel = new Label(String.valueOf(quantity));
-        assetQuantityLabel.getStyleClass().add("blackLabel");
-        assetQuantityLabel.setPrefWidth(100);
-        assetQuantityLabel.setPrefHeight(30);
+        Label stockQuantity = new Label("Quantity: 15");
+        stockQuantity.setPrefWidth(315);
+
+
+
     }
+    public void createBasket(){
+        //Item itemToDisplay = Main.mainController.getStock().get(displayIndex);
+        HBox basket = new HBox();
+        basket.setPrefHeight(80);
+        basket.setLayoutX(16);
+        basket.setLayoutY(100 + 100 * 10); //Change 10 later
+        basket.setAlignment(Pos.CENTER_LEFT);
+        basket.setSpacing(20);
+        basket.getStyleClass().add("assetInfoBox");
 
-    /**
-     * Creates a button that allows the users to remove the stock display
-     */
-   /* private void createRemoveButton(){
-        removeButton = new Button("Remove");
-        removeButton.setPrefWidth(100);
-        removeButton.setPrefHeight(30);
-        removeButton.setOnAction(e -> );
-    }*/
+        ScrollPane scroller = new ScrollPane();
+        scroller.getContent();
+        scroller.setLayoutX(16);
+        scroller.setLayoutY(100);
 
-    /**
-     * Creates a button that allows the admin to remove an asset.
-     */
-    private void createRemoveButton(){
-        removeButton = new Button("Remove");
-        removeButton.setPrefWidth(100);
-        removeButton.setPrefHeight(30);
-        removeButton.setOnAction(e -> removeEntry());
+        VBox cartItemNameBox = new VBox();
+        cartItemNameBox.setAlignment(Pos.CENTER);
+        cartItemNameBox.setSpacing(10);
+        Label itemNameLabel = new Label(this.name);
+        itemNameLabel.getStyleClass().add("blackLabel");
+        //Remove button
+        Button removeButton = new Button("Remove");
+        removeButton.setOnAction((event) -> {
+            System.out.println("Button clicked");
+        });
+        removeButton.getStyleClass().addAll("transparentButton", "smallTextField");
+        cartItemNameBox.getChildren().addAll(itemNameLabel, removeButton);
+
+        //Order info
+        VBox descriptionBox = new VBox();
+        descriptionBox.setPrefWidth(120);
+        descriptionBox.setMaxHeight(60);
+        descriptionBox.setAlignment(Pos.CENTER_LEFT);
+
+        // TODO: Update when the text field values are changed.
+        HBox quantityBox = new HBox();
+        Label quantityLabel = new Label("Quantity: ");
+        TextField quantityTextField = new TextField(String. valueOf(this.quantity));
+        quantityTextField.getStyleClass().addAll("smallTextField");
+        quantityTextField.setPrefWidth(30);
+        quantityLabel.getStyleClass().add("blackLabel");
+        quantityBox.getChildren().addAll(quantityLabel, quantityTextField);
+
+        HBox priceBox = new HBox();
+        Label priceLabel = new Label("Price: ");
+        TextField priceTextField = new TextField(String.valueOf(this.price));
+        priceTextField.getStyleClass().addAll("smallTextField");
+        priceTextField.setPrefWidth(30);
+        priceLabel.getStyleClass().add("blackLabel");
+        priceBox.getChildren().addAll(priceLabel, priceTextField);
+
+        descriptionBox.getChildren().addAll(quantityBox, priceBox);
+        //Total of the order
+        Label itemTotalLabel = new Label("Total: " ); //Get total price later
+        itemTotalLabel.setPrefWidth(170);
+        itemTotalLabel.setPrefHeight(60);
+        itemTotalLabel.getStyleClass().add("itemTotalLabel");
+        itemTotalLabel.getStyleClass().add("blackLabel");
+
+        //Cart total
+        Label cartTotalLabel = new Label();
+        cartTotalLabel.setPrefWidth(220);
+        cartTotalLabel.setPrefHeight(70);
+        cartTotalLabel.setLayoutX(16);
+        cartTotalLabel.setLayoutY(567);
+        cartTotalLabel.getStyleClass().add("cartTotalLabel");
+        cartTotalLabel.getStyleClass().add("blackLabel");
+
+        //Check out button
+        Button checkOutButton = new Button("Check Out");
+        checkOutButton.setPrefWidth(166);
+        checkOutButton.setPrefHeight(70);
+        checkOutButton.setLayoutX(244);
+        checkOutButton.setLayoutY(567);
+        checkOutButton.getStyleClass().add("greenButton");
+
+        checkOutButton.setOnAction((e) -> {
+            checkOut();
+        });
+
     }
+    private void addToCart() {
+        updateValues();
+        createBasket();
 
-
-    /**
-     * Set the controller for this box.
-     * @param controller The controller for this box.
-     */
-    public void setController(BuyController controller){
-        this.controller = controller;
     }
-
-    /**
-     * Returns the name of the organisation.
-     * @return The name of the organisation.
-     */
-    public String getName(){
-        return name;
+    private void updateValues(){
+        this.quantity = Integer.valueOf(quantityTextField.getText());
+        this.price = Integer.valueOf(orderPrice.getText());
     }
+    private void checkOut(){
 
-
-
-
-    /**
-     * Removes the current cart item.
-     */
-    private void removeEntry() {
-        ((VBox) this.getParent()).getChildren().remove(this);
     }
-
-    /**
-     * Sets the quantity of the stock item to the new value
-     * @param quantity The new quantity.
-     */
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-
 }

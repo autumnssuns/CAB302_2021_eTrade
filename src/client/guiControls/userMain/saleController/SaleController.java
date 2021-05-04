@@ -25,15 +25,14 @@ public class SaleController {
         @FXML
         AnchorPane anchorPane;
         @FXML Pane shippingPane;
+        @FXML HBox cartBox;
         @FXML ScrollPane stockScroller;
         @FXML VBox stockBox;
         @FXML Button checkOutButton;
-        private cartItemController cartItem;
-        private stockController stock;
+
         @FXML
         public void initialize(){
-            cartItem = new cartItemController();
-            stock = new stockController();
+
             Update();
         }
 
@@ -140,6 +139,7 @@ public class SaleController {
         Button removeButton = new Button("Remove");
         removeButton.setOnAction((event) -> {
             System.out.println("Button clicked");
+            removeCartItem(displayIndex);
         });
         removeButton.getStyleClass().addAll("transparentButton", "smallTextField");
         cartItemNameBox.getChildren().addAll(itemNameLabel, removeButton);
@@ -284,6 +284,16 @@ public class SaleController {
     public void checkOut(){
         Main.mainController.getShippingCart().clear();
         Update();
+    }
+
+    public void removeCartItem(int displayIndex){
+        CartItem itemToRemove = Main.mainController.getShippingCart().get(displayIndex);
+        Item stockItem = Main.mainController.getStock().get(displayIndex);
+        stockItem.removefromCart(itemToRemove.getQuantity());
+        //Main.mainController.getShippingCart().clear();
+        shippingPane.getChildren().remove(itemToRemove);
+        Update();
+
     }
 
     //TODO: Allow users to update checkout info before submitting
