@@ -32,12 +32,12 @@ public class BuyController {
 
     @FXML
     public void initialize(){
-        addAsset();
+        //addAsset();
       
 
     }
 
-    private void update() {
+    /*private void update() {
         stockBox.getChildren().clear();
         Main.mainController.getStock().removeIf(Item::isOutOfStock);
         for (int i = 0; i < Main.mainController.getStock().size(); i++){
@@ -49,9 +49,9 @@ public class BuyController {
             System.out.println(j);
             displayCartItem(j);
         }
-    }
+    }*/
 
-    private void displayStockItem(int displayIndex){
+   /* private void displayStockItem(int displayIndex){
         Item itemToDisplay = Main.mainController.getStock().get(displayIndex);
 
         HBox assetBox = new HBox();
@@ -196,9 +196,9 @@ public class BuyController {
         checkOutButton.setLayoutY(567);
         checkOutButton.getStyleClass().add("greenButton");
 
-        /*checkOutButton.setOnAction((e) -> {
+        *//*checkOutButton.setOnAction((e) -> {
             checkOut();
-        });*/
+        });*//*
 
         shippingPane.getChildren().addAll(cartBox, cartTotalLabel, checkOutButton);
         cartTotalLabel.setText("TOTAL: " + Main.mainController.getShippingCart().getTotalPrice());
@@ -214,7 +214,7 @@ public class BuyController {
         Asset asset = new Asset(0, "Item" + Main.mainController.getStock().size(), "");
         Main.mainController.getStock().add(new Item(asset, 99));
         update();
-    }
+    }*/
 
 
 }

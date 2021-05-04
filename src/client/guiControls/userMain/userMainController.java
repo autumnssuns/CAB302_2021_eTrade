@@ -91,6 +91,9 @@ public class userMainController extends MainController {
 
     }
 
+    public void Exit (ActionEvent event) throws IOException{
+
+    }
     //Pane switching methods
     public void toHome() throws IOException {
         sellPane.toFront();
