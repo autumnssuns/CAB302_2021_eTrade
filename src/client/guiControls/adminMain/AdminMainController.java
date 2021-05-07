@@ -2,6 +2,7 @@ package client.guiControls.adminMain;
 
 import client.Main;
 import client.guiControls.MainController;
+import common.Request;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +18,7 @@ import java.io.IOException;
 //TODO: Commenting & Documenting
 
 public class AdminMainController extends MainController {
-    //protected AdminData adminData;
+    private AdminLocalDatabase adminLocalDatabase;
 
     //Reusable elements that can be updated
     Pane usersPane;
@@ -83,5 +84,21 @@ public class AdminMainController extends MainController {
         organisationUnitsButton.setDisable(false);
         assetsButton.setDisable(true);
         usersButton.setDisable(false);
+    }
+
+    /**
+     * Returns the local database for the admin.
+     * @return The local database for the admin.
+     */
+    public AdminLocalDatabase getDatabase(){
+        return adminLocalDatabase;
+    }
+
+    /**
+     * Initialise the database.
+     */
+    private void initialiseDatabase(){
+        Request request = new Request(getUser(), "query users");
+        this.sendRequest(request);
     }
 }
