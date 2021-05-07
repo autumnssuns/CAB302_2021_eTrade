@@ -1,5 +1,7 @@
 package common.dataClasses;
 
+import java.util.Objects;
+
 /**
  * Represents an asset that can be traded in the system.
  */
@@ -63,5 +65,28 @@ public class Asset implements IData {
      */
     public void setDescription(String description){
         this.description = description;
+    }
+
+
+    /**
+     * Indicates if some object is equal to this instance.
+     * @param o The object to compare.
+     * @return true if the object is equal to the instance, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Asset asset = (Asset) o;
+        return assetId == asset.assetId && Objects.equals(assetName, asset.assetName) && Objects.equals(description, asset.description);
+    }
+
+    /**
+     * Returns the hashCode of this instance.
+     * @return The hashCode of this instance.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(assetId, assetName, description);
     }
 }

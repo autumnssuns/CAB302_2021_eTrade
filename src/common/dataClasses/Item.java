@@ -1,5 +1,7 @@
 package common.dataClasses;
 
+import java.util.Objects;
+
 /**
  * Represents an item - an quantifiable version of an asset possessed by an organisation.
  */
@@ -87,5 +89,28 @@ public class Item extends Asset {
     public float setPrice (float price){
         this.price = price;
         return price;
+    }
+
+    /**
+     * Indicates if some object is equal to this instance.
+     * @param o The object to compare.
+     * @return true if the object is equal to the instance, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Item item = (Item) o;
+        return quantity == item.quantity && alterquantity == item.alterquantity && Float.compare(item.price, price) == 0;
+    }
+
+    /**
+     * Returns the hashCode of this instance.
+     * @return The hashCode of this instance.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), quantity, alterquantity, price);
     }
 }

@@ -1,6 +1,7 @@
 package common.dataClasses;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Represents a user in the system.
@@ -93,15 +94,24 @@ public class User extends Object implements IData {
     }
 
     /**
-     * Indicate whether some other User is "equal" to this one.
-     * @param obj The reference Object (casted as User) with which to compare.
-     * @return true if this User is the same as the object argument; false otherwise.
+     * Indicates if some object is equal to this instance.
+     * @param o The object to compare.
+     * @return true if the object is equal to the instance, false otherwise.
      */
     @Override
-    public boolean equals(Object obj){
-        User userToCompare = (User) obj;
-        return userToCompare.getUsername() == username && userToCompare.getPassword() == password
-                && userToCompare.getAccountType() == accountType
-                && userToCompare.getOrganisationId() == organisationId;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return organisationId == user.organisationId && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(accountType, user.accountType);
+    }
+
+    /**
+     * Returns the hashCode of this instance.
+     * @return The hashCode of this instance.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, password, accountType, organisationId);
     }
 }

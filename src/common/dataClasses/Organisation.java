@@ -3,6 +3,7 @@ import common.Request;
 import common.Response;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Represents an organisation.
@@ -70,5 +71,27 @@ public class Organisation implements Serializable, IData{
      */
     public void setBalance(float balance){
         this.balance = balance;
+    }
+
+    /**
+     * Indicates if some object is equal to this instance.
+     * @param o The object to compare.
+     * @return true if the object is equal to the instance, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Organisation that = (Organisation) o;
+        return organisationId == that.organisationId && Float.compare(that.balance, balance) == 0 && Objects.equals(organisationName, that.organisationName);
+    }
+
+    /**
+     * Returns the hashCode of this instance.
+     * @return The hashCode of this instance.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(organisationId, organisationName, balance);
     }
 }

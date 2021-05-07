@@ -1,6 +1,7 @@
 package common.dataClasses;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Represents an Order
@@ -174,5 +175,27 @@ public class Order implements Serializable {
      * @param status
      */
     public void setStatus(String status) { this.Status = status;
+    }
+
+    /**
+     * Indicates if some object is equal to this instance.
+     * @param o The object to compare.
+     * @return true if the object is equal to the instance, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return OrderId == order.OrderId && organisationid == order.organisationid && AssetId == order.AssetId && PlacedQuantity == order.PlacedQuantity && ResolvedQuantity == order.ResolvedQuantity && Float.compare(order.price, price) == 0 && Objects.equals(OrderType, order.OrderType) && Objects.equals(FinishedDate, order.FinishedDate) && Objects.equals(OrderDate, order.OrderDate) && Objects.equals(Status, order.Status);
+    }
+
+    /**
+     * Returns the hashCode of this instance.
+     * @return The hashCode of this instance.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(OrderId, OrderType, organisationid, AssetId, PlacedQuantity, ResolvedQuantity, price, FinishedDate, OrderDate, Status);
     }
 }
