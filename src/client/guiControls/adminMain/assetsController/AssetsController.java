@@ -1,5 +1,9 @@
 package client.guiControls.adminMain.assetsController;
 
+import client.guiControls.DisplayController;
+import client.guiControls.adminMain.AdminLocalDatabase;
+import client.guiControls.adminMain.AdminMainController;
+import common.dataClasses.Asset;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -7,7 +11,7 @@ import javafx.scene.layout.VBox;
 /**
  * A controller to control the ASSETS Page (which allows the admin to add / remove or edit asset types).
  */
-public class AssetsController {
+public class AssetsController extends DisplayController {
 
     @FXML
     VBox assetsDisplayBox;
@@ -49,8 +53,12 @@ public class AssetsController {
     }
 
     //TODO: Gets data from database
+    @Override
     public void update(){
-
+        AdminLocalDatabase localDatabase = (AdminLocalDatabase) controller.getDatabase();
+        for (Asset asset : localDatabase.getAssets()){
+            addAssetInfoBox(asset.getId(), asset.getName(), asset.getDescription());
+        }
     }
 
     //TODO: Method to check if input is valid

@@ -1,6 +1,5 @@
 package client.guiControls.userMain.buyController;
 
-import client.Main;
 import client.guiControls.adminMain.usersController.UserInfoBox;
 import client.guiControls.userMain.saleController.cartItemController;
 import client.guiControls.userMain.saleController.stockController;

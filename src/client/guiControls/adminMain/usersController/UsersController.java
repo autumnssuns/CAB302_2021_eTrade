@@ -1,5 +1,11 @@
 package client.guiControls.adminMain.usersController;
 
+import client.guiControls.DisplayController;
+import client.guiControls.adminMain.AdminLocalDatabase;
+import common.dataClasses.Asset;
+import common.dataClasses.DataCollection;
+import common.dataClasses.Organisation;
+import common.dataClasses.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -7,7 +13,7 @@ import javafx.scene.layout.VBox;
 /**
  * A controller to control the USERS Page (which allows the admin to add / remove or edit users' information).
  */
-public class UsersController {
+public class UsersController extends DisplayController {
 
     @FXML
     VBox usersDisplayBox;
@@ -27,7 +33,6 @@ public class UsersController {
      */
     @FXML
     public void initialize(){
-        newOrganisationSelectionBox.getItems().addAll("TestOrg", "The Justice League", "The supervillains", "The random civilians");
         newRoleSelectionBox.getItems().addAll("user", "admin");
     }
 
@@ -74,7 +79,23 @@ public class UsersController {
     }
 
     //TODO: Gets data from database
+    @Override
     public void update(){
+        AdminLocalDatabase localDatabase = (AdminLocalDatabase) controller.getDatabase();
+        DataCollection<User> users = localDatabase.getUsers();
+        DataCollection<Organisation> organisations = localDatabase.getOrganisations();
 
+        String[] organisationNames = new String[organisations.size()];
+        for (int i = 0; i < organisations.size(); i++){
+            organisationNames[i] = organisations.get(i).getName();
+        }
+
+        int count = 0;
+        for (User user : users){
+            int organisationId = user.getOrganisationId();
+            String organisation = organisations.get(organisationId).getName();
+            addUserInfoBox(count, user.getUsername(), user.getUsername(), user.getPassword(), organisation, user.getAccountType());
+        }
+        newOrganisationSelectionBox.getItems().addAll(organisationNames);
     }
 }

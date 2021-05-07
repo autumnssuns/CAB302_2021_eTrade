@@ -5,6 +5,6 @@ import java.util.ArrayList;
 /**
  * Represents a collection of IData classes.
  */
-public class DataCollection extends ArrayList<IData> implements IData {
+public class DataCollection<T extends IData> extends ArrayList<T> implements IData {
 
 }

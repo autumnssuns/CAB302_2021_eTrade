@@ -1,6 +1,6 @@
 package client.guiControls.userMain.buyController;
 
-import client.Main;
+
 import common.dataClasses.Item;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
