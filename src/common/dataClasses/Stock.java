@@ -1,6 +1,7 @@
 package common.dataClasses;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Represents a collection of items owned by an organisation.
@@ -36,5 +37,28 @@ public class Stock extends ArrayList<Item> implements IData{
 
         result = result ? result : super.add(newItem);
         return result;
+    }
+
+    /**
+     * Indicates if some object is equal to this instance.
+     * @param o The object to compare.
+     * @return true if the object is equal to the instance, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Stock items = (Stock) o;
+        return organisationId == items.organisationId;
+    }
+
+    /**
+     * Returns the hashCode of this instance.
+     * @return The hashCode of this instance.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), organisationId);
     }
 }
