@@ -1,5 +1,8 @@
 package client.guiControls.adminMain.organisationsController;
 
+import client.guiControls.DisplayController;
+import client.guiControls.adminMain.AdminLocalDatabase;
+import common.dataClasses.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -9,7 +12,7 @@ import javafx.scene.layout.VBox;
 /**
  * A controller to control the ORGANISATIONS Page (which allows the admin to add / remove or edit organisations' information).
  */
-public class OrganisationsController {
+public class OrganisationsController extends DisplayController {
     @FXML
     VBox organisationsDisplayBox;
     @FXML
@@ -35,8 +38,8 @@ public class OrganisationsController {
      * @param name The name of the asset.
      * @param credit The username of the asset.
      */
-    public void addOrganisationInfoBox(int organisationId, String name, float credit, int assetQuantity){
-        OrganisationInfoBox organisationInfoBox = new OrganisationInfoBox(organisationId, name, credit, assetQuantity);
+    public void addOrganisationInfoBox(int organisationId, String name, float credit, int assetQuantity, Stock stock){
+        OrganisationInfoBox organisationInfoBox = new OrganisationInfoBox(organisationId, name, credit, assetQuantity, stock);
         organisationInfoBox.setOrganisationalAssetsBox(organisationalAssetsBox);
         organisationInfoBox.setController(this);
 
@@ -58,7 +61,12 @@ public class OrganisationsController {
         organisationEditPane.setVisible(true);
         organisationNameTextField.setText(caller.getName());
         creditTextField.setText(String.valueOf(caller.getCredit()));
-        organisationalAssetsBox.getChildren().addAll(caller.getOrganisationalAssetsBox().getChildren());
+
+        organisationalAssetsBox.getChildren().clear();
+        for (Item item : caller.getStock()){
+            organisationalAssetsBox.getChildren().add(new OrganisationalAssetInfoBox(item.getName(), item.getQuantity()));
+        }
+
         confirmOrganisationButton.setOnAction(e -> confirmEditor(caller));
     }
 
@@ -70,7 +78,7 @@ public class OrganisationsController {
         String name = organisationNameTextField.getText();
         float credit = Float.parseFloat(creditTextField.getText());
 
-        addOrganisationInfoBox(organisationId, name, credit, 0);
+        addOrganisationInfoBox(organisationId, name, credit, 0, new Stock(organisationId));
 
         closeEditor();
     }
@@ -121,8 +129,22 @@ public class OrganisationsController {
     }
 
     //TODO: Gets data from database
+    @Override
     public void update(){
+        AdminLocalDatabase localDatabase = (AdminLocalDatabase) controller.getDatabase();
+        DataCollection<Organisation> organisations = localDatabase.getOrganisations();
+        DataCollection<Stock> stocks = localDatabase.getStocks();
 
+        String[] organisationNames = new String[organisations.size()];
+        for (int i = 0; i < organisations.size(); i++){
+            organisationNames[i] = organisations.get(i).getName();
+        }
+
+        for (Organisation organisation : organisations){
+            Stock stock = stocks.get(organisation.getId());
+            int assetQuantity = stock.size();
+            addOrganisationInfoBox(organisation.getId(), organisation.getName(), organisation.getBalance(), assetQuantity, stock);
+        }
     }
 
     //TODO: Method to check if input is valid

@@ -21,91 +21,25 @@ public class MockServer implements IServer{
         Response response = new Response(false, null);
         switch (request.getAction()){
             case "login":
-                User tempUser = (User) request.getUser();
-                String username = tempUser.getUsername();
-                String password = tempUser.getPassword();
-
-                Object[][] conditions = new Object[][]{{0, username},{1, password}};
-                MockDatabase.MockDataTable findResult = findInDB(mockdb.USERS, conditions);
-
-                if(!findResult.isEmpty()){
-                    Object[] userInDB = findResult.get(0);
-                    User user = new User((String)userInDB[0], (String)userInDB[1], (String)userInDB[2], (int)userInDB[3]);
-                    response = new Response(true, user);
-                }
+                response = mockdb.login(request);
                 break;
 
-            case "query organisation":
-                String senderName = request.getUser().getUsername();
-                int organisationId = -1;
-
-                conditions = new Object[][]{{0, senderName}};
-                findResult = findInDB(mockdb.USERS, conditions);
-
-                if(!findResult.isEmpty()){
-                    Object[] userInDB = findResult.get(0);
-                    organisationId = (int) userInDB[3];
-
-                    conditions = new Object[][]{{0, organisationId}};
-                    findResult = findInDB(mockdb.ORGANISATIONS, conditions);
-                    if(!findResult.isEmpty()){
-                        Object[] organisationInDB = findResult.get(0);
-                        Organisation organisation = new Organisation(organisationId, (String) organisationInDB[1], (float) ((Integer)organisationInDB[2]).intValue());
-                        response = new Response(true, organisation);
-                    }
-                }
+            case "query users":
+                response = mockdb.queryUsers(request);
                 break;
 
-            case "query stock":
-                senderName = request.getUser().getUsername();
-                organisationId = -1;
-
-                conditions = new Object[][]{{0, senderName}};
-                findResult = findInDB(mockdb.USERS, conditions);
-
-                if(!findResult.isEmpty()){
-                    Object[] userInDB = findResult.get(0);
-                    organisationId = (int) userInDB[3];
-
-                    conditions = new Object[][]{{0, organisationId}};
-                    MockDatabase.MockDataTable stockInDB = findInDB(mockdb.STOCK, conditions);
-                    Stock stock = new Stock(organisationId);
-
-                    for (Object[] item : stockInDB){
-                        conditions = new Object[][]{{0, item[1]}};
-                        Object[] assetInDB = findInDB(mockdb.ASSETS, conditions).get(0);
-                        stock.add(new Item( new Asset((int) assetInDB[0], (String) assetInDB[1], (String) assetInDB[2]), (int) item[2]));
-                    }
-
-                    if (!stockInDB.isEmpty()){
-                        response = new Response(true, stock);
-                    }
-                }
+            case "query assets":
+                response = mockdb.queryAssets(request);
                 break;
 
-            case "delete":
+            case "query organisations":
+                response = mockdb.queryOrganisations(request);
                 break;
 
-            case "edit":
+            case "query stocks":
+                response = mockdb.queryStocks(request);
                 break;
         }
         return response;
-    }
-
-    private MockDatabase.MockDataTable findInDB(MockDatabase.MockDataTable table, Object[][] conditions){
-        MockDatabase.MockDataTable returnTable = new MockDatabase.MockDataTable();
-        for (Object[] tuple : table){
-            boolean match = true;
-            for (Object[] condition : conditions){
-                int index = ((Integer)condition[0]).intValue();
-                String tupleColumnString = tuple[index].toString();
-                String matchingString = condition[1].toString();
-                match = match & tupleColumnString.equals(matchingString);
-            }
-            if (match){
-                returnTable.add(tuple);
-            }
-        }
-        return returnTable;
     }
 }

@@ -1,6 +1,7 @@
 package client.guiControls;
 
 import client.data.IServerConnection;
+import client.guiControls.adminMain.AdminLocalDatabase;
 import common.Request;
 import common.Response;
 import common.dataClasses.User;
@@ -19,6 +20,8 @@ import java.io.IOException;
  * // TODO: Needs redesign & refactor & documentation.
  */
 public class MainController {
+    protected ILocalDatabase localDatabase;
+
     /**
      * The server connection
      */
@@ -88,5 +91,13 @@ public class MainController {
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
+    }
+
+    /**
+     * Returns the local database for the admin.
+     * @return The local database for the admin.
+     */
+    public ILocalDatabase getDatabase(){
+        return localDatabase;
     }
 }

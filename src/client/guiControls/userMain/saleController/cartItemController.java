@@ -1,5 +1,5 @@
 package client.guiControls.userMain.saleController;
-import client.Main;
+
 import client.data.sessionalClasses.Cart;
 import common.dataClasses.CartItem;
 import javafx.fxml.FXML;

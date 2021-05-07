@@ -1,6 +1,5 @@
 package client.guiControls.userMain;
 
-import client.Main;
 import client.guiControls.MainController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

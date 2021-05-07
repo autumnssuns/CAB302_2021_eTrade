@@ -1,5 +1,6 @@
 package client.guiControls.adminMain.organisationsController;
 
+import common.dataClasses.Stock;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,6 +16,7 @@ public class OrganisationInfoBox extends HBox {
     private String name;
     private float credit;
     private int assetQuantity;
+    private Stock stock;
 
     private Label idLabel;
     private Label nameLabel;
@@ -33,7 +35,7 @@ public class OrganisationInfoBox extends HBox {
      * @param name The name of the organisation.
      * @param credit The credit of the organisation.
      */
-    public OrganisationInfoBox(int organisationId, String name, float credit, int assetQuantity){
+    public OrganisationInfoBox(int organisationId, String name, float credit, int assetQuantity, Stock stock){
         super();
         this.setAlignment(Pos.CENTER);
         this.setPrefHeight(80);
@@ -46,6 +48,7 @@ public class OrganisationInfoBox extends HBox {
         this.name = name;
         this.credit = credit;
         this.assetQuantity = assetQuantity;
+        this.stock = stock;
 
         initiateNodes();
 
@@ -166,6 +169,14 @@ public class OrganisationInfoBox extends HBox {
      */
     public float getCredit(){
         return credit;
+    }
+
+    /**
+     * Returns the stock linked to the current organisation.
+     * @return The stock linked to the current organisation.
+     */
+    public Stock getStock(){
+        return stock;
     }
 
     /**
