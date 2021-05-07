@@ -85,7 +85,7 @@ public class AdminGUITest extends ApplicationTest {
         doubleClickOn("#assetDescription0");
         write("This is still asset 0");
         clickOn("#assetRemoveButton0");
-        FxAssert.verifyThat("#assetName0", TextInputControlMatchers.hasText("Asset 0"));
+        FxAssert.verifyThat("#assetName0", TextInputControlMatchers.hasText("CPU Hours"));
     }
 
     @Test
@@ -136,7 +136,7 @@ public class AdminGUITest extends ApplicationTest {
         doubleClickOn("#userName0");
         write("Still Person 0");
         clickOn("#userRemoveButton0");
-        FxAssert.verifyThat("#userName0", TextInputControlMatchers.hasText("User 0"));
+        FxAssert.verifyThat("#userName0", TextInputControlMatchers.hasText("admin"));
     }
 
 
@@ -185,7 +185,7 @@ public class AdminGUITest extends ApplicationTest {
         FxAssert.verifyThat("#organisationAssetQuantity0", TextInputControlMatchers.hasText("99"));
 
         clickOn("#confirmOrganisationButton");
-        FxAssert.verifyThat("#organisationName0", LabeledMatchers.hasText("tempOrganisation"));
+        FxAssert.verifyThat("#organisationName3", LabeledMatchers.hasText("tempOrganisation"));
         FxAssert.verifyThat("#organisationEditPane", NodeMatchers.isInvisible());
 
         // Add blank organisation with no asset
@@ -196,11 +196,11 @@ public class AdminGUITest extends ApplicationTest {
         write("500");
         FxAssert.verifyThat("#organisationEditPane", NodeMatchers.isVisible());
         clickOn("#confirmOrganisationButton");
-        FxAssert.verifyThat("#organisationName1", LabeledMatchers.hasText("blankOrganisation"));
+        FxAssert.verifyThat("#organisationName4", LabeledMatchers.hasText("blankOrganisation"));
         FxAssert.verifyThat("#organisationEditPane", NodeMatchers.isInvisible());
 
         // Edit the blank organisation
-        clickOn("#organisationEditButton1");
+        clickOn("#organisationEditButton4");
         FxAssert.verifyThat("#organisationNameTextField", TextInputControlMatchers.hasText("blankOrganisation"));
         FxAssert.verifyThat("#creditTextField", TextInputControlMatchers.hasText("500.0"));
         tripleClickOn("#organisationNameTextField");
@@ -208,18 +208,18 @@ public class AdminGUITest extends ApplicationTest {
         tripleClickOn("#creditTextField");
         write("300");
         clickOn("#confirmOrganisationButton");
-        FxAssert.verifyThat("#organisationName1", LabeledMatchers.hasText("stillBlankOrganisation"));
-        FxAssert.verifyThat("#organisationCredit1", LabeledMatchers.hasText("300.0"));
+        FxAssert.verifyThat("#organisationName4", LabeledMatchers.hasText("stillBlankOrganisation"));
+        FxAssert.verifyThat("#organisationCredit4", LabeledMatchers.hasText("300.0"));
 
         // Edit the blank organisation & cancel
-        clickOn("#organisationEditButton1");
+        clickOn("#organisationEditButton4");
         tripleClickOn("#organisationNameTextField");
         write("newBlankOrganisation");
         tripleClickOn("#creditTextField");
         write("300");
         clickOn("#cancelOrganisationButton");
-        FxAssert.verifyThat("#organisationName1", LabeledMatchers.hasText("stillBlankOrganisation"));
-        FxAssert.verifyThat("#organisationCredit1", LabeledMatchers.hasText("300.0"));
+        FxAssert.verifyThat("#organisationName4", LabeledMatchers.hasText("stillBlankOrganisation"));
+        FxAssert.verifyThat("#organisationCredit4", LabeledMatchers.hasText("300.0"));
     }
 
     private void tripleClickOn(String query, MouseButton... buttons){

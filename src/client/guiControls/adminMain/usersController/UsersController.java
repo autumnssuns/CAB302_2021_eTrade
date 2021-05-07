@@ -95,6 +95,7 @@ public class UsersController extends DisplayController {
             int organisationId = user.getOrganisationId();
             String organisation = organisations.get(organisationId).getName();
             addUserInfoBox(count, user.getUsername(), user.getUsername(), user.getPassword(), organisation, user.getAccountType());
+            count++;
         }
         newOrganisationSelectionBox.getItems().addAll(organisationNames);
     }
