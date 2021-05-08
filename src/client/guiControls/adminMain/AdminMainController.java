@@ -34,7 +34,7 @@ public class AdminMainController extends MainController {
     @FXML Pane filterPane;
     @FXML Button assetsButton;
     @FXML Button usersButton;
-    @FXML Button organisationUnitsButton;
+    @FXML Button organisationalUnitsButton;
     @FXML AnchorPane anchorPane;
     @FXML Label userLabel;
 
@@ -65,7 +65,7 @@ public class AdminMainController extends MainController {
         displayController.setController(this);
         displayController.update();
 
-        fxmlLoader = new FXMLLoader(getClass().getResource("organisationsController/organisationsPage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getResource("organisationalUnitsController/organisationalUnitsPage.fxml"));
         organisationUnitsPane = fxmlLoader.load();
         displayController = fxmlLoader.getController();
         displayController.setController(this);
@@ -84,11 +84,11 @@ public class AdminMainController extends MainController {
     }
 
     /**
-     * Switches the display to the ORGANISATION UNITS pane.
+     * Switches the display to the organisational unit UNITS pane.
      */
     public void toOrganisationUnits(){
         organisationUnitsPane.toFront();
-        organisationUnitsButton.setDisable(true);
+        organisationalUnitsButton.setDisable(true);
         assetsButton.setDisable(false);
         usersButton.setDisable(false);
     }
@@ -98,7 +98,7 @@ public class AdminMainController extends MainController {
      */
     public void toUsers(){
         usersPane.toFront();
-        organisationUnitsButton.setDisable(false);
+        organisationalUnitsButton.setDisable(false);
         assetsButton.setDisable(false);
         usersButton.setDisable(true);
     }
@@ -108,7 +108,7 @@ public class AdminMainController extends MainController {
      */
     public void toAssets(){
         assetsPane.toFront();
-        organisationUnitsButton.setDisable(false);
+        organisationalUnitsButton.setDisable(false);
         assetsButton.setDisable(true);
         usersButton.setDisable(false);
     }
@@ -125,15 +125,15 @@ public class AdminMainController extends MainController {
         response = this.sendRequest(request);
         DataCollection assets = (DataCollection) response.getAttachment();
 
-        request = new Request(getUser(), "query organisations");
+        request = new Request(getUser(), "query organisationalUnits");
         response = this.sendRequest(request);
-        DataCollection organisations = (DataCollection) response.getAttachment();
+        DataCollection organisationalUnits = (DataCollection) response.getAttachment();
 
         request = new Request(getUser(), "query stocks");
         response = this.sendRequest(request);
         DataCollection stocks = (DataCollection) response.getAttachment();
 
-        localDatabase = new AdminLocalDatabase(users, assets, organisations, stocks);
+        localDatabase = new AdminLocalDatabase(users, assets, organisationalUnits, stocks);
         System.out.println(localDatabase);
     }
 }

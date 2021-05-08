@@ -2,9 +2,8 @@ package client.guiControls.adminMain.usersController;
 
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
-import common.dataClasses.Asset;
 import common.dataClasses.DataCollection;
-import common.dataClasses.Organisation;
+import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -24,7 +23,7 @@ public class UsersController extends DisplayController {
     @FXML
     PasswordField newPasswordField;
     @FXML
-    ComboBox newOrganisationSelectionBox;
+    ComboBox newOrganisationUnitSelectionBox;
     @FXML
     ComboBox newRoleSelectionBox;
 
@@ -44,10 +43,10 @@ public class UsersController extends DisplayController {
         String name = newUserNameTextField.getText();
         String username = newUsernameTextField.getText();
         String password = newPasswordField.getText();
-        String organisation = (String) newOrganisationSelectionBox.getValue();
+        String organisationalUnit = (String) newOrganisationUnitSelectionBox.getValue();
         String role = (String) newRoleSelectionBox.getValue();
 
-        addUserInfoBox(userId, name, username, password, organisation, role);
+        addUserInfoBox(userId, name, username, password, organisationalUnit, role);
         clearAddEntry();
     }
 
@@ -57,11 +56,11 @@ public class UsersController extends DisplayController {
      * @param name The name of the user.
      * @param username The username of the user.
      * @param password The password of the user (this is not viewable, only editable).
-     * @param organisation The organisation of the user.
+     * @param organisationalUnit The organisationalUnit of the user.
      * @param role The role of the user.
      */
-    private void addUserInfoBox(int userId, String name, String username, String password, String organisation, String role){
-        UserInfoBox userInfoBox = new UserInfoBox(userId, name, username, password, organisation, role);
+    private void addUserInfoBox(int userId, String name, String username, String password, String organisationalUnit, String role){
+        UserInfoBox userInfoBox = new UserInfoBox(userId, name, username, password, organisationalUnit, role);
         usersDisplayBox.getChildren().add(userInfoBox);
     }
 
@@ -72,8 +71,8 @@ public class UsersController extends DisplayController {
         newUserNameTextField.clear();
         newUsernameTextField.clear();
         newPasswordField.clear();
-        newOrganisationSelectionBox.valueProperty().set(null);
-        newOrganisationSelectionBox.setPromptText("Organisation Unit");
+        newOrganisationUnitSelectionBox.valueProperty().set(null);
+        newOrganisationUnitSelectionBox.setPromptText("OrganisationalUnit Unit");
         newRoleSelectionBox.valueProperty().set(null);
         newRoleSelectionBox.setPromptText("Role");
     }
@@ -83,20 +82,20 @@ public class UsersController extends DisplayController {
     public void update(){
         AdminLocalDatabase localDatabase = (AdminLocalDatabase) controller.getDatabase();
         DataCollection<User> users = localDatabase.getUsers();
-        DataCollection<Organisation> organisations = localDatabase.getOrganisations();
+        DataCollection<OrganisationalUnit> organisationalUnits = localDatabase.getOrganisationalUnits();
 
-        String[] organisationNames = new String[organisations.size()];
-        for (int i = 0; i < organisations.size(); i++){
-            organisationNames[i] = organisations.get(i).getName();
+        String[] organisationNames = new String[organisationalUnits.size()];
+        for (int i = 0; i < organisationalUnits.size(); i++){
+            organisationNames[i] = organisationalUnits.get(i).getName();
         }
 
         int count = 0;
         for (User user : users){
-            int organisationId = user.getOrganisationId();
-            String organisation = organisations.get(organisationId).getName();
-            addUserInfoBox(count, user.getUsername(), user.getUsername(), user.getPassword(), organisation, user.getAccountType());
+            int unitId = user.getunitId();
+            String organisationalUnit = organisationalUnits.get(unitId).getName();
+            addUserInfoBox(count, user.getUsername(), user.getUsername(), user.getPassword(), organisationalUnit, user.getAccountType());
             count++;
         }
-        newOrganisationSelectionBox.getItems().addAll(organisationNames);
+        newOrganisationUnitSelectionBox.getItems().addAll(organisationNames);
     }
 }

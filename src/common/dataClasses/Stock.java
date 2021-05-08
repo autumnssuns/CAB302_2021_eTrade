@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * Represents a collection of items owned by an organisation.
+ * Represents a collection of items owned by an organisational unit.
  */
 public class Stock extends ArrayList<Item> implements IData{
-    private int organisationId;
+    private int unitId;
 
     /**
-     * Initiates the stock by declaring the organisation owning it.
-     * @param organisationId The ID of the organisation owning the stock.
+     * Initiates the stock by declaring the organisational unit owning it.
+     * @param unitId The ID of the organisational unit owning the stock.
      */
-    public Stock(int organisationId){
-        this.organisationId = organisationId;
+    public Stock(int unitId){
+        this.unitId = unitId;
     }
 
     /**
@@ -50,7 +50,7 @@ public class Stock extends ArrayList<Item> implements IData{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Stock items = (Stock) o;
-        return organisationId == items.organisationId;
+        return unitId == items.unitId;
     }
 
     /**
@@ -59,6 +59,6 @@ public class Stock extends ArrayList<Item> implements IData{
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), organisationId);
+        return Objects.hash(super.hashCode(), unitId);
     }
 }

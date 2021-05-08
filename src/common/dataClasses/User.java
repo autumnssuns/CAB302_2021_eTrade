@@ -10,10 +10,10 @@ public class User extends Object implements IData {
     private String username;
     private String password;
     private String accountType;
-    private int organisationId;
+    private int unitId;
 
     /**
-     * Initiates a user without a role and organisation.
+     * Initiates a user without a role and organisational unit.
      * @param username The username of the user.
      * @param password The password of the user.
      */
@@ -27,13 +27,13 @@ public class User extends Object implements IData {
      * @param username The username of the user.
      * @param password The password of the user.
      * @param accountType The account type of the user.
-     * @param organisationId The ID of the organisation the user belongs to.
+     * @param unitId The ID of the organisational unit the user belongs to.
      */
-    public User(String username, String password, String accountType, int organisationId){
+    public User(String username, String password, String accountType, int unitId){
         this.username = username;
         setPassword(password);
         setAccountType(accountType);
-        setOrganisation(organisationId);
+        setOrganisation(unitId);
     }
 
     /**
@@ -63,10 +63,10 @@ public class User extends Object implements IData {
     }
 
     /**
-     * @return The ID of the organisation the user belongs to.
+     * @return The ID of the organisational unit the user belongs to.
      */
-    public int getOrganisationId(){
-        return organisationId;
+    public int getunitId(){
+        return unitId;
     }
 
     /**
@@ -86,11 +86,11 @@ public class User extends Object implements IData {
     }
 
     /**
-     * Sets the user's organisation, identified by the organisation's ID.
-     * @param organisationId
+     * Sets the user's organisational unit, identified by the organisational unit's ID.
+     * @param unitId
      */
-    public void setOrganisation(int organisationId){
-        this.organisationId = organisationId;
+    public void setOrganisation(int unitId){
+        this.unitId = unitId;
     }
 
     /**
@@ -103,7 +103,7 @@ public class User extends Object implements IData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return organisationId == user.organisationId && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(accountType, user.accountType);
+        return unitId == user.unitId && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(accountType, user.accountType);
     }
 
     /**
@@ -112,6 +112,6 @@ public class User extends Object implements IData {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(username, password, accountType, organisationId);
+        return Objects.hash(username, password, accountType, unitId);
     }
 }

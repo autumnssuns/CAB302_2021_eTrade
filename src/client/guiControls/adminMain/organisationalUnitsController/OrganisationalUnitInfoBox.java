@@ -1,4 +1,4 @@
-package client.guiControls.adminMain.organisationsController;
+package client.guiControls.adminMain.organisationalUnitsController;
 
 import common.dataClasses.Stock;
 import javafx.geometry.Pos;
@@ -8,11 +8,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * A box to display organisation information and can be interacted with.
- * // TODO: Fix a bug where organisation info is not stored properly when added.
+ * A box to display organisational unit information and can be interacted with.
+ * // TODO: Fix a bug where organisational unit info is not stored properly when added.
  */
-public class OrganisationInfoBox extends HBox {
-    private int organisationId;
+public class OrganisationalUnitInfoBox extends HBox {
+    private int unitId;
     private String name;
     private float credit;
     private int assetQuantity;
@@ -22,20 +22,20 @@ public class OrganisationInfoBox extends HBox {
     private Label nameLabel;
     private Label creditLabel;
     private Label assetQuantityLabel;
-    private VBox organisationalAssetsBox = new VBox();
+    private VBox organisationalUnitAssetsBox = new VBox();
 
     private Button editButton;
     private Button removeButton;
 
-    private OrganisationsController controller;
+    private OrganisationalUnitsController controller;
 
     /**
-     * Initiates the box with organisation information.
-     * @param organisationId The organisation's id.
-     * @param name The name of the organisation.
-     * @param credit The credit of the organisation.
+     * Initiates the box with organisational unit information.
+     * @param unitId The organisational unit's id.
+     * @param name The name of the organisational unit.
+     * @param credit The credit of the organisational unit.
      */
-    public OrganisationInfoBox(int organisationId, String name, float credit, int assetQuantity, Stock stock){
+    public OrganisationalUnitInfoBox(int unitId, String name, float credit, int assetQuantity, Stock stock){
         super();
         this.setAlignment(Pos.CENTER);
         this.setPrefHeight(80);
@@ -44,7 +44,7 @@ public class OrganisationInfoBox extends HBox {
         this.setLayoutY(260);
         this.setSpacing(20);
 
-        this.organisationId = organisationId;
+        this.unitId = unitId;
         this.name = name;
         this.credit = credit;
         this.assetQuantity = assetQuantity;
@@ -56,7 +56,7 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Draw the nodes displaying the organisation's info.
+     * Draw the nodes displaying the organisational unit's info.
      */
     private void initiateNodes(){
         createIdLabel();
@@ -68,10 +68,10 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Creates a label to display the organisation's id.
+     * Creates a label to display the organisational unit's id.
      */
     private void createIdLabel(){
-        idLabel = new Label(String.valueOf(organisationId));
+        idLabel = new Label(String.valueOf(unitId));
         idLabel.getStyleClass().add("blackLabel");
         idLabel.setAlignment(Pos.CENTER);
         idLabel.setPrefWidth(50);
@@ -79,18 +79,18 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Creates a label to display the organisation's name.
+     * Creates a label to display the organisational unit's name.
      */
     private void createNameLabel(){
         nameLabel = new Label(name);
         nameLabel.getStyleClass().add("blackLabel");
         nameLabel.setPrefWidth(200);
         nameLabel.setPrefHeight(30);
-        nameLabel.setId("organisationName" + organisationId);
+        nameLabel.setId("organisationalUnitName" + unitId);
     }
 
     /**
-     * Reload the box using the stored organisation's info.
+     * Reload the box using the stored organisational unit's info.
      */
     public void reloadEntries(){
         nameLabel.setText(name);
@@ -98,18 +98,18 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Creates a text field to display the organisation's description.
+     * Creates a text field to display the organisational unit's description.
      */
     private void createCreditLabel(){
         creditLabel = new Label(String.valueOf(credit));
         creditLabel.getStyleClass().add("blackLabel");
         creditLabel.setPrefWidth(100);
         creditLabel.setPrefHeight(30);
-        creditLabel.setId("organisationCredit" + organisationId);
+        creditLabel.setId("organisationalUnitCredit" + unitId);
     }
 
     /**
-     * Creates a text field to display the organisation's description.
+     * Creates a text field to display the organisational unit's description.
      */
     private void createAssetQuantityLabel(){
         assetQuantityLabel = new Label(String.valueOf(assetQuantity));
@@ -119,25 +119,25 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Creates a button that allows the admin to edit an organisation's info.
+     * Creates a button that allows the admin to edit an organisational unit's info.
      */
     private void createEditButton(){
         editButton = new Button("Edit");
         editButton.setPrefWidth(100);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
-        editButton.setId("organisationEditButton" + organisationId);
+        editButton.setId("organisationalUnitEditButton" + unitId);
     }
 
     /**
-     * Creates a button that allows the admin to remove an organisation.
+     * Creates a button that allows the admin to remove an organisational unit.
      */
     private void createRemoveButton(){
         removeButton = new Button("Remove");
         removeButton.setPrefWidth(100);
         removeButton.setPrefHeight(30);
         removeButton.setOnAction(e -> removeEntry());
-        removeButton.setId("organisationRemoveButton" + organisationId);
+        removeButton.setId("organisationalUnitRemoveButton" + unitId);
     }
     //NOTE: Get info from display
     /**
@@ -151,52 +151,52 @@ public class OrganisationInfoBox extends HBox {
      * Set the controller for this box.
      * @param controller The controller for this box.
      */
-    public void setController(OrganisationsController controller){
+    public void setController(OrganisationalUnitsController controller){
         this.controller = controller;
     }
 
     /**
-     * Returns the name of the organisation.
-     * @return The name of the organisation.
+     * Returns the name of the organisational unit.
+     * @return The name of the organisational unit.
      */
     public String getName(){
         return name;
     }
 
     /**
-     * Returns the credit of the organisation.
-     * @return The credit of the organisation.
+     * Returns the credit of the organisational unit.
+     * @return The credit of the organisational unit.
      */
     public float getCredit(){
         return credit;
     }
 
     /**
-     * Returns the stock linked to the current organisation.
-     * @return The stock linked to the current organisation.
+     * Returns the stock linked to the current organisational unit.
+     * @return The stock linked to the current organisational unit.
      */
     public Stock getStock(){
         return stock;
     }
 
     /**
-     * Returns the Assets Box of the current organisation.
-     * @return The Assets Box of the current organisation.
+     * Returns the Assets Box of the current organisational unit.
+     * @return The Assets Box of the current organisational unit.
      */
-    public VBox getOrganisationalAssetsBox(){
-        System.out.println(organisationalAssetsBox);
-        System.out.println(organisationalAssetsBox.getChildren().size());
-        return this.organisationalAssetsBox;
+    public VBox getOrganisationalUnitAssetsBox(){
+        System.out.println(organisationalUnitAssetsBox);
+        System.out.println(organisationalUnitAssetsBox.getChildren().size());
+        return this.organisationalUnitAssetsBox;
     }
 
     /**
-     * Sets a new assets box for the organisation.
+     * Sets a new assets box for the organisational unit.
      * @param newBox The new assets box.
      */
-    public void setOrganisationalAssetsBox(VBox newBox){
-        organisationalAssetsBox.getChildren().addAll(newBox.getChildren());
-        System.out.println(organisationalAssetsBox);
-        System.out.println(organisationalAssetsBox.getChildren().size());
+    public void setOrganisationalUnitAssetsBox(VBox newBox){
+        organisationalUnitAssetsBox.getChildren().addAll(newBox.getChildren());
+        System.out.println(organisationalUnitAssetsBox);
+        System.out.println(organisationalUnitAssetsBox.getChildren().size());
     }
 
     /**
@@ -207,7 +207,7 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Sets the name of the current organisation to a new value.
+     * Sets the name of the current organisational unit to a new value.
      * @param name The new name.
      */
     public void setName(String name) {
@@ -215,7 +215,7 @@ public class OrganisationInfoBox extends HBox {
     }
 
     /**
-     * Sets the credit of the current organisation to a new value.
+     * Sets the credit of the current organisational unit to a new value.
      * @param credit The new credit.
      */
     public void setCredit(float credit){

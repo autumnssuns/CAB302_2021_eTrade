@@ -11,7 +11,7 @@
    <children>
       <Pane fx:id="tabPane" prefHeight="1080.0" prefWidth="476.0" styleClass="buttonPane">
          <children>
-            <Button fx:id="organisationUnitsButton" layoutY="169.0" mnemonicParsing="false" onAction="#toOrganisationUnits" prefHeight="166.0" prefWidth="476.0" styleClass="tabButton" text="ORGANISATIONS">
+            <Button fx:id="organisationalUnitsButton" layoutY="169.0" mnemonicParsing="false" onAction="#toOrganisationUnits" prefHeight="166.0" prefWidth="476.0" styleClass="tabButton" text="ORGANISATIONAL UNITS">
                <font>
                   <Font size="40.0" />
                </font>

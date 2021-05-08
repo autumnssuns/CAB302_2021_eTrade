@@ -42,7 +42,7 @@ public class AdminGUITest extends ApplicationTest {
     public void adminMainControllerTest(){
         clickOn("#assetsButton");
         clickOn("#usersButton");
-        clickOn("#organisationUnitsButton");
+        clickOn("#organisationalUnitsButton");
     }
 
     @Test
@@ -98,7 +98,7 @@ public class AdminGUITest extends ApplicationTest {
             write("user" + i);
             clickOn("#newPasswordField");
             write("password " + i);
-            clickOn("#newOrganisationSelectionBox");
+            clickOn("#newOrganisationUnitSelectionBox");
             write("tempOrganisation");
             clickOn("#newRoleSelectionBox");
             write("user");
@@ -141,85 +141,85 @@ public class AdminGUITest extends ApplicationTest {
 
 
     @Test
-    public void adminOrganisationsControlTest(){
-        clickOn("#organisationUnitsButton");
-        clickOn("#addNewOrganisationButton");
-        clickOn("#organisationNameTextField");
+    public void adminOrganisationUnitsControlTest(){
+        clickOn("#organisationalUnitsButton");
+        clickOn("#addNewOrganisationalUnitButton");
+        clickOn("#organisationalUnitNameTextField");
         write("tempOrganisation");
         clickOn("#creditTextField");
         write("500");
-        FxAssert.verifyThat("#organisationEditPane", NodeMatchers.isVisible());
+        FxAssert.verifyThat("#organisationalUnitEditPane", NodeMatchers.isVisible());
 
-        // Add asset to organisation
+        // Add asset to organisational unit
         for (int i = 0 ; i < 2; i++){
-            clickOn("#newOrganisationAssetNameTextField");
+            clickOn("#newOrganisationalUnitAssetNameTextField");
             write("Asset " + i);
-            clickOn("#newOrganisationAssetQuantityTextField");
+            clickOn("#newOrganisationalUnitAssetQuantityTextField");
             write("99");
-            clickOn("#addNewOrganisationAssetButton");
+            clickOn("#addNewOrganisationalUnitAssetButton");
         }
 
-        // Edit & Remove asset from organisation
-        clickOn("#organisationAssetEditButton1");
-        clickOn("#organisationAssetName1");
-        doubleClickOn("#organisationAssetName1");
+        // Edit & Remove asset from organisational unit
+        clickOn("#organisationalUnitAssetEditButton1");
+        clickOn("#organisationalUnitAssetName1");
+        doubleClickOn("#organisationalUnitAssetName1");
         write("New Asset");
-        clickOn("#organisationAssetQuantity1");
-        doubleClickOn("#organisationAssetQuantity1");
+        clickOn("#organisationalUnitAssetQuantity1");
+        doubleClickOn("#organisationalUnitAssetQuantity1");
         write("80");
-        clickOn("#organisationAssetEditButton1");
-        FxAssert.verifyThat("#organisationAssetName1", TextInputControlMatchers.hasText("New Asset"));
-        FxAssert.verifyThat("#organisationAssetQuantity1", TextInputControlMatchers.hasText("80"));
-        clickOn("#organisationAssetRemoveButton1");
+        clickOn("#organisationalUnitAssetEditButton1");
+        FxAssert.verifyThat("#organisationalUnitAssetName1", TextInputControlMatchers.hasText("New Asset"));
+        FxAssert.verifyThat("#organisationalUnitAssetQuantity1", TextInputControlMatchers.hasText("80"));
+        clickOn("#organisationalUnitAssetRemoveButton1");
 
-        // Edit & Cancel asset from organisation
-        clickOn("#organisationAssetEditButton0");
-        clickOn("#organisationAssetName0");
-        doubleClickOn("#organisationAssetName0");
+        // Edit & Cancel asset from organisational unit
+        clickOn("#organisationalUnitAssetEditButton0");
+        clickOn("#organisationalUnitAssetName0");
+        doubleClickOn("#organisationalUnitAssetName0");
         write("New Asset");
-        clickOn("#organisationAssetQuantity0");
-        doubleClickOn("#organisationAssetQuantity0");
+        clickOn("#organisationalUnitAssetQuantity0");
+        doubleClickOn("#organisationalUnitAssetQuantity0");
         write("80");
-        clickOn("#organisationAssetRemoveButton0");
-        FxAssert.verifyThat("#organisationAssetName0", TextInputControlMatchers.hasText("Asset 0"));
-        FxAssert.verifyThat("#organisationAssetQuantity0", TextInputControlMatchers.hasText("99"));
+        clickOn("#organisationalUnitAssetRemoveButton0");
+        FxAssert.verifyThat("#organisationalUnitAssetName0", TextInputControlMatchers.hasText("Asset 0"));
+        FxAssert.verifyThat("#organisationalUnitAssetQuantity0", TextInputControlMatchers.hasText("99"));
 
-        clickOn("#confirmOrganisationButton");
-        FxAssert.verifyThat("#organisationName3", LabeledMatchers.hasText("tempOrganisation"));
-        FxAssert.verifyThat("#organisationEditPane", NodeMatchers.isInvisible());
+        clickOn("#confirmOrganisationalUnitButton");
+        FxAssert.verifyThat("#organisationalUnitName3", LabeledMatchers.hasText("tempOrganisation"));
+        FxAssert.verifyThat("#organisationalUnitEditPane", NodeMatchers.isInvisible());
 
-        // Add blank organisation with no asset
-        clickOn("#addNewOrganisationButton");
-        clickOn("#organisationNameTextField");
+        // Add blank organisational unit with no asset
+        clickOn("#addNewOrganisationalUnitButton");
+        clickOn("#organisationalUnitNameTextField");
         write("blankOrganisation");
         clickOn("#creditTextField");
         write("500");
-        FxAssert.verifyThat("#organisationEditPane", NodeMatchers.isVisible());
-        clickOn("#confirmOrganisationButton");
-        FxAssert.verifyThat("#organisationName4", LabeledMatchers.hasText("blankOrganisation"));
-        FxAssert.verifyThat("#organisationEditPane", NodeMatchers.isInvisible());
+        FxAssert.verifyThat("#organisationalUnitEditPane", NodeMatchers.isVisible());
+        clickOn("#confirmOrganisationalUnitButton");
+        FxAssert.verifyThat("#organisationalUnitName4", LabeledMatchers.hasText("blankOrganisation"));
+        FxAssert.verifyThat("#organisationalUnitEditPane", NodeMatchers.isInvisible());
 
-        // Edit the blank organisation
-        clickOn("#organisationEditButton4");
-        FxAssert.verifyThat("#organisationNameTextField", TextInputControlMatchers.hasText("blankOrganisation"));
+        // Edit the blank organisational unit
+        clickOn("#organisationalUnitEditButton4");
+        FxAssert.verifyThat("#organisationalUnitNameTextField", TextInputControlMatchers.hasText("blankOrganisation"));
         FxAssert.verifyThat("#creditTextField", TextInputControlMatchers.hasText("500.0"));
-        tripleClickOn("#organisationNameTextField");
+        tripleClickOn("#organisationalUnitNameTextField");
         write("stillBlankOrganisation");
         tripleClickOn("#creditTextField");
         write("300");
-        clickOn("#confirmOrganisationButton");
-        FxAssert.verifyThat("#organisationName4", LabeledMatchers.hasText("stillBlankOrganisation"));
-        FxAssert.verifyThat("#organisationCredit4", LabeledMatchers.hasText("300.0"));
+        clickOn("#confirmOrganisationalUnitButton");
+        FxAssert.verifyThat("#organisationalUnitName4", LabeledMatchers.hasText("stillBlankOrganisation"));
+        FxAssert.verifyThat("#organisationalUnitCredit4", LabeledMatchers.hasText("300.0"));
 
-        // Edit the blank organisation & cancel
-        clickOn("#organisationEditButton4");
-        tripleClickOn("#organisationNameTextField");
+        // Edit the blank organisational unit & cancel
+        clickOn("#organisationalUnitEditButton4");
+        tripleClickOn("#organisationalUnitNameTextField");
         write("newBlankOrganisation");
         tripleClickOn("#creditTextField");
         write("300");
-        clickOn("#cancelOrganisationButton");
-        FxAssert.verifyThat("#organisationName4", LabeledMatchers.hasText("stillBlankOrganisation"));
-        FxAssert.verifyThat("#organisationCredit4", LabeledMatchers.hasText("300.0"));
+        clickOn("#cancelOrganisationalUnitButton");
+        FxAssert.verifyThat("#organisationalUnitName4", LabeledMatchers.hasText("stillBlankOrganisation"));
+        FxAssert.verifyThat("#organisationalUnitCredit4", LabeledMatchers.hasText("300.0"));
     }
 
     private void tripleClickOn(String query, MouseButton... buttons){

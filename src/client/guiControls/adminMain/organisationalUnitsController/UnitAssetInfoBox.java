@@ -1,4 +1,4 @@
-package client.guiControls.adminMain.organisationsController;
+package client.guiControls.adminMain.organisationalUnitsController;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -7,10 +7,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * A box to display the assets that belong to an organisation and can be interacted with.
+ * A box to display the assets that belong to an organisational unit and can be interacted with.
  */
-public class OrganisationalAssetInfoBox extends HBox {
-    private static int counter = 0; // TODO: Replace with identification using both asset ID and organisation ID
+public class UnitAssetInfoBox extends HBox {
+    private static int counter = 0; // TODO: Replace with identification using both asset ID and organisational unit ID
     private String name;
     private int quantity;
 
@@ -25,7 +25,7 @@ public class OrganisationalAssetInfoBox extends HBox {
      * @param name The name of the asset.
      * @param quantity The description of the asset.
      */
-    public OrganisationalAssetInfoBox(String name, int quantity){
+    public UnitAssetInfoBox(String name, int quantity){
         super();
         this.setAlignment(Pos.CENTER);
         this.setPrefHeight(80);
@@ -77,7 +77,7 @@ public class OrganisationalAssetInfoBox extends HBox {
         nameTextField = new TextField(name);
         nameTextField.setPrefWidth(250);
         nameTextField.setPrefHeight(30);
-        nameTextField.setId("organisationAssetName" + counter);
+        nameTextField.setId("organisationalUnitAssetName" + counter);
     }
 
     /**
@@ -87,7 +87,7 @@ public class OrganisationalAssetInfoBox extends HBox {
         quantityTextField = new TextField(String.valueOf(quantity));
         quantityTextField.setPrefWidth(100);
         quantityTextField.setPrefHeight(30);
-        quantityTextField.setId("organisationAssetQuantity" + counter);
+        quantityTextField.setId("organisationalUnitAssetQuantity" + counter);
     }
 
     /**
@@ -98,7 +98,7 @@ public class OrganisationalAssetInfoBox extends HBox {
         editButton.setPrefWidth(100);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
-        editButton.setId("organisationAssetEditButton" + counter);
+        editButton.setId("organisationalUnitAssetEditButton" + counter);
     }
 
     /**
@@ -109,7 +109,7 @@ public class OrganisationalAssetInfoBox extends HBox {
         removeButton.setPrefWidth(100);
         removeButton.setPrefHeight(30);
         removeButton.setOnAction(e -> removeEntry());
-        removeButton.setId("organisationAssetRemoveButton" + counter);
+        removeButton.setId("organisationalUnitAssetRemoveButton" + counter);
     }
 
     /**

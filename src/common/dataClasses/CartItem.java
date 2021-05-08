@@ -10,7 +10,7 @@ public class CartItem extends common.dataClasses.Item{
 
     /**
      * Initialises the item in cart.
-     * @param item The item from an organisation or market.
+     * @param item The item from an organisational unit or market.
      * @param cartQuantity The amount of item to be placed in the cart.
      * @param price The unit price of the item.
      */

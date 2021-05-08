@@ -3,7 +3,7 @@ package common.dataClasses;
 import java.util.Objects;
 
 /**
- * Represents an item - an quantifiable version of an asset possessed by an organisation.
+ * Represents an item - an quantifiable version of an asset possessed by an organisational unit.
  */
 public class Item extends Asset {
     protected int quantity;
@@ -33,7 +33,7 @@ public class Item extends Asset {
     }
 
     /**
-     * Retrieves the quantity of the asset that is owned by the organisation.
+     * Retrieves the quantity of the asset that is owned by the organisational unit.
      * @return The quantity of the asset.
      */
     public int getQuantity() {
@@ -49,7 +49,7 @@ public class Item extends Asset {
     }
 
     /**
-     * Increases the quantity of the related asset in the organisation's stock.
+     * Increases the quantity of the related asset in the organisational unit's stock.
      * @param amount The amount to be added.
      */
     public void add(int amount){

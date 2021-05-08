@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Order implements Serializable {
     protected int OrderId;
     protected String OrderType; //buy/sell
-    protected int organisationid;
+    protected int unitId;
     protected int AssetId;
     protected int PlacedQuantity;//cartitem
     protected int ResolvedQuantity = 0;
@@ -21,14 +21,14 @@ public class Order implements Serializable {
     /**
      * Initialise the order
      * @param OrderId Order's ID
-     * @param organisation Link with "Organisation class" to retrieve relative information (such as OrganisationID)
+     * @param organisationalUnit Link with "OrganisationalUnit class" to retrieve relative information (such as unitId)
      * @param item Link with "CartItem class" to retrieve relative information (Price, Placed Quantity and Asset's ID )
      * @param OrderDate Date ordered
      * @param Status Current status of the Order (transaction Finished/ Remaining)
      * @param OrderType
      */
-    public Order(int OrderId, Organisation organisation, CartItem item, String OrderDate, String Status, String OrderType){
-        this.organisationid = organisation.getId();
+    public Order(int OrderId, OrganisationalUnit organisationalUnit, CartItem item, String OrderDate, String Status, String OrderType){
+        this.unitId = organisationalUnit.getId();
         this.OrderId = OrderId;
         this.AssetId = item.getId();
         this.PlacedQuantity = item.getQuantity();
@@ -60,9 +60,9 @@ public class Order implements Serializable {
 
     /**
      *
-     * @return Organisation ID
+     * @return OrganisationalUnit ID
      */
-    public int getOrganisationid(){return organisationid;}
+    public int getUnitId(){return unitId;}
 
     /**
      *
@@ -122,10 +122,10 @@ public class Order implements Serializable {
     }
 
     /**
-     * Set new organisation ID
+     * Set new organisational unit ID
      * @param organisation_id
      */
-    public void setOrganisationID(int organisation_id) { this.organisationid = organisation_id;
+    public void setunitId(int organisation_id) { this.unitId = organisation_id;
     }
 
     /**
@@ -187,7 +187,7 @@ public class Order implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return OrderId == order.OrderId && organisationid == order.organisationid && AssetId == order.AssetId && PlacedQuantity == order.PlacedQuantity && ResolvedQuantity == order.ResolvedQuantity && Float.compare(order.price, price) == 0 && Objects.equals(OrderType, order.OrderType) && Objects.equals(FinishedDate, order.FinishedDate) && Objects.equals(OrderDate, order.OrderDate) && Objects.equals(Status, order.Status);
+        return OrderId == order.OrderId && unitId == order.unitId && AssetId == order.AssetId && PlacedQuantity == order.PlacedQuantity && ResolvedQuantity == order.ResolvedQuantity && Float.compare(order.price, price) == 0 && Objects.equals(OrderType, order.OrderType) && Objects.equals(FinishedDate, order.FinishedDate) && Objects.equals(OrderDate, order.OrderDate) && Objects.equals(Status, order.Status);
     }
 
     /**
@@ -196,6 +196,6 @@ public class Order implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(OrderId, OrderType, organisationid, AssetId, PlacedQuantity, ResolvedQuantity, price, FinishedDate, OrderDate, Status);
+        return Objects.hash(OrderId, OrderType, unitId, AssetId, PlacedQuantity, ResolvedQuantity, price, FinishedDate, OrderDate, Status);
     }
 }

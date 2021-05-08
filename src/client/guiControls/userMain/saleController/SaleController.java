@@ -21,7 +21,7 @@ import java.io.IOException;
 public class SaleController extends MainController {
     // Temporary data storage
     Cart shippingCart;  // The "sell" cart
-    Stock stock;        // The stock of assets by the current organisation
+    Stock stock;        // The stock of assets by the current organisational unit
 
     //Reusable elements that can be updated
     Label cartTotalLabel;
@@ -38,7 +38,7 @@ public class SaleController extends MainController {
     @FXML
     public void initialize(){
         shippingCart = new Cart("sell");
-        stock = new Stock(0);   //TODO: link the stock to the organisation
+        stock = new Stock(0);   //TODO: link the stock to the organisational unit
         Update();
     }
 

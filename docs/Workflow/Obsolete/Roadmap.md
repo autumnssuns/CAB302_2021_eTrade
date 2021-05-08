@@ -49,12 +49,12 @@ _Data Type & Server implementation on database interaction_
         - [ ] Sell: Can display assets, add assets to cart and checkout
         - [ ] Buy: Same as above
         - [ ] History: Can display orders (id, type, asset, unit price, placed_quantity, resolved_quantity, date_placed, status) and cancel pending orders.
-        - [ ] Profile: Has labels to display username, name, organisations, role & password field to change password
+        - [ ] Profile: Has labels to display username, name, organisationalUnits, role & password field to change password
     - [ ] Admin Tabs:
-        - [x] Organisations: Can add / edit / remove organisations (name, credit, assets owned)
+        - [x] Organisations: Can add / edit / remove organisationalUnits (name, credit, assets owned)
         - [x] Assets: Can add / edit / remove assets (name, description)
-        - [x] Users: Can add / edit /remove users (name, username, password, organisation, role)
-- [ ] Client can interact with a mock class that contains all the organisation related data (balance, stock, orders)
+        - [x] Users: Can add / edit /remove users (name, username, password, organisationalUnit, role)
+- [ ] Client can interact with a mock class that contains all the organisationalUnit related data (balance, stock, orders)
 
 ### WEEK 8 (26/4 - 2/5) _Milestone #1: 2/5_
 _Client - Server interaction via Socket; Update Document_
@@ -85,9 +85,9 @@ User Interaction:
         - [ ] User(s): username & password
 - [ ] As User
     - [ ] Login with username and password given by admin
-    - [ ] Place orders to sell assets using organisation's assets at a certain price & quantity
+    - [ ] Place orders to sell assets using organisationalUnit's assets at a certain price & quantity
     - [ ] Place orders to buy assets (regardless of their availability on the market)
-    - [ ] View their organisation's orders & remove unreconciled orders
+    - [ ] View their organisationalUnit's orders & remove unreconciled orders
     - [ ] Change own password
 
 Logic & Automation:

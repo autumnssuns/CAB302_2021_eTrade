@@ -1,12 +1,7 @@
 package server;
 
-import common.dataClasses.Stock;
 import common.Request;
 import common.Response;
-import common.dataClasses.Asset;
-import common.dataClasses.Item;
-import common.dataClasses.Organisation;
-import common.dataClasses.User;
 
 public class MockServer implements IServer{
     MockDatabase mockdb;
@@ -32,7 +27,7 @@ public class MockServer implements IServer{
                 response = mockdb.queryAssets(request);
                 break;
 
-            case "query organisations":
+            case "query organisationalUnits":
                 response = mockdb.queryOrganisations(request);
                 break;
 

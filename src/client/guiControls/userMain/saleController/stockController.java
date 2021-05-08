@@ -29,7 +29,7 @@ public class stockController {
     //Reusable elements that can be updated
     Label cartTotalLabel;
     Cart shippingCart;  // The "sell" cart
-    Stock stock;        // The stock of assets by the current organisation
+    Stock stock;        // The stock of assets by the current organisational unit
 
     @FXML
     Pane assetsPane;

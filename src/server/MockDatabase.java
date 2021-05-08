@@ -2,10 +2,8 @@ package server;
 
 import common.Request;
 import common.Response;
-import common.dataClasses.Organisation;
+import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.*;
-
-import java.util.ArrayList;
 
 public final class MockDatabase {
     Object[][] users = new Object[][]{
@@ -23,7 +21,7 @@ public final class MockDatabase {
             {3, "Coffin Dance Video", "You know what this is"}
     };
 
-    Object[][] organisations = new Object[][]{
+    Object[][] organisationalUnits = new Object[][]{
             {0, "The Justice League", 9999},
             {1, "The supervillains", 5555},
             {2, "The random civilians", 500},
@@ -71,17 +69,17 @@ public final class MockDatabase {
     }
 
     public Response queryOrganisations(Request request) {
-        DataCollection<Organisation> attachedOrganisation = new DataCollection<>();
-        for (Object[] organisation : organisations){
-            attachedOrganisation.add(new Organisation((int) organisation[0], (String) organisation[1], (int) organisation[2]));
+        DataCollection<OrganisationalUnit> attachedOrganisationalUnit = new DataCollection<>();
+        for (Object[] organisationalUnit : organisationalUnits){
+            attachedOrganisationalUnit.add(new OrganisationalUnit((int) organisationalUnit[0], (String) organisationalUnit[1], (int) organisationalUnit[2]));
         }
-        return new Response(true, attachedOrganisation);
+        return new Response(true, attachedOrganisationalUnit);
     }
 
     public Response queryStocks(Request request) {
         DataCollection<Stock> attachedStocks = new DataCollection<>();
-        for (Object[] organisation : organisations){
-            attachedStocks.add(new Stock((int) organisation[0]));
+        for (Object[] organisationalUnit : organisationalUnits){
+            attachedStocks.add(new Stock((int) organisationalUnit[0]));
         }
         for (Object[] organisationAsset : stock){
             Object[] asset = assets[(int) organisationAsset[1]];
