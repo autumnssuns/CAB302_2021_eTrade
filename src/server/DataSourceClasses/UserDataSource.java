@@ -65,7 +65,7 @@ public class UserDataSource {
             addUser.setString(1, newuser.getUsername());
             addUser.setString(2, newuser.getPassword());
             addUser.setString(3, newuser.getAccountType());
-            addUser.setInt(4, newuser.getunitId());
+            addUser.setInt(4, newuser.getUnitId());
             addUser.executeQuery();
         } catch (SQLException e) {e.printStackTrace();}
     }
@@ -91,7 +91,7 @@ public class UserDataSource {
      */
     public User getUser(String UserName) {
         //Create a dummy to store all information then return the dummy later
-        User dummy = new User(null,null,null,-1);
+        User dummy = new User(-1,null,null,null,null,-1);
         ResultSet rs = null;
         try {
             //Set values for the above SQL query

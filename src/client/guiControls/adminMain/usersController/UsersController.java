@@ -89,12 +89,10 @@ public class UsersController extends DisplayController {
             organisationNames[i] = organisationalUnits.get(i).getName();
         }
 
-        int count = 0;
         for (User user : users){
-            int unitId = user.getunitId();
+            int unitId = user.getUnitId();
             String organisationalUnit = organisationalUnits.get(unitId).getName();
-            addUserInfoBox(count, user.getUsername(), user.getUsername(), user.getPassword(), organisationalUnit, user.getAccountType());
-            count++;
+            addUserInfoBox(user.getUserId(), user.getFullName(), user.getUsername(), user.getPassword(), organisationalUnit, user.getAccountType());
         }
         newOrganisationUnitSelectionBox.getItems().addAll(organisationNames);
     }

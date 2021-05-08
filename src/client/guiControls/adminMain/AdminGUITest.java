@@ -107,8 +107,8 @@ public class AdminGUITest extends ApplicationTest {
 
         // Edit & Remove
         clickOn("#userEditButton1");
-        doubleClickOn("#userName1");
-        doubleClickOn("#userName1");
+        doubleClickOn("#userFullname1");
+        doubleClickOn("#userFullname1");
         write("New Name");
         doubleClickOn("#username1");
         doubleClickOn("#username1");
@@ -123,7 +123,7 @@ public class AdminGUITest extends ApplicationTest {
         doubleClickOn("#userRole1");
         write("admin");
         clickOn("#userEditButton1");
-        FxAssert.verifyThat("#userName1", TextInputControlMatchers.hasText("New Name"));
+        FxAssert.verifyThat("#userFullname1", TextInputControlMatchers.hasText("New Name"));
         FxAssert.verifyThat("#username1", TextInputControlMatchers.hasText("newUsername"));
         FxAssert.verifyThat("#password1", TextInputControlMatchers.hasText("newPassword"));
         FxAssert.verifyThat("#userOrganisation1", ComboBoxMatchers.hasSelectedItem("newOrganisation"));
@@ -132,11 +132,11 @@ public class AdminGUITest extends ApplicationTest {
 
         // Edit & Cancel
         clickOn("#userEditButton0");
-        doubleClickOn("#userName0");
-        doubleClickOn("#userName0");
+        doubleClickOn("#userFullname0");
+        doubleClickOn("#userFullname0");
         write("Still Person 0");
         clickOn("#userRemoveButton0");
-        FxAssert.verifyThat("#userName0", TextInputControlMatchers.hasText("admin"));
+        FxAssert.verifyThat("#userFullname0", TextInputControlMatchers.hasText("Admin"));
     }
 
 

@@ -7,11 +7,11 @@ import common.dataClasses.*;
 
 public final class MockDatabase {
     Object[][] users = new Object[][]{
-            {"admin", "root", "admin", 0},
-            {"dan", "123", "user", 0},
-            {"duy", "abcd", "user", 1},
-            {"lyn", "password", "user", 1},
-            {"rodo", "rodo", "user", 2}
+            {0, "Admin", "admin", "root", "admin", 0},
+            {1, "Dan Tran", "dan", "123", "user", 0},
+            {2, "Daniel Pham", "duy", "abcd", "user", 1},
+            {3, "Linh Hoang", "lyn", "password", "user", 1},
+            {4, "Rodo Nguyen", "rodo", "rodo", "user", 2}
     };
 
     Object[][] assets = new Object[][]{
@@ -45,8 +45,8 @@ public final class MockDatabase {
     public Response login(Request request){
         User sender = request.getUser();
         for (Object[] user : users){
-            if (user[0].equals(sender.getUsername()) && user[1].equals(sender.getPassword())){
-                return new Response(true, new User((String) user[0], (String) user[1], (String) user[2], (int) user[3]));
+            if (user[2].equals(sender.getUsername()) && user[3].equals(sender.getPassword())){
+                return new Response(true, new User((int)user[0], (String)user[1], (String) user[2], (String) user[3], (String) user[4], (int) user[5]));
             }
         }
         return new Response(false, null);
@@ -55,7 +55,7 @@ public final class MockDatabase {
     public Response queryUsers(Request request) {
         DataCollection<User> attachedUsers = new DataCollection<>();
         for (Object[] user : users){
-            attachedUsers.add(new User((String) user[0], (String) user[1], (String) user[2], (int) user[3]));
+            attachedUsers.add(new User((int)user[0], (String)user[1], (String) user[2], (String) user[3], (String) user[4], (int) user[5]));
         }
         return new Response(true, attachedUsers);
     }
