@@ -15,7 +15,7 @@
       <AnchorPane fx:id="displayPane" prefHeight="911" prefWidth="1444.0" styleClass="displayPane">
          <children>
             <TextField layoutX="212.0" layoutY="97.0" prefHeight="64.0" prefWidth="400.0" promptText="Search for organisational unit" />
-            <ScrollPane hbarPolicy="NEVER" layoutX="42.0" layoutY="340.0" prefHeight="300.0" prefWidth="700.0" styleClass="bodyPane">
+            <ScrollPane hbarPolicy="NEVER" layoutX="42.0" layoutY="340.0" prefHeight="481.0" prefWidth="700.0" styleClass="bodyPane">
                <content>
                   <VBox fx:id="organisationsDisplayBox" prefWidth="700.0" spacing="20.0" />
                </content>

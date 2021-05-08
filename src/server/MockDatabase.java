@@ -26,7 +26,7 @@ public final class MockDatabase {
     Object[][] organisations = new Object[][]{
             {0, "The Justice League", 9999},
             {1, "The supervillains", 5555},
-            {2, "The random civilians", 500}
+            {2, "The random civilians", 500},
     };
 
     Object[][] stock = new Object[][]{

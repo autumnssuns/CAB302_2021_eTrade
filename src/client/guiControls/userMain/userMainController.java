@@ -43,21 +43,24 @@ public class userMainController extends MainController {
 
     @FXML
     public void initialize() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
         // Run later to wait for non-GUI thread to finish before loading GUI thread
         Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader();
             userLabel.setText(getUser().getUsername());
+            try {
+                sellPane = FXMLLoader.load(getClass().getResource("saleController/SellPage.fxml"));
+                buyPane = loader.load(getClass().getResource("buyController/BuyPage.fxml"));
+
+                // TODO: Implement these panes
+                historyPane = new Pane();
+                profilePane = new Pane();
+
+                displayStack.getChildren().addAll(sellPane, buyPane);
+                toHome();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
-
-        sellPane = loader.load(getClass().getResource("saleController/SellPage.fxml"));
-        buyPane = loader.load(getClass().getResource("buyController/BuyPage.fxml"));
-
-        // TODO: Implement these panes
-        historyPane = new Pane();
-        profilePane = new Pane();
-
-        displayStack.getChildren().addAll(sellPane, buyPane);
-        toHome();
     }
 
     //TODO: Implement a logout method
