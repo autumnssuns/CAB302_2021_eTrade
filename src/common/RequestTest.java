@@ -20,13 +20,13 @@ class RequestTest {
         User tempUser = new User(username, password);
         loginRequest = new Request(tempUser, "login");
 
-        User user = new User(username, password, "user", 0);
+        User user = new User(0, username, username, password, "user", 0);
         queryRequest = new Request(user, "query stock");
 
-        User userAsAttachment = new User("Do something", "with this", "user", 0);
+        User userAsAttachment = new User(1, "Do ", "something", "with this", "user", 0);
         updateRequest = new Request(user, "update", userAsAttachment);
 
-        User userAsAttachment2 = new User("Delete", "this", "user", 0);
+        User userAsAttachment2 = new User(2, "Delete","Delete", "this", "user", 0);
         deleteRequest = new Request(user, "delete", userAsAttachment2);
     }
 
@@ -50,7 +50,7 @@ class RequestTest {
     void getAttachment() {
         assertEquals(new User("username", "password"), loginRequest.getAttachment());
         assertNull(queryRequest.getAttachment());
-        assertEquals(new User("Do something", "with this", "user", 0), updateRequest.getAttachment());
-        assertEquals(new User("Delete", "this", "user", 0), deleteRequest.getAttachment());
+        assertEquals(new User(1, "Do ", "something", "with this", "user", 0), updateRequest.getAttachment());
+        assertEquals(new User(2, "Delete","Delete", "this", "user", 0), deleteRequest.getAttachment());
     }
 }

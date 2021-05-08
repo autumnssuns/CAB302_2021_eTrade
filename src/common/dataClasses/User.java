@@ -7,6 +7,8 @@ import java.util.Objects;
  * Represents a user in the system.
  */
 public class User extends Object implements IData {
+    private int userId;
+    private String fullName;
     private String username;
     private String password;
     private String accountType;
@@ -29,8 +31,10 @@ public class User extends Object implements IData {
      * @param accountType The account type of the user.
      * @param unitId The ID of the organisational unit the user belongs to.
      */
-    public User(String username, String password, String accountType, int unitId){
-        this.username = username;
+    public User(int userId, String fullName, String username, String password, String accountType, int unitId){
+        this.userId = userId;
+        setUsername(username);
+        setFullName(fullName);
         setPassword(password);
         setAccountType(accountType);
         setOrganisation(unitId);
@@ -65,7 +69,7 @@ public class User extends Object implements IData {
     /**
      * @return The ID of the organisational unit the user belongs to.
      */
-    public int getunitId(){
+    public int getUnitId(){
         return unitId;
     }
 
@@ -94,6 +98,38 @@ public class User extends Object implements IData {
     }
 
     /**
+     * Returns the user id.
+     * @return The user id.
+     */
+    public int getUserId() {
+        return userId;
+    }
+
+    /**
+     * Returns the user's fullname
+     * @return The user's fullname
+     */
+    public String getFullName() {
+        return fullName;
+    }
+
+    /**
+     * Set the fullname of the user to a new value
+     * @param fullName The new fullname for the user
+     */
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    /**
+     * Set the unit id the user is working for.
+     * @param unitId The new unit id.
+     */
+    public void setUnitId(int unitId) {
+        this.unitId = unitId;
+    }
+
+    /**
      * Indicates if some object is equal to this instance.
      * @param o The object to compare.
      * @return true if the object is equal to the instance, false otherwise.
@@ -103,7 +139,7 @@ public class User extends Object implements IData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return unitId == user.unitId && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(accountType, user.accountType);
+        return userId == user.userId && unitId == user.unitId && Objects.equals(fullName, user.fullName) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(accountType, user.accountType);
     }
 
     /**
@@ -112,6 +148,6 @@ public class User extends Object implements IData {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(username, password, accountType, unitId);
+        return Objects.hash(userId, fullName, username, password, accountType, unitId);
     }
 }

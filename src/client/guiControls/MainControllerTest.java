@@ -20,7 +20,7 @@ class MainControllerTest {
 
     @Test
     void setUser() {
-        User tempUser = new User("username", "password", "admin", 0);
+        User tempUser = new User(0, "Admin","username", "password", "admin", 0);
         controller.setUser(tempUser);
         assertEquals(tempUser, controller.getUser());
     }

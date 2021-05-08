@@ -1,5 +1,9 @@
 package client.guiControls.adminMain.usersController;
 
+import client.guiControls.DisplayController;
+import common.dataClasses.DataCollection;
+import common.dataClasses.OrganisationalUnit;
+import common.dataClasses.User;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -14,6 +18,7 @@ public class UserInfoBox extends HBox {
     private String password;
     private String organisationalUnit;
     private String role;
+    private User user;
 
     private Label idLabel;
     private TextField nameTextField;
@@ -61,7 +66,7 @@ public class UserInfoBox extends HBox {
      */
     private void initiateNodes(){
         createIdLabel();
-        createNameTextField();
+        createFullNameTextField();
         createUsernameTextField();
         createPasswordField();
         createOrganisationUnitSelectionBox();
@@ -106,11 +111,11 @@ public class UserInfoBox extends HBox {
     /**
      * Creates a text field to display the user's name.
      */
-    private void createNameTextField(){
+    private void createFullNameTextField(){
         nameTextField = new TextField(name);
         nameTextField.setPrefWidth(190);
         nameTextField.setPrefHeight(30);
-        nameTextField.setId("userName" + userId);
+        nameTextField.setId("userFullname" + userId);
     }
 
     /**
