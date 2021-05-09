@@ -7,8 +7,6 @@ import java.util.Objects;
  */
 public class Item extends Asset {
     protected int quantity;
-    protected int alterquantity;
-    private float price;
 
     /**
      * Initialises an item by linking it to an asset and includes the quantity to be stored.
@@ -29,7 +27,6 @@ public class Item extends Asset {
     public Item (Asset asset, int quantity, float price){
         super(asset.getId(), asset.getName(), asset.getDescription());
         setQuantity(quantity); //Set this to the quantity got from user input
-        setPrice(price); // Set this to the price taken from user input
     }
 
     /**
@@ -74,22 +71,6 @@ public class Item extends Asset {
         this.quantity -= amount;
         return new CartItem(this, amount, price);
     }
-    public CartItem moveToBuyCart (int amount, float price){
-        return new CartItem(this, amount , price );
-
-    }
-    public void removefromCart (int amount){
-        this.quantity += amount;
-    }
-
-    public float getPrice (){
-        return price;
-    }
-
-    public float setPrice (float price){
-        this.price = price;
-        return price;
-    }
 
     /**
      * Indicates if some object is equal to this instance.
@@ -102,7 +83,7 @@ public class Item extends Asset {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Item item = (Item) o;
-        return quantity == item.quantity && alterquantity == item.alterquantity && Float.compare(item.price, price) == 0;
+        return quantity == item.quantity;
     }
 
     /**
@@ -111,6 +92,6 @@ public class Item extends Asset {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), quantity, alterquantity, price);
+        return Objects.hash(super.hashCode(), quantity);
     }
 }

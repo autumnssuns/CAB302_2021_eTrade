@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.UserMainController">
+<AnchorPane fx:id="anchorPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.UserMainController">
    <children>
       <Pane fx:id="tabPane" layoutX="-85.0" prefHeight="1080.0" prefWidth="476.0" styleClass="buttonPane">
          <children>
@@ -32,7 +32,7 @@
                   <Font size="40.0" />
                </font>
             </Button>
-            <Label layoutX="219.0" layoutY="24.0" prefHeight="24.0" prefWidth="114.0" text="Balance:">
+            <Label fx:id="creditLabel" layoutX="106.0" layoutY="87.0" prefHeight="45.0" prefWidth="342.0">
                <font>
                   <Font size="30.0" />
                </font>
@@ -42,13 +42,12 @@
       <StackPane fx:id="displayStack" layoutX="476.0" layoutY="169.0" prefHeight="911.0" prefWidth="1444.0" />
       <Pane fx:id="menuPane" layoutX="391.0" prefHeight="169.0" prefWidth="1521.0" styleClass="menuPane">
          <children>
-            <Button layoutX="1251.0" layoutY="53.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="112.0" prefWidth="118.0" style="-fx-border-radius: 50;" styleClass="circularButton" text="Log out" />
-            <Label fx:id="userLabel" layoutX="1110.0" layoutY="85.0" prefHeight="47.0" prefWidth="212.0" text="username">
+            <Button layoutX="1251.0" layoutY="53.0" mnemonicParsing="false" onAction="#logOut" prefHeight="112.0" prefWidth="118.0" style="-fx-border-radius: 50;" styleClass="circularButton" text="Log out" />
+            <Label fx:id="userLabel" layoutX="1029.0" layoutY="86.0" prefHeight="47.0" prefWidth="212.0" text="username">
                <font>
                   <Font size="30.0" />
                </font>
             </Label>
-            <Button id="exitButton" fx:id="exitButton" layoutX="1385.0" layoutY="14.0" mnemonicParsing="false" onAction="#exit" text="EXIT" textFill="#e40d0d" />
          </children>
          <padding>
             <Insets right="50.0" />

@@ -22,9 +22,9 @@ public final class MockDatabase {
     };
 
     Object[][] organisationalUnits = new Object[][]{
-            {0, "The Justice League", 9999},
-            {1, "The supervillains", 5555},
-            {2, "The random civilians", 500},
+            {0, "The Justice League", 9999.0f},
+            {1, "The supervillains", 5555.0f},
+            {2, "The random civilians", 500.0f},
     };
 
     Object[][] stock = new Object[][]{
@@ -71,7 +71,7 @@ public final class MockDatabase {
     public Response queryOrganisations(Request request) {
         DataCollection<OrganisationalUnit> attachedOrganisationalUnit = new DataCollection<>();
         for (Object[] organisationalUnit : organisationalUnits){
-            attachedOrganisationalUnit.add(new OrganisationalUnit((int) organisationalUnit[0], (String) organisationalUnit[1], (int) organisationalUnit[2]));
+            attachedOrganisationalUnit.add(new OrganisationalUnit((int) organisationalUnit[0], (String) organisationalUnit[1], (float) organisationalUnit[2]));
         }
         return new Response(true, attachedOrganisationalUnit);
     }
@@ -87,5 +87,34 @@ public final class MockDatabase {
             attachedStocks.get((int) organisationAsset[0]).add(new Item(newAsset, (int) organisationAsset[2]));
         }
         return new Response(true, attachedStocks);
+    }
+
+    public Response queryOrganisationalUnit(Request request) {
+        int unitId = request.getUser().getUnitId();
+        Object[] matchedUnit = organisationalUnits[unitId];
+        OrganisationalUnit attachedUnit = new OrganisationalUnit((int) matchedUnit[0], (String) matchedUnit[1], (float) matchedUnit[2]);
+        return new Response(true, attachedUnit);
+    }
+
+    public Response queryStock(Request request) {
+        int unitId = request.getUser().getUnitId();
+        Stock returnStock = new Stock(unitId);
+        for (Object[] organisationalItem : stock){
+            if (organisationalItem[0].equals(unitId)){
+                int assetId = (int) organisationalItem[1];
+                for (Object[] asset : assets){
+                    if (asset[0].equals(assetId)){
+                        Asset newAsset = new Asset(assetId, (String) asset[1], (String) asset[2]);
+                        Item newItem = new Item(newAsset, (int) organisationalItem[2]);
+                        returnStock.add(newItem);
+                    }
+                }
+            }
+        }
+        return new Response(true, returnStock);
+    }
+
+    public Response queryOrders(Request request) {
+        return new Response(false, null);
     }
 }
