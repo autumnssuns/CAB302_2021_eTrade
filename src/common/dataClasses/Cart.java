@@ -1,4 +1,4 @@
-package client.data.sessionalClasses;
+package common.dataClasses;
 
 import common.dataClasses.CartItem;
 
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Represents a cart of items.
  */
-public class Cart extends ArrayList<CartItem> {
+public class Cart extends ArrayList<CartItem> implements IData {
     private final String cartType;
 
     /**
@@ -46,7 +46,7 @@ public class Cart extends ArrayList<CartItem> {
 
     /**
      * Retrieves the total price of all the items in this cart.
-     * @return
+     * @return The total price of all the items in this cart.
      */
     public float getTotalPrice() {
         float total = 0;
@@ -62,5 +62,13 @@ public class Cart extends ArrayList<CartItem> {
     public void checkOut(){
         super.clear();
         //TODO: Request server to place orders on all items.
+    }
+
+    /**
+     * Returns the type of the cart ('buy' or 'sell')
+     * @return The type of the cart.
+     */
+    public String getCartType() {
+        return cartType;
     }
 }

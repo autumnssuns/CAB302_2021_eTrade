@@ -18,7 +18,6 @@ public class UserInfoBox extends HBox {
     private String password;
     private String organisationalUnit;
     private String role;
-    private User user;
 
     private Label idLabel;
     private TextField nameTextField;

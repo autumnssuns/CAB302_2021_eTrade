@@ -1,6 +1,6 @@
 package client.guiControls.userMain.saleController;
 
-import client.data.sessionalClasses.Cart;
+import common.dataClasses.Cart;
 import client.guiControls.MainController;
 import common.dataClasses.CartItem;
 import common.dataClasses.Asset;
