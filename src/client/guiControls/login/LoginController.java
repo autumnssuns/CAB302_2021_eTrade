@@ -46,9 +46,8 @@ public class LoginController extends MainController {
         String username = nameTextField.getText();
         String password = passwordField.getText();
 
-        User tempUser = new User(username, password);
-        Request request = new Request(tempUser, "login");
-        Response response = this.sendRequest(request);
+        this.setUser(new User(username, password));
+        Response response = this.sendRequest("login");
         boolean loginSuccess = response.isFulfilled();
 
         //TODO: Wait for response from server
@@ -71,7 +70,7 @@ public class LoginController extends MainController {
         String resourcePath = "";
         switch(this.getUser().getAccountType()){
             case "user":
-                resourcePath = "../userMain/userMain.fxml";
+                resourcePath = "../userMain/UserMain.fxml";
                 break;
 
             case "admin":

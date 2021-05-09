@@ -17,11 +17,9 @@ public class UserLocalDatabase extends ILocalDatabase {
      * Initialises the database with initial data (fetched from server)
      * @param organisationalUnit The organisational unit associated with the user.
      * @param stock The stock associated with the current user's organisational unit.
-     * @param sellCart The cart to sell items.
-     * @param buyCart The cart to buy items.
      * @param orders The current orders in the system.
      */
-    public UserLocalDatabase(OrganisationalUnit organisationalUnit, Stock stock, Cart sellCart, Cart buyCart, DataCollection<Order> orders) {
+    public UserLocalDatabase(OrganisationalUnit organisationalUnit, Stock stock, DataCollection<Order> orders) {
         this.organisationalUnit = organisationalUnit;
         this.stock = stock;
         this.orders = orders;
@@ -49,5 +47,17 @@ public class UserLocalDatabase extends ILocalDatabase {
      */
     public DataCollection<Order> getOrders() {
         return orders;
+    }
+
+    public void setOrganisationalUnit(OrganisationalUnit organisationalUnit) {
+        this.organisationalUnit = organisationalUnit;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
+    }
+
+    public void setOrders(DataCollection<Order> orders) {
+        this.orders = orders;
     }
 }

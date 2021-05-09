@@ -1,9 +1,9 @@
 package client.guiControls;
 
 import client.data.IServerConnection;
-import client.guiControls.adminMain.AdminLocalDatabase;
 import common.Request;
 import common.Response;
+import common.dataClasses.IData;
 import common.dataClasses.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -58,10 +58,15 @@ public class MainController {
 
     /**
      * Asks the server connection to send a request to the server.
-     * @param request The request to be sent.
+     * @param action
+     * @param attachment
      */
-    public Response sendRequest(Request request){
-        return serverConnection.sendRequest(request);
+    public Response sendRequest(String action, IData attachment){
+        return serverConnection.sendRequest(new Request(getUser(), action, attachment));
+    }
+
+    public Response sendRequest(String action){
+        return serverConnection.sendRequest(new Request(getUser(), action));
     }
 
     /**
@@ -91,6 +96,13 @@ public class MainController {
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
+    }
+
+    /**
+     * Updates the local database with that from the server.
+     */
+    public void fetchDatabase(){
+
     }
 
     /**

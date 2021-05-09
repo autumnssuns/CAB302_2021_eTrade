@@ -39,7 +39,7 @@ class MainControllerTest {
         IServerConnection serverConnection = new MockServerConnection();
         controller.setServerConnection(serverConnection);
         Request request = new Request(tempUser, "login");
-        Response response = controller.sendRequest(request);
+        Response response = controller.sendRequest("login");
         assertNotNull(response);
     }
 }

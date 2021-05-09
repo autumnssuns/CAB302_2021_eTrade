@@ -2,15 +2,12 @@ package client.guiControls.adminMain;
 
 import client.guiControls.DisplayController;
 import client.guiControls.MainController;
-import client.guiControls.adminMain.assetsController.AssetsController;
-import client.guiControls.adminMain.usersController.UsersController;
 import common.Request;
 import common.Response;
 import common.dataClasses.DataCollection;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -55,6 +52,10 @@ public class AdminMainController extends MainController {
         });
     }
 
+    /**
+     * Sets up the controller
+     * @throws IOException Required by JavaFX
+     */
     private void setupController() throws IOException{
         userLabel.setText(getUser().getUsername());
         initialiseDatabase();
@@ -117,20 +118,16 @@ public class AdminMainController extends MainController {
      * Initialise the database.
      */
     private void initialiseDatabase(){
-        Request request = new Request(getUser(), "query users");
-        Response response = this.sendRequest(request);
+        Response response = this.sendRequest("query users");
         DataCollection users = (DataCollection) response.getAttachment();
 
-        request = new Request(getUser(), "query assets");
-        response = this.sendRequest(request);
+        response = this.sendRequest("query assets");
         DataCollection assets = (DataCollection) response.getAttachment();
 
-        request = new Request(getUser(), "query organisationalUnits");
-        response = this.sendRequest(request);
+        response = this.sendRequest("query organisationalUnits");
         DataCollection organisationalUnits = (DataCollection) response.getAttachment();
 
-        request = new Request(getUser(), "query stocks");
-        response = this.sendRequest(request);
+        response = this.sendRequest("query stocks");
         DataCollection stocks = (DataCollection) response.getAttachment();
 
         localDatabase = new AdminLocalDatabase(users, assets, organisationalUnits, stocks);
