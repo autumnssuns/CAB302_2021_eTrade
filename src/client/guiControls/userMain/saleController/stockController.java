@@ -1,30 +1,20 @@
 package client.guiControls.userMain.saleController;
-import client.data.sessionalClasses.Cart;
+import common.dataClasses.Cart;
 import common.dataClasses.CartItem;
 import common.dataClasses.Item;
 import common.dataClasses.Stock;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 /*import main.Main;
 import main.MyListener;
 import model.Fruit;*/
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 public class stockController {
     //Reusable elements that can be updated
     Label cartTotalLabel;

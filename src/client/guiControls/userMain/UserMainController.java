@@ -21,10 +21,7 @@ import java.io.IOException;
 //TODO: Refactor magic numbers & Node creation
 //TODO: Commenting & Documenting
 
-public class userMainController extends MainController {
-    private Stage stage;
-    private Scene scene;
-
+public class UserMainController extends MainController {
     //Reusable elements that can be updated
     Label cartTotalLabel;
     Pane sellPane;
@@ -62,37 +59,6 @@ public class userMainController extends MainController {
             }
         });
     }
-
-    //TODO: Implement a logout method
-    public void LogOut(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../login/Login.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        String css = this.getClass().getResource("../client.css").toExternalForm();
-        scene.getStylesheets().add(css);
-        stage.setScene(scene);
-        stage.centerOnScreen();
-        stage.show();
-    }
-
-    // Exit button
-    public void exit(ActionEvent event) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Exit Program");
-        alert.setHeaderText("Close the program?");
-        alert.setContentText("Do you want to exit?");
-        if (alert.showAndWait().get() == ButtonType.OK){
-            Parent root = FXMLLoader.load(getClass().getResource("userMain.fxml"));
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.close();
-            System.out.println("You successfully exit the program");
-        }
-
-
-    }
-
 
     //Pane switching methods
     public void toHome() throws IOException {

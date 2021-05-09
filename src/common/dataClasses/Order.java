@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Represents an Order
  */
-public class Order implements Serializable {
+public class Order implements Serializable, IData {
     protected int OrderId;
     protected String OrderType; //buy/sell
     protected int unitId;
