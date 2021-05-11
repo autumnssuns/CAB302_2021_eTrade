@@ -12,9 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,6 +24,7 @@ public class LoginController extends MainController {
     @FXML TextField nameTextField;
     @FXML PasswordField passwordField;
     @FXML Label statusLabel;
+    @FXML Button exitButton;
 
     /**
      * Initialise the session by creating a server connection.
@@ -105,5 +104,20 @@ public class LoginController extends MainController {
         nameTextField.clear();
         passwordField.clear();
         statusLabel.setText("Incorrect username or password. Please try again!");
+    }
+
+    /**
+     * Prompts to exit the program.
+     */
+    public void exit(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit Program");
+        alert.setHeaderText("Close the program?");
+        alert.setContentText("Do you want to exit?");
+        if (alert.showAndWait().get() == ButtonType.OK){
+            Stage stage = (Stage)(exitButton.getScene().getWindow());
+            stage.close();
+            System.out.println("You successfully exit the program");
+        }
     }
 }
