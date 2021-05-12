@@ -2,6 +2,9 @@ package client.guiControls.adminMain.usersController;
 
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
+import client.guiControls.adminMain.AdminMainController;
+import common.Response;
+import common.dataClasses.Asset;
 import common.dataClasses.DataCollection;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.User;
@@ -13,7 +16,6 @@ import javafx.scene.layout.VBox;
  * A controller to control the USERS Page (which allows the admin to add / remove or edit users' information).
  */
 public class UsersController extends DisplayController {
-
     @FXML
     VBox usersDisplayBox;
     @FXML
@@ -46,8 +48,20 @@ public class UsersController extends DisplayController {
         String organisationalUnit = (String) newOrganisationUnitSelectionBox.getValue();
         String role = (String) newRoleSelectionBox.getValue();
 
-        addUserInfoBox(userId, name, username, password, organisationalUnit, role);
-        clearAddEntry();
+        int unitId = 0;
+        for (OrganisationalUnit unit : ((AdminLocalDatabase)controller.getDatabase()).getOrganisationalUnits()){
+            if (unit.getName().equals(organisationalUnit)){
+                unitId = unit.getId();
+                break;
+            }
+        }
+        User newUser = new User(userId, name, username, password, role, unitId);
+        Response response = controller.sendRequest("add", newUser, User.class);
+        update();
+        if (response.isFulfilled()){
+            addUserInfoBox(userId, name, username, password, organisationalUnit, role);
+            clearAddEntry();
+        }
     }
 
     /**
@@ -61,6 +75,7 @@ public class UsersController extends DisplayController {
      */
     private void addUserInfoBox(int userId, String name, String username, String password, String organisationalUnit, String role){
         UserInfoBox userInfoBox = new UserInfoBox(userId, name, username, password, organisationalUnit, role);
+        userInfoBox.setController((AdminMainController) controller);
         usersDisplayBox.getChildren().add(userInfoBox);
     }
 
@@ -80,6 +95,7 @@ public class UsersController extends DisplayController {
     //TODO: Gets data from database
     @Override
     public void update(){
+        usersDisplayBox.getChildren().clear();
         AdminLocalDatabase localDatabase = (AdminLocalDatabase) controller.getDatabase();
         DataCollection<User> users = localDatabase.getUsers();
         DataCollection<OrganisationalUnit> organisationalUnits = localDatabase.getOrganisationalUnits();

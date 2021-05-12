@@ -5,11 +5,10 @@ import common.Response;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.Stock;
 
-public class MockServer implements IServer{
-    MockDatabase mockdb;
+public final class MockServer implements IServer{
 
-    public MockServer(){
-        mockdb = new MockDatabase();
+    public MockServer() {
+        MockDatabase.initiate();
     }
 
     @Override
@@ -18,35 +17,47 @@ public class MockServer implements IServer{
         Response response = new Response(false, null);
         switch (request.getAction()){
             case "login":
-                response = mockdb.login(request);
+                response = MockDatabase.login(request);
                 break;
 
             case "query users":
-                response = mockdb.queryUsers(request);
+                response = MockDatabase.queryUsers(request);
                 break;
 
             case "query assets":
-                response = mockdb.queryAssets(request);
+                response = MockDatabase.queryAssets(request);
                 break;
 
             case "query organisationalUnits":
-                response = mockdb.queryOrganisations(request);
+                response = MockDatabase.queryOrganisations(request);
                 break;
 
             case "query stocks":
-                response = mockdb.queryStocks(request);
+                response = MockDatabase.queryStocks(request);
                 break;
 
             case "query organisational unit":
-                response = mockdb.queryOrganisationalUnit(request);
+                response = MockDatabase.queryOrganisationalUnit(request);
                 break;
 
             case "query stock":
-                response = mockdb.queryStock(request);
+                response = MockDatabase.queryStock(request);
                 break;
 
             case "query orders":
-                response = mockdb.queryOrders(request);
+                response = MockDatabase.queryOrders(request);
+                break;
+
+            case "add":
+                response = MockDatabase.add(request);
+                break;
+
+            case "edit":
+                response = MockDatabase.edit(request);
+                break;
+
+            case "delete":
+                response = MockDatabase.delete(request);
                 break;
         }
         return response;

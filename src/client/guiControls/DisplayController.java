@@ -14,7 +14,5 @@ public class DisplayController {
         this.controller = controller;
     }
 
-    public void update(){
-
-    }
+    public void update(){ }
 }

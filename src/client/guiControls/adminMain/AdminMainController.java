@@ -2,9 +2,10 @@ package client.guiControls.adminMain;
 
 import client.guiControls.DisplayController;
 import client.guiControls.MainController;
-import common.Request;
 import common.Response;
 import common.dataClasses.DataCollection;
+import common.dataClasses.IData;
+import common.dataClasses.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,7 +59,7 @@ public class AdminMainController extends MainController {
      */
     private void setupController() throws IOException{
         userLabel.setText(getUser().getUsername());
-        initialiseDatabase();
+        fetchDatabase();
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("usersController/UsersPage.fxml"));
         usersPane = fxmlLoader.load();
@@ -117,7 +118,8 @@ public class AdminMainController extends MainController {
     /**
      * Initialise the database.
      */
-    private void initialiseDatabase(){
+    @Override
+    public void fetchDatabase(){
         Response response = this.sendRequest("query users");
         DataCollection users = (DataCollection) response.getAttachment();
 
@@ -132,5 +134,33 @@ public class AdminMainController extends MainController {
 
         localDatabase = new AdminLocalDatabase(users, assets, organisationalUnits, stocks);
         System.out.println(localDatabase);
+    }
+
+    /**
+     * Updates the local database, depending on what type of IData is being updated
+     */
+    @Override
+    public <T extends IData> void updateLocalDatabase(Class<T> type){
+        Response response;
+        if (type.equals(Asset.class)){
+            response = this.sendRequest("query assets");
+            DataCollection assets = (DataCollection) response.getAttachment();
+            ((AdminLocalDatabase) localDatabase).setAssets(assets);
+        }
+        else if (type.equals(User.class)){
+            response = this.sendRequest("query users");
+            DataCollection users = (DataCollection) response.getAttachment();
+            ((AdminLocalDatabase) localDatabase).setUsers(users);
+        }
+        else if (type.equals(OrganisationalUnit.class)){
+            response = this.sendRequest("query organisationalUnits");
+            DataCollection organisationalUnits = (DataCollection) response.getAttachment();
+            ((AdminLocalDatabase) localDatabase).setOrganisationalUnits(organisationalUnits);
+        }
+        else if (type.equals(Stock.class)){
+            response = this.sendRequest("query stocks");
+            DataCollection stocks = (DataCollection) response.getAttachment();
+            ((AdminLocalDatabase) localDatabase).setStocks(stocks);
+        }
     }
 }

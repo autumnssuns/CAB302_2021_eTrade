@@ -1,6 +1,7 @@
 package client.guiControls;
 
 import client.data.IServerConnection;
+import client.guiControls.login.LoginController;
 import common.Request;
 import common.Response;
 import common.dataClasses.IData;
@@ -61,8 +62,12 @@ public class MainController {
      * @param action
      * @param attachment
      */
-    public Response sendRequest(String action, IData attachment){
-        return serverConnection.sendRequest(new Request(getUser(), action, attachment));
+    public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType){
+        Request request = new Request(getUser(), action, attachment);
+        request.setAttachmentType(attachmentType);
+        Response response = serverConnection.sendRequest(request);
+        updateLocalDatabase(attachmentType);
+        return response;
     }
 
     public Response sendRequest(String action){
@@ -83,8 +88,12 @@ public class MainController {
      * @throws IOException
      */
     public void logOut(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../login/Login.fxml"));
+
         // Sets the loader
-        Parent root = FXMLLoader.load(getClass().getResource("../login/Login.fxml"));
+        Parent root = loader.load();
+        LoginController controller = loader.getController();
+        controller.setServerConnection(this.getServerConnection());
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
 
@@ -99,11 +108,16 @@ public class MainController {
     }
 
     /**
-     * Updates the local database with that from the server.
+     * Fetch the local database from the server.
      */
     public void fetchDatabase(){
 
     }
+
+    /**
+     * Update the local database with that from the server
+     */
+    public <T extends IData> void updateLocalDatabase(Class<T> type){}
 
     /**
      * Returns the local database for the admin.

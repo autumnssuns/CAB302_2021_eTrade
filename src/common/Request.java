@@ -8,10 +8,27 @@ import java.io.Serializable;
 /**
  * A package containing the request to be sent over the server.
  */
-public class Request implements Serializable {
+public class Request<T extends IData> implements Serializable {
     private User sender;
     private String action;
-    private IData attachment;
+    private T attachment;
+    private Class<T> attachmentType;
+
+    /**
+     * Sets the type of the request's attachment
+     * @param attachmentType The type of the request's attachment.
+     */
+    public void setAttachmentType(Class<T> attachmentType){
+        this.attachmentType = attachmentType;
+    }
+
+    /**
+     * Gets the attachment's type of this request.
+     * @return The attachment's type.
+     */
+    public Class<T> getAttachmentType(){
+        return attachmentType;
+    }
 
     /**
      * Initialises a request without attachment (mostly query requests) that can be serialised and sent to the server.
@@ -29,7 +46,7 @@ public class Request implements Serializable {
      * @param action The action as a string (update, commit or delete).
      * @param attachment The data to be sent.
      */
-    public Request(User sender, String action, IData attachment) {
+    public Request(User sender, String action, T attachment) {
         this.sender = sender;
         this.action = action;
         this.attachment = attachment;
@@ -55,7 +72,7 @@ public class Request implements Serializable {
      * The object attached to the attachment.
      * @return The attached object.
      */
-    public IData getAttachment(){
+    public T getAttachment(){
         return attachment;
     }
 }
