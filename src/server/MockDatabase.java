@@ -404,6 +404,13 @@ public final class MockDatabase {
     private static Response delete(Asset attachment) {
         int rowToDelete = find(attachment);
         assets.remove(rowToDelete);
+
+        for (int i = 0; i < stocks.size(); i++){
+            if (stocks.get(i)[1].equals(attachment.getId())){
+                stocks.remove(i);
+            }
+        }
+
         Response response = new Response(true, null);
         return response;
     }
