@@ -1,5 +1,8 @@
 package client.guiControls.adminMain.organisationalUnitsController;
 
+import common.Response;
+import common.dataClasses.Asset;
+import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.Stock;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -156,6 +159,14 @@ public class OrganisationalUnitInfoBox extends HBox {
     }
 
     /**
+     * Returns the id of the organisational unit.
+     * @return The id of the organisational unit.
+     */
+    public int getUnitId(){
+        return unitId;
+    }
+
+    /**
      * Returns the name of the organisational unit.
      * @return The name of the organisational unit.
      */
@@ -180,16 +191,6 @@ public class OrganisationalUnitInfoBox extends HBox {
     }
 
     /**
-     * Returns the Assets Box of the current organisational unit.
-     * @return The Assets Box of the current organisational unit.
-     */
-    public VBox getOrganisationalUnitAssetsBox(){
-        System.out.println(organisationalUnitAssetsBox);
-        System.out.println(organisationalUnitAssetsBox.getChildren().size());
-        return this.organisationalUnitAssetsBox;
-    }
-
-    /**
      * Sets a new assets box for the organisational unit.
      * @param newBox The new assets box.
      */
@@ -203,7 +204,10 @@ public class OrganisationalUnitInfoBox extends HBox {
      * Removes the current entry.
      */
     private void removeEntry() {
-        ((VBox) this.getParent()).getChildren().remove(this);
+        Response response = controller.sendRequest("delete", new OrganisationalUnit(unitId, name, credit), OrganisationalUnit.class);
+        if (response.isFulfilled()){
+            ((VBox) this.getParent()).getChildren().remove(this);
+        }
     }
 
     /**

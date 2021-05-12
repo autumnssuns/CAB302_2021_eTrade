@@ -62,6 +62,38 @@ public class AdminLocalDatabase extends ILocalDatabase {
         return stocks;
     }
 
+    /**
+     * Sets the local storage of the system's users.
+     * @param users The system's users.
+     */
+    public void setUsers(DataCollection<User> users) {
+        this.users = users;
+    }
+
+    /**
+     * Sets the local storage of the system's assets.
+     * @param assets The system's assets.
+     */
+    public void setAssets(DataCollection<Asset> assets) {
+        this.assets = assets;
+    }
+
+    /**
+     * Sets the local storage of the system's organisational units.
+     * @param organisationalUnits The system's organisational units.
+     */
+    public void setOrganisationalUnits(DataCollection<OrganisationalUnit> organisationalUnits) {
+        this.organisationalUnits = organisationalUnits;
+    }
+
+    /**
+     * Sets the local storage of the system's stocks.
+     * @param stocks The system's stocks.
+     */
+    public void setStocks(DataCollection<Stock> stocks) {
+        this.stocks = stocks;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

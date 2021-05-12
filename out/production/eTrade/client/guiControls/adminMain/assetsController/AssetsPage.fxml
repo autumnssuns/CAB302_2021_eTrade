@@ -46,5 +46,6 @@
             </Button>
          </children>
       </HBox>
+      <Button fx:id="refreshAssetsButton" layoutX="41.0" layoutY="105.0" mnemonicParsing="false" onAction="#update" prefHeight="48.0" prefWidth="164.0" text="Refresh" />
    </children>
 </AnchorPane>

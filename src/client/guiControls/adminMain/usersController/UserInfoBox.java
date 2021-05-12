@@ -1,6 +1,10 @@
 package client.guiControls.adminMain.usersController;
 
 import client.guiControls.DisplayController;
+import client.guiControls.adminMain.AdminLocalDatabase;
+import client.guiControls.adminMain.AdminMainController;
+import common.Response;
+import common.dataClasses.Asset;
 import common.dataClasses.DataCollection;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.User;
@@ -12,6 +16,8 @@ import javafx.scene.layout.*;
  * A box to display user information and can be interacted with.
  */
 public class UserInfoBox extends HBox {
+    private AdminMainController controller;
+
     private int userId;
     private String name;
     private String username;
@@ -58,6 +64,14 @@ public class UserInfoBox extends HBox {
 
         this.getChildren().addAll(idLabel, nameTextField, usernameTextField, passwordField, organisationUnitSelectionBox, roleSelectionBox, editButton, removeButton);
         disable();
+    }
+
+    /**
+     * Sets the controller for this component.
+     * @param controller The controller.
+     */
+    public void setController(AdminMainController controller){
+        this.controller = controller;
     }
 
     /**
@@ -229,6 +243,17 @@ public class UserInfoBox extends HBox {
     private void confirmEdit() {
         disable();
         updateValues();
+        int unitId = 0;
+        for (OrganisationalUnit unit : ((AdminLocalDatabase)controller.getDatabase()).getOrganisationalUnits()){
+            if (unit.getName().equals(organisationalUnit)){
+                unitId = unit.getId();
+                break;
+            }
+        }
+        Response response = controller.sendRequest("edit", new User(userId, name, username, password, role, unitId), User.class);
+        if (response.isFulfilled()){
+            controller.updateLocalDatabase(User.class);
+        }
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
@@ -251,6 +276,17 @@ public class UserInfoBox extends HBox {
      * Removes the current entry.
      */
     private void removeEntry() {
-        ((VBox) this.getParent()).getChildren().remove(this);
+        int unitId = 0;
+        for (OrganisationalUnit unit : ((AdminLocalDatabase)controller.getDatabase()).getOrganisationalUnits()){
+            if (unit.getName().equals(organisationalUnit)){
+                unitId = unit.getId();
+                break;
+            }
+        }
+        Response response = controller.sendRequest("delete", new User(userId, name, username, password, role, unitId), User.class);
+        if (response.isFulfilled()){
+            controller.updateLocalDatabase(User.class);
+            ((VBox) this.getParent()).getChildren().remove(this);
+        }
     }
 }

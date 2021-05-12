@@ -2,6 +2,8 @@ package client.guiControls.adminMain.organisationalUnitsController;
 
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
+import common.Request;
+import common.Response;
 import common.dataClasses.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,6 +15,8 @@ import javafx.scene.layout.VBox;
  * A controller to control the ORGANISATIONAL UNITS Page (which allows the admin to add / remove or edit organisationalUnits' information).
  */
 public class OrganisationalUnitsController extends DisplayController {
+    private Stock tempStock;
+
     @FXML
     VBox organisationalUnitsDisplayBox;
     @FXML
@@ -51,6 +55,7 @@ public class OrganisationalUnitsController extends DisplayController {
      */
     public void startEditor(){
         organisationalUnitEditPane.setVisible(true);
+        tempStock = new Stock(-1);  // Unassigned
         confirmOrganisationalUnitButton.setOnAction(e -> confirmEditor());
     }
 
@@ -58,6 +63,7 @@ public class OrganisationalUnitsController extends DisplayController {
      * Edit an existing organisational unit.
      */
     public void startEditor(OrganisationalUnitInfoBox caller){
+        tempStock = caller.getStock();
         organisationalUnitEditPane.setVisible(true);
         organisationalUnitNameTextField.setText(caller.getName());
         creditTextField.setText(String.valueOf(caller.getCredit()));
@@ -78,9 +84,15 @@ public class OrganisationalUnitsController extends DisplayController {
         String name = organisationalUnitNameTextField.getText();
         float credit = Float.parseFloat(creditTextField.getText());
 
-        addOrganisationalUnitInfoBox(unitId, name, credit, 0, new Stock(unitId));
-
-        closeEditor();
+        OrganisationalUnit organisationalUnit = new OrganisationalUnit(unitId, name, credit);
+        Response response = controller.sendRequest("add", organisationalUnit, OrganisationalUnit.class);
+        tempStock.setUnitId(unitId);
+        controller.sendRequest("edit", tempStock, Stock.class);
+        update();
+        if (response.isFulfilled()){
+            addOrganisationalUnitInfoBox(unitId, name, credit, 0, tempStock);
+            closeEditor();
+        }
     }
 
     /**
@@ -91,11 +103,17 @@ public class OrganisationalUnitsController extends DisplayController {
         String name = organisationalUnitNameTextField.getText();
         float credit = Float.parseFloat(creditTextField.getText());
 
-        caller.setName(name);
-        caller.setCredit(credit);
-        caller.reloadEntries();
-
-        closeEditor();
+        OrganisationalUnit organisationalUnit = new OrganisationalUnit(caller.getUnitId(), name, credit);
+        Response response = controller.sendRequest("edit", organisationalUnit, OrganisationalUnit.class);
+        tempStock.setUnitId(caller.getUnitId());
+        controller.sendRequest("edit", tempStock, Stock.class);
+        update();
+        if (response.isFulfilled()){
+            caller.setName(name);
+            caller.setCredit(credit);
+            caller.reloadEntries();
+            closeEditor();
+        }
     }
 
     /**
@@ -123,6 +141,7 @@ public class OrganisationalUnitsController extends DisplayController {
         int quantity = Integer.parseInt(newOrganisationalUnitAssetQuantityTextField.getText());
 
         UnitAssetInfoBox unitAssetInfoBox = new UnitAssetInfoBox(assetName, quantity);
+        tempStock.add(new Item(new Asset(0, assetName, ""), quantity));
         organisationalUnitAssetsBox.getChildren().add(unitAssetInfoBox);
         newOrganisationalUnitAssetNameTextField.clear();
         newOrganisationalUnitAssetQuantityTextField.clear();
@@ -131,6 +150,7 @@ public class OrganisationalUnitsController extends DisplayController {
     //TODO: Gets data from database
     @Override
     public void update(){
+        organisationalUnitsDisplayBox.getChildren().clear();
         AdminLocalDatabase localDatabase = (AdminLocalDatabase) controller.getDatabase();
         DataCollection<OrganisationalUnit> organisationalUnits = localDatabase.getOrganisationalUnits();
         DataCollection<Stock> stocks = localDatabase.getStocks();
@@ -150,5 +170,9 @@ public class OrganisationalUnitsController extends DisplayController {
     //TODO: Method to check if input is valid
     public boolean validateInfo(String name, String description){
         return true;
+    }
+
+    public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType){
+        return controller.sendRequest(action, attachment, attachmentType);
     }
 }

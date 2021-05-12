@@ -18,6 +18,22 @@ public class Stock extends ArrayList<Item> implements IData{
     }
 
     /**
+     * Sets the ID of the organisational unit owning this stock.
+     * @param unitId The ID of the organisational unit owning this stock.
+     */
+    public void setUnitId(int unitId){
+        this.unitId = unitId;
+    }
+
+    /**
+     * Returns the ID of the organisational unit holding this stock.
+     * @return The ID of the organisational unit holding this stock.
+     */
+    public int getUnitId(){
+        return this.unitId;
+    }
+
+    /**
      * Attempts to adds a new item to the stock. If the current item has already exist, the newly added item is
      * added on top of the current one (increasing its quantity).
      * @return true if the item is added successfully, false otherwise.

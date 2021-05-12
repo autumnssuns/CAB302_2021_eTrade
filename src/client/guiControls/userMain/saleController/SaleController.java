@@ -100,7 +100,7 @@ public class SaleController extends DisplayController {
      * Sells all items in the cart.
      */
     public void checkOut(){
-        controller.sendRequest("sell", sellCart);
+        controller.sendRequest("sell", sellCart, Cart.class);
         sellCart.clear();
         controller.fetchDatabase();
     }

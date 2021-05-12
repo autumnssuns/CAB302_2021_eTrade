@@ -6,6 +6,7 @@ import client.guiControls.MainController;
 import common.Request;
 import common.Response;
 import common.dataClasses.User;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,8 +32,12 @@ public class LoginController extends MainController {
      */
     @FXML
     public void initialize(){
-        IServerConnection serverConnection = new MockServerConnection();
-        this.setServerConnection(serverConnection);
+        Platform.runLater(() -> {
+            if (getServerConnection() == null){
+                IServerConnection serverConnection = new MockServerConnection();
+                this.setServerConnection(serverConnection);
+            }
+        });
     }
 
     /**
