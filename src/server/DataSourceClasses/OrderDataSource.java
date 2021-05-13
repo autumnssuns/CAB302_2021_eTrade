@@ -73,7 +73,7 @@ public class OrderDataSource {
             addOrder.setFloat(6, order.getResolvedQuantity());
             addOrder.setFloat(7, order.getPrice());
             addOrder.setString(8, order.getOrderDate());
-            addOrder.setString(9, order.getFinishedDate());
+            addOrder.setString(9, order.getFinishDate());
             addOrder.setString(10, order.getStatus());
             //execute the query
             addOrder.executeQuery();
@@ -117,7 +117,7 @@ public class OrderDataSource {
             dummy.setResolvedQuantity(rs.getInt("resolved_quantity"));
             dummy.setPrice(rs.getFloat("price"));
             dummy.setOrderDate(rs.getString("order_date"));
-            dummy.setFinishedDate(rs.getString("finished_date"));
+            dummy.setFinishDate(rs.getString("finished_date"));
             dummy.setStatus(rs.getString("status"));
         } catch (SQLException e) {
             e.printStackTrace();

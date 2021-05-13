@@ -5,6 +5,8 @@ import common.Response;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public final class MockDatabase {
@@ -15,6 +17,8 @@ public final class MockDatabase {
     static ArrayList<Object[]> organisationalUnits = new ArrayList();
 
     static ArrayList<Object[]> stocks = new ArrayList();
+
+    static ArrayList<Object[]> orders = new ArrayList();
 
     public static void initiate(){
         users.add(new Object[]{0, "Admin", "admin", "root", "admin", 0});
@@ -31,6 +35,7 @@ public final class MockDatabase {
         organisationalUnits.add(new Object[]{0, "The Justice League", 9999.0f});
         organisationalUnits.add(new Object[]{1, "The supervillains", 5555.0f});
         organisationalUnits.add(new Object[]{2, "The random civilians", 500.0f});
+        organisationalUnits.add(new Object[]{3, "The brokers", 200.0f});
 
         stocks.add(new Object[]{0, 0, 99});
         stocks.add(new Object[]{0, 1, 99});
@@ -44,6 +49,33 @@ public final class MockDatabase {
         stocks.add(new Object[]{2, 1, 10});
         stocks.add(new Object[]{2, 2, 10});
         stocks.add(new Object[]{2, 3, 10});
+
+        orders.add(new Object[]{0, "buy", 0, 0, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{1, "buy", 0, 1, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{2, "buy", 0, 2, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{3, "buy", 0, 3, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{4, "buy", 1, 0, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{5, "buy", 1, 1, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{6, "buy", 1, 2, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{7, "buy", 1, 3, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{8, "sell", 2, 0, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{9, "sell", 2, 1, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{10, "sell", 2, 2, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{11, "sell", 2, 3, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{12, "sell", 3, 0, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{13, "sell", 3, 1, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{14, "sell", 3, 2, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{15, "sell", 3, 3, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+//        protected int orderId;
+//        protected String orderType; //buy/sell
+//        protected int unitId;
+//        protected int assetId;
+//        protected int placedQuantity;//cartitem
+//        protected int resolvedQuantity = 0;
+//        protected float price;
+//        protected String finishDate = null; //Cartitem
+//        protected String orderDate;
+//        protected String status;
     }
 
     public static Response login(Request request){
@@ -120,7 +152,13 @@ public final class MockDatabase {
     }
 
     public static Response queryOrders(Request request) {
-        return new Response(false, null);
+        DataCollection<Order> returnOrders = new DataCollection<>();
+        for (Object[] row : orders){
+            Order newOrder = new Order((int) row[0], (String) row[1], (int) row[2], (int) row[3], (int) row[4],
+                    (int) row[5], (float) row[6], (LocalDateTime) row[7], (LocalDateTime) row[8], (String) row[9]);
+            returnOrders.add(newOrder);
+        }
+        return new Response(true, returnOrders);
     }
 
     /**
@@ -173,6 +211,18 @@ public final class MockDatabase {
             }
         }
         return organisationalUnits.indexOf(match);
+    }
+
+    private static int find(Order order){
+        int key = order.getOrderId();
+        Object[] match = new Object[]{};
+        for (Object[] row : orders){
+            if (row[0].equals(key)){
+                match = row;
+                break;
+            }
+        }
+        return orders.indexOf(match);
     }
 
     /**
@@ -252,6 +302,9 @@ public final class MockDatabase {
         else if (type.equals(Stock.class)){
             return edit((Stock) attachment);
         }
+        else if (type.equals(Order.class)){
+            return edit((Order) attachment);
+        }
         return null;
     }
 
@@ -326,6 +379,15 @@ public final class MockDatabase {
         }
 
         Response<Stock> response = new Response(true, stock);
+        return response;
+    }
+
+    public static Response edit(Order order){
+        Object[] overrideRow = new Object[]{order.getOrderId(), order.getOrderType(), order.getUnitId(), order.getAssetId(),
+                                            order.getPlacedQuantity(), order.getResolvedQuantity(), order.getPrice(),
+                                            order.getFinishDate(), order.getOrderDate(), order.getStatus()};
+        orders.set(find(order), overrideRow);
+        Response<Order> response = new Response(true, order);
         return response;
     }
 

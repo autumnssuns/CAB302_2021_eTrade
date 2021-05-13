@@ -112,9 +112,6 @@ public class SaleController extends DisplayController {
     public void update(){
         UserLocalDatabase localDatabase = (UserLocalDatabase) controller.getDatabase();
         tempStock = localDatabase.getStock();
-
-        for (Item item : tempStock){
-            addItemInfoBox(item);
-        }
+        refresh();
     }
 }
