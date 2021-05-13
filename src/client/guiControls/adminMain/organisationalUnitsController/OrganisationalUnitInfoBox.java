@@ -225,4 +225,12 @@ public class OrganisationalUnitInfoBox extends HBox {
     public void setCredit(float credit){
         this.credit=credit;
     }
+
+    /**
+     * Sets the stock of the organisational unit
+     * @param stock The stock of the linked organisational unit
+     */
+    public void setStock(Stock stock) {
+        this.stock = stock;
+    }
 }

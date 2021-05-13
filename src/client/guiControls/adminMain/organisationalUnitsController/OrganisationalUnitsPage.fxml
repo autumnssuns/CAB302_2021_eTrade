@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -41,7 +42,7 @@
             </HBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="organisationalUnitEditPane" layoutX="750.0" prefHeight="911.0" prefWidth="700.0" styleClass="displayPane">
+      <AnchorPane fx:id="organisationalUnitEditPane" layoutX="750.0" prefHeight="911.0" prefWidth="700.0" styleClass="displayPane" visible="false">
          <children>
             <TextField fx:id="organisationalUnitNameTextField" layoutX="309.0" layoutY="36.0" prefHeight="43.0" prefWidth="300.0" promptText="Set organisational unit name" />
             <ScrollPane hbarPolicy="NEVER" layoutX="41.0" layoutY="264.0" prefHeight="422.0" prefWidth="600.0" styleClass="bodyPane">
@@ -60,7 +61,7 @@
             <HBox alignment="CENTER" layoutX="42.0" layoutY="686.0" prefHeight="80.0" prefWidth="600.0" spacing="20.0" styleClass="whitePane">
                <children>
                   <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
-                  <TextField fx:id="newOrganisationalUnitAssetNameTextField" prefHeight="30.0" prefWidth="250.0" promptText="New Asset Name" />
+                  <ComboBox fx:id="newOrganisationalUnitAssetNameComboBox" editable="true" prefHeight="30.0" prefWidth="250.0" promptText="New Asset Name" visibleRowCount="5" />
                   <TextField fx:id="newOrganisationalUnitAssetQuantityTextField" prefHeight="30.0" prefWidth="100.0" promptText="Quantity" />
                   <Button fx:id="addNewOrganisationalUnitAssetButton" mnemonicParsing="false" onAction="#addOrganisationalUnitAssetInfoBox" prefHeight="48.0" prefWidth="200.0" text="Add Asset" />
                </children>
