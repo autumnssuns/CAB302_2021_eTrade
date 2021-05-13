@@ -2,11 +2,9 @@ package client.guiControls.userMain;
 
 import client.guiControls.DisplayController;
 import client.guiControls.MainController;
+import client.guiControls.adminMain.AdminLocalDatabase;
 import common.Response;
-import common.dataClasses.DataCollection;
-import common.dataClasses.Order;
-import common.dataClasses.OrganisationalUnit;
-import common.dataClasses.Stock;
+import common.dataClasses.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +22,7 @@ public class UserMainController extends MainController {
     Label cartTotalLabel;
     Pane sellPane;
     Pane buyPane;
-    Pane historyPane;
+    Pane ordersPane;
     Pane profilePane;
 
     //Preset components
@@ -66,15 +64,15 @@ public class UserMainController extends MainController {
 //        displayController.setController(this);
 //        displayController.update();
 
-//        fxmlLoader = new FXMLLoader(getClass().getResource("assetsController/AssetsPage.fxml"));
-        historyPane = new Pane();
-//        displayController = fxmlLoader.getController();
-//        displayController.setController(this);
-//        displayController.update();
+        fxmlLoader = new FXMLLoader(getClass().getResource("ordersController/OrdersPage.fxml"));
+        ordersPane = fxmlLoader.load();
+        displayController = fxmlLoader.getController();
+        displayController.setController(this);
+        displayController.update();
 
         profilePane = new Pane();
 
-        displayStack.getChildren().addAll(sellPane, buyPane, historyPane, profilePane);
+        displayStack.getChildren().addAll(sellPane, buyPane, ordersPane, profilePane);
         toHome();
     }
 
@@ -107,7 +105,7 @@ public class UserMainController extends MainController {
      * @throws IOException
      */
     public void toOrders(){
-        historyPane.toFront();
+        ordersPane.toFront();
         homeButton.setDisable(false);
         marketButton.setDisable(false);
         ordersButton.setDisable(true);
@@ -133,5 +131,15 @@ public class UserMainController extends MainController {
     @Override
     public UserLocalDatabase getDatabase(){
         return (UserLocalDatabase) localDatabase;
+    }
+
+    @Override
+    public <T extends IData> void updateLocalDatabase(Class<T> type) {
+        Response response;
+        if (type.equals(Order.class)){
+            response = this.sendRequest("query orders");
+            DataCollection orders = (DataCollection) response.getAttachment();
+            ((UserLocalDatabase) localDatabase).setOrders(orders);
+        }
     }
 }
