@@ -2,6 +2,9 @@ package client.guiControls.adminMain;
 
 import client.guiControls.DisplayController;
 import client.guiControls.MainController;
+import client.guiControls.adminMain.assetsController.AssetsController;
+import client.guiControls.adminMain.organisationalUnitsController.OrganisationalUnitsController;
+import client.guiControls.adminMain.usersController.UsersController;
 import common.Response;
 import common.dataClasses.DataCollection;
 import common.dataClasses.IData;
@@ -22,10 +25,13 @@ import java.io.IOException;
 
 public class AdminMainController extends MainController {
     //Reusable elements that can be updated
-    Pane usersPane;
-    Pane organisationUnitsPane;
-    Pane assetsPane;
-    Pane profilePane;
+    private Pane usersPane;
+    private UsersController usersController;
+    private Pane organisationUnitsPane;
+    private OrganisationalUnitsController organisationalUnitsController;
+    private Pane assetsPane;
+    private AssetsController assetsController;
+    private Pane profilePane;
 
     //Preset components
     @FXML StackPane displayStack;
@@ -63,21 +69,21 @@ public class AdminMainController extends MainController {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("usersController/UsersPage.fxml"));
         usersPane = fxmlLoader.load();
-        DisplayController displayController = fxmlLoader.getController();
-        displayController.setController(this);
-        displayController.update();
+        usersController = fxmlLoader.getController();
+        usersController.setController(this);
+        usersController.update();
 
         fxmlLoader = new FXMLLoader(getClass().getResource("organisationalUnitsController/organisationalUnitsPage.fxml"));
         organisationUnitsPane = fxmlLoader.load();
-        displayController = fxmlLoader.getController();
-        displayController.setController(this);
-        displayController.update();
+        organisationalUnitsController = fxmlLoader.getController();
+        organisationalUnitsController.setController(this);
+        organisationalUnitsController.update();
 
         fxmlLoader = new FXMLLoader(getClass().getResource("assetsController/AssetsPage.fxml"));
         assetsPane = fxmlLoader.load();
-        displayController = fxmlLoader.getController();
-        displayController.setController(this);
-        displayController.update();
+        assetsController = fxmlLoader.getController();
+        assetsController.setController(this);
+        assetsController.update();
 
         profilePane = new Pane();
 
@@ -89,6 +95,7 @@ public class AdminMainController extends MainController {
      * Switches the display to the organisational unit UNITS pane.
      */
     public void toOrganisationUnits(){
+        organisationalUnitsController.update();
         organisationUnitsPane.toFront();
         organisationalUnitsButton.setDisable(true);
         assetsButton.setDisable(false);
@@ -99,6 +106,7 @@ public class AdminMainController extends MainController {
      * Switches the display to the USERS pane.
      */
     public void toUsers(){
+        usersController.update();
         usersPane.toFront();
         organisationalUnitsButton.setDisable(false);
         assetsButton.setDisable(false);
@@ -109,6 +117,7 @@ public class AdminMainController extends MainController {
      * Switches the display to the ASSETS pane.
      */
     public void toAssets(){
+        assetsController.update();
         assetsPane.toFront();
         organisationalUnitsButton.setDisable(false);
         assetsButton.setDisable(true);

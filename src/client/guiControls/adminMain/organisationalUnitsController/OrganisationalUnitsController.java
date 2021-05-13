@@ -2,11 +2,11 @@ package client.guiControls.adminMain.organisationalUnitsController;
 
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
-import common.Request;
 import common.Response;
 import common.dataClasses.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -30,11 +30,12 @@ public class OrganisationalUnitsController extends DisplayController {
     @FXML
     VBox organisationalUnitAssetsBox;
     @FXML
-    TextField newOrganisationalUnitAssetNameTextField;
+    ComboBox newOrganisationalUnitAssetNameComboBox;
     @FXML
     TextField newOrganisationalUnitAssetQuantityTextField;
     @FXML
     Button confirmOrganisationalUnitButton;
+    private AdminLocalDatabase localDatabase;
 
     /**
      * Adds a new entry to the current display.
@@ -107,7 +108,7 @@ public class OrganisationalUnitsController extends DisplayController {
         Response response = controller.sendRequest("edit", organisationalUnit, OrganisationalUnit.class);
         tempStock.setUnitId(caller.getUnitId());
         controller.sendRequest("edit", tempStock, Stock.class);
-        update();
+        caller.setStock(tempStock);
         if (response.isFulfilled()){
             caller.setName(name);
             caller.setCredit(credit);
@@ -120,6 +121,7 @@ public class OrganisationalUnitsController extends DisplayController {
      * Close the editor.
      */
     public void closeEditor(){
+        update();
         organisationalUnitEditPane.setVisible(false);
         clearEditor();
     }
@@ -137,13 +139,23 @@ public class OrganisationalUnitsController extends DisplayController {
      * Adds a new asset to the organisational unit in the editor.
      */
     public void addOrganisationalUnitAssetInfoBox(){
-        String assetName = newOrganisationalUnitAssetNameTextField.getText();
+        String assetName = (String) newOrganisationalUnitAssetNameComboBox.getValue();
         int quantity = Integer.parseInt(newOrganisationalUnitAssetQuantityTextField.getText());
 
+        DataCollection<Asset> assets = localDatabase.getAssets();
+        
+        Asset linkedAsset = null;
+        for (Asset asset : assets){
+            if (asset.getName().equals(assetName)){
+                linkedAsset = asset;
+                break;
+            }
+        }
+
         UnitAssetInfoBox unitAssetInfoBox = new UnitAssetInfoBox(assetName, quantity);
-        tempStock.add(new Item(new Asset(0, assetName, ""), quantity));
+        tempStock.add(new Item(new Asset(linkedAsset.getId(), assetName, linkedAsset.getDescription()), quantity));
         organisationalUnitAssetsBox.getChildren().add(unitAssetInfoBox);
-        newOrganisationalUnitAssetNameTextField.clear();
+        newOrganisationalUnitAssetNameComboBox.valueProperty().set(null);
         newOrganisationalUnitAssetQuantityTextField.clear();
     }
 
@@ -151,9 +163,15 @@ public class OrganisationalUnitsController extends DisplayController {
     @Override
     public void update(){
         organisationalUnitsDisplayBox.getChildren().clear();
-        AdminLocalDatabase localDatabase = (AdminLocalDatabase) controller.getDatabase();
+        localDatabase = (AdminLocalDatabase) controller.getDatabase();
         DataCollection<OrganisationalUnit> organisationalUnits = localDatabase.getOrganisationalUnits();
         DataCollection<Stock> stocks = localDatabase.getStocks();
+        DataCollection<Asset> assets = localDatabase.getAssets();
+
+        newOrganisationalUnitAssetNameComboBox.getItems().clear();
+        for (Asset asset : assets){
+            newOrganisationalUnitAssetNameComboBox.getItems().add(asset.getName());
+        }
 
         String[] organisationNames = new String[organisationalUnits.size()];
         for (int i = 0; i < organisationalUnits.size(); i++){
