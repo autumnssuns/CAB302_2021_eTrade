@@ -2,6 +2,7 @@ package client.guiControls.userMain.saleController;
 
 import client.guiControls.DisplayController;
 import client.guiControls.userMain.UserMainController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.CartItem;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -117,7 +118,13 @@ public class CartItemInfoBox extends HBox {
      */
     private void createRemoveButton(){
         removeButton = new Button("Remove");
-        removeButton.setOnAction(e -> removeBox());
+        removeButton.setOnAction(e -> {
+            try {
+                removeBox();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
         removeButton.setId("cartItemRemoveButton" + cartItem.getId());
     }
 
@@ -131,7 +138,7 @@ public class CartItemInfoBox extends HBox {
     /**
      * Removes the current box.
      */
-    private void removeBox() {
+    private void removeBox() throws InvalidArgumentValueException {
         ((VBox) this.getParent()).getChildren().remove(this);
         controller.removeCartItem(cartItem);
     }

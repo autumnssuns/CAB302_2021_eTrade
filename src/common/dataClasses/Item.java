@@ -1,5 +1,7 @@
 package common.dataClasses;
 
+import common.Exceptions.InvalidArgumentValueException;
+
 import java.util.Objects;
 
 /**
@@ -13,7 +15,7 @@ public class Item extends Asset {
      * @param asset The asset type of the item.
      * @param quantity The quantity to be stored.
      */
-    public Item(Asset asset, int quantity){
+    public Item(Asset asset, int quantity) throws InvalidArgumentValueException {
         super(asset.getId(), asset.getName(), asset.getDescription());
         setQuantity(quantity);
     }
@@ -30,7 +32,10 @@ public class Item extends Asset {
      * Sets the quantity of the asset to a new value.
      * @param quantity The new quantity.
      */
-    public void setQuantity(int quantity){
+    public void setQuantity(int quantity) throws InvalidArgumentValueException {
+        if (quantity < 0){
+            throw new InvalidArgumentValueException();
+        }
         this.quantity = quantity;
     }
 
@@ -38,7 +43,7 @@ public class Item extends Asset {
      * Increases the quantity of the related asset in the organisational unit's stock.
      * @param amount The amount to be added.
      */
-    public void add(int amount){
+    public void add(int amount) throws InvalidArgumentValueException {
         setQuantity(quantity + amount);
     }
 
@@ -56,7 +61,7 @@ public class Item extends Asset {
      * @param price The price of the asset.
      * @return An instance of the current asset, but in cart.
      */
-    public CartItem moveToCart(int amount, float price){
+    public CartItem moveToCart(int amount, float price) throws InvalidArgumentValueException {
         this.quantity -= amount;
         return new CartItem(this, amount, price);
     }

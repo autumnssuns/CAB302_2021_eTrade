@@ -1,5 +1,7 @@
 package common.dataClasses;
 
+import common.Exceptions.InvalidArgumentValueException;
+
 import java.util.Objects;
 
 /**
@@ -9,13 +11,13 @@ public class CartItem extends common.dataClasses.Item{
     private float price;
 
     /**
-     * Initialises the item in cart.
-     * @param item The item from an organisational unit or market.
-     * @param cartQuantity The amount of item to be placed in the cart.
-     * @param price The unit price of the item.
+     * Initialises the asset in cart.
+     * @param asset The asset from an organisational unit or market.
+     * @param cartQuantity The amount of asset to be placed in the cart.
+     * @param price The unit price of the asset.
      */
-    public CartItem(Item item, int cartQuantity, float price) {
-        super(item, cartQuantity);
+    public CartItem(Asset asset, int cartQuantity, float price) throws InvalidArgumentValueException {
+        super(asset, cartQuantity);
         this.price = price;
     }
 //

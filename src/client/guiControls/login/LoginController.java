@@ -3,6 +3,7 @@ package client.guiControls.login;
 import client.data.IServerConnection;
 import client.data.MockServerConnection;
 import client.guiControls.MainController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.User;
@@ -45,7 +46,7 @@ public class LoginController extends MainController {
      * @param event The event linked with the method (the button click).
      * @throws IOException
      */
-    public void attemptLogin(ActionEvent event) throws IOException {
+    public void attemptLogin(ActionEvent event) throws IOException, InvalidArgumentValueException {
         //TODO: Connect to server to authenticate the user
         String username = nameTextField.getText();
         String password = passwordField.getText();

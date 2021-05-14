@@ -3,6 +3,7 @@ package client.guiControls.adminMain.usersController;
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
 import client.guiControls.adminMain.AdminMainController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
 import common.dataClasses.Asset;
 import common.dataClasses.DataCollection;
@@ -40,7 +41,7 @@ public class UsersController extends DisplayController {
     /**
      * Adds a new entry, representing a new user.
      */
-    public void addEntry(){
+    public void addEntry() throws InvalidArgumentValueException {
         int userId = usersDisplayBox.getChildren().size();
         String name = newUserNameTextField.getText();
         String username = newUsernameTextField.getText();

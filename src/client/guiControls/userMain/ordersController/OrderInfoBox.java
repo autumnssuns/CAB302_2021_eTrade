@@ -1,6 +1,7 @@
 package client.guiControls.userMain.ordersController;
 
 import client.guiControls.DataBox;
+import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -75,7 +76,13 @@ public class OrderInfoBox extends HBox implements DataBox {
 
         if (!order.getStatus().equals(Order.Status.CANCELLED)){
             cancelButton = new Button("Cancel");
-            cancelButton.setOnAction(e -> cancelOrder());
+            cancelButton.setOnAction(e -> {
+                try {
+                    cancelOrder();
+                } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                    invalidArgumentValueException.printStackTrace();
+                }
+            });
             cancelButton.setPrefWidth(100);
             this.getChildren().add(cancelButton);
         }
@@ -120,7 +127,7 @@ public class OrderInfoBox extends HBox implements DataBox {
     /**
      * Request to cancel the current order (changing status to "cancelled").
      */
-    public void cancelOrder(){
+    public void cancelOrder() throws InvalidArgumentValueException {
         order.setStatus(Order.Status.CANCELLED);
         this.getChildren().remove(cancelButton);
         controller.sendRequest("edit", order, Order.class);

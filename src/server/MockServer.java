@@ -1,5 +1,6 @@
 package server;
 
+import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.OrganisationalUnit;
@@ -12,7 +13,7 @@ public final class MockServer implements IServer{
     }
 
     @Override
-    public Response sendResponse(Request request) {
+    public Response sendResponse(Request request) throws InvalidArgumentValueException {
         // Unidentified requests are denied by default
         Response response = new Response(false, null);
         switch (request.getAction()){

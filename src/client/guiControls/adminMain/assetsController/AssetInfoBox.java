@@ -1,6 +1,7 @@
 package client.guiControls.adminMain.assetsController;
 
 import client.guiControls.adminMain.AdminMainController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
 import common.dataClasses.Asset;
 import javafx.geometry.Pos;
@@ -134,7 +135,13 @@ public class AssetInfoBox extends HBox {
         removeButton = new Button("Remove");
         removeButton.setPrefWidth(100);
         removeButton.setPrefHeight(30);
-        removeButton.setOnAction(e -> removeEntry());
+        removeButton.setOnAction(e -> {
+            try {
+                removeEntry();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
         removeButton.setId("assetRemoveButton" + assetId);
     }
 
@@ -162,7 +169,13 @@ public class AssetInfoBox extends HBox {
     private void startEdit(){
         enable();
         editButton.setText("Confirm");
-        editButton.setOnAction(e -> confirmEdit());
+        editButton.setOnAction(e -> {
+            try {
+                confirmEdit();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
         removeButton.setText("Cancel");
         removeButton.setOnAction(e -> cancelEdit());
     }
@@ -170,7 +183,7 @@ public class AssetInfoBox extends HBox {
     /**
      * Confirms the changes to the current entry.
      */
-    private void confirmEdit() {
+    private void confirmEdit() throws InvalidArgumentValueException {
         disable();
         updateValues();
         Response response = controller.sendRequest("edit", new Asset(assetId, name, description), Asset.class);
@@ -180,7 +193,13 @@ public class AssetInfoBox extends HBox {
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
-        removeButton.setOnAction(e -> removeEntry());
+        removeButton.setOnAction(e -> {
+            try {
+                removeEntry();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -192,13 +211,19 @@ public class AssetInfoBox extends HBox {
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
-        removeButton.setOnAction(e -> removeEntry());
+        removeButton.setOnAction(e -> {
+            try {
+                removeEntry();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
     }
 
     /**
      * Removes the current entry.
      */
-    private void removeEntry() {
+    private void removeEntry() throws InvalidArgumentValueException {
         Response response = controller.sendRequest("delete", new Asset(assetId, name, description), Asset.class);
         if (response.isFulfilled()){
             controller.updateLocalDatabase(Asset.class);

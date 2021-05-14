@@ -1,5 +1,6 @@
 package server;
 
+import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.OrganisationalUnit;
@@ -95,7 +96,7 @@ public final class MockDatabase {
         return new Response(true, attachedUsers);
     }
 
-    public static Response queryAssets(Request request) {
+    public static Response queryAssets(Request request) throws InvalidArgumentValueException {
         DataCollection<Asset> attachedAssets = new DataCollection<>();
         for (int i = 0; i < assets.size(); i++){
             Object[] asset = assets.get(i);
@@ -112,7 +113,7 @@ public final class MockDatabase {
         return new Response(true, attachedOrganisationalUnit);
     }
 
-    public static Response queryStocks(Request request) {
+    public static Response queryStocks(Request request) throws InvalidArgumentValueException {
         DataCollection<Stock> attachedStocks = new DataCollection<>();
         for (Object[] organisationalUnit : organisationalUnits){
             attachedStocks.add(new Stock((int) organisationalUnit[0]));
@@ -132,7 +133,7 @@ public final class MockDatabase {
         return new Response(true, attachedUnit);
     }
 
-    public static Response queryStock(Request request) {
+    public static Response queryStock(Request request) throws InvalidArgumentValueException {
         int unitId = request.getUser().getUnitId();
         Stock returnStock = new Stock(unitId);
         for (Object[] organisationalItem : stocks){

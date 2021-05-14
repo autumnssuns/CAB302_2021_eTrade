@@ -1,5 +1,6 @@
 package client.data;
 
+import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 
@@ -12,7 +13,7 @@ public interface IServerConnection {
      * @param request The request to be sent.
      * @return The server's response.
      */
-    Response sendRequest(Request request);
+    Response sendRequest(Request request) throws InvalidArgumentValueException;
 
     /**
      * Close the connection to the server.

@@ -2,6 +2,7 @@ package client.guiControls.adminMain.organisationalUnitsController;
 
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
 import common.dataClasses.*;
 import javafx.fxml.FXML;
@@ -57,7 +58,13 @@ public class OrganisationalUnitsController extends DisplayController {
     public void startEditor(){
         organisationalUnitEditPane.setVisible(true);
         tempStock = new Stock(-1);  // Unassigned
-        confirmOrganisationalUnitButton.setOnAction(e -> confirmEditor());
+        confirmOrganisationalUnitButton.setOnAction(e -> {
+            try {
+                confirmEditor();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -74,13 +81,19 @@ public class OrganisationalUnitsController extends DisplayController {
             organisationalUnitAssetsBox.getChildren().add(new UnitAssetInfoBox(item.getName(), item.getQuantity()));
         }
 
-        confirmOrganisationalUnitButton.setOnAction(e -> confirmEditor(caller));
+        confirmOrganisationalUnitButton.setOnAction(e -> {
+            try {
+                confirmEditor(caller);
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
     }
 
     /**
      * Confirms the addition of a new organisational unit.
      */
-    public void confirmEditor(){
+    public void confirmEditor() throws InvalidArgumentValueException {
         int unitId = organisationalUnitsDisplayBox.getChildren().size();
         String name = organisationalUnitNameTextField.getText();
         float credit = Float.parseFloat(creditTextField.getText());
@@ -100,7 +113,7 @@ public class OrganisationalUnitsController extends DisplayController {
      * Confirms the edit of an existing organisational unit.
      * @param caller The instance that calls for an editor.
      */
-    public void confirmEditor(OrganisationalUnitInfoBox caller){
+    public void confirmEditor(OrganisationalUnitInfoBox caller) throws InvalidArgumentValueException {
         String name = organisationalUnitNameTextField.getText();
         float credit = Float.parseFloat(creditTextField.getText());
 
@@ -138,7 +151,7 @@ public class OrganisationalUnitsController extends DisplayController {
     /**
      * Adds a new asset to the organisational unit in the editor.
      */
-    public void addOrganisationalUnitAssetInfoBox(){
+    public void addOrganisationalUnitAssetInfoBox() throws InvalidArgumentValueException {
         String assetName = (String) newOrganisationalUnitAssetNameComboBox.getValue();
         int quantity = Integer.parseInt(newOrganisationalUnitAssetQuantityTextField.getText());
 
@@ -190,7 +203,7 @@ public class OrganisationalUnitsController extends DisplayController {
         return true;
     }
 
-    public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType){
+    public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType) throws InvalidArgumentValueException {
         return controller.sendRequest(action, attachment, attachmentType);
     }
 }
