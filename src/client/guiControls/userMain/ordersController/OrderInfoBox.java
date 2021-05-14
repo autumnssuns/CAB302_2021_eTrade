@@ -73,7 +73,7 @@ public class OrderInfoBox extends HBox implements DataBox {
 
         this.getChildren().addAll(id, assetName, placedQuantity, resolvedQuantity, price, orderDate, finishDate, status);
 
-        if (!order.getStatus().equals("cancelled")){
+        if (!order.getStatus().equals(Order.Status.CANCELLED)){
             cancelButton = new Button("Cancel");
             cancelButton.setOnAction(e -> cancelOrder());
             cancelButton.setPrefWidth(100);
@@ -121,7 +121,7 @@ public class OrderInfoBox extends HBox implements DataBox {
      * Request to cancel the current order (changing status to "cancelled").
      */
     public void cancelOrder(){
-        order.setStatus("cancelled");
+        order.setStatus(Order.Status.CANCELLED);
         this.getChildren().remove(cancelButton);
         controller.sendRequest("edit", order, Order.class);
         controller.update();

@@ -37,7 +37,7 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <Button fx:id="checkOutButton" layoutX="231.0" layoutY="632.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="155.0" text="Check out " />
+            <Button fx:id="checkOutButton" layoutX="231.0" layoutY="632.0" mnemonicParsing="false" onAction="#checkOut" prefHeight="55.0" prefWidth="155.0" text="Sell All" />
             <Label fx:id="saleTotalLabel" alignment="CENTER" layoutX="38.0" layoutY="632.0" prefHeight="55.0" prefWidth="155.0" text="Total: " />
          </children>
       </Pane>

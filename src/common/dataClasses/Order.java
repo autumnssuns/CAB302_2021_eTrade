@@ -8,8 +8,20 @@ import java.util.Objects;
  * Represents an Order
  */
 public class Order implements Serializable, IData {
+
+    public enum Type{
+        BUY,
+        SELL
+    }
+
+    public enum Status{
+        PENDING,
+        APPROVED,
+        CANCELLED
+    }
+
     protected int orderId;
-    protected String orderType; //buy/sell
+    protected Type orderType; //buy/sell
     protected int unitId;
     protected int assetId;
     protected int placedQuantity;//cartitem
@@ -17,9 +29,9 @@ public class Order implements Serializable, IData {
     protected float price;
     protected LocalDateTime finishDate = null; //Cartitem
     protected LocalDateTime orderDate;
-    protected String status;
+    protected Status status;
 
-    public Order(int orderId, String orderType, int unitId, int assetId, int placedQuantity, int resolvedQuantity, float price, LocalDateTime finishDate, LocalDateTime orderDate, String status) {
+    public Order(int orderId, Type orderType, int unitId, int assetId, int placedQuantity, int resolvedQuantity, float price, LocalDateTime finishDate, LocalDateTime orderDate, Status status) {
         this.orderId = orderId;
         this.orderType = orderType;
         this.unitId = unitId;
@@ -50,7 +62,7 @@ public class Order implements Serializable, IData {
      *
      * @return the Order's type (Buy/Sell)
      */
-    public String getOrderType() {return orderType;}
+    public Type getOrderType() {return orderType;}
 
     /**
      *
@@ -99,7 +111,7 @@ public class Order implements Serializable, IData {
      *
      * @return return Transaction's status (Finished/Remaining)
      */
-    public String getStatus() {return status;}
+    public Status getStatus() {return status;}
 
     /**
      * set the order id to given Int
@@ -112,7 +124,7 @@ public class Order implements Serializable, IData {
      * set order type to new type
      * @param order_type
      */
-    public void setOrderType(String order_type) { this.orderType = order_type;
+    public void setOrderType(Type order_type) { this.orderType = order_type;
     }
 
     /**
@@ -168,7 +180,7 @@ public class Order implements Serializable, IData {
      * Set new status
      * @param status
      */
-    public void setStatus(String status) { this.status = status;
+    public void setStatus(Status status) { this.status = status;
     }
 
     /**
