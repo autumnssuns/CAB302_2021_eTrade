@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
+import java.time.LocalDateTime;
+
 /**
  * A controller to control the SELL Page (which allows the user to sell items from their organisation's stock).
  */
@@ -83,9 +85,14 @@ public class BuyController extends DisplayController {
      * Sells all items in the cart.
      */
     public void checkOut(){
-        controller.sendRequest("buy", buyCart, Cart.class);
+        int unitId = ((UserLocalDatabase)controller.getDatabase()).getOrganisationalUnit().getId();
+        for (CartItem cartItem : buyCart){
+            Order newOrder = new Order(-1, Order.Type.BUY, unitId, cartItem.getId(), cartItem.getQuantity(), 0, cartItem.getPrice(),
+                    null, LocalDateTime.now(), Order.Status.PENDING);
+            controller.sendRequest("add", newOrder, Order.class);
+        }
         buyCart.clear();
-        controller.fetchDatabase();
+        update();
     }
 
     /**

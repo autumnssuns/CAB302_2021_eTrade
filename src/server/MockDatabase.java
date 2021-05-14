@@ -409,6 +409,9 @@ public final class MockDatabase {
         else if (type.equals(OrganisationalUnit.class)){
             return add((OrganisationalUnit) attachment);
         }
+        else if (type.equals(Order.class)){
+            return add((Order) attachment);
+        }
         return null;
     }
 
@@ -432,6 +435,16 @@ public final class MockDatabase {
         Object[] newRow = new Object[]{organisationalUnits.size(), attachment.getName(), attachment.getBalance()};
         organisationalUnits.add(newRow);
         Response response = new Response(true, null);
+        return response;
+    }
+
+    private static Response add(Order attachment){
+        Object[] newRow = new Object[]{orders.size(), attachment.getOrderType(), attachment.getUnitId(), attachment.getAssetId(),
+                attachment.getPlacedQuantity(), attachment.getResolvedQuantity(), attachment.getPrice(),
+                attachment.getFinishDate(), attachment.getOrderDate(), attachment.getStatus()};
+        orders.add(newRow);
+        Response response = new Response(true, null);
+        // TODO: Resolve order
         return response;
     }
 
