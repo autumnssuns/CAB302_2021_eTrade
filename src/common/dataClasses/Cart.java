@@ -8,13 +8,13 @@ import java.util.ArrayList;
  * Represents a cart of items.
  */
 public class Cart extends ArrayList<CartItem> implements IData {
-    private final String cartType;
+    private final Order.Type cartType;
 
     /**
      * Sets the type of the cart ('buy' or 'sell')
      * @param cartType The type of the cart ('buy' or 'sell')
      */
-    public Cart(String cartType){
+    public Cart(Order.Type cartType){
         this.cartType = cartType;
     }
 
@@ -68,7 +68,7 @@ public class Cart extends ArrayList<CartItem> implements IData {
      * Returns the type of the cart ('buy' or 'sell')
      * @return The type of the cart.
      */
-    public String getCartType() {
+    public Order.Type getCartType() {
         return cartType;
     }
 }

@@ -19,17 +19,6 @@ public class Item extends Asset {
     }
 
     /**
-     * Initialises a buy item by linking it to an asset and includes the quantity and price to be stored.
-     * @param asset the asset type of the item
-     * @param quantity the quanity of the buy order
-     * @param price the price set in the buy order
-     */
-    public Item (Asset asset, int quantity, float price){
-        super(asset.getId(), asset.getName(), asset.getDescription());
-        setQuantity(quantity); //Set this to the quantity got from user input
-    }
-
-    /**
      * Retrieves the quantity of the asset that is owned by the organisational unit.
      * @return The quantity of the asset.
      */

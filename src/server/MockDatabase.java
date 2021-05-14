@@ -24,8 +24,8 @@ public final class MockDatabase {
         users.add(new Object[]{0, "Admin", "admin", "root", "admin", 0});
         users.add(new Object[]{1, "Dan Tran", "dan", "123", "user", 0});
         users.add(new Object[]{2, "Daniel Pham", "duy", "abcd", "user", 1});
-        users.add(new Object[]{3, "Linh Hoang", "lyn", "password", "user", 1});
-        users.add(new Object[]{4, "Rodo Nguyen", "rodo", "rodo", "user", 2});
+        users.add(new Object[]{3, "Linh Hoang", "lyn", "password", "user", 2});
+        users.add(new Object[]{4, "Rodo Nguyen", "rodo", "rodo", "user", 3});
 
         assets.add(new Object[]{0, "CPU Hours", "CPU for rent"});
         assets.add(new Object[]{1, "10 GB Database Server", "Remove SQL Server"});
@@ -50,22 +50,22 @@ public final class MockDatabase {
         stocks.add(new Object[]{2, 2, 10});
         stocks.add(new Object[]{2, 3, 10});
 
-        orders.add(new Object[]{0, "buy", 0, 0, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{1, "buy", 0, 1, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{2, "buy", 0, 2, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{3, "buy", 0, 3, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{4, "buy", 1, 0, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{5, "buy", 1, 1, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{6, "buy", 1, 2, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{7, "buy", 1, 3, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{8, "sell", 2, 0, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{9, "sell", 2, 1, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{10, "sell", 2, 2, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{11, "sell", 2, 3, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{12, "sell", 3, 0, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{13, "sell", 3, 1, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{14, "sell", 3, 2, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
-        orders.add(new Object[]{15, "sell", 3, 3, 15, 0, 2.5f, null, LocalDateTime.now(), "pending"});
+        orders.add(new Object[]{0, Order.Type.BUY, 0, 0, 23, 0, 22f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{1, Order.Type.BUY, 0, 1, 32, 0, 3f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{2, Order.Type.BUY, 0, 2, 45, 0, 4f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{3, Order.Type.BUY, 0, 3, 36, 0, 5f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{4, Order.Type.BUY, 1, 0, 74, 0, 6f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{5, Order.Type.BUY, 1, 1, 32, 0, 7f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{6, Order.Type.BUY, 1, 2, 45, 0, 8f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{7, Order.Type.BUY, 1, 3, 64, 0, 9f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{8, Order.Type.SELL, 2, 0, 76, 0, 10f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{9, Order.Type.SELL, 2, 1, 86, 0, 10.5f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{10, Order.Type.SELL, 2, 2, 42, 0, 11.5f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{11, Order.Type.SELL, 2, 3, 43, 0, 12.5f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{12, Order.Type.SELL, 3, 0, 56, 0, 13.5f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{13, Order.Type.SELL, 3, 1, 54, 0, 12.5f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{14, Order.Type.SELL, 3, 2, 37, 0, 14.5f, null, LocalDateTime.now(), Order.Status.PENDING});
+        orders.add(new Object[]{15, Order.Type.SELL, 3, 3, 82, 0, 15.5f, null, LocalDateTime.now(), Order.Status.PENDING});
 //        protected int orderId;
 //        protected String orderType; //buy/sell
 //        protected int unitId;
@@ -154,8 +154,8 @@ public final class MockDatabase {
     public static Response queryOrders(Request request) {
         DataCollection<Order> returnOrders = new DataCollection<>();
         for (Object[] row : orders){
-            Order newOrder = new Order((int) row[0], (String) row[1], (int) row[2], (int) row[3], (int) row[4],
-                    (int) row[5], (float) row[6], (LocalDateTime) row[7], (LocalDateTime) row[8], (String) row[9]);
+            Order newOrder = new Order((int) row[0], (Order.Type) row[1], (int) row[2], (int) row[3], (int) row[4],
+                    (int) row[5], (float) row[6], (LocalDateTime) row[7], (LocalDateTime) row[8], (Order.Status) row[9]);
             returnOrders.add(newOrder);
         }
         return new Response(true, returnOrders);

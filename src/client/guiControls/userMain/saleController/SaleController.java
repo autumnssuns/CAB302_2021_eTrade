@@ -21,7 +21,7 @@ import java.io.IOException;
  * A controller to control the SELL Page (which allows the user to sell items from their organisation's stock).
  */
 public class SaleController extends DisplayController {
-    Cart sellCart = new Cart("sell");
+    Cart sellCart = new Cart(Order.Type.SELL);
     Stock tempStock;
 
     @FXML VBox stockDisplayBox;

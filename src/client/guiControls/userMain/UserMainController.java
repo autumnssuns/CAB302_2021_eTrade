@@ -3,6 +3,9 @@ package client.guiControls.userMain;
 import client.guiControls.DisplayController;
 import client.guiControls.MainController;
 import client.guiControls.adminMain.AdminLocalDatabase;
+import client.guiControls.userMain.buyController.BuyController;
+import client.guiControls.userMain.ordersController.OrdersController;
+import client.guiControls.userMain.saleController.SaleController;
 import common.Response;
 import common.dataClasses.*;
 import javafx.application.Platform;
@@ -18,6 +21,11 @@ import java.io.IOException;
 //TODO: Commenting & Documenting
 
 public class UserMainController extends MainController {
+    // Display controllers
+    private SaleController saleController;
+    private BuyController buyController;
+    private OrdersController ordersController;
+
     //Reusable elements that can be updated
     Label cartTotalLabel;
     Pane sellPane;
@@ -54,21 +62,21 @@ public class UserMainController extends MainController {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("saleController/SellPage.fxml"));
         sellPane = fxmlLoader.load();
-        DisplayController displayController = fxmlLoader.getController();
-        displayController.setController(this);
-        displayController.update();
+        saleController = fxmlLoader.getController();
+        saleController.setController(this);
+        saleController.update();
 
-//        fxmlLoader = new FXMLLoader(getClass().getResource("buyController/BuyPage.fxml"));
-        buyPane = new Pane();
-//        displayController = fxmlLoader.getController();
-//        displayController.setController(this);
-//        displayController.update();
+        fxmlLoader = new FXMLLoader(getClass().getResource("buyController/BuyPage.fxml"));
+        buyPane = fxmlLoader.load();
+        buyController = fxmlLoader.getController();
+        buyController.setController(this);
+        buyController.update();
 
         fxmlLoader = new FXMLLoader(getClass().getResource("ordersController/OrdersPage.fxml"));
         ordersPane = fxmlLoader.load();
-        displayController = fxmlLoader.getController();
-        displayController.setController(this);
-        displayController.update();
+        ordersController = fxmlLoader.getController();
+        ordersController.setController(this);
+        ordersController.update();
 
         profilePane = new Pane();
 
@@ -83,6 +91,7 @@ public class UserMainController extends MainController {
      * @throws IOException
      */
     public void toHome() throws IOException {
+        saleController.update();
         sellPane.toFront();
         homeButton.setDisable(true);
         marketButton.setDisable(false);
@@ -94,6 +103,7 @@ public class UserMainController extends MainController {
      * @throws IOException
      */
     public void toMarket(){
+        buyController.update();
         buyPane.toFront();
         homeButton.setDisable(false);
         marketButton.setDisable(true);
@@ -105,6 +115,7 @@ public class UserMainController extends MainController {
      * @throws IOException
      */
     public void toOrders(){
+        ordersController.update();
         ordersPane.toFront();
         homeButton.setDisable(false);
         marketButton.setDisable(false);
@@ -124,8 +135,11 @@ public class UserMainController extends MainController {
 
         response = this.sendRequest("query orders");
         DataCollection<Order> orders = (DataCollection) response.getAttachment();
-        
-        localDatabase = new UserLocalDatabase(organisationalUnit, stock, orders);
+
+        response = this.sendRequest("query assets");
+        DataCollection<Asset> assets = (DataCollection) response.getAttachment();
+
+        localDatabase = new UserLocalDatabase(organisationalUnit, stock, orders, assets);
     }
 
     @Override
