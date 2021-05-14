@@ -111,7 +111,12 @@ public class ItemInfoBox extends HBox {
         priceTextField = new TextField();
         priceTextField.setPrefWidth(200);
         priceTextField.setPromptText("Price");
-        priceTextField.setText(controller.getCurrentLowestPrice(item.getId()));
+        try{
+            priceTextField.setText(controller.getCurrentLowestPrice(item.getId()));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         priceTextField.setId("itemBuyPriceTextField" + item.getId());
     }
 

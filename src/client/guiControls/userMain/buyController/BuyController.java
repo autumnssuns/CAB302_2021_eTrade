@@ -2,6 +2,7 @@ package client.guiControls.userMain.buyController;
 
 import client.guiControls.DisplayController;
 import client.guiControls.userMain.UserLocalDatabase;
+import client.guiControls.userMain.UserMainController;
 import common.dataClasses.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -92,6 +93,7 @@ public class BuyController extends DisplayController {
             controller.sendRequest("add", newOrder, Order.class);
         }
         buyCart.clear();
+        ((UserMainController) controller).update();
         update();
     }
 
@@ -105,6 +107,11 @@ public class BuyController extends DisplayController {
         refresh();
     }
 
+    /**
+     * Returns the lowest current market price of an asset, given it's id
+     * @param id The asset's id
+     * @return The lowest price of the asset
+     */
     public String getCurrentLowestPrice(int id) {
         return String.valueOf(((UserLocalDatabase)controller.getDatabase()).getCurrentLowestSellPrice(id));
     }

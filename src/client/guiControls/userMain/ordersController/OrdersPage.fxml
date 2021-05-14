@@ -30,6 +30,6 @@
          </children>
       </HBox>
       <Button fx:id="sellFilterButton" layoutX="52.0" layoutY="45.0" mnemonicParsing="false" onAction="#changeTypeFilter" prefHeight="60.0" prefWidth="107.0" text="Sell orders" />
-      <Button fx:id="buyFilterButton" layoutX="182.0" layoutY="45.0" mnemonicParsing="false" onAction="#changeTypeFilter" prefHeight="60.0" prefWidth="107.0" text="Buy orders" />
+      <Button fx:id="buyFilterButton" disable="true" layoutX="182.0" layoutY="45.0" mnemonicParsing="false" onAction="#changeTypeFilter" prefHeight="60.0" prefWidth="107.0" text="Buy orders" />
     </children>
 </AnchorPane>
