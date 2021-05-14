@@ -1,6 +1,7 @@
 package common.dataClasses;
 
 import common.Exceptions.InvalidArgumentValueException;
+import common.Exceptions.NullArgumentException;
 
 import java.util.Objects;
 
@@ -33,10 +34,15 @@ public class Item extends Asset {
      * @param quantity The new quantity.
      */
     public void setQuantity(int quantity) throws InvalidArgumentValueException {
-        if (quantity < 0){
-            throw new InvalidArgumentValueException();
+        try{
+            if (quantity < 0){
+                throw new InvalidArgumentValueException();
+            }
+            this.quantity = quantity;
         }
-        this.quantity = quantity;
+        catch (NullPointerException e){
+            throw new NullArgumentException();
+        }
     }
 
     /**
