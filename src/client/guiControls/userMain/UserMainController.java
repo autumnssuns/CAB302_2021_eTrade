@@ -42,6 +42,7 @@ public class UserMainController extends MainController {
     @FXML AnchorPane anchorPane;
     @FXML Label userLabel;
     @FXML Label creditLabel;
+    @FXML Label organisationalUnitLabel;
 
     @FXML
     public void initialize() throws IOException {
@@ -55,10 +56,12 @@ public class UserMainController extends MainController {
         });
     }
 
+    /**
+     * Sets up the view & the controllers
+     * @throws IOException
+     */
     private void setupController() throws IOException{
         fetchDatabase();
-        userLabel.setText(getUser().getUsername());
-        creditLabel.setText("Balance: $" + this.getDatabase().getOrganisationalUnit().getBalance());
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("saleController/SellPage.fxml"));
         sellPane = fxmlLoader.load();
@@ -80,6 +83,7 @@ public class UserMainController extends MainController {
 
         profilePane = new Pane();
 
+        update();
         displayStack.getChildren().addAll(sellPane, buyPane, ordersPane, profilePane);
         toHome();
     }
@@ -155,5 +159,16 @@ public class UserMainController extends MainController {
             DataCollection orders = (DataCollection) response.getAttachment();
             ((UserLocalDatabase) localDatabase).setOrders(orders);
         }
+    }
+
+    /**
+     * Updates the view
+     */
+    public void update(){
+        fetchDatabase();
+        OrganisationalUnit unit = ((UserLocalDatabase) localDatabase).getOrganisationalUnit();
+        organisationalUnitLabel.setText(unit.getName());
+        userLabel.setText(getUser().getFullName());
+        creditLabel.setText("Balance: $" + unit.getBalance());
     }
 }
