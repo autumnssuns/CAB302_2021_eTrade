@@ -3,6 +3,7 @@ package client.guiControls.adminMain.usersController;
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
 import client.guiControls.adminMain.AdminMainController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
 import common.dataClasses.Asset;
 import common.dataClasses.DataCollection;
@@ -198,7 +199,13 @@ public class UserInfoBox extends HBox {
         removeButton = new Button("Remove");
         removeButton.setPrefWidth(100);
         removeButton.setPrefHeight(30);
-        removeButton.setOnAction(e -> removeEntry());
+        removeButton.setOnAction(e -> {
+            try {
+                removeEntry();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
         removeButton.setId("userRemoveButton" + userId);
     }
 
@@ -232,7 +239,13 @@ public class UserInfoBox extends HBox {
     private void startEdit(){
         enable();
         editButton.setText("Confirm");
-        editButton.setOnAction(e -> confirmEdit());
+        editButton.setOnAction(e -> {
+            try {
+                confirmEdit();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
         removeButton.setText("Cancel");
         removeButton.setOnAction(e -> cancelEdit());
     }
@@ -240,7 +253,7 @@ public class UserInfoBox extends HBox {
     /**
      * Confirms the changes to the current entry.
      */
-    private void confirmEdit() {
+    private void confirmEdit() throws InvalidArgumentValueException {
         disable();
         updateValues();
         int unitId = 0;
@@ -257,7 +270,13 @@ public class UserInfoBox extends HBox {
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
-        removeButton.setOnAction(e -> removeEntry());
+        removeButton.setOnAction(e -> {
+            try {
+                removeEntry();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -269,13 +288,19 @@ public class UserInfoBox extends HBox {
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
-        removeButton.setOnAction(e -> removeEntry());
+        removeButton.setOnAction(e -> {
+            try {
+                removeEntry();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
     }
 
     /**
      * Removes the current entry.
      */
-    private void removeEntry() {
+    private void removeEntry() throws InvalidArgumentValueException {
         int unitId = 0;
         for (OrganisationalUnit unit : ((AdminLocalDatabase)controller.getDatabase()).getOrganisationalUnits()){
             if (unit.getName().equals(organisationalUnit)){

@@ -5,6 +5,7 @@ import client.guiControls.MainController;
 import client.guiControls.adminMain.assetsController.AssetsController;
 import client.guiControls.adminMain.organisationalUnitsController.OrganisationalUnitsController;
 import client.guiControls.adminMain.usersController.UsersController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
 import common.dataClasses.DataCollection;
 import common.dataClasses.IData;
@@ -53,7 +54,7 @@ public class AdminMainController extends MainController {
         Platform.runLater(() -> {
             try {
                 setupController();
-            } catch (IOException e) {
+            } catch (IOException | InvalidArgumentValueException e) {
                 e.printStackTrace();
             }
         });
@@ -63,7 +64,7 @@ public class AdminMainController extends MainController {
      * Sets up the controller
      * @throws IOException Required by JavaFX
      */
-    private void setupController() throws IOException{
+    private void setupController() throws IOException, InvalidArgumentValueException {
         userLabel.setText(getUser().getUsername());
         fetchDatabase();
 
@@ -128,7 +129,7 @@ public class AdminMainController extends MainController {
      * Initialise the database.
      */
     @Override
-    public void fetchDatabase(){
+    public void fetchDatabase() throws InvalidArgumentValueException {
         Response response = this.sendRequest("query users");
         DataCollection users = (DataCollection) response.getAttachment();
 
@@ -149,7 +150,7 @@ public class AdminMainController extends MainController {
      * Updates the local database, depending on what type of IData is being updated
      */
     @Override
-    public <T extends IData> void updateLocalDatabase(Class<T> type){
+    public <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException {
         Response response;
         if (type.equals(Asset.class)){
             response = this.sendRequest("query assets");

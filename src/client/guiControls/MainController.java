@@ -2,6 +2,7 @@ package client.guiControls;
 
 import client.data.IServerConnection;
 import client.guiControls.login.LoginController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.IData;
@@ -62,7 +63,7 @@ public class MainController {
      * @param action
      * @param attachment
      */
-    public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType){
+    public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType) throws InvalidArgumentValueException {
         Request request = new Request(getUser(), action, attachment);
         request.setAttachmentType(attachmentType);
         Response response = serverConnection.sendRequest(request);
@@ -70,7 +71,7 @@ public class MainController {
         return response;
     }
 
-    public Response sendRequest(String action){
+    public Response sendRequest(String action) throws InvalidArgumentValueException {
         return serverConnection.sendRequest(new Request(getUser(), action));
     }
 
@@ -110,14 +111,14 @@ public class MainController {
     /**
      * Fetch the local database from the server.
      */
-    public void fetchDatabase(){
+    public void fetchDatabase() throws InvalidArgumentValueException {
 
     }
 
     /**
      * Update the local database with that from the server
      */
-    public <T extends IData> void updateLocalDatabase(Class<T> type){}
+    public <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException {}
 
     /**
      * Returns the local database for the admin.

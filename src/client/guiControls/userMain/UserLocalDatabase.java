@@ -1,5 +1,6 @@
 package client.guiControls.userMain;
 
+import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Cart;
 import client.guiControls.ILocalDatabase;
 import common.dataClasses.*;
@@ -100,7 +101,7 @@ public class UserLocalDatabase extends ILocalDatabase {
      * Returns the market containing all assets in the systems, event if they are not on sale.
      * @return The market as a stock.
      */
-    public Stock getMarket(){
+    public Stock getMarket() throws InvalidArgumentValueException {
         Stock marketStock = new Stock(-1);
         for (Asset asset : assets){
             boolean orderExists = false;

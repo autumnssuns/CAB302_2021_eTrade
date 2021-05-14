@@ -1,5 +1,6 @@
 package common.dataClasses;
 
+import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.CartItem;
 
 import java.util.ArrayList;
@@ -33,7 +34,11 @@ public class Cart extends ArrayList<CartItem> implements IData {
             CartItem currentItem = this.get(i);
             //Todo: change the condition the itemID
             if (currentItem.getName() == item.getName() && currentItem.getPrice() == item.getPrice()){
-                this.get(i).add(item.getQuantity());
+                try {
+                    this.get(i).add(item.getQuantity());
+                } catch (InvalidArgumentValueException e) {
+                    e.printStackTrace();
+                }
                 result = true;
                 break;
             }

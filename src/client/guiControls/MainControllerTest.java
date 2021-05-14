@@ -2,6 +2,7 @@ package client.guiControls;
 
 import client.data.IServerConnection;
 import client.data.MockServerConnection;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.User;
@@ -33,7 +34,7 @@ class MainControllerTest {
     }
 
     @Test
-    void sendRequest() {
+    void sendRequest() throws InvalidArgumentValueException {
         User tempUser = new User("username", "password");
         controller.setUser(tempUser);
         IServerConnection serverConnection = new MockServerConnection();

@@ -3,6 +3,7 @@ package client.guiControls.adminMain.assetsController;
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
 import client.guiControls.adminMain.AdminMainController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
 import common.dataClasses.Asset;
 import javafx.fxml.FXML;
@@ -46,7 +47,7 @@ public class AssetsController extends DisplayController {
     /**
      * Adds a new entry, representing a new asset type.
      */
-    public void addEntry(){
+    public void addEntry() throws InvalidArgumentValueException {
         //TODO: Perform data check for text fields
         int assetId = assetsDisplayBox.getChildren().size();
         String name = newNameTextField.getText();

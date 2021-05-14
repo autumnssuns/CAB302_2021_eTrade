@@ -3,6 +3,7 @@ package client.guiControls.userMain.buyController;
 import client.guiControls.DisplayController;
 import client.guiControls.userMain.UserLocalDatabase;
 import client.guiControls.userMain.UserMainController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -45,7 +46,7 @@ public class BuyController extends DisplayController {
      * Sell an associated item and remove it from stock.
      * @param item The item to sell
      */
-    public void buyItem(Item item, int quantity, float price){
+    public void buyItem(Item item, int quantity, float price) throws InvalidArgumentValueException {
         CartItem cartItem = new CartItem(item, quantity, price);
         buyCart.add(cartItem);
         refresh();
@@ -85,7 +86,7 @@ public class BuyController extends DisplayController {
     /**
      * Sells all items in the cart.
      */
-    public void checkOut(){
+    public void checkOut() throws InvalidArgumentValueException {
         int unitId = ((UserLocalDatabase)controller.getDatabase()).getOrganisationalUnit().getId();
         for (CartItem cartItem : buyCart){
             Order newOrder = new Order(-1, Order.Type.BUY, unitId, cartItem.getId(), cartItem.getQuantity(), 0, cartItem.getPrice(),
@@ -101,7 +102,7 @@ public class BuyController extends DisplayController {
      * Updates with database and displays all items in stock.
      */
     @Override
-    public void update(){
+    public void update() throws InvalidArgumentValueException {
         UserLocalDatabase localDatabase = (UserLocalDatabase) controller.getDatabase();
         marketStock = localDatabase.getMarket();
         refresh();

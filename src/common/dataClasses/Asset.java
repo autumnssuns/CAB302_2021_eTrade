@@ -1,5 +1,7 @@
 package common.dataClasses;
 
+import common.Exceptions.*;
+
 import java.util.Objects;
 
 /**
@@ -15,7 +17,7 @@ public class Asset implements IData {
      * @param assetName The name of the asset.
      * @param description The description of the asset.
      */
-    public Asset(int assetId, String assetName, String description){
+    public Asset(int assetId, String assetName, String description) throws InvalidArgumentValueException {
         this.assetId = assetId;
         setName(assetName);
         setDescription(description);
@@ -55,8 +57,16 @@ public class Asset implements IData {
      * Set the name of the asset to a new value.
      * @param name The new name for the asset.
      */
-    public void setName(String name){
-        this.assetName = name;
+    public void setName(String name) throws InvalidArgumentValueException {
+        try{
+            if (name.isBlank() || name.length() == 0){
+                throw new InvalidArgumentValueException();
+            }
+            this.assetName = name;
+        }
+        catch (NullPointerException e){
+            throw new NullArgumentException();
+        }
     }
 
     /**

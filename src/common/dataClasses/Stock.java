@@ -1,5 +1,7 @@
 package common.dataClasses;
 
+import common.Exceptions.InvalidArgumentValueException;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -45,7 +47,11 @@ public class Stock extends ArrayList<Item> implements IData{
         for(int i = 0; i < this.size(); i++){
             Item currentItem = this.get(i);
             if (currentItem.getName() == newItem.getName()){
-                this.get(i).add(newItem.getQuantity());
+                try {
+                    this.get(i).add(newItem.getQuantity());
+                } catch (InvalidArgumentValueException e) {
+                    e.printStackTrace();
+                }
                 result = true;
                 break;
             }

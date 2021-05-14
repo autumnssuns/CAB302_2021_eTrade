@@ -1,5 +1,6 @@
 package client.guiControls.adminMain.organisationalUnitsController;
 
+import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
 import common.dataClasses.Asset;
 import common.dataClasses.OrganisationalUnit;
@@ -139,7 +140,13 @@ public class OrganisationalUnitInfoBox extends HBox {
         removeButton = new Button("Remove");
         removeButton.setPrefWidth(100);
         removeButton.setPrefHeight(30);
-        removeButton.setOnAction(e -> removeEntry());
+        removeButton.setOnAction(e -> {
+            try {
+                removeEntry();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
         removeButton.setId("organisationalUnitRemoveButton" + unitId);
     }
     //NOTE: Get info from display
@@ -203,7 +210,7 @@ public class OrganisationalUnitInfoBox extends HBox {
     /**
      * Removes the current entry.
      */
-    private void removeEntry() {
+    private void removeEntry() throws InvalidArgumentValueException {
         Response response = controller.sendRequest("delete", new OrganisationalUnit(unitId, name, credit), OrganisationalUnit.class);
         if (response.isFulfilled()){
             ((VBox) this.getParent()).getChildren().remove(this);

@@ -4,6 +4,7 @@ import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
 import client.guiControls.adminMain.usersController.UserInfoBox;
 import client.guiControls.userMain.UserLocalDatabase;
+import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.*;
 import client.guiControls.MainController;
 import javafx.event.ActionEvent;
@@ -53,7 +54,7 @@ public class SaleController extends DisplayController {
      * Sell an associated item and remove it from stock.
      * @param item The item to sell
      */
-    public void sellItem(Item item, int quantity, float price){
+    public void sellItem(Item item, int quantity, float price) throws InvalidArgumentValueException {
         int linkedItemIndex = tempStock.indexOf(item);
         CartItem cartItem = item.moveToCart(quantity, price);
         sellCart.add(cartItem);
@@ -66,7 +67,7 @@ public class SaleController extends DisplayController {
      * Removes an item from a cart and adds it back to the stock.
      * @param cartItem The returning cart item.
      */
-    public void removeCartItem(CartItem cartItem){
+    public void removeCartItem(CartItem cartItem) throws InvalidArgumentValueException {
         for (int i = 0; i < tempStock.size(); i++){
             if (tempStock.get(i).getId() == cartItem.getId()){
                 Item returnItem = tempStock.get(i);
@@ -103,7 +104,7 @@ public class SaleController extends DisplayController {
     /**
      * Sells all items in the cart.
      */
-    public void checkOut(){
+    public void checkOut() throws InvalidArgumentValueException {
         int unitId = ((UserLocalDatabase)controller.getDatabase()).getOrganisationalUnit().getId();
         for (CartItem cartItem : sellCart){
             Order newOrder = new Order(-1, Order.Type.SELL, unitId, cartItem.getId(), cartItem.getQuantity(), 0, cartItem.getPrice(),

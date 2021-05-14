@@ -2,6 +2,7 @@ package client.guiControls.userMain.saleController;
 
 import client.guiControls.DisplayController;
 import client.guiControls.userMain.UserMainController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Item;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -119,11 +120,17 @@ public class ItemInfoBox extends HBox {
      */
     private void createSellButton(){
         sellButton = new Button("Sell");
-        sellButton.setOnAction(e -> controller.sellItem(
-                item,
-                Integer.parseInt(quantityTextField.getText()),
-                Float.parseFloat(priceTextField.getText())
-                )
+        sellButton.setOnAction(e -> {
+                    try {
+                        controller.sellItem(
+                                item,
+                                Integer.parseInt(quantityTextField.getText()),
+                                Float.parseFloat(priceTextField.getText())
+                                );
+                    } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                        invalidArgumentValueException.printStackTrace();
+                    }
+                }
             );
         sellButton.setId("itemSellButton" + item.getId());
     }

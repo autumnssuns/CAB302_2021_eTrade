@@ -6,6 +6,7 @@ import client.guiControls.adminMain.AdminLocalDatabase;
 import client.guiControls.userMain.buyController.BuyController;
 import client.guiControls.userMain.ordersController.OrdersController;
 import client.guiControls.userMain.saleController.SaleController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
 import common.dataClasses.*;
 import javafx.application.Platform;
@@ -50,7 +51,7 @@ public class UserMainController extends MainController {
         Platform.runLater(() -> {
             try {
                 setupController();
-            } catch (IOException e) {
+            } catch (IOException | InvalidArgumentValueException e) {
                 e.printStackTrace();
             }
         });
@@ -60,7 +61,7 @@ public class UserMainController extends MainController {
      * Sets up the view & the controllers
      * @throws IOException
      */
-    private void setupController() throws IOException{
+    private void setupController() throws IOException, InvalidArgumentValueException {
         fetchDatabase();
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("saleController/SellPage.fxml"));
@@ -106,7 +107,7 @@ public class UserMainController extends MainController {
      * Switches the display to the BUY tab.
      * @throws IOException
      */
-    public void toMarket(){
+    public void toMarket() throws InvalidArgumentValueException {
         buyController.update();
         buyPane.toFront();
         homeButton.setDisable(false);
@@ -130,7 +131,7 @@ public class UserMainController extends MainController {
      * Fetch the database from server.
      */
     @Override
-    public void fetchDatabase(){
+    public void fetchDatabase() throws InvalidArgumentValueException {
         Response response = this.sendRequest("query organisational unit");
         OrganisationalUnit organisationalUnit = (OrganisationalUnit) response.getAttachment();
 
@@ -152,7 +153,7 @@ public class UserMainController extends MainController {
     }
 
     @Override
-    public <T extends IData> void updateLocalDatabase(Class<T> type) {
+    public <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException {
         Response response;
         if (type.equals(Order.class)){
             response = this.sendRequest("query orders");
@@ -164,7 +165,7 @@ public class UserMainController extends MainController {
     /**
      * Updates the view
      */
-    public void update(){
+    public void update() throws InvalidArgumentValueException {
         fetchDatabase();
         OrganisationalUnit unit = ((UserLocalDatabase) localDatabase).getOrganisationalUnit();
         organisationalUnitLabel.setText(unit.getName());
