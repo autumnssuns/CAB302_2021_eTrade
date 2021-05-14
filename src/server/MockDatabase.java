@@ -5,7 +5,6 @@ import common.Response;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -226,14 +225,14 @@ public final class MockDatabase {
     }
 
     /**
-     * Find a certain organisational unit - item relation in the stocks database, identified by IDs
+     * Find a certain organisational unit - itemId relation in the stocks database, identified by IDs
      * @param organisationalUnitId The ID of the organisational unit
-     * @param item The item to find
-     * @return The index of the organisational unit - item relation.
+     * @param itemId The itemId to find
+     * @return The index of the organisational unit - itemId relation.
      */
-    private static int find(int organisationalUnitId, Item item){
+    private static int find(int organisationalUnitId, int itemId){
         int key = organisationalUnitId;
-        int key2 = item.getId();
+        int key2 = itemId;
         Object[] match = new Object[]{};
         for (Object[] row : stocks){
             if (row[0].equals(key) && row[1].equals(key2)){
@@ -252,7 +251,7 @@ public final class MockDatabase {
     private static int[] find(Stock stock){
         ArrayList<Integer> matchIndexes = new ArrayList();
         for (Item item : stock){
-            matchIndexes.add(find(stock.getUnitId(), item));
+            matchIndexes.add(find(stock.getUnitId(), item.getId()));
         }
         int[] returnIndexes = new int[matchIndexes.size()];
         for (int i = 0; i < matchIndexes.size(); i++){
@@ -347,7 +346,7 @@ public final class MockDatabase {
      */
     private static Response edit(Stock stock){
         for (Item item : stock){
-            int matchIndex = find(stock.getUnitId(), item);
+            int matchIndex = find(stock.getUnitId(), item.getId());
             // If the current item has already exist, change it
             if (matchIndex >= 0){
                 Object[] overrideRow = new Object[]{stock.getUnitId(), item.getId(), item.getQuantity()};
@@ -443,9 +442,27 @@ public final class MockDatabase {
                 attachment.getPlacedQuantity(), attachment.getResolvedQuantity(), attachment.getPrice(),
                 attachment.getFinishDate(), attachment.getOrderDate(), attachment.getStatus()};
         orders.add(newRow);
+        placeOrder(attachment);
         Response response = new Response(true, null);
         // TODO: Resolve order
         return response;
+    }
+
+    private static void placeOrder(Order order){
+        int unitId = order.getUnitId();
+        if (order.getOrderType().equals(Order.Type.SELL)){
+            int assetId = order.getAssetId();
+            int newQuantity = (int) stocks.get(find(unitId, assetId))[2] - order.getPlacedQuantity();
+            stocks.set(find(unitId, assetId), new Object[]{unitId, assetId, newQuantity});
+        }
+        else if (order.getOrderType().equals(Order.Type.BUY)){
+            for (Object[] row : organisationalUnits){
+                if (row[0].equals(unitId)){
+                    organisationalUnits.set(organisationalUnits.indexOf(row), new Object[]{unitId, row[1], (float) row[2] - order.getPrice() * order.getPlacedQuantity()});
+                    break;
+                }
+            }
+        }
     }
 
     /**

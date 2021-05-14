@@ -122,8 +122,7 @@ public class ItemInfoBox extends HBox {
         sellButton.setOnAction(e -> controller.sellItem(
                 item,
                 Integer.parseInt(quantityTextField.getText()),
-                Float.parseFloat(priceTextField.getText()),
-                this
+                Float.parseFloat(priceTextField.getText())
                 )
             );
         sellButton.setId("itemSellButton" + item.getId());

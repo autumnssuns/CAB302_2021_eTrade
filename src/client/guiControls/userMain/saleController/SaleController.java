@@ -17,6 +17,8 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+
 /**
  * A controller to control the SELL Page (which allows the user to sell items from their organisation's stock).
  */
@@ -51,14 +53,13 @@ public class SaleController extends DisplayController {
      * Sell an associated item and remove it from stock.
      * @param item The item to sell
      */
-    public void sellItem(Item item, int quantity, float price, ItemInfoBox caller){
+    public void sellItem(Item item, int quantity, float price){
         int linkedItemIndex = tempStock.indexOf(item);
         CartItem cartItem = item.moveToCart(quantity, price);
         sellCart.add(cartItem);
         addCartItemInfoBox(cartItem);
-        caller.setItem(item);
         tempStock.set(linkedItemIndex, item);
-        updateTotal();
+        refresh();
     }
 
     /**
@@ -75,8 +76,6 @@ public class SaleController extends DisplayController {
             }
         }
         refresh();
-        sellCart.remove(cartItem);
-        updateTotal();
     }
 
     /**
@@ -94,15 +93,25 @@ public class SaleController extends DisplayController {
         for (Item item : tempStock){
             addItemInfoBox(item);
         }
+        sellCartDisplayBox.getChildren().clear();
+        for (CartItem cartItem : sellCart){
+            addCartItemInfoBox(cartItem);
+        }
+        updateTotal();
     }
 
     /**
      * Sells all items in the cart.
      */
     public void checkOut(){
-        controller.sendRequest("sell", sellCart, Cart.class);
+        int unitId = ((UserLocalDatabase)controller.getDatabase()).getOrganisationalUnit().getId();
+        for (CartItem cartItem : sellCart){
+            Order newOrder = new Order(-1, Order.Type.SELL, unitId, cartItem.getId(), cartItem.getQuantity(), 0, cartItem.getPrice(),
+                    null, LocalDateTime.now(), Order.Status.PENDING);
+            controller.sendRequest("add", newOrder, Order.class);
+        }
         sellCart.clear();
-        controller.fetchDatabase();
+        update();
     }
 
     /**
