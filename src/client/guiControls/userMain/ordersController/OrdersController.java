@@ -7,6 +7,7 @@ import common.dataClasses.DataCollection;
 import common.dataClasses.Order;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Pagination;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
@@ -15,7 +16,14 @@ import javafx.util.Callback;
 public class OrdersController extends DisplayController {
     @FXML
     Pagination ordersDisplay;
+    @FXML
+    Button sellFilterButton;
+    @FXML
+    Button buyFilterButton;
+
     DataCollection<Order> orders;
+
+    private Order.Type typeFilter = Order.Type.BUY;;
 
     /**
      * The number of orders to be displayed per page.
@@ -46,7 +54,7 @@ public class OrdersController extends DisplayController {
         UserLocalDatabase localDatabase = (UserLocalDatabase) controller.getDatabase();
         orders = new DataCollection<>();
         for (Order order : localDatabase.getOrders()){
-            if (order.getUnitId() == controller.getUser().getUnitId()){
+            if (order.getUnitId() == controller.getUser().getUnitId() && order.getOrderType().equals(typeFilter)){
                 orders.add(order);
             }
         }
@@ -55,5 +63,22 @@ public class OrdersController extends DisplayController {
             ordersDisplay.setPageFactory(pageIndex -> createPage(pageIndex));
             ordersDisplay.setPageCount((int) Math.ceil((float) orders.size() / ordersPerPage));
         }
+    }
+
+    /**
+     * Change the order type displayed
+     */
+    public void changeTypeFilter(){
+        if (typeFilter.equals(Order.Type.SELL)){
+            typeFilter = Order.Type.BUY;
+            buyFilterButton.setDisable(true);
+            sellFilterButton.setDisable(false);
+        }
+        else{
+            typeFilter = Order.Type.SELL;
+            sellFilterButton.setDisable(true);
+            buyFilterButton.setDisable(false);
+        }
+        update();
     }
 }
