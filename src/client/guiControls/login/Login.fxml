@@ -19,5 +19,6 @@
       <Label fx:id="statusLabel" layoutY="359.0" prefHeight="17.0" prefWidth="601.0" />
       <PasswordField fx:id="passwordField" layoutX="226.0" layoutY="188.0" />
       <Label layoutX="165.0" layoutY="192.0" text="Password" />
+      <Button fx:id="exitButton" layoutX="519.0" layoutY="14.0" mnemonicParsing="false" onAction="#exit" prefHeight="39.0" prefWidth="68.0" text="Exit" />
    </children>
 </AnchorPane>

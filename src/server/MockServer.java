@@ -1,43 +1,64 @@
 package server;
 
-import common.dataClasses.Stock;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
-import common.dataClasses.Asset;
-import common.dataClasses.Item;
-import common.dataClasses.Organisation;
-import common.dataClasses.User;
+import common.dataClasses.OrganisationalUnit;
+import common.dataClasses.Stock;
 
-public class MockServer implements IServer{
-    MockDatabase mockdb;
+public final class MockServer implements IServer{
 
-    public MockServer(){
-        mockdb = new MockDatabase();
+    public MockServer() {
+        MockDatabase.initiate();
     }
 
     @Override
-    public Response sendResponse(Request request) {
+    public Response sendResponse(Request request) throws InvalidArgumentValueException {
         // Unidentified requests are denied by default
         Response response = new Response(false, null);
         switch (request.getAction()){
             case "login":
-                response = mockdb.login(request);
+                response = MockDatabase.login(request);
                 break;
 
             case "query users":
-                response = mockdb.queryUsers(request);
+                response = MockDatabase.queryUsers(request);
                 break;
 
             case "query assets":
-                response = mockdb.queryAssets(request);
+                response = MockDatabase.queryAssets(request);
                 break;
 
-            case "query organisations":
-                response = mockdb.queryOrganisations(request);
+            case "query organisationalUnits":
+                response = MockDatabase.queryOrganisations(request);
                 break;
 
             case "query stocks":
-                response = mockdb.queryStocks(request);
+                response = MockDatabase.queryStocks(request);
+                break;
+
+            case "query organisational unit":
+                response = MockDatabase.queryOrganisationalUnit(request);
+                break;
+
+            case "query stock":
+                response = MockDatabase.queryStock(request);
+                break;
+
+            case "query orders":
+                response = MockDatabase.queryOrders(request);
+                break;
+
+            case "add":
+                response = MockDatabase.add(request);
+                break;
+
+            case "edit":
+                response = MockDatabase.edit(request);
+                break;
+
+            case "delete":
+                response = MockDatabase.delete(request);
                 break;
         }
         return response;

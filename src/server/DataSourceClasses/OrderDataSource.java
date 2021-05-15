@@ -67,13 +67,13 @@ public class OrderDataSource {
             //input values into the query string above
             addOrder.setInt(1, order.getOrderId());
             addOrder.setString(2, order.getOrderType());
-            addOrder.setFloat(3, order.getOrganisationid());
+            addOrder.setFloat(3, order.getUnitId());
             addOrder.setInt(4, order.getAssetId());
             addOrder.setInt(5, order.getPlacedQuantity());
             addOrder.setFloat(6, order.getResolvedQuantity());
             addOrder.setFloat(7, order.getPrice());
             addOrder.setString(8, order.getOrderDate());
-            addOrder.setString(9, order.getFinishedDate());
+            addOrder.setString(9, order.getFinishDate());
             addOrder.setString(10, order.getStatus());
             //execute the query
             addOrder.executeQuery();
@@ -111,13 +111,13 @@ public class OrderDataSource {
             //Stores values into the dummy object
             dummy.setOrderID(rs.getInt("order_id"));
             dummy.setOrderType(rs.getString("order_type"));
-            dummy.setOrganisationID(rs.getInt("organisation_id"));
+            dummy.setunitId(rs.getInt("organisation_id"));
             dummy.setAssetID(rs.getInt("asset_id"));
             dummy.setPlacedQuantity(rs.getInt("placed_quantity"));
             dummy.setResolvedQuantity(rs.getInt("resolved_quantity"));
             dummy.setPrice(rs.getFloat("price"));
             dummy.setOrderDate(rs.getString("order_date"));
-            dummy.setFinishedDate(rs.getString("finished_date"));
+            dummy.setFinishDate(rs.getString("finished_date"));
             dummy.setStatus(rs.getString("status"));
         } catch (SQLException e) {
             e.printStackTrace();

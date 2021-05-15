@@ -61,7 +61,7 @@ public class MainGUITest extends ApplicationTest{
         adminGUITest.adminMainControllerTest();
         adminGUITest.adminUsersControlTest();
         adminGUITest.adminAssetsControlTest();
-        adminGUITest.adminOrganisationsControlTest();
+        adminGUITest.adminOrganisationUnitsControlTest();
     }
 
     /**

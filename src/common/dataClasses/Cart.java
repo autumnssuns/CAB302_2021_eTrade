@@ -1,5 +1,6 @@
-package client.data.sessionalClasses;
+package common.dataClasses;
 
+import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.CartItem;
 
 import java.util.ArrayList;
@@ -7,14 +8,14 @@ import java.util.ArrayList;
 /**
  * Represents a cart of items.
  */
-public class Cart extends ArrayList<CartItem> {
-    private final String cartType;
+public class Cart extends ArrayList<CartItem> implements IData {
+    private final Order.Type cartType;
 
     /**
      * Sets the type of the cart ('buy' or 'sell')
      * @param cartType The type of the cart ('buy' or 'sell')
      */
-    public Cart(String cartType){
+    public Cart(Order.Type cartType){
         this.cartType = cartType;
     }
 
@@ -33,7 +34,11 @@ public class Cart extends ArrayList<CartItem> {
             CartItem currentItem = this.get(i);
             //Todo: change the condition the itemID
             if (currentItem.getName() == item.getName() && currentItem.getPrice() == item.getPrice()){
-                this.get(i).add(item.getQuantity());
+                try {
+                    this.get(i).add(item.getQuantity());
+                } catch (InvalidArgumentValueException e) {
+                    e.printStackTrace();
+                }
                 result = true;
                 break;
             }
@@ -46,7 +51,7 @@ public class Cart extends ArrayList<CartItem> {
 
     /**
      * Retrieves the total price of all the items in this cart.
-     * @return
+     * @return The total price of all the items in this cart.
      */
     public float getTotalPrice() {
         float total = 0;
@@ -62,5 +67,13 @@ public class Cart extends ArrayList<CartItem> {
     public void checkOut(){
         super.clear();
         //TODO: Request server to place orders on all items.
+    }
+
+    /**
+     * Returns the type of the cart ('buy' or 'sell')
+     * @return The type of the cart.
+     */
+    public Order.Type getCartType() {
+        return cartType;
     }
 }

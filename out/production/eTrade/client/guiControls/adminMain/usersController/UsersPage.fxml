@@ -50,7 +50,7 @@
                   <Insets />
                </HBox.margin>
             </PasswordField>
-            <ComboBox fx:id="newOrganisationSelectionBox" editable="true" prefHeight="30.0" prefWidth="300.0" promptText="Organisational Unit" />
+            <ComboBox fx:id="newOrganisationUnitSelectionBox" editable="true" prefHeight="30.0" prefWidth="300.0" promptText="Organisational Unit" />
             <ComboBox fx:id="newRoleSelectionBox" editable="true" prefHeight="30.0" prefWidth="190.0" promptText="Role" />
             <Button fx:id="addNewUserButton" mnemonicParsing="false" onAction="#addEntry" prefHeight="48.0" prefWidth="200.0" text="Add">
                <HBox.margin>

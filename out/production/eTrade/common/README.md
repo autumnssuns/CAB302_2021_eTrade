@@ -13,14 +13,14 @@ Includes class design: Designs of the (public) Java classes that will comprise y
 
 | User        |
 | ------------- |
-| -name: String <br> -username: String <br> -role: String <br> -organisation: Organisation|
-| +getUsername(): String <br> +getRole(): String <br> +getOrganisation(): Organisation|
+| -name: String <br> -username: String <br> -role: String <br> -organisationalUnit: organisationalUnit|
+| +getUsername(): String <br> +getRole(): String <br> +getOrganisation(): organisationalUnit|
 
 User(String username): Connects to server and fetch all information related to the user.
 
-2. class Organisation: stores all the data related to an organisation.
+2. class organisationalUnit: stores all the data related to an organisationalUnit.
 
-| Organisation |
+| organisationalUnit |
 | ------------ |
 | -name: String <br> -credit: Credit <br> -stock: Stock <br> -sellOrders: SellOrders <br> -buyOrders: BuyOrders|
 | +getName(): String <br> +getCredit(): Float <br> +getStock(): Stock <br> +getSellOrders(): SellOrders <br> +getBuyOrders(): BuyOrders|

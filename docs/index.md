@@ -3,7 +3,7 @@ This website contains documents relevant to the development & release of an Elec
 ___This site is intended for the developers and marker(s) only. Please do not share it outside the scope of the intended readers.___
 
 # Overview
-The project includes the development of an Electronic Asset Trading Platform for an unnamed client corporation, allowing their organisational units (which will be referred to as "divisions") to trade resources (computational resources, hardware resources, software licenses etc.) across the organisation. Specification of the client's requirement is listed in a separated [Requirement document](Requirements/README.md). The applications in this project is developed in Java and utilises a relational (SQL) database for data storage.
+The project includes the development of an Electronic Asset Trading Platform for an unnamed client corporation, allowing their organisational units (which will be referred to as "divisions") to trade resources (computational resources, hardware resources, software licenses etc.) across the organisationalUnit. Specification of the client's requirement is listed in a separated [Requirement document](Requirements/README.md). The applications in this project is developed in Java and utilises a relational (SQL) database for data storage.
 
 {% include youtubePlayer.html %}
 

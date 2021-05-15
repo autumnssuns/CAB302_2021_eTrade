@@ -3,25 +3,21 @@ package client.guiControls.adminMain;
 import client.guiControls.DisplayController;
 import client.guiControls.MainController;
 import client.guiControls.adminMain.assetsController.AssetsController;
+import client.guiControls.adminMain.organisationalUnitsController.OrganisationalUnitsController;
 import client.guiControls.adminMain.usersController.UsersController;
-import common.Request;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
 import common.dataClasses.DataCollection;
+import common.dataClasses.IData;
+import common.dataClasses.*;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -29,21 +25,21 @@ import java.io.IOException;
 //TODO: Commenting & Documenting
 
 public class AdminMainController extends MainController {
-    private Stage stage;
-    private Scene scene;
-
     //Reusable elements that can be updated
-    Pane usersPane;
-    Pane organisationUnitsPane;
-    Pane assetsPane;
-    Pane profilePane;
+    private Pane usersPane;
+    private UsersController usersController;
+    private Pane organisationUnitsPane;
+    private OrganisationalUnitsController organisationalUnitsController;
+    private Pane assetsPane;
+    private AssetsController assetsController;
+    private Pane profilePane;
 
     //Preset components
     @FXML StackPane displayStack;
     @FXML Pane filterPane;
     @FXML Button assetsButton;
     @FXML Button usersButton;
-    @FXML Button organisationUnitsButton;
+    @FXML Button organisationalUnitsButton;
     @FXML AnchorPane anchorPane;
     @FXML Label userLabel;
 
@@ -58,33 +54,37 @@ public class AdminMainController extends MainController {
         Platform.runLater(() -> {
             try {
                 setupController();
-            } catch (IOException e) {
+            } catch (IOException | InvalidArgumentValueException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    private void setupController() throws IOException{
+    /**
+     * Sets up the controller
+     * @throws IOException Required by JavaFX
+     */
+    private void setupController() throws IOException, InvalidArgumentValueException {
         userLabel.setText(getUser().getUsername());
-        initialiseDatabase();
+        fetchDatabase();
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("usersController/UsersPage.fxml"));
         usersPane = fxmlLoader.load();
-        DisplayController displayController = fxmlLoader.getController();
-        displayController.setController(this);
-        displayController.update();
+        usersController = fxmlLoader.getController();
+        usersController.setController(this);
+        usersController.update();
 
-        fxmlLoader = new FXMLLoader(getClass().getResource("organisationsController/organisationsPage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getResource("organisationalUnitsController/organisationalUnitsPage.fxml"));
         organisationUnitsPane = fxmlLoader.load();
-        displayController = fxmlLoader.getController();
-        displayController.setController(this);
-        displayController.update();
+        organisationalUnitsController = fxmlLoader.getController();
+        organisationalUnitsController.setController(this);
+        organisationalUnitsController.update();
 
         fxmlLoader = new FXMLLoader(getClass().getResource("assetsController/AssetsPage.fxml"));
         assetsPane = fxmlLoader.load();
-        displayController = fxmlLoader.getController();
-        displayController.setController(this);
-        displayController.update();
+        assetsController = fxmlLoader.getController();
+        assetsController.setController(this);
+        assetsController.update();
 
         profilePane = new Pane();
 
@@ -93,11 +93,12 @@ public class AdminMainController extends MainController {
     }
 
     /**
-     * Switches the display to the ORGANISATION UNITS pane.
+     * Switches the display to the organisational unit UNITS pane.
      */
     public void toOrganisationUnits(){
+        organisationalUnitsController.update();
         organisationUnitsPane.toFront();
-        organisationUnitsButton.setDisable(true);
+        organisationalUnitsButton.setDisable(true);
         assetsButton.setDisable(false);
         usersButton.setDisable(false);
     }
@@ -106,8 +107,9 @@ public class AdminMainController extends MainController {
      * Switches the display to the USERS pane.
      */
     public void toUsers(){
+        usersController.update();
         usersPane.toFront();
-        organisationUnitsButton.setDisable(false);
+        organisationalUnitsButton.setDisable(false);
         assetsButton.setDisable(false);
         usersButton.setDisable(true);
     }
@@ -116,8 +118,9 @@ public class AdminMainController extends MainController {
      * Switches the display to the ASSETS pane.
      */
     public void toAssets(){
+        assetsController.update();
         assetsPane.toFront();
-        organisationUnitsButton.setDisable(false);
+        organisationalUnitsButton.setDisable(false);
         assetsButton.setDisable(true);
         usersButton.setDisable(false);
     }
@@ -125,41 +128,49 @@ public class AdminMainController extends MainController {
     /**
      * Initialise the database.
      */
-    private void initialiseDatabase(){
-        Request request = new Request(getUser(), "query users");
-        Response response = this.sendRequest(request);
+    @Override
+    public void fetchDatabase() throws InvalidArgumentValueException {
+        Response response = this.sendRequest("query users");
         DataCollection users = (DataCollection) response.getAttachment();
 
-        request = new Request(getUser(), "query assets");
-        response = this.sendRequest(request);
+        response = this.sendRequest("query assets");
         DataCollection assets = (DataCollection) response.getAttachment();
 
-        request = new Request(getUser(), "query organisations");
-        response = this.sendRequest(request);
-        DataCollection organisations = (DataCollection) response.getAttachment();
+        response = this.sendRequest("query organisationalUnits");
+        DataCollection organisationalUnits = (DataCollection) response.getAttachment();
 
-        request = new Request(getUser(), "query stocks");
-        response = this.sendRequest(request);
+        response = this.sendRequest("query stocks");
         DataCollection stocks = (DataCollection) response.getAttachment();
 
-        localDatabase = new AdminLocalDatabase(users, assets, organisations, stocks);
+        localDatabase = new AdminLocalDatabase(users, assets, organisationalUnits, stocks);
         System.out.println(localDatabase);
     }
-    // Exit button
-    public void exit(ActionEvent event) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Exit Program");
-        alert.setHeaderText("Close the program?");
-        alert.setContentText("Do you want to exit?");
-        if (alert.showAndWait().get() == ButtonType.OK){
-            Parent root = FXMLLoader.load(getClass().getResource("AdminMain.fxml"));
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.close();
-            System.out.println("You successfully exit the program");
+
+    /**
+     * Updates the local database, depending on what type of IData is being updated
+     */
+    @Override
+    public <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException {
+        Response response;
+        if (type.equals(Asset.class)){
+            response = this.sendRequest("query assets");
+            DataCollection assets = (DataCollection) response.getAttachment();
+            ((AdminLocalDatabase) localDatabase).setAssets(assets);
         }
-
-
+        else if (type.equals(User.class)){
+            response = this.sendRequest("query users");
+            DataCollection users = (DataCollection) response.getAttachment();
+            ((AdminLocalDatabase) localDatabase).setUsers(users);
+        }
+        else if (type.equals(OrganisationalUnit.class)){
+            response = this.sendRequest("query organisationalUnits");
+            DataCollection organisationalUnits = (DataCollection) response.getAttachment();
+            ((AdminLocalDatabase) localDatabase).setOrganisationalUnits(organisationalUnits);
+        }
+        else if (type.equals(Stock.class)){
+            response = this.sendRequest("query stocks");
+            DataCollection stocks = (DataCollection) response.getAttachment();
+            ((AdminLocalDatabase) localDatabase).setStocks(stocks);
+        }
     }
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="911.0" prefWidth="1444.0" styleClass="displayPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.ordersController.OrdersController">
+    <children>
+        <TextField fx:id="homeSearchField" layoutX="318.0" layoutY="45.0" prefHeight="60.0" prefWidth="1097.0">
+            <font>
+                <Font size="28.0" />
+            </font>
+        </TextField>
+      <Pagination fx:id="ordersDisplay" layoutX="52.0" layoutY="217.0" pageCount="10" prefHeight="677.0" prefWidth="1363.0" styleClass="bodyPane" />
+      <HBox alignment="CENTER" layoutX="52.0" layoutY="137.0" prefHeight="80.0" prefWidth="1363.0" spacing="20.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" text="ID" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="200.0" text="Asset Name" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" text="Place Qty" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" text="Resolved Qty" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" text="Price" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="190.0" text="Order Date" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="190.0" text="Finish Date" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="120.0" text="Status" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
+         </children>
+      </HBox>
+      <Button fx:id="sellFilterButton" layoutX="52.0" layoutY="45.0" mnemonicParsing="false" onAction="#changeTypeFilter" prefHeight="60.0" prefWidth="107.0" text="Sell orders" />
+      <Button fx:id="buyFilterButton" disable="true" layoutX="182.0" layoutY="45.0" mnemonicParsing="false" onAction="#changeTypeFilter" prefHeight="60.0" prefWidth="107.0" text="Buy orders" />
+    </children>
+</AnchorPane>

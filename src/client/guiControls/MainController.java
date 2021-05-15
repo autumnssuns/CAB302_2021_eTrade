@@ -1,9 +1,11 @@
 package client.guiControls;
 
 import client.data.IServerConnection;
-import client.guiControls.adminMain.AdminLocalDatabase;
+import client.guiControls.login.LoginController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
+import common.dataClasses.IData;
 import common.dataClasses.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -58,10 +60,19 @@ public class MainController {
 
     /**
      * Asks the server connection to send a request to the server.
-     * @param request The request to be sent.
+     * @param action
+     * @param attachment
      */
-    public Response sendRequest(Request request){
-        return serverConnection.sendRequest(request);
+    public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType) throws InvalidArgumentValueException {
+        Request request = new Request(getUser(), action, attachment);
+        request.setAttachmentType(attachmentType);
+        Response response = serverConnection.sendRequest(request);
+        updateLocalDatabase(attachmentType);
+        return response;
+    }
+
+    public Response sendRequest(String action) throws InvalidArgumentValueException {
+        return serverConnection.sendRequest(new Request(getUser(), action));
     }
 
     /**
@@ -78,8 +89,12 @@ public class MainController {
      * @throws IOException
      */
     public void logOut(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../login/Login.fxml"));
+
         // Sets the loader
-        Parent root = FXMLLoader.load(getClass().getResource("../login/Login.fxml"));
+        Parent root = loader.load();
+        LoginController controller = loader.getController();
+        controller.setServerConnection(this.getServerConnection());
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
 
@@ -92,6 +107,18 @@ public class MainController {
         stage.centerOnScreen();
         stage.show();
     }
+
+    /**
+     * Fetch the local database from the server.
+     */
+    public void fetchDatabase() throws InvalidArgumentValueException {
+
+    }
+
+    /**
+     * Update the local database with that from the server
+     */
+    public <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException {}
 
     /**
      * Returns the local database for the admin.

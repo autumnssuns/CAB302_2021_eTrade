@@ -6,7 +6,7 @@
 <title>OrganisationInfoBox</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="dc.created" content="2021-05-01">
-<meta name="description" content="declaration: package: client.guiControls.adminMain.organisationsController, class: OrganisationInfoBox">
+<meta name="description" content="declaration: package: client.guiControls.adminMain.organisationalUnitsController, class: OrganisationInfoBox">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -73,7 +73,7 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">client.guiControls.adminMain.organisationsController</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">client.guiControls.adminMain.organisationalUnitsController</a></div>
 <h1 title="Class OrganisationInfoBox" class="title">Class OrganisationInfoBox</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree">java.lang.Object
@@ -82,7 +82,7 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">javafx.scene.layout.Region
 <div class="inheritance">javafx.scene.layout.Pane
 <div class="inheritance">javafx.scene.layout.HBox
-<div class="inheritance">client.guiControls.adminMain.organisationsController.OrganisationInfoBox</div>
+<div class="inheritance">client.guiControls.adminMain.organisationalUnitsController.OrganisationalUnitInfoBox</div>
 </div>
 </div>
 </div>
@@ -97,8 +97,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <pre>public class <span class="type-name-label">OrganisationInfoBox</span>
 extends javafx.scene.layout.HBox</pre>
-<div class="block">A box to display organisation information and can be interacted with.
- // TODO: Fix a bug where organisation info is not stored properly when added.</div>
+<div class="block">A box to display organisationalUnit information and can be interacted with.
+ // TODO: Fix a bug where organisationalUnit info is not stored properly when added.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -146,7 +146,7 @@ extends javafx.scene.layout.HBox</pre>
 <td class="col-last">&nbsp;</td>
 </tr>
 <tr class="alt-color">
-<td class="col-first"><code>private <a href="OrganisationsController.html" title="class in client.guiControls.adminMain.organisationsController">OrganisationsController</a></code></td>
+<td class="col-first"><code>private <a href="OrganisationsController.html" title="class in client.guiControls.adminMain.organisationalUnitsController">OrganisationsController</a></code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#controller">controller</a></span></code></th>
 <td class="col-last">&nbsp;</td>
 </tr>
@@ -226,7 +226,7 @@ java.lang.String&nbsp;name,
 float&nbsp;credit,
 int&nbsp;assetQuantity)</code></th>
 <td class="col-last">
-<div class="block">Initiates the box with organisation information.</div>
+<div class="block">Initiates the box with organisationalUnit information.</div>
 </td>
 </tr>
 </tbody>
@@ -254,77 +254,77 @@ int&nbsp;assetQuantity)</code></th>
 <td class="col-first"><code>private void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#createAssetQuantityLabel()">createAssetQuantityLabel</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Creates a text field to display the organisation's description.</div>
+<div class="block">Creates a text field to display the organisationalUnit's description.</div>
 </td>
 </tr>
 <tr class="row-color" id="i1">
 <td class="col-first"><code>private void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#createCreditLabel()">createCreditLabel</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Creates a text field to display the organisation's description.</div>
+<div class="block">Creates a text field to display the organisationalUnit's description.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i2">
 <td class="col-first"><code>private void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#createEditButton()">createEditButton</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Creates a button that allows the admin to edit an organisation's info.</div>
+<div class="block">Creates a button that allows the admin to edit an organisationalUnit's info.</div>
 </td>
 </tr>
 <tr class="row-color" id="i3">
 <td class="col-first"><code>private void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#createIdLabel()">createIdLabel</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Creates a label to display the organisation's id.</div>
+<div class="block">Creates a label to display the organisationalUnit's id.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i4">
 <td class="col-first"><code>private void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#createNameLabel()">createNameLabel</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Creates a text field to display the organisation's name.</div>
+<div class="block">Creates a text field to display the organisationalUnit's name.</div>
 </td>
 </tr>
 <tr class="row-color" id="i5">
 <td class="col-first"><code>private void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#createRemoveButton()">createRemoveButton</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Creates a button that allows the admin to remove an organisation.</div>
+<div class="block">Creates a button that allows the admin to remove an organisationalUnit.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i6">
 <td class="col-first"><code>float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getCredit()">getCredit</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Returns the credit of the organisation.</div>
+<div class="block">Returns the credit of the organisationalUnit.</div>
 </td>
 </tr>
 <tr class="row-color" id="i7">
 <td class="col-first"><code>java.lang.String</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getName()">getName</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Returns the name of the organisation.</div>
+<div class="block">Returns the name of the organisationalUnit.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i8">
 <td class="col-first"><code>javafx.scene.layout.VBox</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getOrganisationalAssetsBox()">getOrganisationalAssetsBox</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Returns the Assets Box of the current organisation.</div>
+<div class="block">Returns the Assets Box of the current organisationalUnit.</div>
 </td>
 </tr>
 <tr class="row-color" id="i9">
 <td class="col-first"><code>private void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#initiateNodes()">initiateNodes</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Draw the nodes displaying the organisation's info.</div>
+<div class="block">Draw the nodes displaying the organisationalUnit's info.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i10">
 <td class="col-first"><code>void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#reloadEntries()">reloadEntries</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Reload the box using the stored organisation's info.</div>
+<div class="block">Reload the box using the stored organisationalUnit's info.</div>
 </td>
 </tr>
 <tr class="row-color" id="i11">
@@ -336,7 +336,7 @@ int&nbsp;assetQuantity)</code></th>
 </tr>
 <tr class="alt-color" id="i12">
 <td class="col-first"><code>void</code></td>
-<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#setController(client.guiControls.adminMain.organisationsController.OrganisationsController)">setController</a></span>&#8203;(<a href="OrganisationsController.html" title="class in client.guiControls.adminMain.organisationsController">OrganisationsController</a>&nbsp;controller)</code></th>
+<th class="col-second" scope="row"><code><span class="member-name-link"><a href="#setController(client.guiControls.adminMain.organisationalUnitsController.OrganisationsController)">setController</a></span>&#8203;(<a href="OrganisationsController.html" title="class in client.guiControls.adminMain.organisationalUnitsController">OrganisationsController</a>&nbsp;controller)</code></th>
 <td class="col-last">
 <div class="block">Set the controller for this box.</div>
 </td>
@@ -345,21 +345,21 @@ int&nbsp;assetQuantity)</code></th>
 <td class="col-first"><code>void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#setCredit(float)">setCredit</a></span>&#8203;(float&nbsp;credit)</code></th>
 <td class="col-last">
-<div class="block">Sets the credit of the current organisation to a new value.</div>
+<div class="block">Sets the credit of the current organisationalUnit to a new value.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i14">
 <td class="col-first"><code>void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#setName(java.lang.String)">setName</a></span>&#8203;(java.lang.String&nbsp;name)</code></th>
 <td class="col-last">
-<div class="block">Sets the name of the current organisation to a new value.</div>
+<div class="block">Sets the name of the current organisationalUnit to a new value.</div>
 </td>
 </tr>
 <tr class="row-color" id="i15">
 <td class="col-first"><code>void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#setOrganisationalAssetsBox(javafx.scene.layout.VBox)">setOrganisationalAssetsBox</a></span>&#8203;(javafx.scene.layout.VBox&nbsp;newBox)</code></th>
 <td class="col-last">
-<div class="block">Sets a new assets box for the organisation.</div>
+<div class="block">Sets a new assets box for the organisationalUnit.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i16">
@@ -474,7 +474,7 @@ int&nbsp;assetQuantity)</code></th>
 <li>
 <section class="detail" id="controller">
 <h3>controller</h3>
-<div class="member-signature"><span class="modifiers">private</span>&nbsp;<span class="return-type"><a href="OrganisationsController.html" title="class in client.guiControls.adminMain.organisationsController">OrganisationsController</a></span>&nbsp;<span class="member-name">controller</span></div>
+<div class="member-signature"><span class="modifiers">private</span>&nbsp;<span class="return-type"><a href="OrganisationsController.html" title="class in client.guiControls.adminMain.organisationalUnitsController">OrganisationsController</a></span>&nbsp;<span class="member-name">controller</span></div>
 </section>
 </li>
 </ul>
@@ -492,12 +492,12 @@ int&nbsp;assetQuantity)</code></th>
 java.lang.String&nbsp;name,
 float&nbsp;credit,
 int&nbsp;assetQuantity)</span></div>
-<div class="block">Initiates the box with organisation information.</div>
+<div class="block">Initiates the box with organisationalUnit information.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>organisationId</code> - The organisation's id.</dd>
-<dd><code>name</code> - The name of the organisation.</dd>
-<dd><code>credit</code> - The credit of the organisation.</dd>
+<dd><code>organisationId</code> - The organisationalUnit's id.</dd>
+<dd><code>name</code> - The name of the organisationalUnit.</dd>
+<dd><code>credit</code> - The credit of the organisationalUnit.</dd>
 </dl>
 </section>
 </li>
@@ -513,56 +513,56 @@ int&nbsp;assetQuantity)</span></div>
 <section class="detail" id="initiateNodes()">
 <h3>initiateNodes</h3>
 <div class="member-signature"><span class="modifiers">private</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">initiateNodes</span>()</div>
-<div class="block">Draw the nodes displaying the organisation's info.</div>
+<div class="block">Draw the nodes displaying the organisationalUnit's info.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="createIdLabel()">
 <h3>createIdLabel</h3>
 <div class="member-signature"><span class="modifiers">private</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">createIdLabel</span>()</div>
-<div class="block">Creates a label to display the organisation's id.</div>
+<div class="block">Creates a label to display the organisationalUnit's id.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="createNameLabel()">
 <h3>createNameLabel</h3>
 <div class="member-signature"><span class="modifiers">private</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">createNameLabel</span>()</div>
-<div class="block">Creates a text field to display the organisation's name.</div>
+<div class="block">Creates a text field to display the organisationalUnit's name.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="reloadEntries()">
 <h3>reloadEntries</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">reloadEntries</span>()</div>
-<div class="block">Reload the box using the stored organisation's info.</div>
+<div class="block">Reload the box using the stored organisationalUnit's info.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="createCreditLabel()">
 <h3>createCreditLabel</h3>
 <div class="member-signature"><span class="modifiers">private</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">createCreditLabel</span>()</div>
-<div class="block">Creates a text field to display the organisation's description.</div>
+<div class="block">Creates a text field to display the organisationalUnit's description.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="createAssetQuantityLabel()">
 <h3>createAssetQuantityLabel</h3>
 <div class="member-signature"><span class="modifiers">private</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">createAssetQuantityLabel</span>()</div>
-<div class="block">Creates a text field to display the organisation's description.</div>
+<div class="block">Creates a text field to display the organisationalUnit's description.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="createEditButton()">
 <h3>createEditButton</h3>
 <div class="member-signature"><span class="modifiers">private</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">createEditButton</span>()</div>
-<div class="block">Creates a button that allows the admin to edit an organisation's info.</div>
+<div class="block">Creates a button that allows the admin to edit an organisationalUnit's info.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="createRemoveButton()">
 <h3>createRemoveButton</h3>
 <div class="member-signature"><span class="modifiers">private</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">createRemoveButton</span>()</div>
-<div class="block">Creates a button that allows the admin to remove an organisation.</div>
+<div class="block">Creates a button that allows the admin to remove an organisationalUnit.</div>
 </section>
 </li>
 <li>
@@ -573,9 +573,9 @@ int&nbsp;assetQuantity)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="setController(client.guiControls.adminMain.organisationsController.OrganisationsController)">
+<section class="detail" id="setController(client.guiControls.adminMain.organisationalUnitsController.OrganisationsController)">
 <h3>setController</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">setController</span>&#8203;(<span class="parameters"><a href="OrganisationsController.html" title="class in client.guiControls.adminMain.organisationsController">OrganisationsController</a>&nbsp;controller)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">setController</span>&#8203;(<span class="parameters"><a href="OrganisationsController.html" title="class in client.guiControls.adminMain.organisationalUnitsController">OrganisationsController</a>&nbsp;controller)</span></div>
 <div class="block">Set the controller for this box.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -587,10 +587,10 @@ int&nbsp;assetQuantity)</span></div>
 <section class="detail" id="getName()">
 <h3>getName</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name">getName</span>()</div>
-<div class="block">Returns the name of the organisation.</div>
+<div class="block">Returns the name of the organisationalUnit.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>The name of the organisation.</dd>
+<dd>The name of the organisationalUnit.</dd>
 </dl>
 </section>
 </li>
@@ -598,10 +598,10 @@ int&nbsp;assetQuantity)</span></div>
 <section class="detail" id="getCredit()">
 <h3>getCredit</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name">getCredit</span>()</div>
-<div class="block">Returns the credit of the organisation.</div>
+<div class="block">Returns the credit of the organisationalUnit.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>The credit of the organisation.</dd>
+<dd>The credit of the organisationalUnit.</dd>
 </dl>
 </section>
 </li>
@@ -609,10 +609,10 @@ int&nbsp;assetQuantity)</span></div>
 <section class="detail" id="getOrganisationalAssetsBox()">
 <h3>getOrganisationalAssetsBox</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">javafx.scene.layout.VBox</span>&nbsp;<span class="member-name">getOrganisationalAssetsBox</span>()</div>
-<div class="block">Returns the Assets Box of the current organisation.</div>
+<div class="block">Returns the Assets Box of the current organisationalUnit.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>The Assets Box of the current organisation.</dd>
+<dd>The Assets Box of the current organisationalUnit.</dd>
 </dl>
 </section>
 </li>
@@ -620,7 +620,7 @@ int&nbsp;assetQuantity)</span></div>
 <section class="detail" id="setOrganisationalAssetsBox(javafx.scene.layout.VBox)">
 <h3>setOrganisationalAssetsBox</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">setOrganisationalAssetsBox</span>&#8203;(<span class="parameters">javafx.scene.layout.VBox&nbsp;newBox)</span></div>
-<div class="block">Sets a new assets box for the organisation.</div>
+<div class="block">Sets a new assets box for the organisationalUnit.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>newBox</code> - The new assets box.</dd>
@@ -638,7 +638,7 @@ int&nbsp;assetQuantity)</span></div>
 <section class="detail" id="setName(java.lang.String)">
 <h3>setName</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">setName</span>&#8203;(<span class="parameters">java.lang.String&nbsp;name)</span></div>
-<div class="block">Sets the name of the current organisation to a new value.</div>
+<div class="block">Sets the name of the current organisationalUnit to a new value.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>name</code> - The new name.</dd>
@@ -649,7 +649,7 @@ int&nbsp;assetQuantity)</span></div>
 <section class="detail" id="setCredit(float)">
 <h3>setCredit</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">setCredit</span>&#8203;(<span class="parameters">float&nbsp;credit)</span></div>
-<div class="block">Sets the credit of the current organisation to a new value.</div>
+<div class="block">Sets the credit of the current organisationalUnit to a new value.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>credit</code> - The new credit.</dd>

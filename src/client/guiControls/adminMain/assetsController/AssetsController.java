@@ -3,6 +3,8 @@ package client.guiControls.adminMain.assetsController;
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
 import client.guiControls.adminMain.AdminMainController;
+import common.Exceptions.InvalidArgumentValueException;
+import common.Response;
 import common.dataClasses.Asset;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -19,6 +21,8 @@ public class AssetsController extends DisplayController {
     TextField newNameTextField;
     @FXML
     TextField newDescriptionTextField;
+    @FXML
+    Button refreshAssetsButton;
 
     /**
      * Adds a new entry to the current display.
@@ -28,6 +32,7 @@ public class AssetsController extends DisplayController {
      */
     private void addAssetInfoBox(int assetId, String name, String description){
         AssetInfoBox assetInfoBox = new AssetInfoBox(assetId, name, description);
+        assetInfoBox.setController((AdminMainController) controller);
         assetsDisplayBox.getChildren().add(assetInfoBox);
     }
 
@@ -42,19 +47,28 @@ public class AssetsController extends DisplayController {
     /**
      * Adds a new entry, representing a new asset type.
      */
-    public void addEntry(){
+    public void addEntry() throws InvalidArgumentValueException {
         //TODO: Perform data check for text fields
         int assetId = assetsDisplayBox.getChildren().size();
         String name = newNameTextField.getText();
         String description = newDescriptionTextField.getText();
 
-        addAssetInfoBox(assetId, name, description);
-        clearAddEntry();
+        Asset newAsset = new Asset(assetId, name, description);
+        Response response = controller.sendRequest("add", newAsset, Asset.class);
+        update();
+
+        if (response.isFulfilled()){
+            addAssetInfoBox(assetId, name, description);
+            clearAddEntry();
+        }
     }
 
-    //TODO: Gets data from database
+    /**
+     * Updates the view by checking with server
+     */
     @Override
     public void update(){
+        assetsDisplayBox.getChildren().clear();
         AdminLocalDatabase localDatabase = (AdminLocalDatabase) controller.getDatabase();
         for (Asset asset : localDatabase.getAssets()){
             addAssetInfoBox(asset.getId(), asset.getName(), asset.getDescription());

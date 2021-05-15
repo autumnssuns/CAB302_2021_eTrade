@@ -1,5 +1,14 @@
 package client.guiControls.adminMain.usersController;
 
+import client.guiControls.DisplayController;
+import client.guiControls.adminMain.AdminLocalDatabase;
+import client.guiControls.adminMain.AdminMainController;
+import common.Exceptions.InvalidArgumentValueException;
+import common.Response;
+import common.dataClasses.Asset;
+import common.dataClasses.DataCollection;
+import common.dataClasses.OrganisationalUnit;
+import common.dataClasses.User;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -8,18 +17,20 @@ import javafx.scene.layout.*;
  * A box to display user information and can be interacted with.
  */
 public class UserInfoBox extends HBox {
+    private AdminMainController controller;
+
     private int userId;
     private String name;
     private String username;
     private String password;
-    private String organisation;
+    private String organisationalUnit;
     private String role;
 
     private Label idLabel;
     private TextField nameTextField;
     private TextField usernameTextField;
     private PasswordField passwordField;
-    private ComboBox organisationSelectionBox;
+    private ComboBox organisationUnitSelectionBox;
     private ComboBox roleSelectionBox;
 
     private Button editButton;
@@ -31,10 +42,10 @@ public class UserInfoBox extends HBox {
      * @param name The name of the user.
      * @param username The unique username of the user.
      * @param password The user's password.
-     * @param organisation The name of the user's organisation.
+     * @param organisationalUnit The name of the user's organisationalUnit.
      * @param role The user's role.
      */
-    public UserInfoBox(int userId, String name, String username, String password, String organisation, String role){
+    public UserInfoBox(int userId, String name, String username, String password, String organisationalUnit, String role){
         super();
         this.setAlignment(Pos.CENTER);
         this.setPrefHeight(80);
@@ -47,13 +58,21 @@ public class UserInfoBox extends HBox {
         this.name = name;
         this.username = username;
         this.password = password;
-        this.organisation = organisation;
+        this.organisationalUnit = organisationalUnit;
         this.role = role;
 
         initiateNodes();
 
-        this.getChildren().addAll(idLabel, nameTextField, usernameTextField, passwordField, organisationSelectionBox, roleSelectionBox, editButton, removeButton);
+        this.getChildren().addAll(idLabel, nameTextField, usernameTextField, passwordField, organisationUnitSelectionBox, roleSelectionBox, editButton, removeButton);
         disable();
+    }
+
+    /**
+     * Sets the controller for this component.
+     * @param controller The controller.
+     */
+    public void setController(AdminMainController controller){
+        this.controller = controller;
     }
 
     /**
@@ -61,10 +80,10 @@ public class UserInfoBox extends HBox {
      */
     private void initiateNodes(){
         createIdLabel();
-        createNameTextField();
+        createFullNameTextField();
         createUsernameTextField();
         createPasswordField();
-        createOrganisationSelectionBox();
+        createOrganisationUnitSelectionBox();
         createRoleSelectionBox();
         createEditButton();
         createRemoveButton();
@@ -77,7 +96,7 @@ public class UserInfoBox extends HBox {
         name = nameTextField.getText();
         username = usernameTextField.getText();
         password = passwordField.getText();
-        organisation = (String) organisationSelectionBox.getValue();
+        organisationalUnit = (String) organisationUnitSelectionBox.getValue();
         role = (String) roleSelectionBox.getValue();
     }
 
@@ -88,7 +107,7 @@ public class UserInfoBox extends HBox {
         nameTextField.setText(name);
         usernameTextField.setText(username);
         passwordField.setText(password);
-        organisationSelectionBox.setPromptText(organisation);
+        organisationUnitSelectionBox.setPromptText(organisationalUnit);
         roleSelectionBox.setPromptText(role);
     }
 
@@ -106,11 +125,11 @@ public class UserInfoBox extends HBox {
     /**
      * Creates a text field to display the user's name.
      */
-    private void createNameTextField(){
+    private void createFullNameTextField(){
         nameTextField = new TextField(name);
         nameTextField.setPrefWidth(190);
         nameTextField.setPrefHeight(30);
-        nameTextField.setId("userName" + userId);
+        nameTextField.setId("userFullname" + userId);
     }
 
     /**
@@ -135,17 +154,17 @@ public class UserInfoBox extends HBox {
     }
 
     /**
-     * Creates a ComboBox to display the user's organisation.
+     * Creates a ComboBox to display the user's organisationalUnit.
      */
-    private void createOrganisationSelectionBox(){
-        organisationSelectionBox = new ComboBox();
-        organisationSelectionBox.setPromptText("Organisation Unit");
-        organisationSelectionBox.setPrefWidth(300);
-        organisationSelectionBox.setPrefHeight(30);
-        organisationSelectionBox.setEditable(true);
-        organisationSelectionBox.setValue(organisation);
-        organisationSelectionBox.getItems().addAll("TestOrg", "The Justice League", "The supervillains", "The random civilians");
-        organisationSelectionBox.setId("userOrganisation" + userId);
+    private void createOrganisationUnitSelectionBox(){
+        organisationUnitSelectionBox = new ComboBox();
+        organisationUnitSelectionBox.setPromptText("OrganisationalUnit Unit");
+        organisationUnitSelectionBox.setPrefWidth(300);
+        organisationUnitSelectionBox.setPrefHeight(30);
+        organisationUnitSelectionBox.setEditable(true);
+        organisationUnitSelectionBox.setValue(organisationalUnit);
+        organisationUnitSelectionBox.getItems().addAll("TestOrg", "The Justice League", "The supervillains", "The random civilians");
+        organisationUnitSelectionBox.setId("userOrganisation" + userId);
     }
 
     /**
@@ -180,7 +199,13 @@ public class UserInfoBox extends HBox {
         removeButton = new Button("Remove");
         removeButton.setPrefWidth(100);
         removeButton.setPrefHeight(30);
-        removeButton.setOnAction(e -> removeEntry());
+        removeButton.setOnAction(e -> {
+            try {
+                removeEntry();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
         removeButton.setId("userRemoveButton" + userId);
     }
 
@@ -191,7 +216,7 @@ public class UserInfoBox extends HBox {
         nameTextField.setDisable(true);
         usernameTextField.setDisable(true);
         passwordField.setDisable(true);
-        organisationSelectionBox.setDisable(true);
+        organisationUnitSelectionBox.setDisable(true);
         roleSelectionBox.setDisable(true);
     }
 
@@ -202,7 +227,7 @@ public class UserInfoBox extends HBox {
         nameTextField.setDisable(false);
         usernameTextField.setDisable(false);
         passwordField.setDisable(false);
-        organisationSelectionBox.setDisable(false);
+        organisationUnitSelectionBox.setDisable(false);
         roleSelectionBox.setDisable(false);
         editButton.setText("Confirm");
         editButton.setOnAction(e -> startEdit());
@@ -214,7 +239,13 @@ public class UserInfoBox extends HBox {
     private void startEdit(){
         enable();
         editButton.setText("Confirm");
-        editButton.setOnAction(e -> confirmEdit());
+        editButton.setOnAction(e -> {
+            try {
+                confirmEdit();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
         removeButton.setText("Cancel");
         removeButton.setOnAction(e -> cancelEdit());
     }
@@ -222,13 +253,30 @@ public class UserInfoBox extends HBox {
     /**
      * Confirms the changes to the current entry.
      */
-    private void confirmEdit() {
+    private void confirmEdit() throws InvalidArgumentValueException {
         disable();
         updateValues();
+        int unitId = 0;
+        for (OrganisationalUnit unit : ((AdminLocalDatabase)controller.getDatabase()).getOrganisationalUnits()){
+            if (unit.getName().equals(organisationalUnit)){
+                unitId = unit.getId();
+                break;
+            }
+        }
+        Response response = controller.sendRequest("edit", new User(userId, name, username, password, role, unitId), User.class);
+        if (response.isFulfilled()){
+            controller.updateLocalDatabase(User.class);
+        }
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
-        removeButton.setOnAction(e -> removeEntry());
+        removeButton.setOnAction(e -> {
+            try {
+                removeEntry();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -240,13 +288,30 @@ public class UserInfoBox extends HBox {
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
-        removeButton.setOnAction(e -> removeEntry());
+        removeButton.setOnAction(e -> {
+            try {
+                removeEntry();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
     }
 
     /**
      * Removes the current entry.
      */
-    private void removeEntry() {
-        ((VBox) this.getParent()).getChildren().remove(this);
+    private void removeEntry() throws InvalidArgumentValueException {
+        int unitId = 0;
+        for (OrganisationalUnit unit : ((AdminLocalDatabase)controller.getDatabase()).getOrganisationalUnits()){
+            if (unit.getName().equals(organisationalUnit)){
+                unitId = unit.getId();
+                break;
+            }
+        }
+        Response response = controller.sendRequest("delete", new User(userId, name, username, password, role, unitId), User.class);
+        if (response.isFulfilled()){
+            controller.updateLocalDatabase(User.class);
+            ((VBox) this.getParent()).getChildren().remove(this);
+        }
     }
 }

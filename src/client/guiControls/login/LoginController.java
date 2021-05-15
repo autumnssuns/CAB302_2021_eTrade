@@ -3,18 +3,18 @@ package client.guiControls.login;
 import client.data.IServerConnection;
 import client.data.MockServerConnection;
 import client.guiControls.MainController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.User;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,14 +26,19 @@ public class LoginController extends MainController {
     @FXML TextField nameTextField;
     @FXML PasswordField passwordField;
     @FXML Label statusLabel;
+    @FXML Button exitButton;
 
     /**
      * Initialise the session by creating a server connection.
      */
     @FXML
     public void initialize(){
-        IServerConnection serverConnection = new MockServerConnection();
-        this.setServerConnection(serverConnection);
+        Platform.runLater(() -> {
+            if (getServerConnection() == null){
+                IServerConnection serverConnection = new MockServerConnection();
+                this.setServerConnection(serverConnection);
+            }
+        });
     }
 
     /**
@@ -41,14 +46,13 @@ public class LoginController extends MainController {
      * @param event The event linked with the method (the button click).
      * @throws IOException
      */
-    public void attemptLogin(ActionEvent event) throws IOException {
+    public void attemptLogin(ActionEvent event) throws IOException, InvalidArgumentValueException {
         //TODO: Connect to server to authenticate the user
         String username = nameTextField.getText();
         String password = passwordField.getText();
 
-        User tempUser = new User(username, password);
-        Request request = new Request(tempUser, "login");
-        Response response = this.sendRequest(request);
+        this.setUser(new User(username, password));
+        Response response = this.sendRequest("login");
         boolean loginSuccess = response.isFulfilled();
 
         //TODO: Wait for response from server
@@ -71,7 +75,7 @@ public class LoginController extends MainController {
         String resourcePath = "";
         switch(this.getUser().getAccountType()){
             case "user":
-                resourcePath = "../userMain/userMain.fxml";
+                resourcePath = "../userMain/UserMain.fxml";
                 break;
 
             case "admin":
@@ -106,5 +110,20 @@ public class LoginController extends MainController {
         nameTextField.clear();
         passwordField.clear();
         statusLabel.setText("Incorrect username or password. Please try again!");
+    }
+
+    /**
+     * Prompts to exit the program.
+     */
+    public void exit(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit Program");
+        alert.setHeaderText("Close the program?");
+        alert.setContentText("Do you want to exit?");
+        if (alert.showAndWait().get() == ButtonType.OK){
+            Stage stage = (Stage)(exitButton.getScene().getWindow());
+            stage.close();
+            System.out.println("You successfully exit the program");
+        }
     }
 }

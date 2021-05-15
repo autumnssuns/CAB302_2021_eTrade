@@ -1,20 +1,38 @@
 package common.dataClasses;
 
+import common.Exceptions.InvalidArgumentValueException;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- * Represents a collection of items owned by an organisation.
+ * Represents a collection of items owned by an organisational unit.
  */
 public class Stock extends ArrayList<Item> implements IData{
-    private int organisationId;
+    private int unitId;
 
     /**
-     * Initiates the stock by declaring the organisation owning it.
-     * @param organisationId The ID of the organisation owning the stock.
+     * Initiates the stock by declaring the organisational unit owning it.
+     * @param unitId The ID of the organisational unit owning the stock.
      */
-    public Stock(int organisationId){
-        this.organisationId = organisationId;
+    public Stock(int unitId){
+        this.unitId = unitId;
+    }
+
+    /**
+     * Sets the ID of the organisational unit owning this stock.
+     * @param unitId The ID of the organisational unit owning this stock.
+     */
+    public void setUnitId(int unitId){
+        this.unitId = unitId;
+    }
+
+    /**
+     * Returns the ID of the organisational unit holding this stock.
+     * @return The ID of the organisational unit holding this stock.
+     */
+    public int getUnitId(){
+        return this.unitId;
     }
 
     /**
@@ -29,7 +47,11 @@ public class Stock extends ArrayList<Item> implements IData{
         for(int i = 0; i < this.size(); i++){
             Item currentItem = this.get(i);
             if (currentItem.getName() == newItem.getName()){
-                this.get(i).add(newItem.getQuantity());
+                try {
+                    this.get(i).add(newItem.getQuantity());
+                } catch (InvalidArgumentValueException e) {
+                    e.printStackTrace();
+                }
                 result = true;
                 break;
             }
@@ -50,7 +72,7 @@ public class Stock extends ArrayList<Item> implements IData{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Stock items = (Stock) o;
-        return organisationId == items.organisationId;
+        return unitId == items.unitId;
     }
 
     /**
@@ -59,6 +81,6 @@ public class Stock extends ArrayList<Item> implements IData{
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), organisationId);
+        return Objects.hash(super.hashCode(), unitId);
     }
 }

@@ -1,39 +1,28 @@
 package common.dataClasses;
 
+import common.Exceptions.InvalidArgumentValueException;
+import common.Exceptions.NullArgumentException;
+
 import java.util.Objects;
 
 /**
- * Represents an item - an quantifiable version of an asset possessed by an organisation.
+ * Represents an item - an quantifiable version of an asset possessed by an organisational unit.
  */
 public class Item extends Asset {
     protected int quantity;
-    protected int alterquantity;
-    private float price;
 
     /**
      * Initialises an item by linking it to an asset and includes the quantity to be stored.
      * @param asset The asset type of the item.
      * @param quantity The quantity to be stored.
      */
-    public Item(Asset asset, int quantity){
+    public Item(Asset asset, int quantity) throws InvalidArgumentValueException {
         super(asset.getId(), asset.getName(), asset.getDescription());
         setQuantity(quantity);
     }
 
     /**
-     * Initialises a buy item by linking it to an asset and includes the quantity and price to be stored.
-     * @param asset the asset type of the item
-     * @param quantity the quanity of the buy order
-     * @param price the price set in the buy order
-     */
-    public Item (Asset asset, int quantity, float price){
-        super(asset.getId(), asset.getName(), asset.getDescription());
-        setQuantity(quantity); //Set this to the quantity got from user input
-        setPrice(price); // Set this to the price taken from user input
-    }
-
-    /**
-     * Retrieves the quantity of the asset that is owned by the organisation.
+     * Retrieves the quantity of the asset that is owned by the organisational unit.
      * @return The quantity of the asset.
      */
     public int getQuantity() {
@@ -44,15 +33,23 @@ public class Item extends Asset {
      * Sets the quantity of the asset to a new value.
      * @param quantity The new quantity.
      */
-    public void setQuantity(int quantity){
-        this.quantity = quantity;
+    public void setQuantity(int quantity) throws InvalidArgumentValueException {
+        try{
+            if (quantity < 0){
+                throw new InvalidArgumentValueException();
+            }
+            this.quantity = quantity;
+        }
+        catch (NullPointerException e){
+            throw new NullArgumentException();
+        }
     }
 
     /**
-     * Increases the quantity of the related asset in the organisation's stock.
+     * Increases the quantity of the related asset in the organisational unit's stock.
      * @param amount The amount to be added.
      */
-    public void add(int amount){
+    public void add(int amount) throws InvalidArgumentValueException {
         setQuantity(quantity + amount);
     }
 
@@ -70,25 +67,9 @@ public class Item extends Asset {
      * @param price The price of the asset.
      * @return An instance of the current asset, but in cart.
      */
-    public CartItem moveToCart(int amount, float price){
+    public CartItem moveToCart(int amount, float price) throws InvalidArgumentValueException {
         this.quantity -= amount;
         return new CartItem(this, amount, price);
-    }
-    public CartItem moveToBuyCart (int amount, float price){
-        return new CartItem(this, amount , price );
-
-    }
-    public void removefromCart (int amount){
-        this.quantity += amount;
-    }
-
-    public float getPrice (){
-        return price;
-    }
-
-    public float setPrice (float price){
-        this.price = price;
-        return price;
     }
 
     /**
@@ -102,7 +83,7 @@ public class Item extends Asset {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Item item = (Item) o;
-        return quantity == item.quantity && alterquantity == item.alterquantity && Float.compare(item.price, price) == 0;
+        return quantity == item.quantity;
     }
 
     /**
@@ -111,6 +92,6 @@ public class Item extends Asset {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), quantity, alterquantity, price);
+        return Objects.hash(super.hashCode(), quantity);
     }
 }

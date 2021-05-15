@@ -1,41 +1,47 @@
 package common.dataClasses;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
  * Represents an Order
  */
-public class Order implements Serializable {
-    protected int OrderId;
-    protected String OrderType; //buy/sell
-    protected int organisationid;
-    protected int AssetId;
-    protected int PlacedQuantity;//cartitem
-    protected int ResolvedQuantity = 0;
-    protected float price;
-    protected String FinishedDate = null; //Cartitem
-    protected String OrderDate;
-    protected String Status;
+public class Order implements Serializable, IData {
 
-    /**
-     * Initialise the order
-     * @param OrderId Order's ID
-     * @param organisation Link with "Organisation class" to retrieve relative information (such as OrganisationID)
-     * @param item Link with "CartItem class" to retrieve relative information (Price, Placed Quantity and Asset's ID )
-     * @param OrderDate Date ordered
-     * @param Status Current status of the Order (transaction Finished/ Remaining)
-     * @param OrderType
-     */
-    public Order(int OrderId, Organisation organisation, CartItem item, String OrderDate, String Status, String OrderType){
-        this.organisationid = organisation.getId();
-        this.OrderId = OrderId;
-        this.AssetId = item.getId();
-        this.PlacedQuantity = item.getQuantity();
-        this.price = item.getPrice();
-        this.Status = Status;
-        this.OrderDate = OrderDate;
-        this.OrderType = OrderType;
+    public enum Type{
+        BUY,
+        SELL
+    }
+
+    public enum Status{
+        PENDING,
+        APPROVED,
+        CANCELLED
+    }
+
+    protected int orderId;
+    protected Type orderType; //buy/sell
+    protected int unitId;
+    protected int assetId;
+    protected int placedQuantity;//cartitem
+    protected int resolvedQuantity = 0;
+    protected float price;
+    protected LocalDateTime finishDate = null; //Cartitem
+    protected LocalDateTime orderDate;
+    protected Status status;
+
+    public Order(int orderId, Type orderType, int unitId, int assetId, int placedQuantity, int resolvedQuantity, float price, LocalDateTime finishDate, LocalDateTime orderDate, Status status) {
+        this.orderId = orderId;
+        this.orderType = orderType;
+        this.unitId = unitId;
+        this.assetId = assetId;
+        this.placedQuantity = placedQuantity;
+        this.resolvedQuantity = resolvedQuantity;
+        this.price = price;
+        this.finishDate = finishDate;
+        this.orderDate = orderDate;
+        this.status = status;
     }
 
     /**
@@ -43,45 +49,45 @@ public class Order implements Serializable {
      * @param assetnumber number of the assets in the transaction
      */
     public  void ResolvedQuantity(int assetnumber) {
-        ResolvedQuantity += assetnumber;
+        resolvedQuantity += assetnumber;
     }
 
     /**
      *
      * @return Order ID
      */
-    public int getOrderId(){return OrderId;}
+    public int getOrderId(){return orderId;}
 
     /**
      *
      * @return the Order's type (Buy/Sell)
      */
-    public String getOrderType() {return OrderType;}
+    public Type getOrderType() {return orderType;}
 
     /**
      *
-     * @return Organisation ID
+     * @return OrganisationalUnit ID
      */
-    public int getOrganisationid(){return organisationid;}
+    public int getUnitId(){return unitId;}
 
     /**
      *
      * @return Asset ID
      */
-    public int getAssetId(){return AssetId;}
+    public int getAssetId(){return assetId;}
 
 
     /**
      *
      * @return Order's Placed Quantity
      */
-    public int getPlacedQuantity() {return PlacedQuantity;}
+    public int getPlacedQuantity() {return placedQuantity;}
 
     /**
      *
      * @return Order's Resolved Quantity
      */
-    public int getResolvedQuantity() {return ResolvedQuantity;}
+    public int getResolvedQuantity() {return resolvedQuantity;}
 
     /**
      *
@@ -93,60 +99,60 @@ public class Order implements Serializable {
      *
      * @return Transaction finished date
      */
-    public String getFinishedDate(){return FinishedDate;}
+    public LocalDateTime getFinishDate(){return finishDate;}
 
     /**
      *
      * @return Transaction placed date
      */
-    public String getOrderDate() {return OrderType;}
+    public LocalDateTime getOrderDate() {return orderDate;}
 
     /**
      *
      * @return return Transaction's status (Finished/Remaining)
      */
-    public String getStatus() {return Status;}
+    public Status getStatus() {return status;}
 
     /**
      * set the order id to given Int
      * @param order_id
      */
-    public void setOrderID(int order_id) { this.OrderId = order_id;
+    public void setOrderID(int order_id) { this.orderId = order_id;
     }
 
     /**
      * set order type to new type
      * @param order_type
      */
-    public void setOrderType(String order_type) { this.OrderType = order_type;
+    public void setOrderType(Type order_type) { this.orderType = order_type;
     }
 
     /**
-     * Set new organisation ID
+     * Set new organisational unit ID
      * @param organisation_id
      */
-    public void setOrganisationID(int organisation_id) { this.organisationid = organisation_id;
+    public void setunitId(int organisation_id) { this.unitId = organisation_id;
     }
 
     /**
      * Set new asset ID
      * @param asset_id
      */
-    public void setAssetID(int asset_id) { this.AssetId = asset_id;
+    public void setAssetID(int asset_id) { this.assetId = asset_id;
     }
 
     /**
      * Set new quantity
      * @param placed_quantity
      */
-    public void setPlacedQuantity(int placed_quantity) { this.PlacedQuantity = placed_quantity;
+    public void setPlacedQuantity(int placed_quantity) { this.placedQuantity = placed_quantity;
     }
 
     /**
      * Set new quantity
      * @param resolved_quantity
      */
-    public void setResolvedQuantity(int resolved_quantity) { this.ResolvedQuantity = resolved_quantity;
+    public void setResolvedQuantity(int resolved_quantity) { this.resolvedQuantity = resolved_quantity;
     }
 
     /**
@@ -160,21 +166,21 @@ public class Order implements Serializable {
      * Set new order date
      * @param order_date
      */
-    public void setOrderDate(String order_date) { this.OrderDate = order_date;
+    public void setOrderDate(LocalDateTime order_date) { this.orderDate = order_date;
     }
 
     /**
      * Set new Finished date
      * @param finished_date
      */
-    public void setFinishedDate(String finished_date) { this.FinishedDate = finished_date;
+    public void setFinishDate(LocalDateTime finished_date) { this.finishDate = finished_date;
     }
 
     /**
      * Set new status
      * @param status
      */
-    public void setStatus(String status) { this.Status = status;
+    public void setStatus(Status status) { this.status = status;
     }
 
     /**
@@ -187,7 +193,7 @@ public class Order implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return OrderId == order.OrderId && organisationid == order.organisationid && AssetId == order.AssetId && PlacedQuantity == order.PlacedQuantity && ResolvedQuantity == order.ResolvedQuantity && Float.compare(order.price, price) == 0 && Objects.equals(OrderType, order.OrderType) && Objects.equals(FinishedDate, order.FinishedDate) && Objects.equals(OrderDate, order.OrderDate) && Objects.equals(Status, order.Status);
+        return orderId == order.orderId && unitId == order.unitId && assetId == order.assetId && placedQuantity == order.placedQuantity && resolvedQuantity == order.resolvedQuantity && Float.compare(order.price, price) == 0 && Objects.equals(orderType, order.orderType) && Objects.equals(finishDate, order.finishDate) && Objects.equals(orderDate, order.orderDate) && Objects.equals(status, order.status);
     }
 
     /**
@@ -196,6 +202,6 @@ public class Order implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(OrderId, OrderType, organisationid, AssetId, PlacedQuantity, ResolvedQuantity, price, FinishedDate, OrderDate, Status);
+        return Objects.hash(orderId, orderType, unitId, assetId, placedQuantity, resolvedQuantity, price, finishDate, orderDate, status);
     }
 }

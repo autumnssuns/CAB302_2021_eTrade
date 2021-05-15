@@ -10,6 +10,6 @@ Task:
 1. Create a console application that takes command line input and execute methods.
 2. Create methods to create databases (Users, Organisations)
 3. Method to create new user
-4. Method to create organisation
+4. Method to create organisationalUnit
 5. Method to query from database
 6. Method to edit database

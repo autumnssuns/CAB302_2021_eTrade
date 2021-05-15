@@ -1,5 +1,6 @@
 package client.data;
 
+import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.User;
@@ -16,7 +17,7 @@ public final class MockServerConnection implements IServerConnection{
     }
 
     @Override
-    public Response sendRequest(Request request) {
+    public Response sendRequest(Request request) throws InvalidArgumentValueException {
         Response response = server.sendResponse(request);
         return response;
     }

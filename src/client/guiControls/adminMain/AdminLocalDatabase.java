@@ -3,8 +3,6 @@ package client.guiControls.adminMain;
 import client.guiControls.ILocalDatabase;
 import common.dataClasses.*;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -15,20 +13,20 @@ public class AdminLocalDatabase extends ILocalDatabase {
 
     private DataCollection<User> users;
     private DataCollection<Asset> assets;
-    private DataCollection<Organisation> organisations;
+    private DataCollection<OrganisationalUnit> organisationalUnits;
     private DataCollection<Stock> stocks;
 
     /**
      * Initialises the database with initial data (fetched from server)
      * @param users The users in the system
      * @param assets The assets in the system
-     * @param organisations The organisations in the system
+     * @param organisationalUnits The organisationalUnits in the system
      * @param stocks The stocks in the system
      */
-    public AdminLocalDatabase(DataCollection users, DataCollection assets, DataCollection organisations, DataCollection stocks){
+    public AdminLocalDatabase(DataCollection users, DataCollection assets, DataCollection organisationalUnits, DataCollection stocks){
         this.users = users;
         this.assets = assets;
-        this.organisations = organisations;
+        this.organisationalUnits = organisationalUnits;
         this.stocks = stocks;
     }
 
@@ -49,11 +47,11 @@ public class AdminLocalDatabase extends ILocalDatabase {
     }
 
     /**
-     * Returns a list the organisations in the system.
-     * @return An ArrayList of the organisations in the system.
+     * Returns a list the organisationalUnits in the system.
+     * @return An ArrayList of the organisationalUnits in the system.
      */
-    public DataCollection<Organisation> getOrganisations() {
-        return organisations;
+    public DataCollection<OrganisationalUnit> getOrganisationalUnits() {
+        return organisationalUnits;
     }
 
     /**
@@ -64,16 +62,48 @@ public class AdminLocalDatabase extends ILocalDatabase {
         return stocks;
     }
 
+    /**
+     * Sets the local storage of the system's users.
+     * @param users The system's users.
+     */
+    public void setUsers(DataCollection<User> users) {
+        this.users = users;
+    }
+
+    /**
+     * Sets the local storage of the system's assets.
+     * @param assets The system's assets.
+     */
+    public void setAssets(DataCollection<Asset> assets) {
+        this.assets = assets;
+    }
+
+    /**
+     * Sets the local storage of the system's organisational units.
+     * @param organisationalUnits The system's organisational units.
+     */
+    public void setOrganisationalUnits(DataCollection<OrganisationalUnit> organisationalUnits) {
+        this.organisationalUnits = organisationalUnits;
+    }
+
+    /**
+     * Sets the local storage of the system's stocks.
+     * @param stocks The system's stocks.
+     */
+    public void setStocks(DataCollection<Stock> stocks) {
+        this.stocks = stocks;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AdminLocalDatabase that = (AdminLocalDatabase) o;
-        return Objects.equals(users, that.users) && Objects.equals(assets, that.assets) && Objects.equals(organisations, that.organisations) && Objects.equals(stocks, that.stocks);
+        return Objects.equals(users, that.users) && Objects.equals(assets, that.assets) && Objects.equals(organisationalUnits, that.organisationalUnits) && Objects.equals(stocks, that.stocks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(users, assets, organisations, stocks);
+        return Objects.hash(users, assets, organisationalUnits, stocks);
     }
 }

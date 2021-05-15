@@ -77,7 +77,7 @@ loadScripts(document, 'script');</script>
 <h1 title="Class Organisation" class="title">Class Organisation</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree">java.lang.Object
-<div class="inheritance">common.dataClasses.Organisation</div>
+<div class="inheritance">common.dataClasses.OrganisationalUnit</div>
 </div>
 <section class="description">
 <dl class="notes">
@@ -88,10 +88,10 @@ loadScripts(document, 'script');</script>
 <pre>public class <span class="type-name-label">Organisation</span>
 extends java.lang.Object
 implements java.io.Serializable, <a href="IData.html" title="interface in common.dataClasses">IData</a></pre>
-<div class="block">Represents an organisation.</div>
+<div class="block">Represents an organisationalUnit.</div>
 <dl class="notes">
 <dt>See Also:</dt>
-<dd><a href="../../serialized-form.html#common.dataClasses.Organisation">Serialized Form</a></dd>
+<dd><a href="../../serialized-form.html#common.dataClasses.OrganisationalUnit">Serialized Form</a></dd>
 </dl>
 </section>
 <section class="summary">
@@ -150,7 +150,7 @@ implements java.io.Serializable, <a href="IData.html" title="interface in common
 java.lang.String&nbsp;organisationName,
 float&nbsp;balance)</code></th>
 <td class="col-last">
-<div class="block">Initialises the organisation.</div>
+<div class="block">Initialises the organisationalUnit.</div>
 </td>
 </tr>
 </tbody>
@@ -178,35 +178,35 @@ float&nbsp;balance)</code></th>
 <td class="col-first"><code>float</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getBalance()">getBalance</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Returns the balance of the organisation.</div>
+<div class="block">Returns the balance of the organisationalUnit.</div>
 </td>
 </tr>
 <tr class="row-color" id="i1">
 <td class="col-first"><code>int</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getId()">getId</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Returns the ID of the organisation</div>
+<div class="block">Returns the ID of the organisationalUnit</div>
 </td>
 </tr>
 <tr class="alt-color" id="i2">
 <td class="col-first"><code>java.lang.String</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#getName()">getName</a></span>()</code></th>
 <td class="col-last">
-<div class="block">Returns the name of the organisation.</div>
+<div class="block">Returns the name of the organisationalUnit.</div>
 </td>
 </tr>
 <tr class="row-color" id="i3">
 <td class="col-first"><code>void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#setBalance(float)">setBalance</a></span>&#8203;(float&nbsp;balance)</code></th>
 <td class="col-last">
-<div class="block">Sets the balance of the organisation to a new value.</div>
+<div class="block">Sets the balance of the organisationalUnit to a new value.</div>
 </td>
 </tr>
 <tr class="alt-color" id="i4">
 <td class="col-first"><code>void</code></td>
 <th class="col-second" scope="row"><code><span class="member-name-link"><a href="#setName(java.lang.String)">setName</a></span>&#8203;(java.lang.String&nbsp;name)</code></th>
 <td class="col-last">
-<div class="block">Sets the name of the organisation to a new value.</div>
+<div class="block">Sets the name of the organisationalUnit to a new value.</div>
 </td>
 </tr>
 </tbody>
@@ -259,12 +259,12 @@ float&nbsp;balance)</code></th>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="member-name">Organisation</span>&#8203;(<span class="parameters">int&nbsp;organisationId,
 java.lang.String&nbsp;organisationName,
 float&nbsp;balance)</span></div>
-<div class="block">Initialises the organisation.</div>
+<div class="block">Initialises the organisationalUnit.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>organisationId</code> - The ID of the organisation.</dd>
-<dd><code>organisationName</code> - The name of the organisation.</dd>
-<dd><code>balance</code> - The balance of the organisation.</dd>
+<dd><code>organisationId</code> - The ID of the organisationalUnit.</dd>
+<dd><code>organisationName</code> - The name of the organisationalUnit.</dd>
+<dd><code>balance</code> - The balance of the organisationalUnit.</dd>
 </dl>
 </section>
 </li>
@@ -280,10 +280,10 @@ float&nbsp;balance)</span></div>
 <section class="detail" id="getId()">
 <h3>getId</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="member-name">getId</span>()</div>
-<div class="block">Returns the ID of the organisation</div>
+<div class="block">Returns the ID of the organisationalUnit</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>The ID of the organisation.</dd>
+<dd>The ID of the organisationalUnit.</dd>
 </dl>
 </section>
 </li>
@@ -291,10 +291,10 @@ float&nbsp;balance)</span></div>
 <section class="detail" id="getName()">
 <h3>getName</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">java.lang.String</span>&nbsp;<span class="member-name">getName</span>()</div>
-<div class="block">Returns the name of the organisation.</div>
+<div class="block">Returns the name of the organisationalUnit.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>The name of the organisation.</dd>
+<dd>The name of the organisationalUnit.</dd>
 </dl>
 </section>
 </li>
@@ -302,10 +302,10 @@ float&nbsp;balance)</span></div>
 <section class="detail" id="getBalance()">
 <h3>getBalance</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="member-name">getBalance</span>()</div>
-<div class="block">Returns the balance of the organisation.</div>
+<div class="block">Returns the balance of the organisationalUnit.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>The balance of the organisation.</dd>
+<dd>The balance of the organisationalUnit.</dd>
 </dl>
 </section>
 </li>
@@ -313,10 +313,10 @@ float&nbsp;balance)</span></div>
 <section class="detail" id="setName(java.lang.String)">
 <h3>setName</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">setName</span>&#8203;(<span class="parameters">java.lang.String&nbsp;name)</span></div>
-<div class="block">Sets the name of the organisation to a new value.</div>
+<div class="block">Sets the name of the organisationalUnit to a new value.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>name</code> - The new name for the organisation.</dd>
+<dd><code>name</code> - The new name for the organisationalUnit.</dd>
 </dl>
 </section>
 </li>
@@ -324,10 +324,10 @@ float&nbsp;balance)</span></div>
 <section class="detail" id="setBalance(float)">
 <h3>setBalance</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="member-name">setBalance</span>&#8203;(<span class="parameters">float&nbsp;balance)</span></div>
-<div class="block">Sets the balance of the organisation to a new value.</div>
+<div class="block">Sets the balance of the organisationalUnit to a new value.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>balance</code> - The new balance for the organisation.</dd>
+<dd><code>balance</code> - The new balance for the organisationalUnit.</dd>
 </dl>
 </section>
 </li>
