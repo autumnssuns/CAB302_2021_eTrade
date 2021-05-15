@@ -22,6 +22,17 @@ jobs:
           java-version: '15'
           distribution: 'adopt'
 
+#Catching dependencies to speedup the workflow
+#https://github.com/actions/cache
+#https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
       - name: Clean with Maven
         run: mvn -B clean --file pom.xml
 
