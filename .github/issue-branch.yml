@@ -1,4 +1,4 @@
 mode: chatops
-branchName: '#${issue.number}-${issue.title,}'
+branchName: '#'+'${issue.number}-${issue.title,}'
 commentMessage: 'Branch ${branchName} created for issue: ${issue.title}'
 autoCloseIssue: true
