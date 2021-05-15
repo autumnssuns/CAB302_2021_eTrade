@@ -8,21 +8,21 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.UserMainController">
+<AnchorPane fx:id="anchorPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.UserMainController">
    <children>
       <Pane fx:id="tabPane" layoutX="-85.0" prefHeight="1080.0" prefWidth="476.0" styleClass="buttonPane">
          <children>
-            <Button fx:id="homeButton" layoutY="169.0" mnemonicParsing="false" onAction="#toHome" prefHeight="166.0" prefWidth="476.0" styleClass="tabButton" text="SELL">
+            <Button fx:id="homeButton" layoutY="169.0" mnemonicParsing="false" onAction="#toHome" prefHeight="166.0" prefWidth="300.0" styleClass="tabButton" text="SELL">
                <font>
                   <Font size="40.0" />
                </font>
             </Button>
-            <Button fx:id="marketButton" layoutY="355.0" mnemonicParsing="false" onAction="#toMarket" prefHeight="166.0" prefWidth="476.0" styleClass="tabButton" text="BUY">
+            <Button fx:id="marketButton" layoutY="355.0" mnemonicParsing="false" onAction="#toMarket" prefHeight="166.0" prefWidth="300.0" styleClass="tabButton" text="BUY">
                <font>
                   <Font size="40.0" />
                </font>
             </Button>
-            <Button fx:id="ordersButton" layoutY="541.0" mnemonicParsing="false" onAction="#toOrders" prefHeight="166.0" prefWidth="476.0" styleClass="tabButton" text="HISTORY">
+            <Button fx:id="ordersButton" layoutY="541.0" mnemonicParsing="false" onAction="#toOrders" prefHeight="166.0" prefWidth="300.0" styleClass="tabButton" text="HISTORY">
                <font>
                   <Font size="40.0" />
                </font>
