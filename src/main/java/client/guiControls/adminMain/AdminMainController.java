@@ -1,6 +1,5 @@
 package client.guiControls.adminMain;
 
-import client.guiControls.DisplayController;
 import client.guiControls.MainController;
 import client.guiControls.adminMain.assetsController.AssetsController;
 import client.guiControls.adminMain.organisationalUnitsController.OrganisationalUnitsController;
@@ -68,19 +67,19 @@ public class AdminMainController extends MainController {
         userLabel.setText(getUser().getUsername());
         fetchDatabase();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("usersController/UsersPage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UsersPage.fxml"));
         usersPane = fxmlLoader.load();
         usersController = fxmlLoader.getController();
         usersController.setController(this);
         usersController.update();
 
-        fxmlLoader = new FXMLLoader(getClass().getResource("organisationalUnitsController/organisationalUnitsPage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("OrganisationalUnitsPage.fxml"));
         organisationUnitsPane = fxmlLoader.load();
         organisationalUnitsController = fxmlLoader.getController();
         organisationalUnitsController.setController(this);
         organisationalUnitsController.update();
 
-        fxmlLoader = new FXMLLoader(getClass().getResource("assetsController/AssetsPage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("AssetsPage.fxml"));
         assetsPane = fxmlLoader.load();
         assetsController = fxmlLoader.getController();
         assetsController.setController(this);

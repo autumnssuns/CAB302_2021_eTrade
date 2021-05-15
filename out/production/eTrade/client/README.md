@@ -1,1 +1,0 @@
-This package includes classes used only by client.

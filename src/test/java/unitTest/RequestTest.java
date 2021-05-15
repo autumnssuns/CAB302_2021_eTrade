@@ -1,5 +1,6 @@
-package common;
+package unitTest;
 
+import common.Request;
 import common.dataClasses.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,27 +9,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RequestTest {
 
-    private Request loginRequest;
-    private Request queryRequest;
-    private Request updateRequest;
-    private Request deleteRequest;
+    private Request<common.dataClasses.IData> loginRequest;
+    private Request<common.dataClasses.IData> queryRequest;
+    private Request<User> updateRequest;
+    private Request<User> deleteRequest;
 
     @BeforeEach
     void setUp(){
         String username = "dan";
         String password = "123";
         User tempUser = new User(username, password);
-        loginRequest = new Request(tempUser, "login");
+        loginRequest = new Request<>(tempUser, "login");
 
         User user = new User(0, username, username, password, "user", 0);
-        queryRequest = new Request(user, "query stock");
+        queryRequest = new Request<>(user, "query stock");
 
         User userAsAttachment = new User(1, "Dan Tran ", "dan", "123", "user", 0);
-        updateRequest = new Request(user, "update", userAsAttachment);
+        updateRequest = new Request<>(user, "update", userAsAttachment);
         updateRequest.setAttachmentType(User.class);
 
         User userAsAttachment2 = new User(2, "Rodo Nguyen","rodo", "rodo", "user", 0);
-        deleteRequest = new Request(user, "delete", userAsAttachment2);
+        deleteRequest = new Request<>(user, "delete", userAsAttachment2);
         deleteRequest.setAttachmentType(User.class);
     }
 

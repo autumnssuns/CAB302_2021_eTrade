@@ -1,6 +1,9 @@
-package common.dataClasses;
+package unitTest;
 
 import common.Exceptions.InvalidArgumentValueException;
+import common.dataClasses.Asset;
+import common.dataClasses.CartItem;
+import common.dataClasses.Item;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

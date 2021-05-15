@@ -1,6 +1,5 @@
-package client;
+package guiTest;
 
-import client.guiControls.adminMain.AdminGUITest;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,10 +28,10 @@ public class MainGUITest extends ApplicationTest{
     @Start
     public void start(Stage primaryStage) throws Exception{
         //primaryStage.initStyle(StageStyle.UNDECORATED);
-        Parent root = FXMLLoader.load(getClass().getResource("/client/guiControls/login/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/Login.fxml"));
         Scene scene = new Scene(root);
 
-        String css = this.getClass().getResource("/client/guiControls/client.css").toExternalForm();
+        String css = this.getClass().getResource("/client.css").toExternalForm();
         scene.getStylesheets().add(css);
 
         primaryStage.setScene(scene);

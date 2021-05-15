@@ -12,10 +12,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        Parent root = FXMLLoader.load(getClass().getResource("guiControls/login/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Login.fxml"));
         Scene scene = new Scene(root);
 
-        String css = this.getClass().getResource("guiControls/client.css").toExternalForm();
+        String css = this.getClass().getClassLoader().getResource("client.css").toExternalForm();
         scene.getStylesheets().add(css);
 
         primaryStage.setScene(scene);

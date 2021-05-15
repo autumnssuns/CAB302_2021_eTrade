@@ -1,6 +1,5 @@
-package client.guiControls.adminMain;
+package guiTest;
 
-import client.MainGUITest;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;

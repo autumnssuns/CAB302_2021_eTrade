@@ -1,8 +1,6 @@
 package client.guiControls.userMain;
 
-import client.guiControls.DisplayController;
 import client.guiControls.MainController;
-import client.guiControls.adminMain.AdminLocalDatabase;
 import client.guiControls.userMain.buyController.BuyController;
 import client.guiControls.userMain.ordersController.OrdersController;
 import client.guiControls.userMain.saleController.SaleController;
@@ -64,19 +62,19 @@ public class UserMainController extends MainController {
     private void setupController() throws IOException, InvalidArgumentValueException {
         fetchDatabase();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("saleController/SellPage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("SellPage.fxml"));
         sellPane = fxmlLoader.load();
         saleController = fxmlLoader.getController();
         saleController.setController(this);
         saleController.update();
 
-        fxmlLoader = new FXMLLoader(getClass().getResource("buyController/BuyPage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("BuyPage.fxml"));
         buyPane = fxmlLoader.load();
         buyController = fxmlLoader.getController();
         buyController.setController(this);
         buyController.update();
 
-        fxmlLoader = new FXMLLoader(getClass().getResource("ordersController/OrdersPage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("OrdersPage.fxml"));
         ordersPane = fxmlLoader.load();
         ordersController = fxmlLoader.getController();
         ordersController.setController(this);

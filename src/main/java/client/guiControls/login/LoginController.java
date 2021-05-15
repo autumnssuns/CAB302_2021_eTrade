@@ -75,15 +75,15 @@ public class LoginController extends MainController {
         String resourcePath = "";
         switch(this.getUser().getAccountType()){
             case "user":
-                resourcePath = "../userMain/UserMain.fxml";
+                resourcePath = "UserMain.fxml";
                 break;
 
             case "admin":
-                resourcePath = "../adminMain/AdminMain.fxml";
+                resourcePath = "AdminMain.fxml";
         }
 
         // Gets the loader
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(resourcePath));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource(resourcePath));
 
         // Loads the scene & pass current user and connection to main scene
         Parent root = fxmlLoader.load();
@@ -94,7 +94,7 @@ public class LoginController extends MainController {
         Scene scene = new Scene(root);
 
         // Applies css
-        String css = this.getClass().getResource("../client.css").toExternalForm();
+        String css = this.getClass().getClassLoader().getResource("client.css").toExternalForm();
         scene.getStylesheets().add(css);
 
         // Show the scene

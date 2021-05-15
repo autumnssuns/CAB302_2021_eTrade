@@ -1,7 +1,8 @@
-package client.guiControls;
+package unitTest;
 
 import client.data.IServerConnection;
 import client.data.MockServerConnection;
+import client.guiControls.MainController;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;

@@ -1,9 +1,10 @@
-package server.Features;
+package unitTest;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.Features.LoginSystem;
 
 import java.util.Random;
 

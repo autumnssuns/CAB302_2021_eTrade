@@ -89,7 +89,7 @@ public class MainController {
      * @throws IOException
      */
     public void logOut(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../login/Login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Login.fxml"));
 
         // Sets the loader
         Parent root = loader.load();
@@ -99,7 +99,7 @@ public class MainController {
         Scene scene = new Scene(root);
 
         // Applies CSS
-        String css = this.getClass().getResource("../client.css").toExternalForm();
+        String css = this.getClass().getClassLoader().getResource("client.css").toExternalForm();
         scene.getStylesheets().add(css);
 
         // Shows the scene
