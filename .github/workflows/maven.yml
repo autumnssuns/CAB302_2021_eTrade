@@ -33,17 +33,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Clean with Maven
-        run: mvn -B clean --file pom.xml
-
-      - name: Clean with Maven
-        run: mvn -B validate --file pom.xml
-
-      - name: Compile with Maven
-        run: mvn -B compile --file pom.xml
-
-      - name: Test & Package with Maven
-        run: mvn -B package --file pom.xml
+      - name: Package with Maven
+        run: mvn -B clean install --file pom.xml
 
       - name: Archive JAR file
         uses: actions/upload-artifact@v2
