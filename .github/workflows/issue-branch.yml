@@ -10,17 +10,17 @@ jobs:
     create_issue_branch_job:
         runs-on: windows-latest
         steps:
-
-        
         - name: Create Issue Branch
           id: Create_Issue_Branch
           uses: robvanderleek/create-issue-branch@master
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
             mode: chatops
             branchName: '#${issue.number}-${issue.title,}'
             commentMessage: 'Branch ${branchName} created for issue: ${issue.title}'
             autoCloseIssue: true
+            
             
         - name: Echo branch name
           run: echo ${{ steps.Create_Issue_Branch.outputs.branchName }}
