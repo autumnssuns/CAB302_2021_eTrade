@@ -3,6 +3,7 @@ package common;
 import common.dataClasses.IData;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A package containing a response sent from the server to the client, including the state of whether the request
@@ -53,5 +54,27 @@ public class Response<T extends IData> implements Serializable {
      */
     public IData getAttachment(){
         return attachment;
+    }
+
+    /**
+     * Indicates if some object is equal to this instance.
+     * @param o The object to compare.
+     * @return true if the object is equal to the instance, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Response<?> response = (Response<?>) o;
+        return status == response.status && Objects.equals(attachment, response.attachment) && Objects.equals(attachmentType, response.attachmentType);
+    }
+
+    /**
+     * Returns the hashCode of this instance.
+     * @return The hashCode of this instance.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(status, attachment, attachmentType);
     }
 }

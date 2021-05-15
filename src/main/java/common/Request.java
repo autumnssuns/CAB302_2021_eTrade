@@ -4,6 +4,7 @@ import common.dataClasses.IData;
 import common.dataClasses.User;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A package containing the request to be sent over the server.
@@ -74,5 +75,27 @@ public class Request<T extends IData> implements Serializable {
      */
     public T getAttachment(){
         return attachment;
+    }
+
+    /**
+     * Indicates if some object is equal to this instance.
+     * @param o The object to compare.
+     * @return true if the object is equal to the instance, false otherwise.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Request<?> request = (Request<?>) o;
+        return Objects.equals(sender, request.sender) && Objects.equals(action, request.action) && Objects.equals(attachment, request.attachment) && Objects.equals(attachmentType, request.attachmentType);
+    }
+
+    /**
+     * Returns the hashCode of this instance.
+     * @return The hashCode of this instance.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(sender, action, attachment, attachmentType);
     }
 }

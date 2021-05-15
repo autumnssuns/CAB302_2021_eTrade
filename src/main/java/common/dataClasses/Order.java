@@ -117,7 +117,7 @@ public class Order implements Serializable, IData {
      * set the order id to given Int
      * @param order_id
      */
-    public void setOrderID(int order_id) { this.orderId = order_id;
+    public void setOrderId(int order_id) { this.orderId = order_id;
     }
 
     /**
@@ -131,7 +131,7 @@ public class Order implements Serializable, IData {
      * Set new organisational unit ID
      * @param organisation_id
      */
-    public void setunitId(int organisation_id) { this.unitId = organisation_id;
+    public void setUnitId(int organisation_id) { this.unitId = organisation_id;
     }
 
     /**
@@ -193,7 +193,7 @@ public class Order implements Serializable, IData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return orderId == order.orderId && unitId == order.unitId && assetId == order.assetId && placedQuantity == order.placedQuantity && resolvedQuantity == order.resolvedQuantity && Float.compare(order.price, price) == 0 && Objects.equals(orderType, order.orderType) && Objects.equals(finishDate, order.finishDate) && Objects.equals(orderDate, order.orderDate) && Objects.equals(status, order.status);
+        return orderId == order.orderId && unitId == order.unitId && assetId == order.assetId && placedQuantity == order.placedQuantity && resolvedQuantity == order.resolvedQuantity && Float.compare(order.price, price) == 0 && orderType == order.orderType && Objects.equals(finishDate, order.finishDate) && Objects.equals(orderDate, order.orderDate) && status == order.status;
     }
 
     /**

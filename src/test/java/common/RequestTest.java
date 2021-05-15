@@ -1,6 +1,5 @@
-package unitTest;
+package common;
 
-import common.Request;
 import common.dataClasses.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -32,12 +32,20 @@ public class User extends Object implements IData {
      * @param unitId The ID of the organisational unit the user belongs to.
      */
     public User(int userId, String fullName, String username, String password, String accountType, int unitId){
-        this.userId = userId;
+        setUserId(userId);
         setUsername(username);
         setFullName(fullName);
         setPassword(password);
         setAccountType(accountType);
         setOrganisation(unitId);
+    }
+
+    /**
+     * Sets the user's ID
+     * @param userId The user's ID
+     */
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     /**

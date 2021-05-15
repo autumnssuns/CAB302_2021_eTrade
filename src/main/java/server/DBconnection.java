@@ -30,6 +30,5 @@ public class DBconnection {
             String url = "jdbc:sqlite:/D:\\SQLite\\sqlite-tools-win32-x86-3350400\\Accounts.db";
             instance = DriverManager.getConnection(url);
         }catch (SQLException e){System.out.println(e.getMessage());}
-
     }
 }
