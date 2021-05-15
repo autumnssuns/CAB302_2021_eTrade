@@ -1,4 +1,4 @@
-package guiTest;
+package client;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -1,4 +1,4 @@
-package unitTest;
+package common;
 
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Asset;

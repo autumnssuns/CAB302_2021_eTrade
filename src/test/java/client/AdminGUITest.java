@@ -1,4 +1,4 @@
-package guiTest;
+package client;
 
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
