@@ -8,14 +8,20 @@ import common.Request;
 import common.Response;
 import common.dataClasses.DataCollection;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -23,6 +29,9 @@ import java.io.IOException;
 //TODO: Commenting & Documenting
 
 public class AdminMainController extends MainController {
+    private Stage stage;
+    private Scene scene;
+
     //Reusable elements that can be updated
     Pane usersPane;
     Pane organisationUnitsPane;
@@ -135,5 +144,22 @@ public class AdminMainController extends MainController {
 
         localDatabase = new AdminLocalDatabase(users, assets, organisations, stocks);
         System.out.println(localDatabase);
+    }
+    // Exit button
+    public void exit(ActionEvent event) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Exit Program");
+        alert.setHeaderText("Close the program?");
+        alert.setContentText("Do you want to exit?");
+        if (alert.showAndWait().get() == ButtonType.OK){
+            Parent root = FXMLLoader.load(getClass().getResource("AdminMain.fxml"));
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.close();
+            System.out.println("You successfully exit the program");
+        }
+
+
     }
 }

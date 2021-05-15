@@ -27,6 +27,5 @@
       </Pane>
 
       <Button layoutX="1324.0" layoutY="154.0" mnemonicParsing="false" onAction="#addAsset" prefHeight="45.0" prefWidth="114.0" text="Debug: Add Item" />
-      <Button layoutX="670.0" layoutY="31.0" mnemonicParsing="false" text="Exit" />
    </children>
 </AnchorPane>
