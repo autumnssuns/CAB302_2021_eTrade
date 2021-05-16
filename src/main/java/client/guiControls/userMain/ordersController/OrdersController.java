@@ -2,6 +2,8 @@ package client.guiControls.userMain.ordersController;
 
 import client.guiControls.DisplayController;
 import client.guiControls.userMain.UserLocalDatabase;
+import client.guiControls.userMain.UserMainController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Asset;
 import common.dataClasses.DataCollection;
 import common.dataClasses.Order;
@@ -41,7 +43,6 @@ public class OrdersController extends DisplayController {
         for (int i = startingOrderIndex; i < startingOrderIndex + ordersPerPage && i < orders.size(); i++){
             OrderInfoBox orderInfoBox = new OrderInfoBox(orders.get(i), this);
             ordersContainerBox.getChildren().add(orderInfoBox);
-            System.out.println("Testing");
         }
         return ordersContainerBox;
     }
@@ -50,7 +51,8 @@ public class OrdersController extends DisplayController {
      * Updates with database and displays all items in stock.
      */
     @Override
-    public void update(){
+    public void update() throws InvalidArgumentValueException {
+        ((UserMainController) controller).update();
         UserLocalDatabase localDatabase = (UserLocalDatabase) controller.getDatabase();
         orders = new DataCollection<>();
         for (Order order : localDatabase.getOrders()){
@@ -68,7 +70,7 @@ public class OrdersController extends DisplayController {
     /**
      * Change the order type displayed
      */
-    public void changeTypeFilter(){
+    public void changeTypeFilter() throws InvalidArgumentValueException {
         if (typeFilter.equals(Order.Type.SELL)){
             typeFilter = Order.Type.BUY;
             buyFilterButton.setDisable(true);

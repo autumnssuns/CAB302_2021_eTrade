@@ -35,7 +35,12 @@ public class LoginController extends MainController {
     public void initialize(){
         Platform.runLater(() -> {
             if (getServerConnection() == null){
-                IServerConnection serverConnection = new MockServerConnection();
+                IServerConnection serverConnection = null;
+                try {
+                    serverConnection = new MockServerConnection();
+                } catch (InvalidArgumentValueException e) {
+                    e.printStackTrace();
+                }
                 this.setServerConnection(serverConnection);
             }
         });

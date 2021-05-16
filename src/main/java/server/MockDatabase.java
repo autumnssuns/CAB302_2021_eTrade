@@ -20,62 +20,61 @@ public final class MockDatabase {
 
     static ArrayList<Object[]> orders = new ArrayList();
 
-    public static void initiate(){
-        users.add(new Object[]{0, "Admin", "admin", "root", "admin", 0});
-        users.add(new Object[]{1, "Dan Tran", "dan", "123", "user", 0});
-        users.add(new Object[]{2, "Daniel Pham", "duy", "abcd", "user", 1});
-        users.add(new Object[]{3, "Linh Hoang", "lyn", "password", "user", 2});
-        users.add(new Object[]{4, "Rodo Nguyen", "rodo", "rodo", "user", 3});
+    public static void initiate() throws InvalidArgumentValueException {
+        add(new User(0, "Admin", "admin", "root", "admin", 0));
+        add(new User(1, "Dan Tran", "dan", "123", "user", 0));
+        add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1));
+        add(new User(3, "Linh Hoang", "lyn", "password", "user", 2));
+        add(new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3));
 
-        assets.add(new Object[]{0, "CPU Hours", "CPU for rent"});
-        assets.add(new Object[]{1, "10 GB Database Server", "Remove SQL Server"});
-        assets.add(new Object[]{2, "A Generic Video Game", "Nothing is more generic than this."});
-        assets.add(new Object[]{3, "Coffin Dance Video", "You know what this is"});
+        add(new Asset(0, "CPU Hours", "CPU for rent"));
+        add(new Asset(1, "10 GB Database Server", "Remove SQL Server"));
+        add(new Asset(2, "A Generic Video Game", "Nothing is more generic than this."));
+        add(new Asset(3, "Coffin Dance Video", "You know what this is"));
+        
+        DataCollection<Asset> assets = (DataCollection<Asset>) queryAssets(new Request(null,null,null)).getAttachment();
+        
+        add(new OrganisationalUnit(0, "The Justice League", 9999.0f));
+        add(new OrganisationalUnit(1, "The supervillains", 5555.0f));
+        add(new OrganisationalUnit(2, "The random civilians", 3000.0f));
+        add(new OrganisationalUnit(3, "The brokers", 3000.0f));
 
-        organisationalUnits.add(new Object[]{0, "The Justice League", 9999.0f});
-        organisationalUnits.add(new Object[]{1, "The supervillains", 5555.0f});
-        organisationalUnits.add(new Object[]{2, "The random civilians", 500.0f});
-        organisationalUnits.add(new Object[]{3, "The brokers", 200.0f});
+        Stock stock0 = new Stock(0);
+        Stock stock1 = new Stock(1);
+        Stock stock2 = new Stock(2);
+        Stock stock3 = new Stock(3);
+        stock0.add(new Item(assets.get(0), 99));
+        stock0.add(new Item(assets.get(1), 99));
+        stock0.add(new Item(assets.get(2), 99));
+        stock0.add(new Item(assets.get(3), 99));
+        edit(stock0);
+        stock1.add(new Item(assets.get(0), 99));
+        stock1.add(new Item(assets.get(1), 99));
+        stock1.add(new Item(assets.get(2), 99));
+        stock1.add(new Item(assets.get(3), 99));
+        edit(stock1);
+        stock2.add(new Item(assets.get(0), 10));
+        stock2.add(new Item(assets.get(1), 10));
+        stock2.add(new Item(assets.get(2), 10));
+        stock2.add(new Item(assets.get(3), 10));
+        edit(stock2);
 
-        stocks.add(new Object[]{0, 0, 99});
-        stocks.add(new Object[]{0, 1, 99});
-        stocks.add(new Object[]{0, 2, 99});
-        stocks.add(new Object[]{0, 3, 99});
-        stocks.add(new Object[]{1, 0, 55});
-        stocks.add(new Object[]{1, 1, 55});
-        stocks.add(new Object[]{1, 2, 55});
-        stocks.add(new Object[]{1, 3, 55});
-        stocks.add(new Object[]{2, 0, 10});
-        stocks.add(new Object[]{2, 1, 10});
-        stocks.add(new Object[]{2, 2, 10});
-        stocks.add(new Object[]{2, 3, 10});
-
-        orders.add(new Object[]{0, Order.Type.BUY, 0, 0, 23, 0, 22f, null, LocalDateTime.of(2021, 5, 15, 16, 52), Order.Status.PENDING});
-        orders.add(new Object[]{1, Order.Type.BUY, 0, 1, 32, 0, 3f, null, LocalDateTime.of(2021, 5, 13, 13, 42), Order.Status.PENDING});
-        orders.add(new Object[]{2, Order.Type.BUY, 0, 2, 45, 0, 4f, null, LocalDateTime.of(2021, 5, 14, 7, 45), Order.Status.PENDING});
-        orders.add(new Object[]{3, Order.Type.BUY, 0, 3, 36, 0, 5f, null, LocalDateTime.of(2021, 5, 12, 22, 00), Order.Status.PENDING});
-        orders.add(new Object[]{4, Order.Type.BUY, 1, 0, 74, 0, 6f, null, LocalDateTime.of(2021, 5, 10, 21, 52), Order.Status.PENDING});
-        orders.add(new Object[]{5, Order.Type.BUY, 1, 1, 32, 0, 7f, null, LocalDateTime.of(2021, 5, 9, 15, 26), Order.Status.PENDING});
-        orders.add(new Object[]{6, Order.Type.BUY, 1, 2, 45, 0, 8f, null, LocalDateTime.of(2021, 5, 12, 18, 28), Order.Status.PENDING});
-        orders.add(new Object[]{7, Order.Type.BUY, 1, 3, 64, 0, 9f, null, LocalDateTime.of(2021, 5, 9, 13, 36), Order.Status.PENDING});
-        orders.add(new Object[]{8, Order.Type.SELL, 2, 0, 76, 0, 10f, null, LocalDateTime.of(2021, 5, 13, 14, 45), Order.Status.PENDING});
-        orders.add(new Object[]{9, Order.Type.SELL, 2, 1, 86, 0, 10.5f, null, LocalDateTime.of(2021, 5, 5, 11, 14), Order.Status.PENDING});
-        orders.add(new Object[]{10, Order.Type.SELL, 2, 2, 42, 0, 11.5f, null, LocalDateTime.of(2021, 5, 2, 7, 15), Order.Status.PENDING});
-        orders.add(new Object[]{11, Order.Type.SELL, 2, 3, 43, 0, 12.5f, null, LocalDateTime.of(2021, 5, 6, 4, 20), Order.Status.PENDING});
-        orders.add(new Object[]{12, Order.Type.SELL, 3, 0, 56, 0, 13.5f, null, LocalDateTime.of(2021, 5, 8, 6, 21), Order.Status.PENDING});
-        orders.add(new Object[]{13, Order.Type.SELL, 3, 1, 54, 0, 12.5f, null, LocalDateTime.of(2021, 5, 4, 8, 30), Order.Status.PENDING});
-        orders.add(new Object[]{14, Order.Type.SELL, 3, 2, 37, 0, 14.5f, null, LocalDateTime.of(2021, 5, 11, 0, 11), Order.Status.PENDING});
-        orders.add(new Object[]{15, Order.Type.SELL, 3, 3, 82, 0, 15.5f, null, LocalDateTime.of(2021, 5, 13, 3, 42), Order.Status.PENDING});
-//        protected int orderId;
-//        protected String orderType; //buy/sell
-//        protected int unitId;
-//        protected int assetId;
-//        protected int placedQuantity;//cartitem
-//        protected int resolvedQuantity = 0;
-//        protected float price;
-//        protected String finishDate = null; //Cartitem
-//        protected String orderDate;
-//        protected String status;
+        add(new Order(0, Order.Type.SELL, 0, 0, 99, 0, 10f, null, LocalDateTime.of(2021, 5, 15, 16, 52), Order.Status.PENDING));
+        add(new Order(1, Order.Type.SELL, 0, 1, 99, 0, 3f, null, LocalDateTime.of(2021, 5, 13, 13, 42), Order.Status.PENDING));
+        add(new Order(2, Order.Type.SELL, 0, 2, 99, 0, 4f, null, LocalDateTime.of(2021, 5, 14, 7, 45), Order.Status.PENDING));
+        add(new Order(3, Order.Type.SELL, 0, 3, 99, 0, 5f, null, LocalDateTime.of(2021, 5, 12, 22, 00), Order.Status.PENDING));
+        add(new Order(4, Order.Type.SELL, 1, 0, 55, 0, 8f, null, LocalDateTime.of(2021, 5, 10, 21, 52), Order.Status.PENDING));
+        add(new Order(5, Order.Type.SELL, 1, 1, 55, 0, 7f, null, LocalDateTime.of(2021, 5, 9, 15, 26), Order.Status.PENDING));
+        add(new Order(6, Order.Type.SELL, 1, 2, 55, 0, 8f, null, LocalDateTime.of(2021, 5, 12, 18, 28), Order.Status.PENDING));
+        add(new Order(7, Order.Type.SELL, 1, 3, 50, 0, 9f, null, LocalDateTime.of(2021, 5, 9, 13, 36), Order.Status.PENDING));
+        add(new Order(8, Order.Type.BUY, 2, 0, 40, 0, 10f, null, LocalDateTime.of(2021, 5, 13, 14, 45), Order.Status.PENDING));
+        add(new Order(9, Order.Type.BUY, 2, 1, 40, 0, 10.5f, null, LocalDateTime.of(2021, 5, 5, 11, 14), Order.Status.PENDING));
+        add(new Order(10, Order.Type.BUY, 2, 2, 40, 0, 11.5f, null, LocalDateTime.of(2021, 5, 2, 7, 15), Order.Status.PENDING));
+        add(new Order(11, Order.Type.BUY, 2, 3, 40, 0, 12.5f, null, LocalDateTime.of(2021, 5, 6, 4, 20), Order.Status.PENDING));
+        add(new Order(12, Order.Type.BUY, 3, 0, 50, 0, 13.5f, null, LocalDateTime.of(2021, 5, 8, 6, 21), Order.Status.PENDING));
+        add(new Order(13, Order.Type.BUY, 3, 1, 50, 0, 12.5f, null, LocalDateTime.of(2021, 5, 4, 8, 30), Order.Status.PENDING));
+        add(new Order(14, Order.Type.BUY, 3, 2, 50, 0, 14.5f, null, LocalDateTime.of(2021, 5, 11, 0, 11), Order.Status.PENDING));
+        add(new Order(15, Order.Type.BUY, 3, 3, 50, 0, 15.5f, null, LocalDateTime.of(2021, 5, 13, 3, 42), Order.Status.PENDING));
     }
 
     public static Response login(Request request){
@@ -383,12 +382,46 @@ public final class MockDatabase {
     }
 
     public static Response edit(Order order){
+        if (order.getStatus().equals(Order.Status.CANCELLED)){
+            cancelOrder(order);
+        }
         Object[] overrideRow = new Object[]{order.getOrderId(), order.getOrderType(), order.getUnitId(), order.getAssetId(),
                                             order.getPlacedQuantity(), order.getResolvedQuantity(), order.getPrice(),
                                             order.getFinishDate(), order.getOrderDate(), order.getStatus()};
         orders.set(find(order), overrideRow);
         Response<Order> response = new Response(true, order);
         return response;
+    }
+
+    /**
+     * Cancel an order:
+     * - If BUY order - refund the credit
+     * - If SELL order - return the asset
+     * @param order
+     */
+    public static void cancelOrder(Order order){
+        if (order.getOrderType().equals(Order.Type.BUY)){
+            // Refund = Available * Price
+            float refundTotal = (order.getPlacedQuantity() - order.getResolvedQuantity()) * order.getPrice();
+
+            // Update the buyer's balance
+            for (Object[] row : organisationalUnits){
+                if (row[0].equals(order.getUnitId())){
+                    organisationalUnits.set(organisationalUnits.indexOf(row), new Object[]{row[0], row[1], ((float)row[2] + refundTotal)});
+                    break;
+                }
+            }
+        }
+        else{
+            int returnQuantity = order.getPlacedQuantity() - order.getResolvedQuantity();
+            // Update the seller's stock
+            for (Object[] row : stocks){
+                if (row[0].equals(order.getUnitId()) && row[1].equals(order.getAssetId())){
+                    stocks.set(stocks.indexOf(row), new Object[]{row[0], row[1], ((int) row[2]) + returnQuantity});
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -442,10 +475,12 @@ public final class MockDatabase {
         Object[] newRow = new Object[]{orders.size(), attachment.getOrderType(), attachment.getUnitId(), attachment.getAssetId(),
                 attachment.getPlacedQuantity(), attachment.getResolvedQuantity(), attachment.getPrice(),
                 attachment.getFinishDate(), attachment.getOrderDate(), attachment.getStatus()};
+        attachment.setOrderId((int) newRow[0]);
         orders.add(newRow);
         placeOrder(attachment);
         Response response = new Response(true, null);
         // TODO: Resolve order
+        reconcileOrder(attachment);
         return response;
     }
 
@@ -520,5 +555,95 @@ public final class MockDatabase {
 
         Response response = new Response(true, null);
         return response;
+    }
+
+    /**
+     * Match two orders on the following conditions:
+     * - SELL order with BUY order from different unit
+     * - SELL order price less than or equal to BUY order's price
+     * @param order
+     */
+    private static Order matchOrder(Order order){
+        if (order.getStatus().equals(Order.Status.PENDING)){
+            // Initiate a lowest selling price
+            float lowestSellPrice = Float.MAX_VALUE;
+            int lowestPriceOrderId = -1;
+            // Loop through all the orders
+            for (Object[] row : orders){
+                // If the order is a BUY, the match must be SELL and vice versa
+                Order.Type matchType = order.getOrderType() == Order.Type.BUY ? Order.Type.SELL : Order.Type.BUY;
+                float buyPrice = order.getOrderType() == Order.Type.BUY ? order.getPrice() : (float) row[6];
+                float sellPrice = order.getOrderType() == Order.Type.SELL ? order.getPrice() : (float) row[6];
+
+                // Match conditions
+                boolean isMatch = row[1].equals(matchType)      // Match type
+                        && row[9].equals(Order.Status.PENDING)  // Match status: pending
+                        && row[3].equals(order.getAssetId())    // Match asset
+                        && !row[2].equals(order.getUnitId())    // Match order not from own unit
+                        && sellPrice <= buyPrice;               // Match price
+
+                // If a match is found, also check if it is lower than the currently known lowest price
+                // If it is lower, it becomes the chosen one
+                if (isMatch && sellPrice < lowestSellPrice){
+                    lowestSellPrice = sellPrice;
+                    lowestPriceOrderId = order.getOrderType() == Order.Type.SELL ? order.getOrderId() : (int) row[0];
+                }
+            }
+            // If no match is found, returns null, otherwise return the chosen one
+            return lowestPriceOrderId == -1 ? null :
+                    new Order((int) orders.get(lowestPriceOrderId)[0], (Order.Type) orders.get(lowestPriceOrderId)[1], (int) orders.get(lowestPriceOrderId)[2], (int) orders.get(lowestPriceOrderId)[3], (int) orders.get(lowestPriceOrderId)[4],
+                            (int) orders.get(lowestPriceOrderId)[5], (float) orders.get(lowestPriceOrderId)[6], (LocalDateTime) orders.get(lowestPriceOrderId)[7], (LocalDateTime) orders.get(lowestPriceOrderId)[8], (Order.Status) orders.get(lowestPriceOrderId)[9]);
+
+        }
+        return null;
+    }
+
+    /**
+     * Attempt to reconcile an order:
+     * - Finds the quantity to reconcile
+     * - Increases the resolved quantity of both orders
+     * - Marks one of the order as "Approved"
+     * - Adds credit to seller
+     * - Adds assets to buyer
+     */
+    private static void reconcileOrder(Order order){
+        Order matchOrder = matchOrder(order);
+        if (matchOrder != null){
+            int orderAvailability = order.getPlacedQuantity() - order.getResolvedQuantity();
+            int matchOrderAvailability = matchOrder.getPlacedQuantity() - matchOrder.getResolvedQuantity();
+            // Chooses the one with lower availability
+            int reconcileQuantity = orderAvailability <= matchOrderAvailability ? orderAvailability : matchOrderAvailability;
+            float price = order.getOrderType() == Order.Type.SELL ? order.getPrice() : matchOrder.getPrice();
+            float total = reconcileQuantity * price;
+
+            // Update the resolved quantity of both orders & write edits to database
+            order.setResolvedQuantity(order.getResolvedQuantity() + reconcileQuantity);
+            matchOrder.setResolvedQuantity(matchOrder.getResolvedQuantity() + reconcileQuantity);
+            edit(order);
+            edit(matchOrder);
+
+            // Find the seller and buyer IDs
+            int sellerId = order.getOrderType() == Order.Type.SELL ? order.getUnitId() : matchOrder.getUnitId();
+            int buyerId = order.getOrderType() == Order.Type.BUY ? order.getUnitId() : matchOrder.getUnitId();
+
+            // to update the seller's balance
+            for (Object[] row : organisationalUnits){
+                if (row[0].equals(sellerId)){
+                    organisationalUnits.set(organisationalUnits.indexOf(row), new Object[]{row[0], row[1], ((float) row[2]) + total});
+                    break;
+                }
+            }
+
+            // and the buyer's stock
+            for (Object[] row : stocks){
+                if (row[0].equals(buyerId) && row[1].equals(order.getAssetId())){
+                    stocks.set(stocks.indexOf(row), new Object[]{row[0], row[1], ((int) row[2]) + reconcileQuantity});
+                    break;
+                }
+            }
+
+            // make another attempt to reconcile
+            reconcileOrder(order);
+        }
     }
 }

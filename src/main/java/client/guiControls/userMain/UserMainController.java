@@ -117,7 +117,7 @@ public class UserMainController extends MainController {
      * Switches the display to the ORDERS tab.
      * @throws IOException
      */
-    public void toOrders(){
+    public void toOrders() throws InvalidArgumentValueException {
         ordersController.update();
         ordersPane.toFront();
         homeButton.setDisable(false);

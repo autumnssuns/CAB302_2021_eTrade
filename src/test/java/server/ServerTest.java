@@ -29,7 +29,7 @@ class ServerTest {
     DataCollection<Order> expectedOrders;
 
     @BeforeAll
-    void setUp() {
+    void setUp() throws InvalidArgumentValueException {
         server = new MockServer();
         admin = new User("admin", "root");
     }
@@ -53,47 +53,49 @@ class ServerTest {
         expectedAssets.add(new Asset(2, "A Generic Video Game", "Nothing is more generic than this."));
         expectedAssets.add(new Asset(3, "Coffin Dance Video", "You know what this is"));
 
-        expectedOrganisationalUnits.add(new OrganisationalUnit(0, "The Justice League", 9999.0f));
-        expectedOrganisationalUnits.add(new OrganisationalUnit(1, "The supervillains", 5555.0f));
-        expectedOrganisationalUnits.add(new OrganisationalUnit(2, "The random civilians", 500.0f));
+        expectedOrganisationalUnits.add(new OrganisationalUnit(0, "The Justice League", 11429.0f));
+        expectedOrganisationalUnits.add(new OrganisationalUnit(1, "The supervillains", 5995.0f));
+        expectedOrganisationalUnits.add(new OrganisationalUnit(2, "The random civilians", 1220.0f));
         expectedOrganisationalUnits.add(new OrganisationalUnit(3, "The brokers", 200.0f));
 
         Stock stock0 = new Stock(0);
         Stock stock1 = new Stock(1);
         Stock stock2 = new Stock(2);
         Stock stock3 = new Stock(3);
-        stock0.add(new Item(expectedAssets.get(0), 99));
-        stock0.add(new Item(expectedAssets.get(1), 99));
-        stock0.add(new Item(expectedAssets.get(2), 99));
-        stock0.add(new Item(expectedAssets.get(3), 99));
 
-        stock1.add(new Item(expectedAssets.get(0), 55));
-        stock1.add(new Item(expectedAssets.get(1), 55));
-        stock1.add(new Item(expectedAssets.get(2), 55));
-        stock1.add(new Item(expectedAssets.get(3), 55));
+        stock0.add(new Item(expectedAssets.get(0), 0));
+        stock0.add(new Item(expectedAssets.get(1), 0));
+        stock0.add(new Item(expectedAssets.get(2), 0));
+        stock0.add(new Item(expectedAssets.get(3), 0));
 
-        stock2.add(new Item(expectedAssets.get(0), 10));
-        stock2.add(new Item(expectedAssets.get(1), 10));
-        stock2.add(new Item(expectedAssets.get(2), 10));
-        stock2.add(new Item(expectedAssets.get(3), 10));
+        stock1.add(new Item(expectedAssets.get(0), 44));
+        stock1.add(new Item(expectedAssets.get(1), 44));
+        stock1.add(new Item(expectedAssets.get(2), 44));
+        stock1.add(new Item(expectedAssets.get(3), 49));
+
+        stock2.add(new Item(expectedAssets.get(0), 50));
+        stock2.add(new Item(expectedAssets.get(1), 50));
+        stock2.add(new Item(expectedAssets.get(2), 50));
+        stock2.add(new Item(expectedAssets.get(3), 50));
+
         expectedStocks.addAll(new Stock[]{stock0, stock1, stock2, stock3});
 
-        expectedOrders.add(new Order(0, Order.Type.BUY, 0, 0, 23, 0, 22f, null, LocalDateTime.of(2021, 5, 15, 16, 52), Order.Status.PENDING));
-        expectedOrders.add(new Order(1, Order.Type.BUY, 0, 1, 32, 0, 3f, null, LocalDateTime.of(2021, 5, 13, 13, 42), Order.Status.PENDING));
-        expectedOrders.add(new Order(2, Order.Type.BUY, 0, 2, 45, 0, 4f, null, LocalDateTime.of(2021, 5, 14, 7, 45), Order.Status.PENDING));
-        expectedOrders.add(new Order(3, Order.Type.BUY, 0, 3, 36, 0, 5f, null, LocalDateTime.of(2021, 5, 12, 22, 00), Order.Status.PENDING));
-        expectedOrders.add(new Order(4, Order.Type.BUY, 1, 0, 74, 0, 6f, null, LocalDateTime.of(2021, 5, 10, 21, 52), Order.Status.PENDING));
-        expectedOrders.add(new Order(5, Order.Type.BUY, 1, 1, 32, 0, 7f, null, LocalDateTime.of(2021, 5, 9, 15, 26), Order.Status.PENDING));
-        expectedOrders.add(new Order(6, Order.Type.BUY, 1, 2, 45, 0, 8f, null, LocalDateTime.of(2021, 5, 12, 18, 28), Order.Status.PENDING));
-        expectedOrders.add(new Order(7, Order.Type.BUY, 1, 3, 64, 0, 9f, null, LocalDateTime.of(2021, 5, 9, 13, 36), Order.Status.PENDING));
-        expectedOrders.add(new Order(8, Order.Type.SELL, 2, 0, 76, 0, 10f, null, LocalDateTime.of(2021, 5, 13, 14, 45), Order.Status.PENDING));
-        expectedOrders.add(new Order(9, Order.Type.SELL, 2, 1, 86, 0, 10.5f, null, LocalDateTime.of(2021, 5, 5, 11, 14), Order.Status.PENDING));
-        expectedOrders.add(new Order(10, Order.Type.SELL, 2, 2, 42, 0, 11.5f, null, LocalDateTime.of(2021, 5, 2, 7, 15), Order.Status.PENDING));
-        expectedOrders.add(new Order(11, Order.Type.SELL, 2, 3, 43, 0, 12.5f, null, LocalDateTime.of(2021, 5, 6, 4, 20), Order.Status.PENDING));
-        expectedOrders.add(new Order(12, Order.Type.SELL, 3, 0, 56, 0, 13.5f, null, LocalDateTime.of(2021, 5, 8, 6, 21), Order.Status.PENDING));
-        expectedOrders.add(new Order(13, Order.Type.SELL, 3, 1, 54, 0, 12.5f, null, LocalDateTime.of(2021, 5, 4, 8, 30), Order.Status.PENDING));
-        expectedOrders.add(new Order(14, Order.Type.SELL, 3, 2, 37, 0, 14.5f, null, LocalDateTime.of(2021, 5, 11, 0, 11), Order.Status.PENDING));
-        expectedOrders.add(new Order(15, Order.Type.SELL, 3, 3, 82, 0, 15.5f, null, LocalDateTime.of(2021, 5, 13, 3, 42), Order.Status.PENDING));
+        expectedOrders.add(new Order(0, Order.Type.SELL, 0, 0, 99, 35, 10f, null, LocalDateTime.of(2021, 5, 15, 16, 52), Order.Status.PENDING));
+        expectedOrders.add(new Order(1, Order.Type.SELL, 0, 1, 99, 90, 3f, null, LocalDateTime.of(2021, 5, 13, 13, 42), Order.Status.PENDING));
+        expectedOrders.add(new Order(2, Order.Type.SELL, 0, 2, 99, 90, 4f, null, LocalDateTime.of(2021, 5, 14, 7, 45), Order.Status.PENDING));
+        expectedOrders.add(new Order(3, Order.Type.SELL, 0, 3, 99, 90, 5f, null, LocalDateTime.of(2021, 5, 12, 22, 00), Order.Status.PENDING));
+        expectedOrders.add(new Order(4, Order.Type.SELL, 1, 0, 55, 55, 8f, null, LocalDateTime.of(2021, 5, 10, 21, 52), Order.Status.COMPLETED));
+        expectedOrders.add(new Order(5, Order.Type.SELL, 1, 1, 55, 0, 7f, null, LocalDateTime.of(2021, 5, 9, 15, 26), Order.Status.PENDING));
+        expectedOrders.add(new Order(6, Order.Type.SELL, 1, 2, 55, 0, 8f, null, LocalDateTime.of(2021, 5, 12, 18, 28), Order.Status.PENDING));
+        expectedOrders.add(new Order(7, Order.Type.SELL, 1, 3, 50, 0, 9f, null, LocalDateTime.of(2021, 5, 9, 13, 36), Order.Status.PENDING));
+        expectedOrders.add(new Order(8, Order.Type.BUY, 2, 0, 40, 40, 10f, null, LocalDateTime.of(2021, 5, 13, 14, 45), Order.Status.COMPLETED));
+        expectedOrders.add(new Order(9, Order.Type.BUY, 2, 1, 40, 40, 10.5f, null, LocalDateTime.of(2021, 5, 5, 11, 14), Order.Status.COMPLETED));
+        expectedOrders.add(new Order(10, Order.Type.BUY, 2, 2, 40, 40, 11.5f, null, LocalDateTime.of(2021, 5, 2, 7, 15), Order.Status.COMPLETED));
+        expectedOrders.add(new Order(11, Order.Type.BUY, 2, 3, 40, 40, 12.5f, null, LocalDateTime.of(2021, 5, 6, 4, 20), Order.Status.COMPLETED));
+        expectedOrders.add(new Order(12, Order.Type.BUY, 3, 0, 50, 50, 13.5f, null, LocalDateTime.of(2021, 5, 8, 6, 21), Order.Status.COMPLETED));
+        expectedOrders.add(new Order(13, Order.Type.BUY, 3, 1, 50, 50, 12.5f, null, LocalDateTime.of(2021, 5, 4, 8, 30), Order.Status.COMPLETED));
+        expectedOrders.add(new Order(14, Order.Type.BUY, 3, 2, 50, 50, 14.5f, null, LocalDateTime.of(2021, 5, 11, 0, 11), Order.Status.COMPLETED));
+        expectedOrders.add(new Order(15, Order.Type.BUY, 3, 3, 50, 50, 15.5f, null, LocalDateTime.of(2021, 5, 13, 3, 42), Order.Status.COMPLETED));
     }
 
     @Nested
