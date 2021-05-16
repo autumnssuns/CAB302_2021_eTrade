@@ -4,6 +4,13 @@
 
 [Marking Criteria](https://blackboard.qut.edu.au/bbcswebdav/pid-9209104-dt-content-rid-38013729_1/courses/CAB302_21se1/Marking%20Criteria%20%28CRA%29_%20Electronic%20Asset%20Trading%20Platform.pdf)
 
+# Workflow
+1. [Create an Issue](https://github.com/autumnssuns/Sem1_2021_CAB302_Group024_eTrade/issues)
+2. Comment `/cib` on an issue to indicate you are currently working on it. A new branch with the issue number and title is automatically generated.
+3. In IntelliJ, fetch and checkout to the automatically created branch.
+4. Implement then `Commit and Push`.
+5. [Create a Pull Request](https://github.com/autumnssuns/Sem1_2021_CAB302_Group024_eTrade/pulls) and `Merge` if all checks have passed. The issue will automatically close.
+
 # Notice Board: Final Submission on 06/06/2021
 
 # Documents Table of content
