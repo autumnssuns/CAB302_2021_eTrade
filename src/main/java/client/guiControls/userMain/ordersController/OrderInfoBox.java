@@ -74,7 +74,7 @@ public class OrderInfoBox extends HBox implements DataBox {
 
         this.getChildren().addAll(id, assetName, placedQuantity, resolvedQuantity, price, orderDate, finishDate, status);
 
-        if (!order.getStatus().equals(Order.Status.CANCELLED)){
+        if (order.getStatus().equals(Order.Status.PENDING)){
             cancelButton = new Button("Cancel");
             cancelButton.setOnAction(e -> {
                 try {

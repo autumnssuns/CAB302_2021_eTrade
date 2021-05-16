@@ -8,7 +8,7 @@ import common.dataClasses.Stock;
 
 public final class MockServer implements IServer{
 
-    public MockServer() {
+    public MockServer() throws InvalidArgumentValueException {
         MockDatabase.initiate();
     }
 

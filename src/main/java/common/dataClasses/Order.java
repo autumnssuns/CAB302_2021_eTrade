@@ -16,7 +16,7 @@ public class Order implements Serializable, IData {
 
     public enum Status{
         PENDING,
-        APPROVED,
+        COMPLETED,
         CANCELLED
     }
 
@@ -149,10 +149,15 @@ public class Order implements Serializable, IData {
     }
 
     /**
-     * Set new quantity
+     * Set new resolved quantity. If the resolved quantity is equal to the placed quantity,
+     * mark the order as "COMPLETED"
      * @param resolved_quantity
      */
-    public void setResolvedQuantity(int resolved_quantity) { this.resolvedQuantity = resolved_quantity;
+    public void setResolvedQuantity(int resolved_quantity) {
+        this.resolvedQuantity = resolved_quantity;
+        if (resolvedQuantity == placedQuantity){
+            setStatus(Status.COMPLETED);
+        }
     }
 
     /**

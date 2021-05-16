@@ -9,7 +9,7 @@ import server.MockServer;
 public final class MockServerConnection implements IServerConnection{
     IServer server = null;
 
-    public MockServerConnection() {
+    public MockServerConnection() throws InvalidArgumentValueException {
         server = new MockServer();
     }
 

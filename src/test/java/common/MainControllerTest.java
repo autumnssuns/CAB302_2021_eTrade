@@ -26,7 +26,7 @@ class MainControllerTest {
     }
 
     @Test
-    void setServerConnection() {
+    void setServerConnection() throws InvalidArgumentValueException {
         IServerConnection serverConnection = new MockServerConnection();
         controller.setServerConnection(serverConnection);
         assertEquals(serverConnection, controller.getServerConnection());
