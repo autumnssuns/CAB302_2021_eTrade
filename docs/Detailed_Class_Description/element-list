@@ -1,7 +1,6 @@
 client
 client.data
-client.data.localDatabase
-client.data.sessionalClasses
+client.guiControls
 client.guiControls.adminMain
 client.guiControls.adminMain.assetsController
 client.guiControls.adminMain.organisationalUnitsController
@@ -9,7 +8,11 @@ client.guiControls.adminMain.usersController
 client.guiControls.login
 client.guiControls.userMain
 client.guiControls.userMain.buyController
+client.guiControls.userMain.ordersController
 client.guiControls.userMain.saleController
 common
 common.dataClasses
+common.Exceptions
 server
+server.Features
+unusedTest

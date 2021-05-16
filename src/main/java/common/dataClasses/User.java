@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Represents a user in the system.
  */
-public class User extends Object implements IData {
+public class User implements IData {
     private int userId;
     private String fullName;
     private String username;

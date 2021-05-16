@@ -7,7 +7,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A package containing the request to be sent over the server.
+ * A package containing the request to be sent over the server, including the sender as a user object,
+ * a string containing the action to be comprehended and an attachment containing the data to be interpreted.
  */
 public class Request<T extends IData> implements Serializable {
     private User sender;

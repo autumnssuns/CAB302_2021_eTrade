@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Represents an Order
  */
-public class Order implements Serializable, IData {
+public class Order implements IData {
 
     public enum Type{
         BUY,

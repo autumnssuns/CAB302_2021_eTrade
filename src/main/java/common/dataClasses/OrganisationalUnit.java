@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Represents an organisational unit.
  */
-public class OrganisationalUnit implements Serializable, IData{
+public class OrganisationalUnit implements IData{
     private int unitId;
     private String unitName;
     public float balance;
