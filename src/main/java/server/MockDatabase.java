@@ -615,7 +615,7 @@ public class MockDatabase {
             int orderAvailability = order.getPlacedQuantity() - order.getResolvedQuantity();
             int matchOrderAvailability = matchOrder.getPlacedQuantity() - matchOrder.getResolvedQuantity();
             // Chooses the one with lower availability
-            int reconcileQuantity = orderAvailability <= matchOrderAvailability ? orderAvailability : matchOrderAvailability;
+            int reconcileQuantity = Math.min(orderAvailability, matchOrderAvailability);
             float price = order.getOrderType() == Order.Type.SELL ? order.getPrice() : matchOrder.getPrice();
             float total = reconcileQuantity * price;
 

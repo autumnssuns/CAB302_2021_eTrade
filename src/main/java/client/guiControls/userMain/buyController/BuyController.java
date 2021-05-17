@@ -8,6 +8,7 @@ import common.dataClasses.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Pagination;
 import javafx.scene.layout.*;
 
 import java.time.LocalDateTime;
@@ -18,7 +19,9 @@ import java.time.LocalDateTime;
 public class BuyController extends DisplayController {
     Cart buyCart = new Cart(Order.Type.BUY);
     Stock marketStock;
+    DataCollection<Order> marketSellOrders;
 
+    @FXML Pagination marketSellOrdersDisplay;
     @FXML VBox marketDisplayBox;
     @FXML VBox buyCartDisplayBox;
     @FXML Button buyAllButton;
@@ -43,13 +46,25 @@ public class BuyController extends DisplayController {
     }
 
     /**
-     * Sell an associated item and remove it from stock.
-     * @param item The item to sell
+     * Sell an associated asset and remove it from stock.
+     * @param asset The asset to sell
      */
-    public void buyItem(Item item, int quantity, float price) throws InvalidArgumentValueException {
-        CartItem cartItem = new CartItem(item, quantity, price);
+    public void buyItem(Asset asset, int quantity, float price) throws InvalidArgumentValueException {
+        CartItem cartItem = new CartItem(asset, quantity, price);
         buyCart.add(cartItem);
         refresh();
+    }
+
+    /**
+     * Copy information from a market's order and allows the user to customise it.
+     * @param asset The asset linked with the order
+     * @param quantity The quantity of the order
+     * @param price The price of the order
+     */
+    public void customiseItem(Asset asset, int quantity, float price){
+        ((ItemInfoBox) marketDisplayBox.lookup("#sellItemInfoBox" + asset.getId()))
+                .setQuantity(quantity)
+                .setPrice(price);
     }
 
     /**
@@ -105,15 +120,33 @@ public class BuyController extends DisplayController {
     public void update() throws InvalidArgumentValueException {
         UserLocalDatabase localDatabase = (UserLocalDatabase) controller.getDatabase();
         marketStock = localDatabase.getMarket();
+        marketSellOrders = localDatabase.getMarketOrders(Order.Type.SELL);
+        if(marketSellOrders != null){
+            // Resets the page and page factory http://www.java2s.com/Tutorials/Java/JavaFX/0610__JavaFX_Pagination.htm
+            marketSellOrdersDisplay.setPageFactory(pageIndex -> createPage(pageIndex));
+            marketSellOrdersDisplay.setPageCount((int) Math.ceil((float) marketSellOrders.size() / ordersPerPage));
+        }
         refresh();
     }
+    
+    // TODO: Refactor
+    /**
+     * The number of orders to be displayed per page.
+     */
+    private final int ordersPerPage = 7;
 
     /**
-     * Returns the lowest current market price of an asset, given it's id
-     * @param id The asset's id
-     * @return The lowest price of the asset
+     * Creates a page at a certain index.
      */
-    public String getCurrentLowestPrice(int id) {
-        return String.valueOf(((UserLocalDatabase)controller.getDatabase()).getCurrentLowestSellPrice(id));
+    public VBox createPage(int pageIndex){
+        VBox ordersContainerBox = new VBox();
+        ordersContainerBox.setSpacing(10);
+
+        int startingOrderIndex = pageIndex * ordersPerPage;
+        for (int i = startingOrderIndex; i < startingOrderIndex + ordersPerPage && i < marketSellOrders.size(); i++){
+            MarketOrderInfoBox MarketOrderInfoBox = new MarketOrderInfoBox(marketSellOrders.get(i), this);
+            ordersContainerBox.getChildren().add(MarketOrderInfoBox);
+        }
+        return ordersContainerBox;
     }
 }

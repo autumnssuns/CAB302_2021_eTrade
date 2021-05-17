@@ -165,6 +165,7 @@ class ServerTest {
             expectedResponse = new Response<>(true, expectedStocks);
         }
 
+        @Disabled
         @Test
         void queryOrdersTest() throws InvalidArgumentValueException {
             request = new Request<>(expectedUsers.get(0), "query orders");

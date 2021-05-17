@@ -30,6 +30,15 @@ public class Order implements IData {
     protected LocalDateTime finishDate = null; //Cartitem
     protected LocalDateTime orderDate;
     protected Status status;
+    private Asset asset;
+
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }
+
+    public Asset getAsset(){
+        return asset;
+    }
 
     public Order(int orderId, Type orderType, int unitId, int assetId, int placedQuantity, int resolvedQuantity, float price, LocalDateTime finishDate, LocalDateTime orderDate, Status status) {
         this.orderId = orderId;
@@ -157,6 +166,7 @@ public class Order implements IData {
         this.resolvedQuantity = resolved_quantity;
         if (resolvedQuantity == placedQuantity){
             setStatus(Status.COMPLETED);
+            setFinishDate(LocalDateTime.now());
         }
     }
 
@@ -198,7 +208,16 @@ public class Order implements IData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return orderId == order.orderId && unitId == order.unitId && assetId == order.assetId && placedQuantity == order.placedQuantity && resolvedQuantity == order.resolvedQuantity && Float.compare(order.price, price) == 0 && orderType == order.orderType && Objects.equals(finishDate, order.finishDate) && Objects.equals(orderDate, order.orderDate) && status == order.status;
+        return orderId == order.orderId
+                && unitId == order.unitId
+                && assetId == order.assetId
+                && placedQuantity == order.placedQuantity
+                && resolvedQuantity == order.resolvedQuantity
+                && Float.compare(order.price, price) == 0
+                && orderType == order.orderType
+                && Objects.equals(finishDate, order.finishDate)
+                && Objects.equals(orderDate, order.orderDate)
+                && status == order.status;
     }
 
     /**
@@ -208,5 +227,14 @@ public class Order implements IData {
     @Override
     public int hashCode() {
         return Objects.hash(orderId, orderType, unitId, assetId, placedQuantity, resolvedQuantity, price, finishDate, orderDate, status);
+    }
+
+    /**
+     * Checks if the some other order is similar to this order, in terms of type, asset, price and status
+     * @param order The other order to compare to
+     * @return true if the other order is equal to the current order, false otherwise.
+     */
+    public boolean isSimilarTo(Order order){
+        return orderType == order.orderType && assetId == order.assetId && Float.compare(order.price, price) == 0 && status == order.status;
     }
 }

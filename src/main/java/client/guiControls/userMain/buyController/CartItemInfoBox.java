@@ -1,6 +1,5 @@
 package client.guiControls.userMain.buyController;
 
-import client.guiControls.userMain.saleController.SaleController;
 import common.dataClasses.CartItem;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,7 +11,7 @@ import javafx.scene.layout.VBox;
 /**
  * A box to display an item information and can be interacted with.
  */
-public class CartItemInfoBox extends HBox {
+public class CartItemInfoBox extends VBox {
     private BuyController controller;
     private CartItem cartItem;
 
@@ -29,14 +28,56 @@ public class CartItemInfoBox extends HBox {
      * @param controller The associated display controller containing this box.
      */
     public CartItemInfoBox(CartItem cartItem, BuyController controller){
-        this.setAlignment(Pos.CENTER_LEFT);
-        this.setSpacing(20);
-
         this.cartItem = cartItem;
         this.controller = controller;
 
-        loadView();
+        initialize();
+        load();
     }
+
+    /**
+     * Initialise the display elements and their styling.
+     */
+    private void initialize(){
+        this.setAlignment(Pos.CENTER_LEFT);
+
+        nameLabel = new Label();
+        nameLabel.getStyleClass().add("blackLabel");
+        nameLabel.setId("cartItemNameLabel" + cartItem.getId());
+
+        totalPriceLabel = new Label();
+        totalPriceLabel.getStyleClass().add("blackLabel");
+        totalPriceLabel.setId("cartItemTotalPriceLabel" + cartItem.getId());
+
+        quantityTextField = new TextField();
+        quantityTextField.setPrefWidth(150);
+        quantityTextField.setText("Quantity: " + cartItem.getQuantity());
+        quantityTextField.setId("cartItemBuyQuantityTextField" + cartItem.getId());
+
+        priceTextField = new TextField();
+        priceTextField.setPrefWidth(150);
+        priceTextField.setText("Price: " + cartItem.getPrice());
+        priceTextField.setId("cartItemBuyPriceTextField" + cartItem.getId());
+
+        removeButton = new Button("x");
+        removeButton.setOnAction(e -> removeBox());
+        removeButton.setId("cartItemRemoveButton" + cartItem.getId());
+
+        HBox upperInfoRow = new HBox();
+        upperInfoRow.setSpacing(20);
+        upperInfoRow.setAlignment(Pos.CENTER_LEFT);
+        upperInfoRow.setPrefWidth(350);
+        upperInfoRow.getChildren().addAll(priceTextField, totalPriceLabel);
+
+        HBox lowerInfoRow = new HBox();
+        lowerInfoRow.setSpacing(20);
+        lowerInfoRow.setAlignment(Pos.CENTER_LEFT);
+        lowerInfoRow.setPrefWidth(350);
+        lowerInfoRow.getChildren().addAll(quantityTextField, removeButton);
+
+        this.getChildren().addAll(nameLabel, upperInfoRow, lowerInfoRow);
+    }
+
 
     /**
      * Sets the item linked with the display and reset the display.
@@ -51,88 +92,36 @@ public class CartItemInfoBox extends HBox {
      * Display the GUI components.
      */
     private void loadView(){
-        loadData();
+        load();
         this.getChildren().clear();
-        VBox infoGroup = new VBox();
-        infoGroup.setAlignment(Pos.CENTER);
-        infoGroup.setPrefWidth(100);
-        infoGroup.getChildren().addAll(nameLabel, removeButton);
-        VBox sellInfoGroup = new VBox();
-        sellInfoGroup.setAlignment(Pos.CENTER_LEFT);
-        sellInfoGroup.getChildren().addAll(quantityTextField, priceTextField);
-        this.getChildren().addAll(infoGroup, sellInfoGroup, totalPriceLabel);
     }
 
     /**
      * Loads the underlying data to the GUI components.
      */
-    private void loadData(){
-        createNameLabel();
-        createQuantityTextField();
-        createPriceTextField();
-        createTotalPriceLabel();
-        createRemoveButton();
+    private void load(){
+        loadNameLabel();
+        loadTotalPriceLabel();
     }
 
     /**
-     * Creates a label displaying the cartItem's name.
+     * loads a label displaying the cartItem's name.
      */
-    private void createNameLabel(){
-        nameLabel = new Label(cartItem.getName());
-        nameLabel.getStyleClass().add("blackLabel");
-        nameLabel.setId("cartItemNameLabel" + cartItem.getId());
+    private void loadNameLabel(){
+        nameLabel.setText(cartItem.getName());
     }
 
     /**
-     * Creates a label displaying the cartItem's name.
+     * loads a label displaying the cartItem's name.
      */
-    private void createTotalPriceLabel(){
-        totalPriceLabel = new Label("Total" + cartItem.getTotalPrice());
-        totalPriceLabel.getStyleClass().add("blackLabel");
-        totalPriceLabel.setId("cartItemTotalPriceLabel" + cartItem.getId());
-    }
-
-    /**
-     * Creates a text field to input the amount to sell.
-     */
-    private void createQuantityTextField(){
-        quantityTextField = new TextField();
-        quantityTextField.setPrefWidth(150);
-        quantityTextField.setText("Quantity: " + cartItem.getQuantity());
-        quantityTextField.setId("cartItemSellQuantityTextField" + cartItem.getId());
-    }
-
-    /**
-     * Creates a text field to input the price.
-     */
-    private void createPriceTextField(){
-        priceTextField = new TextField();
-        priceTextField.setPrefWidth(150);
-        priceTextField.setText("Price: " + cartItem.getPrice());
-        priceTextField.setId("cartItemSellPriceTextField" + cartItem.getId());
-    }
-
-    /**
-     * Creates a button to show the asset's history.
-     */
-    private void createRemoveButton(){
-        removeButton = new Button("Remove");
-        removeButton.setOnAction(e -> removeBox());
-        removeButton.setId("cartItemRemoveButton" + cartItem.getId());
-    }
-
-    /**
-     * Shows the asset's history.
-     */
-    private void showHistory(){
-        //TODO: Design & Implement this
+    private void loadTotalPriceLabel(){
+        totalPriceLabel.setText("Total" + cartItem.getTotalPrice());
     }
 
     /**
      * Removes the current box.
      */
     private void removeBox() {
-        ((VBox) this.getParent()).getChildren().remove(this);
         controller.removeCartItem(cartItem);
     }
 }
