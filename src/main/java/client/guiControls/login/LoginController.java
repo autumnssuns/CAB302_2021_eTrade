@@ -42,6 +42,25 @@ public class LoginController extends MainController {
                     e.printStackTrace();
                 }
                 this.setServerConnection(serverConnection);
+                createInitiationRequest();
+            }
+        });
+    }
+
+    private void createInitiationRequest(){
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("Server is not initiated");
+        alert.setContentText("It looks like the server is empty. Would you like to add test data?");
+        ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+        ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+        alert.getButtonTypes().setAll(yesButton, noButton);
+        alert.showAndWait().ifPresent(type -> {
+            if (type == yesButton) {
+                try {
+                    this.sendRequest("init");
+                } catch (InvalidArgumentValueException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
