@@ -8,8 +8,10 @@ import common.dataClasses.Stock;
 
 public final class MockServer implements IServer{
 
+    boolean firstRun = true;
+
     public MockServer() throws InvalidArgumentValueException {
-        MockDatabase.initiate();
+        new MockDatabase();
     }
 
     @Override
@@ -17,6 +19,14 @@ public final class MockServer implements IServer{
         // Unidentified requests are denied by default
         Response response = new Response(false, null);
         switch (request.getAction()){
+            case "init":
+                if (firstRun){
+                    MockDatabase.initiate();
+                    firstRun = false;
+                    response = new Response(true, null);
+                }
+                break;
+
             case "login":
                 response = MockDatabase.login(request);
                 break;

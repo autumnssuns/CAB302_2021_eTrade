@@ -9,7 +9,7 @@ import common.dataClasses.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public final class MockDatabase {
+public class MockDatabase {
     static ArrayList<Object[]> users = new ArrayList();
 
     static ArrayList<Object[]> assets = new ArrayList();
@@ -20,8 +20,11 @@ public final class MockDatabase {
 
     static ArrayList<Object[]> orders = new ArrayList();
 
-    public static void initiate() throws InvalidArgumentValueException {
+    public MockDatabase() {
         add(new User(0, "Admin", "admin", "root", "admin", 0));
+    }
+
+    public static void initiate() throws InvalidArgumentValueException {
         add(new User(1, "Dan Tran", "dan", "123", "user", 0));
         add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1));
         add(new User(3, "Linh Hoang", "lyn", "password", "user", 2));

@@ -9,6 +9,7 @@ import common.dataClasses.User;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,6 +24,7 @@ class ServerTest {
     Request request;
 
     DataCollection<User> expectedUsers;
+    ArrayList<String> unhashedPasswords;
     DataCollection<Asset> expectedAssets;
     DataCollection<OrganisationalUnit> expectedOrganisationalUnits;
     DataCollection<Stock> expectedStocks;
@@ -31,12 +33,13 @@ class ServerTest {
     @BeforeAll
     void setUp() throws InvalidArgumentValueException {
         server = new MockServer();
-        admin = new User("admin", "root");
+        server.createResponse(new Request(null, "init"));
     }
 
     @BeforeEach
     void resetExpectedData() throws InvalidArgumentValueException {
         expectedUsers = new DataCollection<>();
+        unhashedPasswords = new ArrayList<String>();
         expectedAssets = new DataCollection<>();
         expectedOrganisationalUnits = new DataCollection<>();
         expectedStocks = new DataCollection<>();
@@ -47,6 +50,12 @@ class ServerTest {
         expectedUsers.add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1));
         expectedUsers.add(new User(3, "Linh Hoang", "lyn", "password", "user", 2));
         expectedUsers.add(new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3));
+
+        unhashedPasswords.add("root");
+        unhashedPasswords.add("123");
+        unhashedPasswords.add("abcd");
+        unhashedPasswords.add("password");
+        unhashedPasswords.add("rodo");
 
         expectedAssets.add(new Asset(0, "CPU Hours", "CPU for rent"));
         expectedAssets.add(new Asset(1, "10 GB Database Server", "Remove SQL Server"));
@@ -112,10 +121,12 @@ class ServerTest {
         @RepeatedTest(5)
         void validLoginTest(RepetitionInfo repetitionInfo) {
             String username = expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1).getUsername();
-            String password = expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1).getPassword();
+            String password = unhashedPasswords.get(repetitionInfo.getCurrentRepetition() - 1);
             User tempUser = new User(username, password);
             request = new Request<>(tempUser, "login");
-            expectedResponse = new Response<>(true, expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1));
+            User expectedUser = expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1);
+            expectedUser.setPassword(expectedUser.getPassword());
+            expectedResponse = new Response(true, expectedUser);
         }
 
         @Test
@@ -128,7 +139,12 @@ class ServerTest {
         @Test
         void queryUsersTest() throws InvalidArgumentValueException {
             request = new Request<>(admin, "query users");
-            expectedResponse = new Response<>(true, expectedUsers);
+            DataCollection<User> doubleHashedExpectedUsers = new DataCollection();
+            for (User user : expectedUsers){
+                user.setPassword(user.getPassword());
+                doubleHashedExpectedUsers.add(user);
+            }
+            expectedResponse = new Response<>(true, doubleHashedExpectedUsers);
         }
 
         @Test

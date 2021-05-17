@@ -70,8 +70,10 @@ public class AssetsController extends DisplayController {
     public void update(){
         assetsDisplayBox.getChildren().clear();
         AdminLocalDatabase localDatabase = (AdminLocalDatabase) controller.getDatabase();
-        for (Asset asset : localDatabase.getAssets()){
-            addAssetInfoBox(asset.getId(), asset.getName(), asset.getDescription());
+        if (!localDatabase.getAssets().isEmpty()){
+            for (Asset asset : localDatabase.getAssets()){
+                addAssetInfoBox(asset.getId(), asset.getName(), asset.getDescription());
+            }
         }
     }
 
