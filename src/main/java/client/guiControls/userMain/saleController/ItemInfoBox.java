@@ -31,13 +31,88 @@ public class ItemInfoBox extends HBox {
      * @param controller The associated display controller containing this box.
      */
     public ItemInfoBox(Item item, SaleController controller){
-        this.setAlignment(Pos.CENTER_LEFT);
-        this.setSpacing(20);
-
         this.item = item;
         this.controller = controller;
 
-        loadView();
+        initialize();
+        load();
+    }
+
+    /**
+     * Initialise the display elements and their styling.
+     */
+    private void initialize(){
+        this.setId("sellItemInfoBox" + item.getId());
+        this.setAlignment(Pos.CENTER_LEFT);
+        this.setSpacing(20);
+
+        nameLabel = new Label(item.getName());
+        nameLabel.getStyleClass().add("blackLabel");
+        nameLabel.setId("itemNameLabel" + item.getId());
+
+        availabilityLabel = new Label(item.getQuantity() + " available");
+        availabilityLabel.getStyleClass().add("blackLabel");
+        availabilityLabel.setId("itemAvailabilityLabel" + item.getId());
+
+        quantityTextField = new TextField();
+        quantityTextField.setPrefWidth(150);
+        quantityTextField.setPromptText("Quantity");
+        quantityTextField.setId("itemSellQuantityTextField" + item.getId());
+
+        priceTextField = new TextField();
+        priceTextField.setPrefWidth(150);
+        priceTextField.setPromptText("Price");
+        priceTextField.setId("itemSellPriceTextField" + item.getId());
+
+        sellButton = new Button("Sell");
+        sellButton.setOnAction(e -> {
+                    try {
+                        controller.sellItem(
+                                item,
+                                Integer.parseInt(quantityTextField.getText()),
+                                Float.parseFloat(priceTextField.getText())
+                        );
+                    } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                        invalidArgumentValueException.printStackTrace();
+                    }
+                }
+        );
+        sellButton.setId("itemSellButton" + item.getId());
+
+        historyButton = new Button("History");
+        historyButton.setOnAction(e -> showHistory());
+        historyButton.setId("itemHistoryButton" + item.getId());
+
+        VBox infoGroup = new VBox();
+        infoGroup.setAlignment(Pos.CENTER);
+        infoGroup.setPrefWidth(200);
+        infoGroup.getChildren().addAll(nameLabel, availabilityLabel, historyButton);
+
+        VBox sellInfoGroup = new VBox();
+        sellInfoGroup.setAlignment(Pos.CENTER_LEFT);
+        sellInfoGroup.getChildren().addAll(quantityTextField, priceTextField);
+
+        this.getChildren().addAll(infoGroup, sellInfoGroup, sellButton);
+    }
+
+    /**
+     * Set the text in the quantity text field
+     * @param quantity The quantity to display
+     * @return The current instance to continue building
+     */
+    public ItemInfoBox setQuantity(int quantity){
+        quantityTextField.setText(String.valueOf(quantity));
+        return this;
+    }
+
+    /**
+     * Set the text in the price text field
+     * @param price The price to display
+     * @return The current instance to continue building
+     */
+    public ItemInfoBox setPrice(float price){
+        priceTextField.setText(String.valueOf(price));
+        return this;
     }
 
     /**
@@ -46,102 +121,29 @@ public class ItemInfoBox extends HBox {
      */
     public void setItem(Item item){
         this.item = item;
-        loadView();
+        load();
     }
 
     /**
      * Display the GUI components.
      */
-    private void loadView(){
-        loadData();
-        this.getChildren().clear();
-        VBox infoGroup = new VBox();
-        infoGroup.setAlignment(Pos.CENTER);
-        infoGroup.setPrefWidth(100);
-        infoGroup.getChildren().addAll(nameLabel, availabilityLabel, historyButton);
-        VBox sellInfoGroup = new VBox();
-        sellInfoGroup.setAlignment(Pos.CENTER_LEFT);
-        sellInfoGroup.getChildren().addAll(quantityTextField, priceTextField);
-        this.getChildren().addAll(infoGroup, sellInfoGroup, sellButton);
+    private void load(){
+        loadNameLabel();
+        loadAvailabilityLabel();
     }
 
     /**
-     * Loads the underlying data to the GUI components.
+     * loads a label displaying the item's name.
      */
-    private void loadData(){
-        createNameLabel();
-        createAvailabilityLabel();
-        createQuantityTextField();
-        createPriceTextField();
-        createSellButton();
-        createHistoryButton();
+    private void loadNameLabel(){
+        nameLabel.setText(item.getName());
     }
 
     /**
-     * Creates a label displaying the item's name.
+     * loads a label displaying the item's availability.
      */
-    private void createNameLabel(){
-        nameLabel = new Label(item.getName());
-        nameLabel.getStyleClass().add("blackLabel");
-        nameLabel.setId("itemNameLabel" + item.getId());
-    }
-
-    /**
-     * Creates a label displaying the item's availability.
-     */
-    private void createAvailabilityLabel(){
-        availabilityLabel = new Label(item.getQuantity() + " available");
-        availabilityLabel.getStyleClass().add("blackLabel");
-        availabilityLabel.setId("itemAvailabilityLabel" + item.getId());
-    }
-
-    /**
-     * Creates a text field to input the amount to sell.
-     */
-    private void createQuantityTextField(){
-        quantityTextField = new TextField();
-        quantityTextField.setPrefWidth(200);
-        quantityTextField.setPromptText("Quantity to sell");
-        quantityTextField.setId("itemSellQuantityTextField" + item.getId());
-    }
-
-    /**
-     * Creates a text field to input the price.
-     */
-    private void createPriceTextField(){
-        priceTextField = new TextField();
-        priceTextField.setPrefWidth(200);
-        priceTextField.setPromptText("Price");
-        priceTextField.setId("itemSellPriceTextField" + item.getId());
-    }
-
-    /**
-     * Creates a button to sell the item.
-     */
-    private void createSellButton(){
-        sellButton = new Button("Sell");
-        sellButton.setOnAction(e -> {
-                    try {
-                        controller.sellItem(
-                                item,
-                                Integer.parseInt(quantityTextField.getText()),
-                                Float.parseFloat(priceTextField.getText())
-                                );
-                    } catch (InvalidArgumentValueException invalidArgumentValueException) {
-                        invalidArgumentValueException.printStackTrace();
-                    }
-                }
-            );
-        sellButton.setId("itemSellButton" + item.getId());
-    }
-
-    /**
-     * Creates a button to show the asset's history.
-     */
-    private void createHistoryButton(){
-        historyButton = new Button("History");
-        historyButton.setOnAction(e -> showHistory());
-        historyButton.setId("itemHistoryButton" + item.getId());
+    private void loadAvailabilityLabel(){
+        availabilityLabel.setText(item.getQuantity() + " available");
     }
 
     /**

@@ -1,6 +1,5 @@
 package client.guiControls.userMain.buyController;
 
-import client.guiControls.userMain.saleController.SaleController;
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Item;
 import javafx.geometry.Pos;
@@ -31,13 +30,88 @@ public class ItemInfoBox extends HBox {
      * @param controller The associated display controller containing this box.
      */
     public ItemInfoBox(Item item, BuyController controller){
-        this.setAlignment(Pos.CENTER_LEFT);
-        this.setSpacing(20);
-
         this.item = item;
         this.controller = controller;
 
-        loadView();
+        initialize();
+        load();
+    }
+
+    /**
+     * Initialise the display elements and their styling.
+     */
+    private void initialize(){
+        this.setId("buyItemInfoBox" + item.getId());
+        this.setAlignment(Pos.CENTER_LEFT);
+        this.setSpacing(20);
+
+        nameLabel = new Label(item.getName());
+        nameLabel.getStyleClass().add("blackLabel");
+        nameLabel.setId("itemNameLabel" + item.getId());
+
+        availabilityLabel = new Label(item.getQuantity() + " available");
+        availabilityLabel.getStyleClass().add("blackLabel");
+        availabilityLabel.setId("itemAvailabilityLabel" + item.getId());
+
+        quantityTextField = new TextField();
+        quantityTextField.setPrefWidth(150);
+        quantityTextField.setPromptText("Quantity");
+        quantityTextField.setId("itemBuyQuantityTextField" + item.getId());
+
+        priceTextField = new TextField();
+        priceTextField.setPrefWidth(150);
+        priceTextField.setPromptText("Price");
+        priceTextField.setId("itemBuyPriceTextField" + item.getId());
+
+        buyButton = new Button("Buy");
+        buyButton.setOnAction(e -> {
+                    try {
+                        controller.buyItem(
+                                item,
+                                Integer.parseInt(quantityTextField.getText()),
+                                Float.parseFloat(priceTextField.getText())
+                        );
+                    } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                        invalidArgumentValueException.printStackTrace();
+                    }
+                }
+        );
+        buyButton.setId("itemBuyButton" + item.getId());
+
+        historyButton = new Button("History");
+        historyButton.setOnAction(e -> showHistory());
+        historyButton.setId("itemHistoryButton" + item.getId());
+
+        VBox infoGroup = new VBox();
+        infoGroup.setAlignment(Pos.CENTER);
+        infoGroup.setPrefWidth(200);
+        infoGroup.getChildren().addAll(nameLabel, availabilityLabel, historyButton);
+
+        VBox buyInfoGroup = new VBox();
+        buyInfoGroup.setAlignment(Pos.CENTER_LEFT);
+        buyInfoGroup.getChildren().addAll(quantityTextField, priceTextField);
+
+        this.getChildren().addAll(infoGroup, buyInfoGroup, buyButton);
+    }
+
+    /**
+     * Set the text in the quantity text field
+     * @param quantity The quantity to display
+     * @return The current instance to continue building
+     */
+    public ItemInfoBox setQuantity(int quantity){
+        quantityTextField.setText(String.valueOf(quantity));
+        return this;
+    }
+
+    /**
+     * Set the text in the price text field
+     * @param price The price to display
+     * @return The current instance to continue building
+     */
+    public ItemInfoBox setPrice(float price){
+        priceTextField.setText(String.valueOf(price));
+        return this;
     }
 
     /**
@@ -46,108 +120,29 @@ public class ItemInfoBox extends HBox {
      */
     public void setItem(Item item){
         this.item = item;
-        loadView();
+        load();
     }
 
     /**
      * Display the GUI components.
      */
-    private void loadView(){
-        loadData();
-        this.getChildren().clear();
-        VBox infoGroup = new VBox();
-        infoGroup.setAlignment(Pos.CENTER);
-        infoGroup.setPrefWidth(100);
-        infoGroup.getChildren().addAll(nameLabel, availabilityLabel, historyButton);
-        VBox buyInfoGroup = new VBox();
-        buyInfoGroup.setAlignment(Pos.CENTER_LEFT);
-        buyInfoGroup.getChildren().addAll(quantityTextField, priceTextField);
-        this.getChildren().addAll(infoGroup, buyInfoGroup, buyButton);
+    private void load(){
+        loadNameLabel();
+        loadAvailabilityLabel();
     }
 
     /**
-     * Loads the underlying data to the GUI components.
+     * loads a label displaying the item's name.
      */
-    private void loadData(){
-        createNameLabel();
-        createAvailabilityLabel();
-        createQuantityTextField();
-        createPriceTextField();
-        createBuyButton();
-        createHistoryButton();
+    private void loadNameLabel(){
+        nameLabel.setText(item.getName());
     }
 
     /**
-     * Creates a label displaying the item's name.
+     * loads a label displaying the item's availability.
      */
-    private void createNameLabel(){
-        nameLabel = new Label(item.getName());
-        nameLabel.getStyleClass().add("blackLabel");
-        nameLabel.setId("itemNameLabel" + item.getId());
-    }
-
-    /**
-     * Creates a label displaying the item's availability.
-     */
-    private void createAvailabilityLabel(){
-        availabilityLabel = new Label(item.getQuantity() + " available");
-        availabilityLabel.getStyleClass().add("blackLabel");
-        availabilityLabel.setId("itemAvailabilityLabel" + item.getId());
-    }
-
-    /**
-     * Creates a text field to input the amount to buy.
-     */
-    private void createQuantityTextField(){
-        quantityTextField = new TextField();
-        quantityTextField.setPrefWidth(200);
-        quantityTextField.setPromptText("Quantity to buy");
-        quantityTextField.setId("itemBuyQuantityTextField" + item.getId());
-    }
-
-    /**
-     * Creates a text field to input the price.
-     */
-    private void createPriceTextField(){
-        priceTextField = new TextField();
-        priceTextField.setPrefWidth(200);
-        priceTextField.setPromptText("Price");
-        try{
-            priceTextField.setText(controller.getCurrentLowestPrice(item.getId()));
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        priceTextField.setId("itemBuyPriceTextField" + item.getId());
-    }
-
-    /**
-     * Creates a button to buy the item.
-     */
-    private void createBuyButton(){
-        buyButton = new Button("buy");
-        buyButton.setOnAction(e -> {
-                    try {
-                        controller.buyItem(
-                                item,
-                                Integer.parseInt(quantityTextField.getText()),
-                                Float.parseFloat(priceTextField.getText())
-                                );
-                    } catch (InvalidArgumentValueException invalidArgumentValueException) {
-                        invalidArgumentValueException.printStackTrace();
-                    }
-                }
-            );
-        buyButton.setId("itemBuyButton" + item.getId());
-    }
-
-    /**
-     * Creates a button to show the asset's history.
-     */
-    private void createHistoryButton(){
-        historyButton = new Button("History");
-        historyButton.setOnAction(e -> showHistory());
-        historyButton.setId("itemHistoryButton" + item.getId());
+    private void loadAvailabilityLabel(){
+        availabilityLabel.setText(item.getQuantity() + " available");
     }
 
     /**

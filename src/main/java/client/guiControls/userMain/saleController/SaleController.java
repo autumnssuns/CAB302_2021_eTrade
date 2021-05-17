@@ -10,15 +10,13 @@ import client.guiControls.MainController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * A controller to control the SELL Page (which allows the user to sell items from their organisation's stock).
@@ -26,10 +24,12 @@ import java.time.LocalDateTime;
 public class SaleController extends DisplayController {
     Cart sellCart = new Cart(Order.Type.SELL);
     Stock tempStock;
+    DataCollection<Order> marketBuyOrders;
 
+    @FXML Pagination marketBuyOrdersDisplay;
     @FXML VBox stockDisplayBox;
     @FXML VBox sellCartDisplayBox;
-    @FXML Button checkOutButton;
+    @FXML Button sellAllButton;
     @FXML Label saleTotalLabel;
 
     /**
@@ -53,6 +53,8 @@ public class SaleController extends DisplayController {
     /**
      * Sell an associated item and remove it from stock.
      * @param item The item to sell
+     * @param quantity The quantity to place
+     * @param price the price to place
      */
     public void sellItem(Item item, int quantity, float price) throws InvalidArgumentValueException {
         int linkedItemIndex = tempStock.indexOf(item);
@@ -64,10 +66,39 @@ public class SaleController extends DisplayController {
     }
 
     /**
+     * Attempts to place an order using an asset (that may not be in stock)
+     * @param asset The item to sell
+     * @param quantity The quantity to place
+     * @param price the price to place
+     */
+    public void sellItem(Asset asset, int quantity, float price) throws InvalidArgumentValueException {
+        for (Item i : tempStock){
+            if (i.getId() == asset.getId()){
+                int sellQuantity = Math.min(quantity, i.getQuantity());
+                sellItem(i, sellQuantity, price);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Copy information from a market's order and allows the user to customise it.
+     * @param asset The asset linked with the order
+     * @param quantity The quantity of the order
+     * @param price The price of the order
+     */
+    public void customiseItem(Asset asset, int quantity, float price){
+        ((ItemInfoBox) stockDisplayBox.lookup("#sellItemInfoBox" + asset.getId()))
+                .setQuantity(quantity)
+                .setPrice(price);
+    }
+
+    /**
      * Removes an item from a cart and adds it back to the stock.
      * @param cartItem The returning cart item.
      */
     public void removeCartItem(CartItem cartItem) throws InvalidArgumentValueException {
+        sellCart.remove(cartItem);
         for (int i = 0; i < tempStock.size(); i++){
             if (tempStock.get(i).getId() == cartItem.getId()){
                 Item returnItem = tempStock.get(i);
@@ -122,6 +153,33 @@ public class SaleController extends DisplayController {
     public void update(){
         UserLocalDatabase localDatabase = (UserLocalDatabase) controller.getDatabase();
         tempStock = localDatabase.getStock();
+        marketBuyOrders = localDatabase.getMarketOrders(Order.Type.BUY);
+        if(marketBuyOrdersDisplay != null){
+            // Resets the page and page factory http://www.java2s.com/Tutorials/Java/JavaFX/0610__JavaFX_Pagination.htm
+            marketBuyOrdersDisplay.setPageFactory(pageIndex -> createPage(pageIndex));
+            marketBuyOrdersDisplay.setPageCount((int) Math.ceil((float) marketBuyOrders.size() / ordersPerPage));
+        }
         refresh();
+    }
+
+    // TODO: Refactor
+    /**
+     * The number of orders to be displayed per page.
+     */
+    private final int ordersPerPage = 7;
+
+    /**
+     * Creates a page at a certain index.
+     */
+    public VBox createPage(int pageIndex){
+        VBox ordersContainerBox = new VBox();
+        ordersContainerBox.setSpacing(10);
+
+        int startingOrderIndex = pageIndex * ordersPerPage;
+        for (int i = startingOrderIndex; i < startingOrderIndex + ordersPerPage && i < marketBuyOrders.size(); i++){
+            MarketOrderInfoBox MarketOrderInfoBox = new MarketOrderInfoBox(marketBuyOrders.get(i), this);
+            ordersContainerBox.getChildren().add(MarketOrderInfoBox);
+        }
+        return ordersContainerBox;
     }
 }

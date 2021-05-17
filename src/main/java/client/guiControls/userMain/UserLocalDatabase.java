@@ -27,10 +27,10 @@ public class UserLocalDatabase extends ILocalDatabase {
      * @param assets The current assets in the system.
      */
     public UserLocalDatabase(OrganisationalUnit organisationalUnit, Stock stock, DataCollection<Order> orders, DataCollection<Asset> assets) {
-        this.organisationalUnit = organisationalUnit;
-        this.stock = stock;
-        this.orders = orders;
-        this.assets = assets;
+        setAssets(assets);
+        setOrganisationalUnit(organisationalUnit);
+        setStock(stock);
+        setOrders(orders);
     }
 
     /**
@@ -86,7 +86,11 @@ public class UserLocalDatabase extends ILocalDatabase {
      * @param orders The new orders data.
      */
     public void setOrders(DataCollection<Order> orders) {
-        this.orders = orders;
+        this.orders = new DataCollection<Order>();
+        for (Order order : orders){
+            order.setAsset(assets.get(order.getAssetId()));
+            this.orders.add(order);
+        }
     }
 
     /**
@@ -132,17 +136,42 @@ public class UserLocalDatabase extends ILocalDatabase {
     }
 
     /**
-     * Returns the lowest current price of a certain asset
-     * @param assetId The asset ID
-     * @return The lowest current price of the asset
+     * Returns the collection of market orders (excluding the current organisational unit)
+     * @param type The order type
+     * @return The collection of market orders.
      */
-    public float getCurrentLowestSellPrice(int assetId){
-        ArrayList<Float> prices = new ArrayList<Float>();
+    public DataCollection<Order> getMarketOrders(Order.Type type){
+        DataCollection<Order> marketOrders = new DataCollection<Order>();
         for (Order order : orders){
-            if (order.getAssetId() == assetId && order.getStatus().equals(Order.Status.PENDING)){
-                prices.add(order.getPrice());
+            if (order.getUnitId() != organisationalUnit.getId() && order.getOrderType() == type && order.getStatus() == Order.Status.PENDING){
+                marketOrders.add(order);
             }
         }
-        return Collections.min(prices);
+        return mergeOrders(marketOrders);
+    }
+
+    /**
+     * Merges similar orders (same asset with the same price and type) in a given collection.
+     * @return
+     */
+    private DataCollection<Order> mergeOrders(DataCollection<Order> unmergedOrders){
+        DataCollection<Order> mergedOrders = new DataCollection<Order>();
+        for (Order unmerged : unmergedOrders){
+            boolean isNew = true;
+            for (Order merged : mergedOrders){
+                // If the two orders are similar, merge their price and quantity
+                if (unmerged.isSimilarTo(merged)) {
+                    int mergedIndex = mergedOrders.indexOf(merged);
+                    merged.setPlacedQuantity(merged.getPlacedQuantity() + unmerged.getPlacedQuantity());
+                    merged.setResolvedQuantity(merged.getResolvedQuantity() + unmerged.getResolvedQuantity());
+                    mergedOrders.set(mergedIndex, merged);
+                    isNew = false;
+                }
+            }
+            if (isNew){
+                mergedOrders.add(unmerged);
+            }
+        }
+        return mergedOrders;
     }
 }

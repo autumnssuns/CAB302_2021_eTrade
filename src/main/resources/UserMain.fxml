@@ -10,45 +10,45 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.UserMainController">
    <children>
-      <Pane fx:id="tabPane" layoutX="-85.0" prefHeight="1080.0" prefWidth="476.0" styleClass="buttonPane">
+      <Pane fx:id="tabPane" layoutY="4.0" prefHeight="1080.0" prefWidth="380.0" styleClass="buttonPane">
          <children>
-            <Button fx:id="homeButton" layoutY="169.0" mnemonicParsing="false" onAction="#toHome" prefHeight="166.0" prefWidth="476.0" styleClass="tabButton" text="SELL">
+            <Button fx:id="homeButton" layoutY="186.0" mnemonicParsing="false" onAction="#toHome" prefHeight="133.0" prefWidth="380.0" styleClass="tabButton" text="SELL">
                <font>
                   <Font size="40.0" />
                </font>
             </Button>
-            <Button fx:id="marketButton" layoutY="355.0" mnemonicParsing="false" onAction="#toMarket" prefHeight="166.0" prefWidth="476.0" styleClass="tabButton" text="BUY">
+            <Button fx:id="marketButton" layoutY="373.0" mnemonicParsing="false" onAction="#toMarket" prefHeight="131.0" prefWidth="380.0" styleClass="tabButton" text="BUY">
                <font>
                   <Font size="40.0" />
                </font>
             </Button>
-            <Button fx:id="ordersButton" layoutY="541.0" mnemonicParsing="false" onAction="#toOrders" prefHeight="166.0" prefWidth="476.0" styleClass="tabButton" text="HISTORY">
+            <Button fx:id="ordersButton" layoutY="558.0" mnemonicParsing="false" onAction="#toOrders" prefHeight="132.0" prefWidth="380.0" styleClass="tabButton" text="HISTORY">
                <font>
                   <Font size="40.0" />
                </font>
             </Button>
-            <Button layoutY="727.0" mnemonicParsing="false" prefHeight="166.0" prefWidth="476.0" styleClass="tabButton" text="PROFILE">
+            <Button layoutY="744.0" mnemonicParsing="false" prefHeight="133.0" prefWidth="380.0" styleClass="tabButton" text="PROFILE">
                <font>
                   <Font size="40.0" />
                </font>
             </Button>
-            <Label fx:id="creditLabel" layoutX="94.0" layoutY="92.0" prefHeight="45.0" prefWidth="368.0">
+            <Label fx:id="creditLabel" layoutY="92.0" prefHeight="45.0" prefWidth="380.0">
                <font>
                   <Font size="30.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <StackPane fx:id="displayStack" layoutX="476.0" layoutY="169.0" prefHeight="911.0" prefWidth="1444.0" />
-      <Pane fx:id="menuPane" layoutX="391.0" prefHeight="169.0" prefWidth="1521.0" styleClass="menuPane">
+      <StackPane fx:id="displayStack" layoutX="380.0" layoutY="100.0" prefHeight="980.0" prefWidth="1540.0" />
+      <Pane fx:id="menuPane" layoutX="380.0" prefHeight="100.0" prefWidth="1540.0" styleClass="menuPane">
          <children>
-            <Button layoutX="1251.0" layoutY="53.0" mnemonicParsing="false" onAction="#logOut" prefHeight="112.0" prefWidth="118.0" style="-fx-border-radius: 50;" styleClass="circularButton" text="Log out" />
-            <Label fx:id="userLabel" layoutX="873.0" layoutY="86.0" prefHeight="47.0" prefWidth="368.0">
+            <Button layoutX="1442.0" layoutY="6.0" mnemonicParsing="false" onAction="#logOut" prefHeight="90.0" prefWidth="90.0" style="-fx-border-radius: 50;" styleClass="circularButton" text="Log out" />
+            <Label fx:id="userLabel" alignment="CENTER_RIGHT" layoutX="1000.0" layoutY="10.0" prefHeight="30.0" prefWidth="400.0" textAlignment="RIGHT">
                <font>
                   <Font size="30.0" />
                </font>
             </Label>
-            <Label fx:id="organisationalUnitLabel" graphicTextGap="0.0" layoutX="84.0" layoutY="87.0" prefHeight="47.0" prefWidth="554.0">
+            <Label fx:id="organisationalUnitLabel" alignment="CENTER_RIGHT" graphicTextGap="0.0" layoutX="1000.0" layoutY="50.0" prefHeight="30.0" prefWidth="400.0" textAlignment="RIGHT">
                <font>
                   <Font size="30.0" />
                </font>
