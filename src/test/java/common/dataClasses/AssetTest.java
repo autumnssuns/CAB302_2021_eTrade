@@ -1,4 +1,4 @@
-package common;
+package common.dataClasses;
 
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Asset;

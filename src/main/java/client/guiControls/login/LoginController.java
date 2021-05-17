@@ -57,6 +57,7 @@ public class LoginController extends MainController {
         String password = passwordField.getText();
 
         this.setUser(new User(username, password));
+        System.out.println(this.getUser().getPassword());
         Response response = this.sendRequest("login");
         boolean loginSuccess = response.isFulfilled();
 

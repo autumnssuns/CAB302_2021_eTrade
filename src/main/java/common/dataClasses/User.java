@@ -1,5 +1,7 @@
 package common.dataClasses;
 
+import server.Features.HashPassword;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -82,11 +84,11 @@ public class User implements IData {
     }
 
     /**
-     * Sets the password of the user to a new value.
-     * @param password
+     * Hashes the password of the user and stores it.
+     * @param password The new password.
      */
     public void setPassword(String password){
-        this.password = password;
+        this.password = HashPassword.HashPassword(password);
     }
 
     /**
