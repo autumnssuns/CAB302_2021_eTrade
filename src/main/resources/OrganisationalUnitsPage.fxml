@@ -40,7 +40,7 @@
       <AnchorPane fx:id="organisationalUnitEditPane" layoutX="730.0" prefHeight="747.0" prefWidth="740.0" styleClass="displayPane" visible="false">
          <children>
             <TextField fx:id="organisationalUnitNameTextField" layoutX="309.0" layoutY="15.0" prefHeight="30.0" prefWidth="300.0" promptText="Set organisational unit name" />
-            <ScrollPane hbarPolicy="NEVER" layoutX="41.0" layoutY="264.0" prefHeight="422.0" prefWidth="590.0" styleClass="bodyPane">
+            <ScrollPane hbarPolicy="NEVER" layoutX="41.0" layoutY="200.0" prefHeight="422.0" prefWidth="590.0" styleClass="bodyPane">
                <content>
                   <VBox fx:id="organisationalUnitAssetsBox" prefWidth="600.0" spacing="20.0" />
                </content>
@@ -53,7 +53,7 @@
                   <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutX="42.0" layoutY="580.0" prefHeight="150.0" prefWidth="620.0" spacing="20.0" styleClass="whitePane">
+            <HBox alignment="CENTER" layoutX="42.0" layoutY="611.0" prefHeight="119.0" prefWidth="620.0" spacing="20.0" styleClass="whitePane">
                <children>
                   <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
                   <ComboBox fx:id="newOrganisationalUnitAssetNameComboBox" editable="true" prefHeight="30.0" prefWidth="250.0" promptText="New Asset Name" visibleRowCount="5" />
@@ -69,8 +69,8 @@
                   <Font size="27.0" />
                </font>
             </Label>
-            <Button fx:id="confirmOrganisationalUnitButton" layoutX="118.0" layoutY="650.0" mnemonicParsing="false" onAction="#confirmEditor" prefHeight="48.0" prefWidth="200.0" text="Confirm" />
-            <Button fx:id="cancelOrganisationalUnitButton" layoutX="358.0" layoutY="650.0" mnemonicParsing="false" onAction="#closeEditor" prefHeight="48.0" prefWidth="200.0" text="Cancel" />
+            <Button fx:id="confirmOrganisationalUnitButton" layoutX="118.0" layoutY="700.0" mnemonicParsing="false" onAction="#confirmEditor" prefHeight="31.0" prefWidth="118.0" text="Confirm" />
+            <Button fx:id="cancelOrganisationalUnitButton" layoutX="418.0" layoutY="700.0" mnemonicParsing="false" onAction="#closeEditor" prefHeight="31.0" prefWidth="140.0" text="Cancel" />
          </children>
       </AnchorPane>
    </children>

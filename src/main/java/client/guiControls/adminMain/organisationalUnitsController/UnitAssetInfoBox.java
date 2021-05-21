@@ -31,7 +31,8 @@ public class UnitAssetInfoBox extends HBox {
         this.setPrefHeight(80);
         this.setPrefWidth(600);
         this.setLayoutX(41);
-        this.setLayoutY(260);
+        this.setLayoutY(80);
+        this.setLayoutY(80);
         this.setSpacing(20);
 
         this.name = name;
@@ -95,7 +96,8 @@ public class UnitAssetInfoBox extends HBox {
      */
     private void createEditButton(){
         editButton = new Button("Edit");
-        editButton.setPrefWidth(100);
+        editButton.setStyle("-fx-font-size:10");
+        editButton.setPrefWidth(50);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
         editButton.setId("organisationalUnitAssetEditButton" + counter);
@@ -106,8 +108,9 @@ public class UnitAssetInfoBox extends HBox {
      */
     private void createRemoveButton(){
         removeButton = new Button("Remove");
-        removeButton.setPrefWidth(100);
+        removeButton.setPrefWidth(50);
         removeButton.setPrefHeight(30);
+        removeButton.setStyle("-fx-font-size:10");
         removeButton.setOnAction(e -> removeEntry());
         removeButton.setId("organisationalUnitAssetRemoveButton" + counter);
     }
