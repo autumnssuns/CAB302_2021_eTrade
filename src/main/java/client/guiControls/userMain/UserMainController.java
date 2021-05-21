@@ -3,6 +3,7 @@ package client.guiControls.userMain;
 import client.guiControls.MainController;
 import client.guiControls.userMain.buyController.BuyController;
 import client.guiControls.userMain.ordersController.OrdersController;
+import client.guiControls.userMain.profileController.ProfileController;
 import client.guiControls.userMain.saleController.SaleController;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
@@ -24,6 +25,7 @@ public class UserMainController extends MainController {
     private SaleController saleController;
     private BuyController buyController;
     private OrdersController ordersController;
+    private ProfileController profileController;
 
     //Reusable elements that can be updated
     Label cartTotalLabel;
@@ -38,6 +40,7 @@ public class UserMainController extends MainController {
     @FXML Button marketButton;
     @FXML Button ordersButton;
     @FXML Button homeButton;
+    @FXML Button profileButton;
     @FXML AnchorPane anchorPane;
     @FXML Label userLabel;
     @FXML Label creditLabel;
@@ -80,7 +83,11 @@ public class UserMainController extends MainController {
         ordersController.setController(this);
         ordersController.update();
 
-        profilePane = new Pane();
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("ProfilePage.fxml"));
+        profilePane = fxmlLoader.load();
+        profileController = fxmlLoader.getController();
+        profileController.setController(this);
+        profileController.update();
 
         update();
         displayStack.getChildren().addAll(sellPane, buyPane, ordersPane, profilePane);
@@ -99,6 +106,7 @@ public class UserMainController extends MainController {
         homeButton.setDisable(true);
         marketButton.setDisable(false);
         ordersButton.setDisable(false);
+        profilePane.setDisable(false);
     }
 
     /**
@@ -111,6 +119,7 @@ public class UserMainController extends MainController {
         homeButton.setDisable(false);
         marketButton.setDisable(true);
         ordersButton.setDisable(false);
+        profilePane.setDisable(false);
     }
 
     /**
@@ -123,6 +132,20 @@ public class UserMainController extends MainController {
         homeButton.setDisable(false);
         marketButton.setDisable(false);
         ordersButton.setDisable(true);
+        profilePane.setDisable(false);
+    }
+
+    /**
+     * Switches the display to the ORDERS tab.
+     * @throws IOException
+     */
+    public void toProfile() throws InvalidArgumentValueException {
+        profileController.update();
+        profilePane.toFront();
+        homeButton.setDisable(false);
+        marketButton.setDisable(false);
+        ordersButton.setDisable(false);
+        profileButton.setDisable(true);
     }
 
     /**

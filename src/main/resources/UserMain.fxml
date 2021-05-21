@@ -27,7 +27,7 @@
                   <Font size="40.0" />
                </font>
             </Button>
-            <Button layoutY="744.0" mnemonicParsing="false" prefHeight="133.0" prefWidth="380.0" styleClass="tabButton" text="PROFILE">
+            <Button fx:id="profileButton" layoutY="744.0" mnemonicParsing="false" onAction="#toProfile" prefHeight="133.0" prefWidth="380.0" styleClass="tabButton" text="PROFILE">
                <font>
                   <Font size="40.0" />
                </font>
