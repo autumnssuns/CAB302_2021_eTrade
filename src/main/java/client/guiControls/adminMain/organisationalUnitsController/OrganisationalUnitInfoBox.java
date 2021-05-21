@@ -45,8 +45,8 @@ public class OrganisationalUnitInfoBox extends HBox {
         this.setPrefHeight(80);
         this.setPrefWidth(700);
         //this.setLayoutX(41);
-        this.setLayoutY(260);
-        this.setSpacing(20);
+        this.setLayoutY(200);
+        this.setSpacing(5);
 
         this.unitId = unitId;
         this.name = name;
@@ -78,7 +78,7 @@ public class OrganisationalUnitInfoBox extends HBox {
         idLabel = new Label(String.valueOf(unitId));
         idLabel.getStyleClass().add("blackLabel");
         idLabel.setAlignment(Pos.CENTER);
-        idLabel.setPrefWidth(50);
+        idLabel.setPrefWidth(30);
         idLabel.setPrefHeight(80);
     }
 
@@ -88,7 +88,7 @@ public class OrganisationalUnitInfoBox extends HBox {
     private void createNameLabel(){
         nameLabel = new Label(name);
         nameLabel.getStyleClass().add("blackLabel");
-        nameLabel.setPrefWidth(200);
+        nameLabel.setPrefWidth(150);
         nameLabel.setPrefHeight(30);
         nameLabel.setId("organisationalUnitName" + unitId);
     }
@@ -127,7 +127,8 @@ public class OrganisationalUnitInfoBox extends HBox {
      */
     private void createEditButton(){
         editButton = new Button("Edit");
-        editButton.setPrefWidth(100);
+        editButton.setStyle("-fx-font-size:10");
+        editButton.setPrefWidth(50);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
         editButton.setId("organisationalUnitEditButton" + unitId);
@@ -138,7 +139,8 @@ public class OrganisationalUnitInfoBox extends HBox {
      */
     private void createRemoveButton(){
         removeButton = new Button("Remove");
-        removeButton.setPrefWidth(100);
+        removeButton.setStyle("-fx-font-size:10");
+        removeButton.setPrefWidth(50);
         removeButton.setPrefHeight(30);
         removeButton.setOnAction(e -> {
             try {

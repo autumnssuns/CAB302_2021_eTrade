@@ -36,10 +36,10 @@ public class AssetInfoBox extends HBox {
         super();
         this.setAlignment(Pos.CENTER);
         this.setPrefHeight(80);
-        this.setPrefWidth(1363);
-        this.setLayoutX(41);
-        this.setLayoutY(260);
-        this.setSpacing(20);
+        this.setPrefWidth(1238);
+        this.setLayoutX(20);
+        this.setLayoutY(200);
+        this.setSpacing(3);
 
         this.assetId = assetId;
         this.name = name;
@@ -102,7 +102,7 @@ public class AssetInfoBox extends HBox {
      */
     private void createNameTextField(){
         nameTextField = new TextField(name);
-        nameTextField.setPrefWidth(300);
+        nameTextField.setPrefWidth(200);
         nameTextField.setPrefHeight(30);
         nameTextField.setId("assetName" + assetId);
     }
@@ -112,7 +112,7 @@ public class AssetInfoBox extends HBox {
      */
     private void createDescriptionTextField(){
         descriptionTextField = new TextField(description);
-        descriptionTextField.setPrefWidth(700);
+        descriptionTextField.setPrefWidth(450);
         descriptionTextField.setPrefHeight(30);
         descriptionTextField.setId("assetDescription" + assetId);
     }
