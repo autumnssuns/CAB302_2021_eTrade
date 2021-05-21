@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.login.LoginController">
+   <children>
+      <Button fx:id="loginButton" layoutX="219.0" layoutY="262.0" mnemonicParsing="false" onAction="#attemptLogin" prefHeight="81.0" prefWidth="163.0" text="Login">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <TextField fx:id="nameTextField" layoutX="226.0" layoutY="140.0" />
+      <Label layoutX="165.0" layoutY="144.0" text="Username" />
+      <Label fx:id="statusLabel" layoutY="359.0" prefHeight="17.0" prefWidth="601.0" />
+      <PasswordField fx:id="passwordField" layoutX="226.0" layoutY="188.0" />
+      <Label layoutX="165.0" layoutY="192.0" text="Password" />
+      <Button fx:id="exitButton" layoutX="519.0" layoutY="14.0" mnemonicParsing="false" onAction="#exit" prefHeight="39.0" prefWidth="68.0" text="Exit" />
+   </children>
+</AnchorPane>
