@@ -5,9 +5,12 @@ import common.dataClasses.Cart;
 import client.guiControls.ILocalDatabase;
 import common.dataClasses.*;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 /**
  * Represents a local database for a user. This local database is initiated using data fetched from server.
@@ -173,5 +176,74 @@ public class UserLocalDatabase extends ILocalDatabase {
             }
         }
         return mergedOrders;
+    }
+
+    /**
+     * Returns a LinkedHashMap containing the price history of an asset, with a specific order type.
+     * @param asset The asset to look up
+     * @param type The type of order
+     * @return A LinkedHashMap containing the price history.
+     */
+    public LinkedHashMap<LocalDate, Float> getPriceHistory(Asset asset, Order.Type type){
+        LinkedHashMap<LocalDate, Float> priceHistory = new LinkedHashMap();
+
+        LinkedList<LocalDate> timestamps = new LinkedList<>();
+        LinkedList<Float> prices = new LinkedList<>();
+        for (Order order : orders){
+            if (order.getOrderType().equals(type) && order.getAssetId() == asset.getId()){
+                timestamps.add(LocalDate.from(order.getOrderDate()));
+                prices.add(order.getPrice());
+            }
+        }
+
+        for (int i = 0; i < timestamps.size() - 1; i++){
+            float sameDayOrderCount = 1;
+            // If the date in the current order is the same as that in the next order,
+            // removes the time from the next order and adds the price together, increases the orders count in that day
+            // and do not proceed the loop
+            if (timestamps.get(i).equals(timestamps.get(i+1))){
+                timestamps.remove(i + 1);
+                prices.set(i, prices.get(i) + prices.get(i + 1));
+                prices.remove(i + 1);
+                sameDayOrderCount++;
+                i--;
+            }
+            // Otherwise conclude the day, calculating the average price and reset the daily orders count.
+            else{
+                prices.set(i, prices.get(i) / sameDayOrderCount);
+                sameDayOrderCount = 1;
+            }
+        }
+
+        // Interpolation of missing data
+        float[] ratesOfChange = new float[timestamps.size() - 1];
+        for (int i = 0; i < timestamps.size() - 1; i++){
+            ratesOfChange[i] = (prices.get(i + 1) - prices.get(i)) / (float) ChronoUnit.DAYS.between(timestamps.get(i), timestamps.get(i + 1));
+            System.out.println("Rate of change");
+            System.out.println(prices.get(i + 1) - prices.get(i));
+            System.out.println(ChronoUnit.DAYS.between(timestamps.get(i), timestamps.get(i + 1)));
+        }
+
+        LocalDate currentDate = timestamps.get(0);
+        int currentDateIndex = 0;
+        for (int i = 0; i < ratesOfChange.length; i++){
+            whileLoop:
+            while (currentDate.isBefore(timestamps.getLast())){
+                currentDate = currentDate.plusDays(1);
+                currentDateIndex++;
+                if (!timestamps.contains(currentDate)) {
+                    timestamps.add(currentDateIndex, currentDate);
+                    prices.add(currentDateIndex, prices.get(currentDateIndex - 1) + ratesOfChange[i]);
+                }
+                else{
+                    break whileLoop;
+                }
+            }
+        }
+
+        for (int i = 0; i < timestamps.size(); i++){
+            priceHistory.put(timestamps.get(i), prices.get(i));
+        }
+        return priceHistory;
     }
 }

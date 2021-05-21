@@ -85,7 +85,6 @@ public class Order implements IData {
      */
     public int getAssetId(){return assetId;}
 
-
     /**
      *
      * @return Order's Placed Quantity

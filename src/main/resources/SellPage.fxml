@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -56,14 +57,15 @@
             <Pagination fx:id="marketBuyOrdersDisplay" pageCount="10" prefHeight="770.0" prefWidth="550.0" styleClass="bodyPane" />
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="370.0" layoutY="100.0" prefHeight="870.0" prefWidth="570.0">
+      <VBox alignment="CENTER" layoutX="370.0" layoutY="100.0" prefHeight="870.0" prefWidth="570.0" styleClass="whitePane">
          <children>
-            <Label alignment="CENTER" prefHeight="35.0" prefWidth="235.0" text="All Assets">
+            <Label alignment="CENTER" prefHeight="35.0" prefWidth="235.0" styleClass="blackLabel" text="All Assets">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="815.0" prefWidth="570.0" styleClass="bodyPane">
+            <Pane fx:id="buyChartContainer" prefHeight="300.0" styleClass="whilePane" />
+            <ScrollPane hbarPolicy="NEVER" prefHeight="500.0" prefWidth="570.0" styleClass="bodyPane">
                <content>
                   <VBox fx:id="stockDisplayBox" alignment="CENTER_LEFT" prefWidth="570.0" spacing="20.0">
                      <padding>

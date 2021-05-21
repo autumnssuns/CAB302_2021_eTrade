@@ -10,12 +10,16 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalDate;
+import java.util.LinkedHashMap;
+
 /**
  * A box to display an item information and can be interacted with.
  */
 public class ItemInfoBox extends HBox {
     private SaleController controller;
     private Item item;
+    private LinkedHashMap<LocalDate, Float> priceHistory;
 
     private Label nameLabel;
     private Label availabilityLabel;
@@ -30,10 +34,10 @@ public class ItemInfoBox extends HBox {
      * @param item The linked item.
      * @param controller The associated display controller containing this box.
      */
-    public ItemInfoBox(Item item, SaleController controller){
+    public ItemInfoBox(Item item, LinkedHashMap priceHistory, SaleController controller){
         this.item = item;
         this.controller = controller;
-
+        this.priceHistory = priceHistory;
         initialize();
         load();
     }
@@ -80,7 +84,7 @@ public class ItemInfoBox extends HBox {
         sellButton.setId("itemSellButton" + item.getId());
 
         historyButton = new Button("History");
-        historyButton.setOnAction(e -> showHistory());
+        historyButton.setOnAction(e -> controller.showHistory(priceHistory));
         historyButton.setId("itemHistoryButton" + item.getId());
 
         VBox infoGroup = new VBox();

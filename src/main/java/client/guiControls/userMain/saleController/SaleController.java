@@ -7,15 +7,26 @@ import client.guiControls.userMain.UserLocalDatabase;
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.*;
 import client.guiControls.MainController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -31,13 +42,15 @@ public class SaleController extends DisplayController {
     @FXML VBox sellCartDisplayBox;
     @FXML Button sellAllButton;
     @FXML Label saleTotalLabel;
-
+    @FXML
+    Pane buyChartContainer;
     /**
      * Displays a new box containing an item's information in the stock.
      * @param item The linked item.
      */
     private void addItemInfoBox(Item item){
-        ItemInfoBox itemInfoBox = new ItemInfoBox(item, this);
+        LinkedHashMap<LocalDate, Float> priceHistory = ((UserLocalDatabase) controller.getDatabase()).getPriceHistory(item, Order.Type.BUY);
+        ItemInfoBox itemInfoBox = new ItemInfoBox(item,priceHistory, this);
         stockDisplayBox.getChildren().add(itemInfoBox);
     }
 
@@ -181,5 +194,36 @@ public class SaleController extends DisplayController {
             ordersContainerBox.getChildren().add(MarketOrderInfoBox);
         }
         return ordersContainerBox;
+    }
+
+    /**
+     * Shows an asset's price history in the chart pane.
+     * @param priceHistory The price history to show.
+     */
+    public void showHistory(LinkedHashMap<LocalDate, Float> priceHistory){
+        ObservableList<XYChart.Series<String, Float>> series = FXCollections.observableArrayList();
+
+        ObservableList<XYChart.Data<String, Float>> data = FXCollections.observableArrayList();
+        Iterator iter = priceHistory.entrySet().iterator();
+        while (iter.hasNext()){
+            Map.Entry pair = (Map.Entry) iter.next();
+            LocalDate currentDate = (LocalDate) pair.getKey();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/YY");
+            String date = ((LocalDate) pair.getKey()).format(formatter);
+            data.add(new XYChart.Data<String, Float>(date, (Float) pair.getValue()));
+        }
+
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Date");
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Price");
+        series.add(new XYChart.Series<String, Float>("Buy Prices", data));
+        LineChart priceHistoryChart = new LineChart(xAxis, yAxis, series);
+        priceHistoryChart.setCreateSymbols(false);
+        priceHistoryChart.setPrefHeight(300);
+        priceHistoryChart.setLegendVisible(false);
+        priceHistoryChart.setAnimated(false);
+        buyChartContainer.getChildren().clear();
+        buyChartContainer.getChildren().add(priceHistoryChart);
     }
 }
