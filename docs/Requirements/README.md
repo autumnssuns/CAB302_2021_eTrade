@@ -23,4 +23,4 @@ Synthesise all relevant facts contained within appendices A & B.
 | 16 | User can view price history of asset |As a user, when I am thinking about listing a buy or sell offer for an asset, I want to be able to see what current BUY and SELL offers are currently listed, so that I do not greatly overbid/underbid. | MEDIUM | |
 | 17| Price history is graphical |, it would be nice if you could show this on some kind of graph (with the date on the X axis and the price on the Y axis) | LOW | |
 | 18 | Notification on trade reconciliation |As a user, when I have the software open and a trade involving my organisational unit is reconciled, I would like it to show a little message somewhere.  | LOW |
-| 19 | User can change their password | As a user, it would be nice if I could change my own password without having to ask the IT Administration team to do it for me. | LOW | |
+| 19 | User can change their password | As a user, it would be nice if I could change my own password without having to ask the IT Administration team to do it for me. | LOW | Mocked |
