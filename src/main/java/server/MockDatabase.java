@@ -570,7 +570,7 @@ public class MockDatabase {
         if (order.getStatus().equals(Order.Status.PENDING)){
             // Initiate a lowest selling price
             float lowestSellPrice = Float.MAX_VALUE;
-            int lowestPriceOrderId = -1;
+            int matchedOrderId = -1;
             // Loop through all the orders
             for (Object[] row : orders){
                 // If the order is a BUY, the match must be SELL and vice versa
@@ -589,14 +589,14 @@ public class MockDatabase {
                 // If it is lower, it becomes the chosen one
                 if (isMatch && sellPrice < lowestSellPrice){
                     lowestSellPrice = sellPrice;
-                    lowestPriceOrderId = order.getOrderType() == Order.Type.SELL ? order.getOrderId() : (int) row[0];
+                    //lowestPriceOrderId = order.getOrderType() == Order.Type.SELL ? order.getOrderId() : (int) row[0];
+                    matchedOrderId = (int) row[0];
                 }
             }
             // If no match is found, returns null, otherwise return the chosen one
-            return lowestPriceOrderId == -1 ? null :
-                    new Order((int) orders.get(lowestPriceOrderId)[0], (Order.Type) orders.get(lowestPriceOrderId)[1], (int) orders.get(lowestPriceOrderId)[2], (int) orders.get(lowestPriceOrderId)[3], (int) orders.get(lowestPriceOrderId)[4],
-                            (int) orders.get(lowestPriceOrderId)[5], (float) orders.get(lowestPriceOrderId)[6], (LocalDateTime) orders.get(lowestPriceOrderId)[7], (LocalDateTime) orders.get(lowestPriceOrderId)[8], (Order.Status) orders.get(lowestPriceOrderId)[9]);
-
+            return matchedOrderId == -1 ? null :
+                    new Order((int) orders.get(matchedOrderId)[0], (Order.Type) orders.get(matchedOrderId)[1], (int) orders.get(matchedOrderId)[2], (int) orders.get(matchedOrderId)[3], (int) orders.get(matchedOrderId)[4],
+                            (int) orders.get(matchedOrderId)[5], (float) orders.get(matchedOrderId)[6], (LocalDateTime) orders.get(matchedOrderId)[7], (LocalDateTime) orders.get(matchedOrderId)[8], (Order.Status) orders.get(matchedOrderId)[9]);
         }
         return null;
     }
