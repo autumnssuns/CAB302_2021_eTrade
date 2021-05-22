@@ -73,7 +73,7 @@ public class BuyController extends DisplayController {
      * @param price The price of the order
      */
     public void customiseItem(Asset asset, int quantity, float price){
-        ((ItemInfoBox) marketDisplayBox.lookup("#sellItemInfoBox" + asset.getId()))
+        ((ItemInfoBox) marketDisplayBox.lookup("#buyItemInfoBox" + asset.getId()))
                 .setQuantity(quantity)
                 .setPrice(price);
     }
