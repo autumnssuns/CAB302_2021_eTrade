@@ -49,10 +49,10 @@ public class UserInfoBox extends HBox {
         super();
         this.setAlignment(Pos.CENTER);
         this.setPrefHeight(80);
-        this.setPrefWidth(1363);
+        this.setPrefWidth(1300);
         this.setLayoutX(41);
         this.setLayoutY(260);
-        this.setSpacing(20);
+        this.setSpacing(5);
 
         this.userId = userId;
         this.name = name;
@@ -118,7 +118,7 @@ public class UserInfoBox extends HBox {
         idLabel = new Label(String.valueOf(userId));
         idLabel.getStyleClass().add("blackLabel");
         idLabel.setAlignment(Pos.CENTER);
-        idLabel.setPrefWidth(100);
+        idLabel.setPrefWidth(80);
         idLabel.setPrefHeight(80);
     }
 
@@ -186,8 +186,9 @@ public class UserInfoBox extends HBox {
      */
     private void createEditButton(){
         editButton = new Button("Edit");
-        editButton.setPrefWidth(100);
+        editButton.setPrefWidth(80);
         editButton.setPrefHeight(30);
+        editButton.setStyle("-fx-font-size:10");
         editButton.setOnAction(e -> startEdit());
         editButton.setId("userEditButton" + userId);
     }
@@ -197,8 +198,9 @@ public class UserInfoBox extends HBox {
      */
     private void createRemoveButton(){
         removeButton = new Button("Remove");
-        removeButton.setPrefWidth(100);
+        removeButton.setPrefWidth(80);
         removeButton.setPrefHeight(30);
+        removeButton    .setStyle("-fx-font-size:10");
         removeButton.setOnAction(e -> {
             try {
                 removeEntry();

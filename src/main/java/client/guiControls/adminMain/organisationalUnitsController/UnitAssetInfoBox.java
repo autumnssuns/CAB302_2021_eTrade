@@ -32,7 +32,7 @@ public class UnitAssetInfoBox extends HBox {
         this.setPrefWidth(600);
         this.setLayoutX(41);
         this.setLayoutY(80);
-        this.setLayoutY(80);
+        this.setLayoutY(60);
         this.setSpacing(20);
 
         this.name = name;
