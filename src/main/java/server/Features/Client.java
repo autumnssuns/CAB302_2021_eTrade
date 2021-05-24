@@ -1,5 +1,7 @@
-package common;
+package server.Features;
 
+import common.Request;
+import common.Response;
 import common.dataClasses.User;
 
 import java.io.IOException;
@@ -18,8 +20,6 @@ public class Client implements Serializable {
     private ObjectInputStream in;
     private String address = "127.0.0.1";
     private int port = 5678;
-
-
 
     public void Start() throws IOException {
         try {
@@ -57,14 +57,22 @@ public class Client implements Serializable {
     }
     public static void main (String args[]) throws IOException, ClassNotFoundException {
         Client client = new Client();
-        client.Start();
+        while (client.socket == null){
+            try{
+                System.out.println("Attempt to connect!");
+                client.Start();
+            }
+            catch (IOException e2){
+                e2.printStackTrace();
+            }
+        }
+
         User testUser = new User("Duy", "123");
         Request loginRequest = new Request(testUser,"Login" );
         Response serverResponse = client.sendRequest(loginRequest);
         User information = (User) serverResponse.getAttachment();
-        information.getAccountType();
-        information.getPassword();
-
-
+//        information.getAccountType();
+//        information.getPassword();
+        System.out.println(information.getPassword());
     }
 }

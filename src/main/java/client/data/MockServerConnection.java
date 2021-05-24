@@ -6,6 +6,8 @@ import common.Response;
 import server.IServer;
 import server.MockServer;
 
+import java.io.IOException;
+
 public final class MockServerConnection implements IServerConnection{
     IServer server = null;
 
@@ -17,6 +19,11 @@ public final class MockServerConnection implements IServerConnection{
     public Response sendRequest(Request request) throws InvalidArgumentValueException {
         Response response = server.createResponse(request);
         return response;
+    }
+
+    @Override
+    public void Start() throws IOException {
+
     }
 
     @Override

@@ -1,5 +1,7 @@
-package common;
+package server.DataSourceClasses;
 
+import common.Request;
+import common.Response;
 import common.dataClasses.*;
 import server.DataSourceClasses.AssetsDataSource;
 import server.DataSourceClasses.OrderDataSource;

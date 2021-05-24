@@ -1,46 +1,120 @@
-package common;
+package server;
 
-import common.dataClasses.IData;
-import common.dataClasses.User;
-import server.DataSourceClasses.AssetsDataSource;
-import server.DataSourceClasses.OrderDataSource;
-import server.DataSourceClasses.OrganisationsDataSource;
-import server.DataSourceClasses.UserDataSource;
-import server.Features.LoginSystem;
+import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
+import common.Response;
+import common.dataClasses.OrganisationalUnit;
+import common.dataClasses.Stock;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * Provides functions for server to interact with the database and
- * return results to the client
- */
-public class Server implements Serializable {
+public final class Server implements IServer{
     private ServerSocket serverSocket;
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private int port = 5678;
+    private int port;
+    private boolean firstRun;
 
-    public  void Start() throws  IOException{
-        try {
-            serverSocket = new ServerSocket(port);
+    /**
+     * this is the timeout in between accepting clients, not reading from the socket itself.
+     */
+    private static final int SOCKET_ACCEPT_TIMEOUT = 100;
+    private AtomicBoolean running = new AtomicBoolean(true);
+    /**
+     * Initiate the server and
+     * //TODO initiate the database addess
+     * @throws InvalidArgumentValueException
+     */
+    public Server() throws InvalidArgumentValueException {
+        port = 5678;
+        firstRun = true;
+        new MockDatabase();
+    }
+
+    /**
+     * Starts listening for client.
+     * @throws IOException
+     */
+    public void Start() throws IOException {
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            serverSocket.setSoTimeout(SOCKET_ACCEPT_TIMEOUT);
             // Temporary prompt message
             System.out.println("Server started and waiting for client...");
-            socket = serverSocket.accept();
-            System.out.println("Client accepted.");
+            int connectionNumber = 0;
+            while (true) {
+                if (!running.get()) {
+                    break;
+                }
 
-            in = new ObjectInputStream(socket.getInputStream());
-            out = new ObjectOutputStream(socket.getOutputStream());
+                try {
+                    final Socket socket = serverSocket.accept();
+                    System.out.println(String.format("Accepted client connection - # %d", connectionNumber));
+                    final int currentNumber = connectionNumber;
+                    final Thread clientThread = new Thread(() -> handleConnection(socket));
+                    connectionNumber++;
+                    clientThread.start();
+                } catch (SocketTimeoutException ignored) {
+                    // Do nothing. A timeout is normal- we just want the socket to
+                    // occasionally timeout so we can check if the server is still running
+                } catch (Exception e) {
+                    // We will report other exceptions by printing the stack trace, but we
+                    // will not shut down the server. A exception can happen due to a
+                    // client malfunction (or malicious client)
+                    e.printStackTrace();
+                }
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Handles a single socket connection
+     * @param socket The socket to handle
+     */
+    private void handleConnection(Socket socket) {
+        try {
+            // Initiates the IO streams
+            final ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+            final ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+
+            // Wait until the requests is sent through
+            while (true) {
+                try {
+                    // Create a response and write to stream
+                    final Request request = (Request) inputStream.readObject();
+                    System.out.println(request.getAction());
+                    TimeUnit.SECONDS.sleep(1);
+                    Response response = createResponse(request);
+                    outputStream.writeObject(response);
+                    // Closes the socket after writing
+                    socket.close();
+                } catch (SocketTimeoutException e) {
+                    continue;
+                } catch (InvalidArgumentValueException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException | ClassCastException | ClassNotFoundException e) {
+            System.out.println(String.format("Connection %s closed", socket.toString()));
+        }
+    }
+
+    /**
+     * Closes the server (stop listening).
+     * @throws IOException
+     */
     public void Close() throws IOException{
         try {
             in.close();
@@ -51,105 +125,70 @@ public class Server implements Serializable {
             e.printStackTrace();
         }
     }
+
     /**
-     * Waits for request from client and process it, the server only waits for
-     * request from the client at the socket so there is no parameter needed
-     * @throws IOException
+     * Create a response based on the request.
+     * @param request The request sent by client.
+     * @return An appropriate response.
+     * @throws InvalidArgumentValueException
      */
-    public void SendResponse() throws IOException, ClassNotFoundException {
-
-        // For handler to assign value to serverResponse
-        //setup the shell
-        IData attachment;
-        //dummy response - Response from server
-        Response serverResponse = new Response(false, null);
-        //Read the client request
-        Request clientRequest = (Request) in.readObject();
-        //Get senders' information
-        User sender = clientRequest.getUser();
-        //Get the command string from the sender
-        String command = clientRequest.getAction();
-        switch (command){
-
-            case "Login":
-                String userName = sender.getUsername();
-                String password = sender.getPassword();
-                Boolean status = LoginSystem.login(userName,password);
-                if(status){
-                    UserDataSource userdata = new UserDataSource();
-                    sender = userdata.getUser(sender.getUserId());
-                    attachment = sender;
-                    serverResponse = new Response(true,attachment);
-                    out.writeObject(serverResponse);
-                    userdata.close();
+    @Override
+    public Response createResponse(Request request) throws InvalidArgumentValueException {
+        // Unidentified requests are denied by default
+        Response response = new Response(false, null);
+        switch (request.getAction()){
+            case "init":
+                if (firstRun){
+                    MockDatabase.initiate();
+                    firstRun = false;
+                    response = new Response(true, null);
                 }
                 break;
 
-                // Use overloaded method for these cases: Query, Delete, Edit and Add
-            case "Query an Object":
-                serverResponse = CasesToResponse.query(clientRequest);
-                out.writeObject(serverResponse);
+            case "login":
+                response = MockDatabase.login(request);
                 break;
 
-            case "Query Users":
-                UserDataSource userDataSource = new UserDataSource();
-                attachment = userDataSource.getUserList();
-                serverResponse = new Response(true, attachment);
-                out.writeObject(serverResponse);
-                userDataSource.close();
+            case "query users":
+                response = MockDatabase.queryUsers(request);
                 break;
 
-            case "Query Stocks":
-
+            case "query assets":
+                response = MockDatabase.queryAssets(request);
                 break;
 
-            case "Query Organisational Units":
-                OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
-                attachment = organisationsDataSource.getOrganisationList();
-                serverResponse = new Response(true, attachment);
-                out.writeObject(serverResponse);
-                organisationsDataSource.close();
+            case "query organisationalUnits":
+                response = MockDatabase.queryOrganisations(request);
                 break;
 
-            case "Query Orders":
-                OrderDataSource orderDataSource = new OrderDataSource();
-                attachment = orderDataSource.getOrderList();
-                serverResponse = new Response(true, attachment);
-                out.writeObject(serverResponse);
-                orderDataSource.close();
+            case "query stocks":
+                response = MockDatabase.queryStocks(request);
                 break;
 
-            case "Query Assets":
-                AssetsDataSource assetsDataSource = new AssetsDataSource();
-                attachment = assetsDataSource.getAssetList();
-                serverResponse = new Response(true, attachment);
-                out.writeObject(serverResponse);
-                assetsDataSource.close();
+            case "query organisational unit":
+                response = MockDatabase.queryOrganisationalUnit(request);
                 break;
 
-            case "delete":
-                //Possible things to delete:
-                // user, asset, organisation, Orders(buy/sell), Stock(??),
-                serverResponse = CasesToResponse.delete(clientRequest);
-                out.writeObject(serverResponse);
+            case "query stock":
+                response = MockDatabase.queryStock(request);
                 break;
 
-            case "edit":
-                serverResponse = CasesToResponse.edit(clientRequest);
-                out.writeObject(serverResponse);
+            case "query orders":
+                response = MockDatabase.queryOrders(request);
                 break;
 
             case "add":
-                serverResponse = CasesToResponse.add(clientRequest);
-                out.writeObject(serverResponse);
+                response = MockDatabase.add(request);
                 break;
 
-        }
-    }
+            case "edit":
+                response = MockDatabase.edit(request);
+                break;
 
-    public static void main (String args[]) throws IOException, ClassNotFoundException {
-        Server server = new Server();
-        server.Start();
-        server.SendResponse();
+            case "delete":
+                response = MockDatabase.delete(request);
+                break;
+        }
+        return response;
     }
 }

@@ -4,6 +4,8 @@ import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 
+import java.io.IOException;
+
 /**
  * A class to represent a server connection. This is a client side class.
  */
@@ -14,6 +16,11 @@ public interface IServerConnection {
      * @return The server's response.
      */
     Response sendRequest(Request request) throws InvalidArgumentValueException;
+
+    /**
+     * Starts the connection to the server.
+     */
+    void Start() throws IOException;
 
     /**
      * Close the connection to the server.

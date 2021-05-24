@@ -2,6 +2,7 @@ package client.guiControls.login;
 
 import client.data.IServerConnection;
 import client.data.MockServerConnection;
+import client.data.ServerConnection;
 import client.guiControls.MainController;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
@@ -36,11 +37,7 @@ public class LoginController extends MainController {
         Platform.runLater(() -> {
             if (getServerConnection() == null){
                 IServerConnection serverConnection = null;
-                try {
-                    serverConnection = new MockServerConnection();
-                } catch (InvalidArgumentValueException e) {
-                    e.printStackTrace();
-                }
+                serverConnection = new ServerConnection();
                 this.setServerConnection(serverConnection);
                 createInitiationRequest();
             }
@@ -56,11 +53,7 @@ public class LoginController extends MainController {
         alert.getButtonTypes().setAll(yesButton, noButton);
         alert.showAndWait().ifPresent(type -> {
             if (type == yesButton) {
-                try {
-                    this.sendRequest("init");
-                } catch (InvalidArgumentValueException e) {
-                    e.printStackTrace();
-                }
+                this.sendRequest("init");
             }
         });
     }
