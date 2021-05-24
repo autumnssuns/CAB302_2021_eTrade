@@ -13,6 +13,26 @@
 
 # Notice Board: Final Submission on 06/06/2021
 
+# Requirements Progresses (14/18)
+- [x] Has a graphical user interface
+- [x] Has separated user interfaces for normal users and admins
+- [x] User authentication: User needs to log in to use the application
+- [x] User can see & trades using organisationalUnit's credits & assets
+- [ ] User cannot place orders with higher price / quantity than the organisational unit can afford
+- [x] User can see current BUY & SELL offers
+- [x] Admin can create new organisational units and edit the units' credits and asset quantity
+- [x] Admin can edit & create new asset
+- [x] Admin can edit & create new user
+- [x] Password are hashed before being sent and is stored in hashed form
+- [x] Has a server that can interact with database and return reponse to client's request
+- [x] Server can facilitate and match sell-buy order
+- [ ] Has server-side database to store user information, asset information, organisational unit information and trade information
+- [x] User can access and remove a listed order from their organisational unit
+- [ ] Client & Server can run using configurations from a .properties file
+- [x] User can view price history of asset. Price history is graphical
+- [ ] Notification on trade reconciliation
+- [x] User can change their password
+
 # Documents Table of content
 1. [Workflow Guide](docs/Workflow)
 2. [Installation Guide](docs/Installation.md)
