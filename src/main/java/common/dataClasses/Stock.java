@@ -17,11 +17,10 @@ public class Stock extends ArrayList<Item> implements IData{
      * Initiates the stock by declaring the organisational unit owning it.
      * @param unitId The ID of the organisational unit owning the stock.
      */
-    public Stock(int unitId, int assetId, int assetQuantity) {
+    public Stock(int unitId) {
         this.unitId = unitId;
-        this.assetId = assetId;
-        this.assetQuantity = assetQuantity;
     }
+
 
     public int getAssetId() {
         return assetId;

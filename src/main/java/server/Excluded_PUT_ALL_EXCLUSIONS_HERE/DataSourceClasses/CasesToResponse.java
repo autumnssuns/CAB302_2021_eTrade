@@ -1,12 +1,9 @@
-package server.DataSourceClasses;
+package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
 
 import common.Request;
 import common.Response;
 import common.dataClasses.*;
-import server.DataSourceClasses.AssetsDataSource;
-import server.DataSourceClasses.OrderDataSource;
-import server.DataSourceClasses.OrganisationsDataSource;
-import server.DataSourceClasses.UserDataSource;
+import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.*;
 
 public class CasesToResponse {
     //Todo: Add comment / description
@@ -176,9 +173,7 @@ public class CasesToResponse {
         else if (type.equals(Order.class)) {
             return query((Order) attachment);
         }
-        else if (type.equals(Stock.class)){
-            return query((Stock) attachment);
-        }
+
         return null;
 
     }
@@ -221,10 +216,10 @@ public class CasesToResponse {
      * @param attachment
      * @return Response object
      */
-    public static <T extends IData> Response query(Stock attachment){
+    public static Response queryStock(User attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        T stocks = (T) stockDataSource.getStock(attachment);
-        Response response = new Response(true, stocks);
+        Stock unitStock = stockDataSource.getStock(attachment);
+        Response response = new Response(true, unitStock);
         stockDataSource.close();
         return response;
     }

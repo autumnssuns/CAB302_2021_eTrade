@@ -1,16 +1,19 @@
-package server.Features;
+package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.Features;
 
 import common.Request;
 import common.Response;
+import common.dataClasses.DataCollection;
 import common.dataClasses.IData;
+import common.dataClasses.Stock;
 import common.dataClasses.User;
-import server.DataSourceClasses.*;
+import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
+import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.*;
 
 /**
  * Provides functions for server to interact with the database and
@@ -86,10 +89,15 @@ public class Server implements Serializable {
 
             case "Query Users":
                 UserDataSource userDataSource = new UserDataSource();
-                attachment = userDataSource.getUserList();
-                serverResponse = new Response(true, attachment);
+                DataCollection<User> userList = userDataSource.getUserList();
+                serverResponse = new Response(true, userList);
                 out.writeObject(serverResponse);
                 userDataSource.close();
+                break;
+
+            case  "query Stock":
+                serverResponse = CasesToResponse.queryStock(sender);
+                out.writeObject(serverResponse);
                 break;
 
             case "Query Stocks":

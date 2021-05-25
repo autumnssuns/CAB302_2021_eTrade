@@ -1,10 +1,10 @@
-package server.DataSourceClasses;
+package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
 
 // return add , edit , query, delete , return all, get 1,
 // server, casetoresponse
 
-import common.dataClasses.DataCollection;
-import common.dataClasses.Stock;
+import common.Exceptions.InvalidArgumentValueException;
+import common.dataClasses.*;
 import server.DBconnection;
 
 import javax.xml.crypto.Data;
@@ -89,20 +89,32 @@ public class StockDataSource {
      * @param attachment a Stock object
      * @return an Object array of {asset_id, organization_id, asset_quantity}
      */
-    public DataCollection<Stock> getStock(Stock attachment) {
-        DataCollection<Stock> stocks = new DataCollection<>();
+    public Stock getStock(User user) {
+        Stock stock = new Stock(user.getUnitId());
         try {
-            getStock.setInt(1, attachment.getUnitId());
+            //Provide value for query
+            getStock.setInt(1, user.getUnitId());
+            //Current assets in database
+            AssetsDataSource assetsDataSource = new AssetsDataSource();
+            DataCollection<Asset> assets = assetsDataSource.getAssetList();
+            //find all assets belonged to an user's unit (and get the asset id to link with a real asset object)
             ResultSet rs = getStock.executeQuery();
+            //Check asset id in "stock table" with assets in database then add items into stock object
             while(rs.next()) {
-                stocks.add(new Stock(rs.getInt("asset_id"),
-                        rs.getInt("organization_id"),
-                        rs.getInt("asset_quantity")));
+                //checking
+                for(Asset asset : assets) {
+                    int assetId = rs.getInt("asset_id");
+                    if (assetId == asset.getId()) {
+                        Asset newAsset = new Asset(asset.getId(), asset.getName(), asset.getDescription());
+                        Item newItem = new Item(newAsset, rs.getInt("asset_quantity"));
+                        stock.add(newItem);
+                    }
+                }
             }
-        } catch (SQLException e) {
+        } catch (SQLException | InvalidArgumentValueException e) {
             e.printStackTrace();
         }
-        return stocks;
+        return stock;
     }
 
     /**
