@@ -53,6 +53,7 @@ public class UnitAssetInfoBox extends HBox implements IViewUnit {
         nameLabel = new Label();
         nameLabel.setPrefWidth(250);
         nameLabel.setPrefHeight(30);
+        nameLabel.getStyleClass().add("blackLabel");
         nameLabel.setId("organisationalUnitAssetName" + counter);
 
         quantityTextField = new TextField();
@@ -102,6 +103,7 @@ public class UnitAssetInfoBox extends HBox implements IViewUnit {
      * Loads a label to display the asset's name
      */
     private void loadNameLabel(){
+        System.out.println(item.getName());
         nameLabel.setText(item.getName());
     }
 

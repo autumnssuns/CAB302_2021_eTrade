@@ -3,7 +3,6 @@ package client.guiControls.adminMain.organisationalUnitsController;
 import client.IViewUnit;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
-import common.dataClasses.Asset;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.Stock;
 import javafx.geometry.Pos;
@@ -24,10 +23,7 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
     private Label nameLabel;
     private Label creditLabel;
     private Label assetQuantityLabel;
-    private VBox organisationalUnitAssetsBox = new VBox();
-
-    private Button editButton;
-    private Button removeButton;
+    private final VBox organisationalUnitAssetsBox = new VBox();
 
     private OrganisationalUnitsController controller;
 
@@ -81,14 +77,14 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
         assetQuantityLabel.setPrefWidth(100);
         assetQuantityLabel.setPrefHeight(30);
 
-        editButton = new Button("Edit");
+        Button editButton = new Button("Edit");
         editButton.setStyle("-fx-font-size:10");
         editButton.setPrefWidth(50);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
         editButton.setId("organisationalUnitEditButton" + unit.getId());
 
-        removeButton = new Button("Remove");
+        Button removeButton = new Button("Remove");
         removeButton.setStyle("-fx-font-size:10");
         removeButton.setPrefWidth(50);
         removeButton.setPrefHeight(30);

@@ -150,7 +150,7 @@ public class OrganisationalUnitsController extends DisplayController {
     /**
      * Adds a new asset to the organisational unit in the editor.
      */
-    public void addOrganisationalUnitAssetInfoBox(Item item) throws InvalidArgumentValueException {
+    public void addOrganisationalUnitAssetInfoBox() throws InvalidArgumentValueException {
         String assetName = (String) newOrganisationalUnitAssetNameComboBox.getValue();
         int quantity = Integer.parseInt(newOrganisationalUnitAssetQuantityTextField.getText());
 

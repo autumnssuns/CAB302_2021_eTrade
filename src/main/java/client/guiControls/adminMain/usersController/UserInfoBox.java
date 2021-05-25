@@ -18,7 +18,7 @@ import javafx.scene.layout.*;
  * A box to display user information and can be interacted with.
  */
 public class UserInfoBox extends HBox implements IViewUnit {
-    private AdminMainController controller;
+    private UsersController controller;
     private User user;
     private OrganisationalUnit unit;
 
@@ -32,20 +32,19 @@ public class UserInfoBox extends HBox implements IViewUnit {
     private Button editButton;
     private Button removeButton;
 
+
     /**
      * Initiates the box with user information.
      * @param user The linked user.
+     * @param controller The controller for this field
      */
-    public UserInfoBox(User user){
+    public UserInfoBox(User user, UsersController controller){
         super();
-
+        this.controller = controller;
         this.user = user;
-        for (OrganisationalUnit unit : ((AdminLocalDatabase) controller.getDatabase()).getOrganisationalUnits()){
-            if (unit.getId() == user.getUnitId()){
-                this.unit = unit;
-            }
-        }
-
+        this.unit = controller.getOrganisation(user) == null ?
+                    new OrganisationalUnit(null,"N/A",0) :
+                    controller.getOrganisation(user);
         initialize();
         load();
     }
@@ -128,21 +127,15 @@ public class UserInfoBox extends HBox implements IViewUnit {
     }
 
     /**
-     * Sets the controller for this component.
-     * @param controller The controller.
-     */
-    public void setController(AdminMainController controller){
-        this.controller = controller;
-    }
-
-    /**
      * Update the user's info by taking data from the text fields.
      */
     private void updateValues(){
         user.setFullName(nameTextField.getText());
         user.setUsername(usernameTextField.getText());
-        user.setPassword(passwordField.getText());
-        user.setOrganisation(matchUnit.getId());
+        if (!user.getPassword().equals(passwordField.getText())){
+            user.setPassword(passwordField.getText());
+        }
+        user.setOrganisation(controller.getOrganisation((String) organisationUnitSelectionBox.getValue()).getId());
         user.setAccountType((String) roleSelectionBox.getValue());
     }
 
@@ -180,14 +173,17 @@ public class UserInfoBox extends HBox implements IViewUnit {
     // TODO: Sync with organisations
     private void loadOrganisationUnitSelectionBox(){
         organisationUnitSelectionBox.setValue(unit.getName());
-        organisationUnitSelectionBox.getItems().addAll("TestOrg", "The Justice League", "The supervillains", "The random civilians");
+        organisationUnitSelectionBox.getItems().clear();
+        for (OrganisationalUnit unit : controller.getOrganisationalUnits()){
+            organisationUnitSelectionBox.getItems().add(unit.getName());
+        }
     }
 
     /**
      * Loads a ComboBox to display the user's role.
      */
     private void loadRoleSelectionBox(){
-        roleSelectionBox.setValue(role);
+        roleSelectionBox.setValue(user.getAccountType());
     }
 
     /**
@@ -237,17 +233,7 @@ public class UserInfoBox extends HBox implements IViewUnit {
     private void confirmEdit() throws InvalidArgumentValueException {
         disable();
         updateValues();
-        int unitId = 0;
-        for (OrganisationalUnit unit : ((AdminLocalDatabase)controller.getDatabase()).getOrganisationalUnits()){
-            if (unit.getName().equals(organisationalUnit)){
-                unitId = unit.getId();
-                break;
-            }
-        }
-        Response response = controller.sendRequest("edit", user, User.class);
-        if (response.isFulfilled()){
-            controller.updateLocalDatabase(User.class);
-        }
+        controller.sendRequest("edit", user, User.class);
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
@@ -282,17 +268,6 @@ public class UserInfoBox extends HBox implements IViewUnit {
      * Removes the current entry.
      */
     private void removeEntry() throws InvalidArgumentValueException {
-        int unitId = 0;
-        for (OrganisationalUnit unit : ((AdminLocalDatabase)controller.getDatabase()).getOrganisationalUnits()){
-            if (unit.getName().equals(organisationalUnit)){
-                unitId = unit.getId();
-                break;
-            }
-        }
-        Response response = controller.sendRequest("delete", user, User.class);
-        if (response.isFulfilled()){
-            controller.updateLocalDatabase(User.class);
-            ((VBox) this.getParent()).getChildren().remove(this);
-        }
+        controller.sendRequest("delete", user, User.class);
     }
 }
