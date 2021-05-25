@@ -1,7 +1,6 @@
 package common.dataClasses;
 
 import common.Exceptions.InvalidArgumentValueException;
-import common.dataClasses.Asset;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -59,6 +58,6 @@ class AssetTest {
     void testEquals() throws InvalidArgumentValueException {
         Asset otherAsset = new Asset(0, "Asset 0", "N/A");
         assertTrue(asset.equals(otherAsset) && otherAsset.equals(asset));
-        assertTrue(asset.hashCode() == otherAsset.hashCode());
+        assertEquals(asset.hashCode(), otherAsset.hashCode());
     }
 }

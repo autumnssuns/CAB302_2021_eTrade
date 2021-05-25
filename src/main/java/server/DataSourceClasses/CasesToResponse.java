@@ -9,6 +9,7 @@ import server.DataSourceClasses.OrganisationsDataSource;
 import server.DataSourceClasses.UserDataSource;
 
 public class CasesToResponse {
+    //Todo: Add comment / description
 
     public static Response Login(String userName, String passWord)
     {
@@ -77,9 +78,18 @@ public class CasesToResponse {
             orderDataSource.close();
             return response;
         }
-    //Stock Type
+
+    /**
+     * Add a stock to an org unit
+     * @param attachment
+     * @return Response object
+     */
     public static Response add(Stock attachment){
-        return null;
+        StockDataSource stockDataSource = new StockDataSource();
+        stockDataSource.insertAsset(attachment);
+        Response response = new Response(true, null);
+        stockDataSource.close();
+        return response;
     }
 
 
@@ -138,11 +148,17 @@ public class CasesToResponse {
         return response;
     }
 
-    //Stock Type
+    /**
+     * Edit quantity of a stock in an org unit
+     * @param attachment
+     * @return Response object
+     */
     public static Response edit(Stock attachment){
-        return null;
+        StockDataSource stockDataSource = new StockDataSource();
+        stockDataSource.editQuantity(attachment);
+        Response response = new Response(true, attachment);
+        return response;
     }
-
 
     //Todo: Overload Query method
     public static <T extends IData> Response query(Request<T> request) {
@@ -198,11 +214,20 @@ public class CasesToResponse {
         orderDataSource.close();
         return response;
     }
-    //Stock Type
-    public static Response query(Stock attachment){
-        return null;
-    }
 
+
+    /**
+     * Query all stock from an org unit
+     * @param attachment
+     * @return Response object
+     */
+    public static <T extends IData> Response query(Stock attachment){
+        StockDataSource stockDataSource = new StockDataSource();
+        T stocks = (T) stockDataSource.getStock(attachment);
+        Response response = new Response(true, stocks);
+        stockDataSource.close();
+        return response;
+    }
 
     //Todo: Overload Delete method
     public static <T extends IData> Response delete(Request<T> request) {
@@ -261,10 +286,16 @@ public class CasesToResponse {
         return response;
     }
 
-    //Stock Type
+    /**
+     * Delete a stock of an org unit
+     * @param attachment
+     * @return Response object
+     */
     public static Response delete(Stock attachment){
-        return null;
+        StockDataSource stockDataSource = new StockDataSource();
+        stockDataSource.deleteAsset(attachment);
+        Response response = new Response(true, null);
+        stockDataSource.close();
+        return response;
     }
-
-
 }
