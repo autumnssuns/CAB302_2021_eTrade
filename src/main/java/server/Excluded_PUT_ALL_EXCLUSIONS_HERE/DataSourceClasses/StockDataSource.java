@@ -86,7 +86,7 @@ public class StockDataSource {
 
     /**
      * Get stocks list from an organization
-     * @param attachment a Stock object
+     * @param user user wanted to return his/her stock
      * @return an Object array of {asset_id, organization_id, asset_quantity}
      */
     public Stock getStock(User user) {
