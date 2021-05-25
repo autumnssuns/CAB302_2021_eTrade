@@ -35,7 +35,7 @@ public class UserDataSource {
             "SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;";
     private static final String ADD_USER = "INSERT INTO users(user_id, fullname, username, password, user_type, organisation_id) VALUES (?, ?, ?, ?, ?, ?);";
     private static final String DELETE_USER = "DELETE FROM users WHERE user_id=?";
-    private static final String GET_USER = "SELECT * FROM users WHERE user_id=?";
+    private static final String GET_USER = "SELECT * FROM users WHERE username=?";
     private static final String GET_ALL_USER = "SELECT * FROM users";
     private static final String EDIT_USER =
             "UPDATE users" +
@@ -100,16 +100,16 @@ public class UserDataSource {
 
     /**
      * Return a user in the database
-     * @param userId Name of user wanted to return
+     * @param userName Name of user wanted to return
      * @return all details of an User object
      */
-    public User getUser(int userId) {
+    public User getUser(String userName) {
         //Create a dummy to store all information then return the dummy later
         User dummy = new User(-1,null,null,null,null,-1);
         ResultSet rs = null;
         try {
             //Set values for the above SQL query
-            getUser.setInt(1, userId);
+            getUser.setInt(1, userName);
             rs = getUser.executeQuery();
             //Stores values into dummy object
             dummy.setUserId(rs.getInt("user_id"));

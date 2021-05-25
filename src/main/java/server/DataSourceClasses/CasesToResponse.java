@@ -9,6 +9,15 @@ import server.DataSourceClasses.OrganisationsDataSource;
 import server.DataSourceClasses.UserDataSource;
 
 public class CasesToResponse {
+
+    public static Response Login(String userName, String passWord)
+    {
+        UserDataSource userdata = new UserDataSource();
+        User sender = userdata.getUser(userName);
+        Response serverResponse = new Response(true,sender);
+        userdata.close();
+        return  serverResponse;
+    }
     //Main type of methods to response to request
     // (each type contains classes: Asset, Organisation, Order,
     // stock, transaction(considering) and User)
@@ -160,7 +169,7 @@ public class CasesToResponse {
     //User Type
     public static Response query(User attachment){
         UserDataSource userDataSource = new UserDataSource();
-        attachment = userDataSource.getUser(attachment.getUserId());
+        attachment = userDataSource.getUser(attachment.getUsername());
         Response response = new Response(true, attachment);
         userDataSource.close();
         return response;
