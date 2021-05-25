@@ -4,9 +4,6 @@ import common.Exceptions.InvalidArgumentValueException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class OrderTest {
@@ -27,7 +24,7 @@ class OrderTest {
     @Test
     void negativeId() {
         assertThrows(Exception.class, () -> {
-            Order sell = new Order(-2, Order.Type.BUY, 101, 0, 5, 0, 10, null, null, Order.Status.PENDING);
+            Order testing01 = new Order(-2, Order.Type.BUY, 101, 0, 5, 0, 10, null, null, Order.Status.PENDING);
         });
     }
 
@@ -44,9 +41,7 @@ class OrderTest {
 
     @Test
     void excessiveResolvedQuantity() {
-        assertThrows(Exception.class, () -> {
-            buy.ResolvedQuantity(6);
-        });
+        assertThrows(Exception.class, () -> buy.ResolvedQuantity(6));
     }
 
     @Test
@@ -182,6 +177,6 @@ class OrderTest {
         Order buy01 = new Order(0, Order.Type.BUY,
                 101, 0, 77, 0, 10,
                 null, null, Order.Status.PENDING);
-        assertEquals(buy.isSimilarTo(buy01), true);
+        assertTrue(buy.isSimilarTo(buy01));
     }
 }
