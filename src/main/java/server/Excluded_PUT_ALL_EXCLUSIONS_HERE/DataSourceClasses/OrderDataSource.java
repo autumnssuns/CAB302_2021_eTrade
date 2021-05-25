@@ -121,9 +121,9 @@ public class OrderDataSource {
             getOrder.setInt(1, OrderId);
             ResultSet rs = getOrder.executeQuery();
             //Stores values into the dummy object
-            dummy.setOrderID(rs.getInt("order_id"));
+            dummy.setOrderId(rs.getInt("order_id"));
             dummy.setOrderType(Order.Type.valueOf(rs.getString("order_type")));
-            dummy.setunitId(rs.getInt("organisation_id"));
+            dummy.setUnitId(rs.getInt("organisation_id"));
             dummy.setAssetID(rs.getInt("asset_id"));
             dummy.setPlacedQuantity(rs.getInt("placed_quantity"));
             dummy.setResolvedQuantity(rs.getInt("resolved_quantity"));

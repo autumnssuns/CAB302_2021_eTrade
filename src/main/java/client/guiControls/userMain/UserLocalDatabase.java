@@ -7,6 +7,7 @@ import common.dataClasses.*;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -191,7 +192,7 @@ public class UserLocalDatabase extends ILocalDatabase {
         LinkedList<Float> prices = new LinkedList<>();
         for (Order order : orders){
             if (order.getOrderType().equals(type) && order.getAssetId() == asset.getId()){
-                timestamps.add(LocalDate.from(order.getOrderDate()));
+                timestamps.add(LocalDate.from((TemporalAccessor) order.getOrderDate()));
                 prices.add(order.getPrice());
             }
         }
