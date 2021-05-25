@@ -85,11 +85,11 @@ public class StockDataSource {
     }
 
     /**
-     * Get stocks list from an organization
+     * Get stocks list from an organization unit
      * @param attachment a Stock object
      * @return an Object array of {asset_id, organization_id, asset_quantity}
      */
-    public DataCollection<Stock> getStock(Stock attachment) {
+    public DataCollection<Stock> getStocks(Stock attachment) {
         DataCollection<Stock> stocks = new DataCollection<>();
         try {
             getStock.setInt(1, attachment.getUnitId());

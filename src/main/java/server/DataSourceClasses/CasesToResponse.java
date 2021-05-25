@@ -223,7 +223,7 @@ public class CasesToResponse {
      */
     public static <T extends IData> Response query(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        T stocks = (T) stockDataSource.getStock(attachment);
+        T stocks = (T) stockDataSource.getStocks(attachment);
         Response response = new Response(true, stocks);
         stockDataSource.close();
         return response;
