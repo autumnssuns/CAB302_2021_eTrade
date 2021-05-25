@@ -116,10 +116,13 @@ public class MockDatabase {
     }
 
     public static Response queryStocks(Request request) throws InvalidArgumentValueException {
+        //Create collection of stock
         DataCollection<Stock> attachedStocks = new DataCollection<>();
+        //loop through organisation database to find all existed organisations then add to collection above
         for (Object[] organisationalUnit : organisationalUnits){
             attachedStocks.add(new Stock((int) organisationalUnit[0]));
         }
+        //Loop through
         for (Object[] organisationAsset : stocks){
             Object[] asset = assets.get((int) organisationAsset[1]);
             Asset newAsset = new Asset((int) asset[0], (String) asset[1], (String) asset[2]);

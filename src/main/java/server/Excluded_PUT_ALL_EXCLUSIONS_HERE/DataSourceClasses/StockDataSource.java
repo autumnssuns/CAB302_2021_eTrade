@@ -24,6 +24,7 @@ public class StockDataSource {
                     "   WHERE organisation=?, asset_id=? ";
     private static final String GET_STOCK =
             "SELECT * FROM stock WHERE organisation_id = ?";
+    private static final String GET_ALL_STOCK = "SELECT * FROM stock";
     private static final String INSERT_ASSET =
             "INSERT INTO stock(organisation_id, asset_id, asset_quantity) " +
                     "VALUES (?,?,?)";
@@ -34,6 +35,7 @@ public class StockDataSource {
     private PreparedStatement insertAsset;
     private PreparedStatement getStock;
     private PreparedStatement deleteAsset;
+    private PreparedStatement getAllStock;
 
     /**
      * Connect to the Stock database and create one if not exists
@@ -47,6 +49,7 @@ public class StockDataSource {
             getStock = connection.prepareStatement(GET_STOCK);
             insertAsset = connection.prepareStatement(INSERT_ASSET);
             deleteAsset = connection.prepareStatement(DELETE_ASSET);
+            getAllStock = connection.prepareStatement(GET_ALL_STOCK);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -96,25 +99,56 @@ public class StockDataSource {
             getStock.setInt(1, user.getUnitId());
             //Current assets in database
             AssetsDataSource assetsDataSource = new AssetsDataSource();
-            DataCollection<Asset> assets = assetsDataSource.getAssetList();
             //find all assets belonged to an user's unit (and get the asset id to link with a real asset object)
             ResultSet rs = getStock.executeQuery();
             //Check asset id in "stock table" with assets in database then add items into stock object
             while(rs.next()) {
-                //checking
-                for(Asset asset : assets) {
-                    int assetId = rs.getInt("asset_id");
-                    if (assetId == asset.getId()) {
-                        Asset newAsset = new Asset(asset.getId(), asset.getName(), asset.getDescription());
+                int assetId = rs.getInt("asset_id");
+                int quantity = rs.getInt("asset_quantity");
+                Asset newAsset = assetsDataSource.getAsset(assetId);
+                Item newItem = new Item(newAsset, quantity);
+                stock.add(newItem);
+            }
+            assetsDataSource.close();
+        } catch (SQLException | InvalidArgumentValueException e) {
+            e.printStackTrace();
+        }
+        return stock;
+    }
+
+    public DataCollection<Stock> getStockList(){
+
+        DataCollection<Stock> stocks = new DataCollection<>();
+
+        OrganisationsDataSource organisations = new OrganisationsDataSource();
+        DataCollection<OrganisationalUnit> organisationsList = organisations.getOrganisationList();
+        AssetsDataSource asset = new AssetsDataSource();
+        try {
+            ResultSet rs = getAllStock.executeQuery();
+            //Create stock of each organisation.
+            for (OrganisationalUnit organisation : organisationsList){
+                stocks.add(new Stock(organisation.getId()));
+            }
+            while (rs.next()){
+                //add items to stock of right organisation.
+                int unitId = rs.getInt("organisation_id");
+                int assetId = rs.getInt("asset_id");
+                for(Stock stock : stocks)
+                {
+                    if(stock.getUnitId() == unitId)
+                    {
+                        Asset newAsset = asset.getAsset(assetId);
                         Item newItem = new Item(newAsset, rs.getInt("asset_quantity"));
                         stock.add(newItem);
                     }
                 }
             }
+            organisations.close();
+            asset.close();
         } catch (SQLException | InvalidArgumentValueException e) {
             e.printStackTrace();
         }
-        return stock;
+        return stocks;
     }
 
     /**
