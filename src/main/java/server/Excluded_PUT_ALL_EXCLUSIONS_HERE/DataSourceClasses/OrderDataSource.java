@@ -11,26 +11,23 @@ import java.sql.*;
 public class OrderDataSource {
     //Setting up the environment.
     //SQL queries
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `cab302_eTrade`.`orders` (\n" +
-            "  `order_id` INT NOT NULL AUTO_INCREMENT,\n" +
-            "  `order_type` ENUM('buy', 'sell') NOT NULL,\n" +
-            "  `organisation_id` INT NOT NULL,\n" +
-            "  `asset_id` INT NOT NULL,\n" +
-            "  `placed_quantity` INT NOT NULL DEFAULT 0,\n" +
-            "  `resolved_quantity` INT NOT NULL DEFAULT 0,\n" +
-            "  `price` DECIMAL(2) NOT NULL,\n" +
-            "  `order_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
-            "  `finished_date` DATETIME NULL DEFAULT NULL,\n" +
-            "  `status` ENUM('placed', 'finished', 'cancelled') NOT NULL DEFAULT 'placed',\n" +
-            "  PRIMARY KEY (`order_id`),\n" +
-            "  CONSTRAINT `buy_organisation`\n" +
-            "    FOREIGN KEY (`organisation_id` , `asset_id`)\n" +
-            "    REFERENCES `cab302_eTrade`.`stock` (`organisation_id` , `asset_id`)\n" +
-            "    ON DELETE NO ACTION\n" +
-            "    ON UPDATE NO ACTION)\n" +
-            "ENGINE = InnoDB;\n" +
-            "\n" +
-            "CREATE INDEX `organisation_idx` ON `cab302_eTrade`.`orders` (`organisation_id` ASC, `asset_id` ASC) VISIBLE;";
+    private static final String CREATE_TABLE = "CREATE TABLE orders (\n" +
+            "    order_id          INTEGER      NOT NULL\n" +
+            "                                   PRIMARY KEY AUTOINCREMENT,\n" +
+            "    order_type        VARCHAR (4)  NOT NULL,\n" +
+            "    organisation_id   INT          NOT NULL,\n" +
+            "    asset_id          INT          NOT NULL,\n" +
+            "    placed_quantity   INT          NOT NULL\n" +
+            "                                   DEFAULT 0,\n" +
+            "    resolved_quantity INT          NOT NULL\n" +
+            "                                   DEFAULT 0,\n" +
+            "    price             DECIMAL (2)  NOT NULL,\n" +
+            "    order_date        DATETIME     NOT NULL\n" +
+            "                                   DEFAULT CURRENT_TIMESTAMP,\n" +
+            "    finished_date     DATETIME     DEFAULT NULL,\n" +
+            "    status            VARCHAR (10) NOT NULL\n" +
+            "                                   DEFAULT ('placed') \n" +
+            ");";
 
     private static final String ADD_ORDER = "INSERT INTO orders(order_id, order_type, organisation_id, " +
             "asset_id, placed_quantity, resolved_quantity, price, order_date, finished_date, status) " +
@@ -121,9 +118,9 @@ public class OrderDataSource {
             getOrder.setInt(1, OrderId);
             ResultSet rs = getOrder.executeQuery();
             //Stores values into the dummy object
-            dummy.setOrderID(rs.getInt("order_id"));
+            dummy.setOrderId(rs.getInt("order_id"));
             dummy.setOrderType(Order.Type.valueOf(rs.getString("order_type")));
-            dummy.setunitId(rs.getInt("organisation_id"));
+            dummy.setUnitId(rs.getInt("organisation_id"));
             dummy.setAssetID(rs.getInt("asset_id"));
             dummy.setPlacedQuantity(rs.getInt("placed_quantity"));
             dummy.setResolvedQuantity(rs.getInt("resolved_quantity"));

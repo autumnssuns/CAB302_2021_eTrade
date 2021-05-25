@@ -12,27 +12,20 @@ import java.sql.*;
 public class UserDataSource {
     //Create the environment
     //SQL queries
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `cab302_eTrade`.`users` (\n" +
-            "  `user_id` INT NOT NULL,\n" +
-            "  `fullname` VARCHAR(50) NOT NULL,\n" +
-            "  `username` VARCHAR(16) NOT NULL,\n" +
-            "  `password` VARCHAR(32) NOT NULL,\n" +
-            "  `user_type` ENUM('user', 'admin') NOT NULL DEFAULT 'user',\n" +
-            "  `organisation_id` INT NULL DEFAULT NULL,\n" +
-            "  PRIMARY KEY (`username`),\n" +
-            "  CONSTRAINT `user_organisaion`\n" +
-            "    FOREIGN KEY (`organisation_id`)\n" +
-            "    REFERENCES `cab302_eTrade`.`organisationalUnits` (`organisation_id`)\n" +
-            "    ON DELETE NO ACTION\n" +
-            "    ON UPDATE NO ACTION)\n" +
-            "ENGINE = InnoDB;\n" +
-            "\n" +
-            "CREATE INDEX `organisaion_idx` ON `cab302_eTrade`.`users` (`organisation_id` ASC) VISIBLE;\n" +
-            "\n" +
-            "\n" +
-            "SET SQL_MODE=@OLD_SQL_MODE;\n" +
-            "SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;\n" +
-            "SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;";
+    private static final String CREATE_TABLE =
+            "CREATE TABLE users (\n" +
+                    "    user_id         INT          NOT NULL,\n" +
+                    "    fullname        VARCHAR (50) NOT NULL,\n" +
+                    "    username        VARCHAR (16) NOT NULL,\n" +
+                    "    password        VARCHAR (32) NOT NULL,\n" +
+                    "    user_type       VARCHAR (5)  NOT NULL\n" +
+                    "                                 DEFAULT 'user',\n" +
+                    "    organisation_id INT          DEFAULT NULL,\n" +
+                    "    PRIMARY KEY (\n" +
+                    "        username\n" +
+                    "    ),\n" +
+                    "    CONSTRAINT user_organisaion\n" +
+                    ");";
     private static final String ADD_USER = "INSERT INTO users(user_id, fullname, username, password, user_type, organisation_id) VALUES (?, ?, ?, ?, ?, ?);";
     private static final String DELETE_USER = "DELETE FROM users WHERE user_id=?";
     private static final String GET_USER = "SELECT * FROM users WHERE username=?";
