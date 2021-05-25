@@ -53,7 +53,7 @@ public class Server implements Serializable {
      * request from the client at the socket so there is no parameter needed
      * @throws IOException
      */
-    public void SendResponse() throws IOException, ClassNotFoundException {
+    public Response SendResponse() throws IOException, ClassNotFoundException {
 
         // For handler to assign value to serverResponse
         //setup the shell
@@ -134,9 +134,9 @@ public class Server implements Serializable {
                 serverResponse = CasesToResponse.add(clientRequest);
                 out.writeObject(serverResponse);
                 break;
-
         }
 
+        return serverResponse;
     }
 
     public static void main (String args[]) throws IOException, ClassNotFoundException {

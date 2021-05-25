@@ -37,9 +37,11 @@ public class StockDataSource {
             "   WHERE organisation=?, asset_id=? ";
     private static final String GET_STOCK =
             "SELECT * FROM stock WHERE organisation_id = ?";
+    private static final String GET_ALL_STOCK = "";
     private static final String INSERT_ASSET =
             "INSERT INTO stock(organisation_id, asset_id, asset_quantity) " +
             "VALUES (?,?,?)";
+
 
     private Connection connection;
     private PreparedStatement editQuantity;

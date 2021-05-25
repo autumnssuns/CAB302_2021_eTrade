@@ -109,7 +109,7 @@ public class UserDataSource {
         ResultSet rs = null;
         try {
             //Set values for the above SQL query
-            getUser.setInt(1, userName);
+            getUser.setString(1, userName);
             rs = getUser.executeQuery();
             //Stores values into dummy object
             dummy.setUserId(rs.getInt("user_id"));
