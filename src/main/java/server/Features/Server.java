@@ -4,8 +4,7 @@ import common.Request;
 import common.Response;
 import common.dataClasses.IData;
 import common.dataClasses.User;
-//import server.DataSourceClasses.*;
-
+import server.DataSourceClasses.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -62,90 +61,82 @@ public class Server implements Serializable {
         //dummy response - Response from server
         Response serverResponse = new Response(false, null);
         //Read the client request
-        Request clientRequest = (Request) in.readObject();
+        final Request clientRequest = (Request) in.readObject();
         //Get senders' information
         User sender = clientRequest.getUser();
         //Get the command string from the sender
         String command = clientRequest.getAction();
-//        switch (command){
-//
-//            case "Login":
-//                String userName = sender.getUsername();
-//                String password = sender.getPassword();
-//                Boolean status = LoginSystem.login(userName,password);
-//                if(status){
-//                    UserDataSource userdata = new UserDataSource();
-//                    sender = userdata.getUser(sender.getUserId());
-//                    attachment = sender;
-//                    serverResponse = new Response(true,attachment);
-//                    out.writeObject(serverResponse);
-//                    userdata.close();
-//                }
-//                break;
-//
-//                // Use overloaded method for these cases: Query, Delete, Edit and Add
-//            case "Query an Object":
-//                serverResponse = CasesToResponse.query(clientRequest);
-//                out.writeObject(serverResponse);
-//                break;
-//
-//            case "Query Users":
-//                UserDataSource userDataSource = new UserDataSource();
-//                attachment = userDataSource.getUserList();
-//                serverResponse = new Response(true, attachment);
-//                out.writeObject(serverResponse);
-//                userDataSource.close();
-//                break;
-//
-//            case "Query Stocks":
-//
-//                break;
-//
-//            case "Query Organisational Units":
-//                OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
-//                attachment = organisationsDataSource.getOrganisationList();
-//                serverResponse = new Response(true, attachment);
-//                out.writeObject(serverResponse);
-//                organisationsDataSource.close();
-//                break;
-//
-//            case "Query Orders":
-//                OrderDataSource orderDataSource = new OrderDataSource();
-//                attachment = orderDataSource.getOrderList();
-//                serverResponse = new Response(true, attachment);
-//                out.writeObject(serverResponse);
-//                orderDataSource.close();
-//                break;
-//
-//            case "Query Assets":
-//                AssetsDataSource assetsDataSource = new AssetsDataSource();
-//                attachment = assetsDataSource.getAssetList();
-//                serverResponse = new Response(true, attachment);
-//                out.writeObject(serverResponse);
-//                assetsDataSource.close();
-//                break;
-//
-//            case "delete":
-//                //Possible things to delete:
-//                // user, asset, organisation, Orders(buy/sell), Stock(??),
-//                serverResponse = CasesToResponse.delete(clientRequest);
-//                out.writeObject(serverResponse);
-//                break;
-//
-//            case "edit":
-//                serverResponse = CasesToResponse.edit(clientRequest);
-//                out.writeObject(serverResponse);
-//                break;
-//
-//            case "add":
-//                serverResponse = CasesToResponse.add(clientRequest);
-//                out.writeObject(serverResponse);
-//                break;
-//
-//        }
-        User mockedUser = new User("dan","123");
-        serverResponse = new Response(true, mockedUser);
-        out.writeObject(serverResponse);
+        switch (command){
+
+            case "Login":
+                String userName = sender.getUsername();
+                String password = sender.getPassword();
+                Boolean status = LoginSystem.login(userName,password);
+                if(status){
+                    serverResponse = CasesToResponse.Login(userName, password);
+                    out.writeObject(serverResponse);
+                }
+                break;
+
+                // Use overloaded method for these cases: Query, Delete, Edit and Add
+            case "Query an Object":
+                serverResponse = CasesToResponse.query(clientRequest);
+                out.writeObject(serverResponse);
+                break;
+
+            case "Query Users":
+                UserDataSource userDataSource = new UserDataSource();
+                attachment = userDataSource.getUserList();
+                serverResponse = new Response(true, attachment);
+                out.writeObject(serverResponse);
+                userDataSource.close();
+                break;
+
+            case "Query Stocks":
+
+                break;
+
+            case "Query Organisational Units":
+                OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
+                attachment = organisationsDataSource.getOrganisationList();
+                serverResponse = new Response(true, attachment);
+                out.writeObject(serverResponse);
+                organisationsDataSource.close();
+                break;
+
+            case "Query Orders":
+                OrderDataSource orderDataSource = new OrderDataSource();
+                attachment = orderDataSource.getOrderList();
+                serverResponse = new Response(true, attachment);
+                out.writeObject(serverResponse);
+                orderDataSource.close();
+                break;
+
+            case "Query Assets":
+                AssetsDataSource assetsDataSource = new AssetsDataSource();
+                attachment = assetsDataSource.getAssetList();
+                serverResponse = new Response(true, attachment);
+                out.writeObject(serverResponse);
+                assetsDataSource.close();
+                break;
+
+            case "delete":
+                serverResponse = CasesToResponse.delete(clientRequest);
+                out.writeObject(serverResponse);
+                break;
+
+            case "edit":
+                serverResponse = CasesToResponse.edit(clientRequest);
+                out.writeObject(serverResponse);
+                break;
+
+            case "add":
+                serverResponse = CasesToResponse.add(clientRequest);
+                out.writeObject(serverResponse);
+                break;
+
+        }
+
     }
 
     public static void main (String args[]) throws IOException, ClassNotFoundException {
