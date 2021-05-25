@@ -1,6 +1,7 @@
-package server.Features;
+package server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE;
 
 import server.DBconnection;
+import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
