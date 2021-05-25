@@ -1,5 +1,6 @@
 package client.guiControls.adminMain.organisationalUnitsController;
 
+import client.IViewUnit;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
 import common.dataClasses.Asset;
@@ -15,7 +16,7 @@ import javafx.scene.layout.VBox;
  * A box to display organisational unit information and can be interacted with.
  * // TODO: Fix a bug where organisational unit info is not stored properly when added.
  */
-public class OrganisationalUnitInfoBox extends HBox {
+public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
     private int unitId;
     private String name;
     private float credit;
@@ -41,12 +42,6 @@ public class OrganisationalUnitInfoBox extends HBox {
      */
     public OrganisationalUnitInfoBox(int unitId, String name, float credit, int assetQuantity, Stock stock){
         super();
-        this.setAlignment(Pos.CENTER);
-        this.setPrefHeight(80);
-        this.setPrefWidth(700);
-        //this.setLayoutX(41);
-        this.setLayoutY(200);
-        this.setSpacing(5);
 
         this.unitId = unitId;
         this.name = name;
@@ -54,90 +49,52 @@ public class OrganisationalUnitInfoBox extends HBox {
         this.assetQuantity = assetQuantity;
         this.stock = stock;
 
-        initiateNodes();
-
-        this.getChildren().addAll(idLabel, nameLabel, creditLabel, assetQuantityLabel, editButton, removeButton);
-    }
-
-    /**
-     * Draw the nodes displaying the organisational unit's info.
-     */
-    private void initiateNodes(){
-        createIdLabel();
-        createNameLabel();
-        createCreditLabel();
-        createAssetQuantityLabel();
-        createEditButton();
-        createRemoveButton();
-    }
+        initialize();
+        load();
+        }
 
     /**
-     * Creates a label to display the organisational unit's id.
+     * Initiates all the GUi components
      */
-    private void createIdLabel(){
-        idLabel = new Label(String.valueOf(unitId));
+    @Override
+    public void initialize() {
+        this.setAlignment(Pos.CENTER);
+        this.setPrefHeight(80);
+        this.setPrefWidth(700);
+        //this.setLayoutX(41);
+        this.setLayoutY(200);
+        this.setSpacing(5);
+
+        idLabel = new Label();
         idLabel.getStyleClass().add("blackLabel");
         idLabel.setAlignment(Pos.CENTER);
         idLabel.setPrefWidth(30);
         idLabel.setPrefHeight(80);
-    }
 
-    /**
-     * Creates a label to display the organisational unit's name.
-     */
-    private void createNameLabel(){
-        nameLabel = new Label(name);
+        nameLabel = new Label();
         nameLabel.getStyleClass().add("blackLabel");
         nameLabel.setPrefWidth(150);
         nameLabel.setPrefHeight(30);
         nameLabel.setId("organisationalUnitName" + unitId);
-    }
 
-    /**
-     * Reload the box using the stored organisational unit's info.
-     */
-    public void reloadEntries(){
-        nameLabel.setText(name);
-        creditLabel.setText(String.valueOf(credit));
-    }
-
-    /**
-     * Creates a text field to display the organisational unit's description.
-     */
-    private void createCreditLabel(){
-        creditLabel = new Label(String.valueOf(credit));
+        creditLabel = new Label();
         creditLabel.getStyleClass().add("blackLabel");
         creditLabel.setPrefWidth(100);
         creditLabel.setPrefHeight(30);
         creditLabel.setId("organisationalUnitCredit" + unitId);
-    }
 
-    /**
-     * Creates a text field to display the organisational unit's description.
-     */
-    private void createAssetQuantityLabel(){
-        assetQuantityLabel = new Label(String.valueOf(assetQuantity));
+        assetQuantityLabel = new Label();
         assetQuantityLabel.getStyleClass().add("blackLabel");
         assetQuantityLabel.setPrefWidth(100);
         assetQuantityLabel.setPrefHeight(30);
-    }
 
-    /**
-     * Creates a button that allows the admin to edit an organisational unit's info.
-     */
-    private void createEditButton(){
         editButton = new Button("Edit");
         editButton.setStyle("-fx-font-size:10");
         editButton.setPrefWidth(50);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
         editButton.setId("organisationalUnitEditButton" + unitId);
-    }
 
-    /**
-     * Creates a button that allows the admin to remove an organisational unit.
-     */
-    private void createRemoveButton(){
         removeButton = new Button("Remove");
         removeButton.setStyle("-fx-font-size:10");
         removeButton.setPrefWidth(50);
@@ -150,7 +107,58 @@ public class OrganisationalUnitInfoBox extends HBox {
             }
         });
         removeButton.setId("organisationalUnitRemoveButton" + unitId);
+
+        this.getChildren().addAll(idLabel, nameLabel, creditLabel, assetQuantityLabel, editButton, removeButton);
     }
+
+    /**
+     * Loads the linked data to the GUI components
+     */
+    @Override
+    public void load() {
+        loadIdLabel();
+        loadNameLabel();
+        loadAssetQuantityLabel();
+        loadCreditLabel();
+    }
+
+    /**
+     * Loads a label to display the organisational unit's id.
+     */
+    private void loadIdLabel(){
+        idLabel.setText(String.valueOf(unitId));
+    }
+
+    /**
+     * Loads a label to display the organisational unit's name.
+     */
+    private void loadNameLabel(){
+        nameLabel.setText(name);
+
+    }
+
+    /**
+     * Loads a text field to display the organisational unit's description.
+     */
+    private void loadCreditLabel(){
+        creditLabel.setText(String.valueOf(credit));
+    }
+
+    /**
+     * Loads a text field to display the organisational unit's description.
+     */
+    private void loadAssetQuantityLabel(){
+        assetQuantityLabel.setText(String.valueOf(assetQuantity));
+    }
+    
+    /**
+     * Reload the box using the stored organisational unit's info.
+     */
+    public void reloadEntries(){
+        nameLabel.setText(name);
+        creditLabel.setText(String.valueOf(credit));
+    }
+    
     //NOTE: Get info from display
     /**
      * Begins editing the current entry.

@@ -122,11 +122,10 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.1</version>
                     <configuration>
-
                         <source>15</source>
                         <target>15</target>
                         <excludes>
-                            <exclude>server/DataSourceClasses/*.java</exclude>
+                            <exclude>server/Excluded_PUT_ALL_EXCLUSIONS_HERE/**</exclude>
                         </excludes>
                     </configuration>
                 </plugin>

@@ -1,5 +1,6 @@
 package client.guiControls.userMain.saleController;
 
+import client.IViewUnit;
 import client.guiControls.DisplayController;
 import client.guiControls.userMain.UserMainController;
 import common.Exceptions.InvalidArgumentValueException;
@@ -16,7 +17,7 @@ import java.util.LinkedHashMap;
 /**
  * A box to display an item information and can be interacted with.
  */
-public class ItemInfoBox extends HBox {
+public class ItemInfoBox extends HBox implements IViewUnit {
     private SaleController controller;
     private Item item;
     private LinkedHashMap<LocalDate, Float> priceHistory;
@@ -45,7 +46,8 @@ public class ItemInfoBox extends HBox {
     /**
      * Initialise the display elements and their styling.
      */
-    private void initialize(){
+    @Override
+    public void initialize(){
         this.setId("sellItemInfoBox" + item.getId());
         this.setAlignment(Pos.CENTER_LEFT);
         this.setSpacing(20);
@@ -131,7 +133,8 @@ public class ItemInfoBox extends HBox {
     /**
      * Display the GUI components.
      */
-    private void load(){
+    @Override
+    public void load(){
         loadNameLabel();
         loadAvailabilityLabel();
     }

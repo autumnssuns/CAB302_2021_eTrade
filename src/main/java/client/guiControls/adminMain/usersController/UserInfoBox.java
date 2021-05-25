@@ -1,5 +1,6 @@
 package client.guiControls.adminMain.usersController;
 
+import client.IViewUnit;
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
 import client.guiControls.adminMain.AdminMainController;
@@ -16,7 +17,7 @@ import javafx.scene.layout.*;
 /**
  * A box to display user information and can be interacted with.
  */
-public class UserInfoBox extends HBox {
+public class UserInfoBox extends HBox implements IViewUnit {
     private AdminMainController controller;
 
     private int userId;
@@ -47,12 +48,6 @@ public class UserInfoBox extends HBox {
      */
     public UserInfoBox(int userId, String name, String username, String password, String organisationalUnit, String role){
         super();
-        this.setAlignment(Pos.CENTER);
-        this.setPrefHeight(80);
-        this.setPrefWidth(1363);
-        this.setLayoutX(41);
-        this.setLayoutY(260);
-        this.setSpacing(20);
 
         this.userId = userId;
         this.name = name;
@@ -61,10 +56,85 @@ public class UserInfoBox extends HBox {
         this.organisationalUnit = organisationalUnit;
         this.role = role;
 
-        initiateNodes();
+        initialize();
+        load();
+    }
+
+    @Override
+    public void initialize() {
+        this.setAlignment(Pos.CENTER);
+        this.setPrefHeight(80);
+        this.setPrefWidth(1363);
+        this.setLayoutX(41);
+        this.setLayoutY(260);
+        this.setSpacing(20);
+
+        idLabel = new Label();
+        idLabel.getStyleClass().add("blackLabel");
+        idLabel.setAlignment(Pos.CENTER);
+        idLabel.setPrefWidth(100);
+        idLabel.setPrefHeight(80);
+
+        nameTextField = new TextField();
+        nameTextField.setPrefWidth(190);
+        nameTextField.setPrefHeight(30);
+        nameTextField.setId("userFullname" + userId);
+
+        usernameTextField = new TextField();
+        usernameTextField.setPrefWidth(190);
+        usernameTextField.setPrefHeight(30);
+        usernameTextField.setId("username" + userId);
+
+        passwordField = new PasswordField();
+        passwordField.setPrefWidth(190);
+        passwordField.setPrefHeight(30);
+        passwordField.setId("password" + userId);
+
+        organisationUnitSelectionBox = new ComboBox();
+        organisationUnitSelectionBox.setPromptText("Organisational Unit");
+        organisationUnitSelectionBox.setPrefWidth(300);
+        organisationUnitSelectionBox.setPrefHeight(30);
+        organisationUnitSelectionBox.setEditable(true);
+        organisationUnitSelectionBox.setId("userOrganisation" + userId);
+
+        roleSelectionBox = new ComboBox();
+        roleSelectionBox.setPromptText("Role");
+        roleSelectionBox.setPrefWidth(190);
+        roleSelectionBox.setPrefHeight(30);
+        roleSelectionBox.setEditable(false);
+        roleSelectionBox.getItems().addAll("user","admin");
+        roleSelectionBox.setId("userRole" + userId);
+
+        editButton = new Button("Edit");
+        editButton.setPrefWidth(100);
+        editButton.setPrefHeight(30);
+        editButton.setOnAction(e -> startEdit());
+        editButton.setId("userEditButton" + userId);
+
+        removeButton = new Button("Remove");
+        removeButton.setPrefWidth(100);
+        removeButton.setPrefHeight(30);
+        removeButton.setOnAction(e -> {
+            try {
+                removeEntry();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
+        removeButton.setId("userRemoveButton" + userId);
 
         this.getChildren().addAll(idLabel, nameTextField, usernameTextField, passwordField, organisationUnitSelectionBox, roleSelectionBox, editButton, removeButton);
         disable();
+    }
+
+    @Override
+    public void load() {
+        loadIdLabel();
+        loadFullNameTextField();
+        loadUsernameTextField();
+        loadPasswordField();
+        loadRoleSelectionBox();
+        loadOrganisationUnitSelectionBox();
     }
 
     /**
@@ -73,20 +143,6 @@ public class UserInfoBox extends HBox {
      */
     public void setController(AdminMainController controller){
         this.controller = controller;
-    }
-
-    /**
-     * Draw the nodes displaying the user's info.
-     */
-    private void initiateNodes(){
-        createIdLabel();
-        createFullNameTextField();
-        createUsernameTextField();
-        createPasswordField();
-        createOrganisationUnitSelectionBox();
-        createRoleSelectionBox();
-        createEditButton();
-        createRemoveButton();
     }
 
     /**
@@ -101,112 +157,48 @@ public class UserInfoBox extends HBox {
     }
 
     /**
-     * Reload the box using the stored user's info.
+     * Loads a label to display the user's id.
      */
-    private void reloadEntries(){
+    private void loadIdLabel(){
+        idLabel.setText(String.valueOf(userId));
+    }
+
+    /**
+     * Loads a text field to display the user's name.
+     */
+    private void loadFullNameTextField(){
         nameTextField.setText(name);
+    }
+
+    /**
+     * Loads a text field to display the user's unique username.
+     */
+    private void loadUsernameTextField(){
         usernameTextField.setText(username);
+    }
+
+    /**
+     * Loads a password field to edit the user's password.
+     */
+    private void loadPasswordField(){
         passwordField.setText(password);
-        organisationUnitSelectionBox.setPromptText(organisationalUnit);
-        roleSelectionBox.setPromptText(role);
     }
 
     /**
-     * Creates a label to display the user's id.
+     * Loads a ComboBox to display the user's organisationalUnit.
      */
-    private void createIdLabel(){
-        idLabel = new Label(String.valueOf(userId));
-        idLabel.getStyleClass().add("blackLabel");
-        idLabel.setAlignment(Pos.CENTER);
-        idLabel.setPrefWidth(100);
-        idLabel.setPrefHeight(80);
-    }
-
-    /**
-     * Creates a text field to display the user's name.
-     */
-    private void createFullNameTextField(){
-        nameTextField = new TextField(name);
-        nameTextField.setPrefWidth(190);
-        nameTextField.setPrefHeight(30);
-        nameTextField.setId("userFullname" + userId);
-    }
-
-    /**
-     * Creates a text field to display the user's unique username.
-     */
-    private void createUsernameTextField(){
-        usernameTextField = new TextField(username);
-        usernameTextField.setPrefWidth(190);
-        usernameTextField.setPrefHeight(30);
-        usernameTextField.setId("username" + userId);
-    }
-
-    /**
-     * Creates a password field to edit the user's password.
-     */
-    private void createPasswordField(){
-        passwordField = new PasswordField();
-        passwordField.setText(password);
-        passwordField.setPrefWidth(190);
-        passwordField.setPrefHeight(30);
-        passwordField.setId("password" + userId);
-    }
-
-    /**
-     * Creates a ComboBox to display the user's organisationalUnit.
-     */
-    private void createOrganisationUnitSelectionBox(){
-        organisationUnitSelectionBox = new ComboBox();
-        organisationUnitSelectionBox.setPromptText("OrganisationalUnit Unit");
-        organisationUnitSelectionBox.setPrefWidth(300);
-        organisationUnitSelectionBox.setPrefHeight(30);
-        organisationUnitSelectionBox.setEditable(true);
+    // TODO: Sync with organisations
+    private void loadOrganisationUnitSelectionBox(){
         organisationUnitSelectionBox.setValue(organisationalUnit);
         organisationUnitSelectionBox.getItems().addAll("TestOrg", "The Justice League", "The supervillains", "The random civilians");
-        organisationUnitSelectionBox.setId("userOrganisation" + userId);
+
     }
 
     /**
-     * Creates a ComboBox to display the user's role.
+     * Loads a ComboBox to display the user's role.
      */
-    private void createRoleSelectionBox(){
-        roleSelectionBox = new ComboBox();
-        roleSelectionBox.setPromptText("Role");
-        roleSelectionBox.setPrefWidth(190);
-        roleSelectionBox.setPrefHeight(30);
-        roleSelectionBox.setEditable(true);
+    private void loadRoleSelectionBox(){
         roleSelectionBox.setValue(role);
-        roleSelectionBox.getItems().addAll("user","admin");
-        roleSelectionBox.setId("userRole" + userId);
-    }
-
-    /**
-     * Creates a button that allows the admin to edit a user's info.
-     */
-    private void createEditButton(){
-        editButton = new Button("Edit");
-        editButton.setPrefWidth(100);
-        editButton.setPrefHeight(30);
-        editButton.setOnAction(e -> startEdit());
-        editButton.setId("userEditButton" + userId);
-    }
-
-    /**
-     * Creates a button that allows the admin to remove a user.
-     */
-    private void createRemoveButton(){
-        removeButton = new Button("Remove");
-        removeButton.setPrefWidth(100);
-        removeButton.setPrefHeight(30);
-        removeButton.setOnAction(e -> {
-            try {
-                removeEntry();
-            } catch (InvalidArgumentValueException invalidArgumentValueException) {
-                invalidArgumentValueException.printStackTrace();
-            }
-        });
-        removeButton.setId("userRemoveButton" + userId);
     }
 
     /**
@@ -284,7 +276,7 @@ public class UserInfoBox extends HBox {
      */
     private void cancelEdit(){
         disable();
-        reloadEntries();
+        load();
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
