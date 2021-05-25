@@ -60,4 +60,20 @@ public class Cart extends ArrayList<CartItem> implements IData {
         }
         return total;
     }
+
+    /**
+     * Checks out the current cart.
+     */
+    public void checkOut(){
+        super.clear();
+        //TODO: Request server to place orders on all items.
+    }
+
+    /**
+     * Returns the type of the cart ('buy' or 'sell')
+     * @return The type of the cart.
+     */
+    public Order.Type getCartType() {
+        return cartType;
+    }
 }

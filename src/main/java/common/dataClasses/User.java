@@ -1,7 +1,8 @@
 package common.dataClasses;
 
-import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
+import server.Features.HashPassword;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**

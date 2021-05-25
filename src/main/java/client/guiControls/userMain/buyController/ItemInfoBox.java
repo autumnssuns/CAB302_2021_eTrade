@@ -1,6 +1,5 @@
 package client.guiControls.userMain.buyController;
 
-import client.IViewUnit;
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Item;
 import javafx.geometry.Pos;
@@ -16,7 +15,7 @@ import java.util.LinkedHashMap;
 /**
  * A box to display an item information and can be interacted with.
  */
-public class ItemInfoBox extends HBox implements IViewUnit {
+public class ItemInfoBox extends HBox {
     private BuyController controller;
     private Item item;
     private LinkedHashMap<LocalDate, Float> priceHistory;
@@ -45,8 +44,7 @@ public class ItemInfoBox extends HBox implements IViewUnit {
     /**
      * Initialise the display elements and their styling.
      */
-    @Override
-    public void initialize(){
+    private void initialize(){
         this.setId("buyItemInfoBox" + item.getId());
         this.setAlignment(Pos.CENTER_LEFT);
         this.setSpacing(20);
@@ -132,8 +130,7 @@ public class ItemInfoBox extends HBox implements IViewUnit {
     /**
      * Display the GUI components.
      */
-    @Override
-    public void load(){
+    private void load(){
         loadNameLabel();
         loadAvailabilityLabel();
     }

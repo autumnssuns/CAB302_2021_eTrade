@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.LoginSystem;
+import server.Features.LoginSystem;
 
 import java.util.Random;
 

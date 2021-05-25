@@ -1,6 +1,6 @@
 package client.guiControls.userMain.saleController;
 
-import client.IViewUnit;
+import client.guiControls.DataBox;
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Order;
 import javafx.geometry.Pos;
@@ -11,7 +11,7 @@ import javafx.scene.layout.HBox;
 /**
  * A GUI representation of the
  */
-public class MarketOrderInfoBox extends HBox implements IViewUnit {
+public class MarketOrderInfoBox extends HBox implements DataBox {
     private SaleController controller;
     private Order order;
 
@@ -31,7 +31,7 @@ public class MarketOrderInfoBox extends HBox implements IViewUnit {
     /**
      * Initialise the display elements and their styling.
      */
-    public void initialize(){
+    private void initialize(){
         this.setAlignment(Pos.CENTER_LEFT);
         this.setSpacing(20);
         this.setPrefHeight(80);

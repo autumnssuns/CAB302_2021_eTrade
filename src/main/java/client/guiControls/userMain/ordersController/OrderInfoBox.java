@@ -1,7 +1,6 @@
 package client.guiControls.userMain.ordersController;
 
-import client.IViewUnit;
-import client.guiControls.DisplayController;
+import client.guiControls.DataBox;
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.*;
 import javafx.geometry.Pos;
@@ -11,7 +10,7 @@ import javafx.scene.layout.HBox;
 /**
  * A GUI representation of the
  */
-public class OrderInfoBox extends HBox implements IViewUnit {
+public class OrderInfoBox extends HBox implements DataBox {
     private OrdersController controller;
     private Order order;
 
@@ -35,8 +34,7 @@ public class OrderInfoBox extends HBox implements IViewUnit {
     /**
      * Initialise the display elements and their styling.
      */
-    @Override
-    public void initialize(){
+    private void initialize(){
         this.setAlignment(Pos.CENTER_LEFT);
         this.setSpacing(20);
         this.setPrefHeight(80);
