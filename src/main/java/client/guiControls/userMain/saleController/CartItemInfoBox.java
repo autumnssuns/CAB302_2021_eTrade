@@ -1,5 +1,6 @@
 package client.guiControls.userMain.saleController;
 
+import client.IViewUnit;
 import client.guiControls.DisplayController;
 import client.guiControls.userMain.UserMainController;
 import client.guiControls.userMain.buyController.BuyController;
@@ -14,7 +15,7 @@ import javafx.scene.layout.VBox;
 /**
  * A box to display an item information and can be interacted with.
  */
-public class CartItemInfoBox extends VBox {
+public class CartItemInfoBox extends VBox implements IViewUnit {
     private SaleController controller;
     private CartItem cartItem;
 
@@ -41,7 +42,8 @@ public class CartItemInfoBox extends VBox {
     /**
      * Initialise the display elements and their styling.
      */
-    private void initialize(){
+    @Override
+    public void initialize(){
         this.setAlignment(Pos.CENTER_LEFT);
 
         nameLabel = new Label();
@@ -108,7 +110,8 @@ public class CartItemInfoBox extends VBox {
     /**
      * Loads the underlying data to the GUI components.
      */
-    private void load(){
+    @Override
+    public void load(){
         loadNameLabel();
         loadTotalPriceLabel();
     }

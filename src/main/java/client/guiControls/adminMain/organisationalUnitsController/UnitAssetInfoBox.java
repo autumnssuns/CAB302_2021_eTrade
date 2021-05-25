@@ -1,5 +1,6 @@
 package client.guiControls.adminMain.organisationalUnitsController;
 
+import client.IViewUnit;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -9,7 +10,7 @@ import javafx.scene.layout.VBox;
 /**
  * A box to display the assets that belong to an organisational unit and can be interacted with.
  */
-public class UnitAssetInfoBox extends HBox {
+public class UnitAssetInfoBox extends HBox implements IViewUnit {
     private static int counter = 0; // TODO: Replace with identification using both asset ID and organisational unit ID
     private String name;
     private int quantity;
@@ -27,6 +28,21 @@ public class UnitAssetInfoBox extends HBox {
      */
     public UnitAssetInfoBox(String name, int quantity){
         super();
+
+
+        this.name = name;
+        this.quantity = quantity;
+
+        initialize();
+        load();
+        counter++;
+    }
+
+    /**
+     * Initiates the GUI components
+     */
+    @Override
+    public void initialize() {
         this.setAlignment(Pos.CENTER);
         this.setPrefHeight(80);
         this.setPrefWidth(600);
@@ -35,24 +51,41 @@ public class UnitAssetInfoBox extends HBox {
         this.setLayoutY(80);
         this.setSpacing(20);
 
-        this.name = name;
-        this.quantity = quantity;
+        nameTextField = new TextField();
+        nameTextField.setPrefWidth(250);
+        nameTextField.setPrefHeight(30);
+        nameTextField.setId("organisationalUnitAssetName" + counter);
 
-        initiateNodes();
+        quantityTextField = new TextField();
+        quantityTextField.setPrefWidth(100);
+        quantityTextField.setPrefHeight(30);
+        quantityTextField.setId("organisationalUnitAssetQuantity" + counter);
+
+        editButton = new Button("Edit");
+        editButton.setStyle("-fx-font-size:10");
+        editButton.setPrefWidth(50);
+        editButton.setPrefHeight(30);
+        editButton.setOnAction(e -> startEdit());
+        editButton.setId("organisationalUnitAssetEditButton" + counter);
+
+        removeButton = new Button("Remove");
+        removeButton.setPrefWidth(50);
+        removeButton.setPrefHeight(30);
+        removeButton.setStyle("-fx-font-size:10");
+        removeButton.setOnAction(e -> removeEntry());
+        removeButton.setId("organisationalUnitAssetRemoveButton" + counter);
 
         this.getChildren().addAll(nameTextField, quantityTextField, editButton, removeButton);
         disable();
-        counter++;
     }
 
     /**
-     * Draw the nodes displaying the asset's info.
+     * Loads the GUI component from the linked data
      */
-    private void initiateNodes(){
-        createNameTextField();
-        createQuantityTextField();
-        createEditButton();
-        createRemoveButton();
+    @Override
+    public void load() {
+        loadQuantityTextField();
+        loadNameTextField();
     }
 
     /**
@@ -64,55 +97,17 @@ public class UnitAssetInfoBox extends HBox {
     }
 
     /**
-     * Reload the box using the stored asset's info.
+     * Loads a text field to display the asset's name.
      */
-    private void reloadEntries(){
+    private void loadNameTextField(){
         nameTextField.setText(name);
+    }
+
+    /**
+     * Loads a text field to display the asset's description.
+     */
+    private void loadQuantityTextField(){
         quantityTextField.setText(String.valueOf(quantity));
-    }
-
-    /**
-     * Creates a text field to display the asset's name.
-     */
-    private void createNameTextField(){
-        nameTextField = new TextField(name);
-        nameTextField.setPrefWidth(250);
-        nameTextField.setPrefHeight(30);
-        nameTextField.setId("organisationalUnitAssetName" + counter);
-    }
-
-    /**
-     * Creates a text field to display the asset's description.
-     */
-    private void createQuantityTextField(){
-        quantityTextField = new TextField(String.valueOf(quantity));
-        quantityTextField.setPrefWidth(100);
-        quantityTextField.setPrefHeight(30);
-        quantityTextField.setId("organisationalUnitAssetQuantity" + counter);
-    }
-
-    /**
-     * Creates a button that allows the admin to edit a asset's info.
-     */
-    private void createEditButton(){
-        editButton = new Button("Edit");
-        editButton.setStyle("-fx-font-size:10");
-        editButton.setPrefWidth(50);
-        editButton.setPrefHeight(30);
-        editButton.setOnAction(e -> startEdit());
-        editButton.setId("organisationalUnitAssetEditButton" + counter);
-    }
-
-    /**
-     * Creates a button that allows the admin to remove an asset.
-     */
-    private void createRemoveButton(){
-        removeButton = new Button("Remove");
-        removeButton.setPrefWidth(50);
-        removeButton.setPrefHeight(30);
-        removeButton.setStyle("-fx-font-size:10");
-        removeButton.setOnAction(e -> removeEntry());
-        removeButton.setId("organisationalUnitAssetRemoveButton" + counter);
     }
 
     /**
@@ -161,7 +156,7 @@ public class UnitAssetInfoBox extends HBox {
      */
     private void cancelEdit(){
         disable();
-        reloadEntries();
+        load();
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
