@@ -6,12 +6,11 @@ import common.Response;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.Stock;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -34,7 +33,21 @@ public final class Server implements IServer{
      * @throws InvalidArgumentValueException
      */
     public Server() throws InvalidArgumentValueException {
-        port = 5678;
+        Properties props = new Properties();
+        InputStream in = null;
+        try{
+            in = this.getClass().getClassLoader().getResourceAsStream("server-config.properties");
+            props.load(in);
+            in.close();
+
+            // specify the data source, username and password
+            port = Integer.parseInt(props.getProperty("port"));
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         firstRun = true;
         new MockDatabase();
     }
@@ -47,7 +60,7 @@ public final class Server implements IServer{
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             serverSocket.setSoTimeout(SOCKET_ACCEPT_TIMEOUT);
             // Temporary prompt message
-            System.out.println("Server started and waiting for client...");
+            System.out.println("Running on port " + port + "...");
             int connectionNumber = 0;
             while (true) {
                 if (!running.get()) {
