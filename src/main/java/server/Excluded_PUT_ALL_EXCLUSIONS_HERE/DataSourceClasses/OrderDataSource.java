@@ -5,6 +5,8 @@ import common.dataClasses.Order;
 import server.DBconnection;
 
 import java.sql.*;
+import java.time.ZoneId;
+
 /**
  * Provides needed functions to interact with "orders" database for data
  */
@@ -22,10 +24,10 @@ public class OrderDataSource {
             "    resolved_quantity INT          NOT NULL\n" +
             "                                   DEFAULT 0,\n" +
             "    price             DECIMAL (2)  NOT NULL,\n" +
-            "    order_date        DATETIME     NOT NULL\n" +
+            "    order_date        VARCHAR (10)     NOT NULL\n" +
             "                                   DEFAULT CURRENT_TIMESTAMP,\n" +
-            "    finished_date     DATETIME     DEFAULT NULL,\n" +
-            "    status            VARCHAR (10) NOT NULL\n" +
+            "    finished_date     DATE     DEFAULT NULL,\n" +
+            "    status            DATE  NOT NULL\n" +
             "                                   DEFAULT ('placed') \n" +
             ");";
 
@@ -81,8 +83,8 @@ public class OrderDataSource {
             addOrder.setInt(5, order.getPlacedQuantity());
             addOrder.setInt(6, order.getResolvedQuantity());
             addOrder.setFloat(7, order.getPrice());
-            addOrder.setDate(8, order.getOrderDate());
-            addOrder.setDate(9, order.getFinishDate());
+            addOrder.setDate(8, Date.valueOf(order.getOrderDate().toLocalDate()));
+            addOrder.setDate(9, Date.valueOf(order.getFinishDate().toLocalDate()));
             addOrder.setString(10, order.getStatus().name());
             //execute the query
             addOrder.executeQuery();
@@ -125,8 +127,8 @@ public class OrderDataSource {
             dummy.setPlacedQuantity(rs.getInt("placed_quantity"));
             dummy.setResolvedQuantity(rs.getInt("resolved_quantity"));
             dummy.setPrice(rs.getFloat("price"));
-            dummy.setOrderDate(rs.getDate("order_date"));
-            dummy.setFinishDate(rs.getDate("finished_date"));
+            dummy.setOrderDate((rs.getDate("order_date")).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+            dummy.setFinishDate((rs.getDate("order_date")).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
             dummy.setStatus(Order.Status.valueOf(rs.getString("status")));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -154,8 +156,8 @@ public class OrderDataSource {
                         rs.getInt("placed_quantity"),
                         rs.getInt("resolved_quantity"),
                         rs.getFloat("price"),
-                        rs.getDate("order_date"),
-                        rs.getDate("finished_date"),
+                        (rs.getDate("order_date")).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                        (rs.getDate("finished_date")).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
                         Order.Status.valueOf(rs.getString("status")))
                         );
             }
@@ -178,8 +180,8 @@ public class OrderDataSource {
             editOrder.setInt(4, orderNewInfo.getPlacedQuantity());
             editOrder.setInt(5, orderNewInfo.getResolvedQuantity());
             editOrder.setFloat(6, orderNewInfo.getPrice());
-            editOrder.setDate(7, orderNewInfo.getOrderDate());
-            editOrder.setDate(8, orderNewInfo.getFinishDate());
+            editOrder.setDate(7, Date.valueOf(orderNewInfo.getOrderDate().toLocalDate()));
+            editOrder.setDate(8, Date.valueOf(orderNewInfo.getFinishDate().toLocalDate()));
             editOrder.setString(9, orderNewInfo.getStatus().name());
             editOrder.setInt(10, orderNewInfo.getOrderId());
             editOrder.executeQuery();
