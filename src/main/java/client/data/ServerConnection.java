@@ -6,11 +6,10 @@ import common.Response;
 import server.IServer;
 import server.MockServer;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Properties;
 
 public final class ServerConnection implements IServerConnection{
     private Socket socket;
@@ -23,12 +22,22 @@ public final class ServerConnection implements IServerConnection{
      * Initiate the host and port to connect to
      */
     public ServerConnection() {
-        address = "127.0.0.1";
-        port = 5678;
+        Properties props = new Properties();
+        InputStream in = null;
         try{
+            in = this.getClass().getClassLoader().getResourceAsStream("client-config.properties");
+            props.load(in);
+            in.close();
+
+            // specify the data source, username and password
+            address = props.getProperty("host");
+            port = Integer.parseInt(props.getProperty("port"));
+
             Start();
             sendRequest(new Request(null, "test"));
-
+            Close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
