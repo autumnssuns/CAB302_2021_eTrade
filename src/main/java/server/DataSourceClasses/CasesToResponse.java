@@ -160,7 +160,7 @@ public class CasesToResponse {
     //User Type
     public static Response query(User attachment){
         UserDataSource userDataSource = new UserDataSource();
-        userDataSource.getUser(attachment.getUserId());
+        attachment = userDataSource.getUser(attachment.getUserId());
         Response response = new Response(true, attachment);
         userDataSource.close();
         return response;
@@ -168,7 +168,7 @@ public class CasesToResponse {
     //Organisational Unit Type
     public static Response query(OrganisationalUnit attachment){
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
-        organisationsDataSource.getOrganisation(attachment.getId());
+        attachment = organisationsDataSource.getOrganisation(attachment.getId());
         Response response = new Response(true, attachment);
         organisationsDataSource.close();
         return response;
@@ -176,7 +176,7 @@ public class CasesToResponse {
     //Asset Type
     public static Response query(Asset attachment){
         AssetsDataSource assetsDataSource = new AssetsDataSource();
-        assetsDataSource.getAsset(attachment.getId());
+        attachment = assetsDataSource.getAsset(attachment.getId());
         Response response = new Response(true, attachment);
         assetsDataSource.close();
         return response;
@@ -184,7 +184,7 @@ public class CasesToResponse {
     //Order Type
     public static Response query(Order attachment) {
         OrderDataSource orderDataSource = new OrderDataSource();
-        orderDataSource.getOrder(attachment.getOrderId());
+        attachment = orderDataSource.getOrder(attachment.getOrderId());
         Response response = new Response(true, attachment);
         orderDataSource.close();
         return response;
@@ -193,8 +193,6 @@ public class CasesToResponse {
     public static Response query(Stock attachment){
         return null;
     }
-
-
 
 
     //Todo: Overload Delete method
