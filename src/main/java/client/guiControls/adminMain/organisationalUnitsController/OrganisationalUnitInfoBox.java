@@ -17,10 +17,7 @@ import javafx.scene.layout.VBox;
  * // TODO: Fix a bug where organisational unit info is not stored properly when added.
  */
 public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
-    private int unitId;
-    private String name;
-    private float credit;
-    private int assetQuantity;
+    private OrganisationalUnit unit;
     private Stock stock;
 
     private Label idLabel;
@@ -35,18 +32,14 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
     private OrganisationalUnitsController controller;
 
     /**
-     * Initiates the box with organisational unit information.
-     * @param unitId The organisational unit's id.
-     * @param name The name of the organisational unit.
-     * @param credit The credit of the organisational unit.
+     * Initiates a view with a linked organisational unit and stock
+     * @param unit The linked unit
+     * @param stock The linked stock
      */
-    public OrganisationalUnitInfoBox(int unitId, String name, float credit, int assetQuantity, Stock stock){
+    public OrganisationalUnitInfoBox(OrganisationalUnit unit, Stock stock){
         super();
 
-        this.unitId = unitId;
-        this.name = name;
-        this.credit = credit;
-        this.assetQuantity = assetQuantity;
+        this.unit = unit;
         this.stock = stock;
 
         initialize();
@@ -75,13 +68,13 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
         nameLabel.getStyleClass().add("blackLabel");
         nameLabel.setPrefWidth(150);
         nameLabel.setPrefHeight(30);
-        nameLabel.setId("organisationalUnitName" + unitId);
+        nameLabel.setId("organisationalUnitName" + unit.getId());
 
         creditLabel = new Label();
         creditLabel.getStyleClass().add("blackLabel");
         creditLabel.setPrefWidth(100);
         creditLabel.setPrefHeight(30);
-        creditLabel.setId("organisationalUnitCredit" + unitId);
+        creditLabel.setId("organisationalUnitCredit" + unit.getId());
 
         assetQuantityLabel = new Label();
         assetQuantityLabel.getStyleClass().add("blackLabel");
@@ -93,7 +86,7 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
         editButton.setPrefWidth(50);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
-        editButton.setId("organisationalUnitEditButton" + unitId);
+        editButton.setId("organisationalUnitEditButton" + unit.getId());
 
         removeButton = new Button("Remove");
         removeButton.setStyle("-fx-font-size:10");
@@ -106,7 +99,7 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
                 invalidArgumentValueException.printStackTrace();
             }
         });
-        removeButton.setId("organisationalUnitRemoveButton" + unitId);
+        removeButton.setId("organisationalUnitRemoveButton" + unit.getId());
 
         this.getChildren().addAll(idLabel, nameLabel, creditLabel, assetQuantityLabel, editButton, removeButton);
     }
@@ -126,14 +119,14 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
      * Loads a label to display the organisational unit's id.
      */
     private void loadIdLabel(){
-        idLabel.setText(String.valueOf(unitId));
+        idLabel.setText(String.valueOf(unit.getId()));
     }
 
     /**
      * Loads a label to display the organisational unit's name.
      */
     private void loadNameLabel(){
-        nameLabel.setText(name);
+        nameLabel.setText(unit.getName());
 
     }
 
@@ -141,24 +134,24 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
      * Loads a text field to display the organisational unit's description.
      */
     private void loadCreditLabel(){
-        creditLabel.setText(String.valueOf(credit));
+        creditLabel.setText(String.valueOf(unit.getBalance()));
     }
 
     /**
      * Loads a text field to display the organisational unit's description.
      */
     private void loadAssetQuantityLabel(){
-        assetQuantityLabel.setText(String.valueOf(assetQuantity));
+        assetQuantityLabel.setText(String.valueOf(stock.size()));
     }
-    
+
     /**
      * Reload the box using the stored organisational unit's info.
      */
     public void reloadEntries(){
-        nameLabel.setText(name);
-        creditLabel.setText(String.valueOf(credit));
+        nameLabel.setText(unit.getName());
+        creditLabel.setText(String.valueOf(unit.getBalance()));
     }
-    
+
     //NOTE: Get info from display
     /**
      * Begins editing the current entry.
@@ -180,7 +173,7 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
      * @return The id of the organisational unit.
      */
     public int getUnitId(){
-        return unitId;
+        return unit.getId();
     }
 
     /**
@@ -188,7 +181,7 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
      * @return The name of the organisational unit.
      */
     public String getName(){
-        return name;
+        return unit.getName();
     }
 
     /**
@@ -196,7 +189,7 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
      * @return The credit of the organisational unit.
      */
     public float getCredit(){
-        return credit;
+        return unit.getBalance();
     }
 
     /**
@@ -221,7 +214,7 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
      * Removes the current entry.
      */
     private void removeEntry() throws InvalidArgumentValueException {
-        Response response = controller.sendRequest("delete", new OrganisationalUnit(unitId, name, credit), OrganisationalUnit.class);
+        Response response = controller.sendRequest("delete", unit, OrganisationalUnit.class);
         if (response.isFulfilled()){
             ((VBox) this.getParent()).getChildren().remove(this);
         }
@@ -232,7 +225,7 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
      * @param name The new name.
      */
     public void setName(String name) {
-        this.name = name;
+        unit.setName(name);
     }
 
     /**
@@ -240,7 +233,7 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
      * @param credit The new credit.
      */
     public void setCredit(float credit){
-        this.credit=credit;
+        unit.setBalance(credit);
     }
 
     /**

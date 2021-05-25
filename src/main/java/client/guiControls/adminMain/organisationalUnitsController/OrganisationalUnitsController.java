@@ -40,12 +40,11 @@ public class OrganisationalUnitsController extends DisplayController {
 
     /**
      * Adds a new entry to the current display.
-     * @param unitId The ID of the asset.
-     * @param name The name of the asset.
-     * @param credit The username of the asset.
+     * @param unit The linked organisational unit.
+     * @param stock The linked stock
      */
-    public void addOrganisationalUnitInfoBox(int unitId, String name, float credit, int assetQuantity, Stock stock){
-        OrganisationalUnitInfoBox organisationalUnitInfoBox = new OrganisationalUnitInfoBox(unitId, name, credit, assetQuantity, stock);
+    public void addOrganisationalUnitInfoBox(OrganisationalUnit unit, Stock stock){
+        OrganisationalUnitInfoBox organisationalUnitInfoBox = new OrganisationalUnitInfoBox(unit, stock);
         organisationalUnitInfoBox.setOrganisationalUnitAssetsBox(organisationalUnitAssetsBox);
         organisationalUnitInfoBox.setController(this);
 
@@ -78,7 +77,7 @@ public class OrganisationalUnitsController extends DisplayController {
 
         organisationalUnitAssetsBox.getChildren().clear();
         for (Item item : caller.getStock()){
-            organisationalUnitAssetsBox.getChildren().add(new UnitAssetInfoBox(item.getName(), item.getQuantity()));
+            organisationalUnitAssetsBox.getChildren().add(new UnitAssetInfoBox(item));
         }
 
         confirmOrganisationalUnitButton.setOnAction(e -> {
@@ -104,7 +103,7 @@ public class OrganisationalUnitsController extends DisplayController {
         controller.sendRequest("edit", tempStock, Stock.class);
         update();
         if (response.isFulfilled()){
-            addOrganisationalUnitInfoBox(unitId, name, credit, 0, tempStock);
+            addOrganisationalUnitInfoBox(organisationalUnit, tempStock);
             closeEditor();
         }
     }
@@ -151,7 +150,7 @@ public class OrganisationalUnitsController extends DisplayController {
     /**
      * Adds a new asset to the organisational unit in the editor.
      */
-    public void addOrganisationalUnitAssetInfoBox() throws InvalidArgumentValueException {
+    public void addOrganisationalUnitAssetInfoBox(Item item) throws InvalidArgumentValueException {
         String assetName = (String) newOrganisationalUnitAssetNameComboBox.getValue();
         int quantity = Integer.parseInt(newOrganisationalUnitAssetQuantityTextField.getText());
 
@@ -165,8 +164,10 @@ public class OrganisationalUnitsController extends DisplayController {
             }
         }
 
-        UnitAssetInfoBox unitAssetInfoBox = new UnitAssetInfoBox(assetName, quantity);
-        tempStock.add(new Item(new Asset(linkedAsset.getId(), assetName, linkedAsset.getDescription()), quantity));
+        Item newItem = new Item(linkedAsset, quantity);
+
+        UnitAssetInfoBox unitAssetInfoBox = new UnitAssetInfoBox(newItem);
+        tempStock.add(newItem);
         organisationalUnitAssetsBox.getChildren().add(unitAssetInfoBox);
         newOrganisationalUnitAssetNameComboBox.valueProperty().set(null);
         newOrganisationalUnitAssetQuantityTextField.clear();
@@ -193,8 +194,7 @@ public class OrganisationalUnitsController extends DisplayController {
 
         for (OrganisationalUnit organisationalUnit : organisationalUnits){
             Stock stock = stocks.get(organisationalUnit.getId());
-            int assetQuantity = stock.size();
-            addOrganisationalUnitInfoBox(organisationalUnit.getId(), organisationalUnit.getName(), organisationalUnit.getBalance(), assetQuantity, stock);
+            addOrganisationalUnitInfoBox(organisationalUnit, stock);
         }
     }
 

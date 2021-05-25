@@ -19,13 +19,8 @@ import javafx.scene.layout.*;
  */
 public class UserInfoBox extends HBox implements IViewUnit {
     private AdminMainController controller;
-
-    private int userId;
-    private String name;
-    private String username;
-    private String password;
-    private String organisationalUnit;
-    private String role;
+    private User user;
+    private OrganisationalUnit unit;
 
     private Label idLabel;
     private TextField nameTextField;
@@ -39,22 +34,17 @@ public class UserInfoBox extends HBox implements IViewUnit {
 
     /**
      * Initiates the box with user information.
-     * @param userId The user's id.
-     * @param name The name of the user.
-     * @param username The unique username of the user.
-     * @param password The user's password.
-     * @param organisationalUnit The name of the user's organisationalUnit.
-     * @param role The user's role.
+     * @param user The linked user.
      */
-    public UserInfoBox(int userId, String name, String username, String password, String organisationalUnit, String role){
+    public UserInfoBox(User user){
         super();
 
-        this.userId = userId;
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.organisationalUnit = organisationalUnit;
-        this.role = role;
+        this.user = user;
+        for (OrganisationalUnit unit : ((AdminLocalDatabase) controller.getDatabase()).getOrganisationalUnits()){
+            if (unit.getId() == user.getUnitId()){
+                this.unit = unit;
+            }
+        }
 
         initialize();
         load();
@@ -78,24 +68,24 @@ public class UserInfoBox extends HBox implements IViewUnit {
         nameTextField = new TextField();
         nameTextField.setPrefWidth(190);
         nameTextField.setPrefHeight(30);
-        nameTextField.setId("userFullname" + userId);
+        nameTextField.setId("userFullname" + user.getUserId());
 
         usernameTextField = new TextField();
         usernameTextField.setPrefWidth(190);
         usernameTextField.setPrefHeight(30);
-        usernameTextField.setId("username" + userId);
+        usernameTextField.setId("username" + user.getUserId());
 
         passwordField = new PasswordField();
         passwordField.setPrefWidth(190);
         passwordField.setPrefHeight(30);
-        passwordField.setId("password" + userId);
+        passwordField.setId("password" + user.getUserId());
 
         organisationUnitSelectionBox = new ComboBox();
         organisationUnitSelectionBox.setPromptText("Organisational Unit");
         organisationUnitSelectionBox.setPrefWidth(300);
         organisationUnitSelectionBox.setPrefHeight(30);
         organisationUnitSelectionBox.setEditable(true);
-        organisationUnitSelectionBox.setId("userOrganisation" + userId);
+        organisationUnitSelectionBox.setId("userOrganisation" + user.getUserId());
 
         roleSelectionBox = new ComboBox();
         roleSelectionBox.setPromptText("Role");
@@ -103,13 +93,13 @@ public class UserInfoBox extends HBox implements IViewUnit {
         roleSelectionBox.setPrefHeight(30);
         roleSelectionBox.setEditable(false);
         roleSelectionBox.getItems().addAll("user","admin");
-        roleSelectionBox.setId("userRole" + userId);
+        roleSelectionBox.setId("userRole" + user.getUserId());
 
         editButton = new Button("Edit");
         editButton.setPrefWidth(100);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
-        editButton.setId("userEditButton" + userId);
+        editButton.setId("userEditButton" + user.getUserId());
 
         removeButton = new Button("Remove");
         removeButton.setPrefWidth(100);
@@ -121,7 +111,7 @@ public class UserInfoBox extends HBox implements IViewUnit {
                 invalidArgumentValueException.printStackTrace();
             }
         });
-        removeButton.setId("userRemoveButton" + userId);
+        removeButton.setId("userRemoveButton" + user.getUserId());
 
         this.getChildren().addAll(idLabel, nameTextField, usernameTextField, passwordField, organisationUnitSelectionBox, roleSelectionBox, editButton, removeButton);
         disable();
@@ -149,39 +139,39 @@ public class UserInfoBox extends HBox implements IViewUnit {
      * Update the user's info by taking data from the text fields.
      */
     private void updateValues(){
-        name = nameTextField.getText();
-        username = usernameTextField.getText();
-        password = passwordField.getText();
-        organisationalUnit = (String) organisationUnitSelectionBox.getValue();
-        role = (String) roleSelectionBox.getValue();
+        user.setFullName(nameTextField.getText());
+        user.setUsername(usernameTextField.getText());
+        user.setPassword(passwordField.getText());
+        user.setOrganisation(matchUnit.getId());
+        user.setAccountType((String) roleSelectionBox.getValue());
     }
 
     /**
      * Loads a label to display the user's id.
      */
     private void loadIdLabel(){
-        idLabel.setText(String.valueOf(userId));
+        idLabel.setText(String.valueOf(user.getUserId()));
     }
 
     /**
      * Loads a text field to display the user's name.
      */
     private void loadFullNameTextField(){
-        nameTextField.setText(name);
+        nameTextField.setText(user.getFullName());
     }
 
     /**
      * Loads a text field to display the user's unique username.
      */
     private void loadUsernameTextField(){
-        usernameTextField.setText(username);
+        usernameTextField.setText(user.getUsername());
     }
 
     /**
      * Loads a password field to edit the user's password.
      */
     private void loadPasswordField(){
-        passwordField.setText(password);
+        passwordField.setText(user.getPassword());
     }
 
     /**
@@ -189,9 +179,8 @@ public class UserInfoBox extends HBox implements IViewUnit {
      */
     // TODO: Sync with organisations
     private void loadOrganisationUnitSelectionBox(){
-        organisationUnitSelectionBox.setValue(organisationalUnit);
+        organisationUnitSelectionBox.setValue(unit.getName());
         organisationUnitSelectionBox.getItems().addAll("TestOrg", "The Justice League", "The supervillains", "The random civilians");
-
     }
 
     /**
@@ -255,7 +244,7 @@ public class UserInfoBox extends HBox implements IViewUnit {
                 break;
             }
         }
-        Response response = controller.sendRequest("edit", new User(userId, name, username, password, role, unitId), User.class);
+        Response response = controller.sendRequest("edit", user, User.class);
         if (response.isFulfilled()){
             controller.updateLocalDatabase(User.class);
         }
@@ -300,7 +289,7 @@ public class UserInfoBox extends HBox implements IViewUnit {
                 break;
             }
         }
-        Response response = controller.sendRequest("delete", new User(userId, name, username, password, role, unitId), User.class);
+        Response response = controller.sendRequest("delete", user, User.class);
         if (response.isFulfilled()){
             controller.updateLocalDatabase(User.class);
             ((VBox) this.getParent()).getChildren().remove(this);
