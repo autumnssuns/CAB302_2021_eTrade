@@ -48,14 +48,4 @@ class CartTest {
         assertEquals(cart1.getTotalPrice(), 50.5f);
     }
 
-    @Test
-    void checkOut() {
-        cart1.checkOut();
-        assertEquals(cart1.size(), 0);
-    }
-
-    @Test
-    void getCartType() {
-        assertEquals(cart2.getCartType(), Order.Type.SELL);
-    }
 }
