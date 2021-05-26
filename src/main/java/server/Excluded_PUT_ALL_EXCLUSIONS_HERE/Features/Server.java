@@ -102,10 +102,10 @@ public class Server implements Serializable {
 
             case "Query Stocks":
                 StockDataSource stockDataSource = new StockDataSource();
-                DataCollection<Stock> stocks = stockDataSource.getStockList();
+                DataCollection<Stock> stocks = stockDataSource.GetStockList();
                 serverResponse = new Response(true, stocks);
                 out.writeObject(serverResponse);
-                stockDataSource.close();
+                stockDataSource.Close();
                 break;
 
             case "Query Organisational Units":

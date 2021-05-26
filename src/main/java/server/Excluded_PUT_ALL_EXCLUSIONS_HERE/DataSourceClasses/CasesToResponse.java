@@ -82,9 +82,9 @@ public class CasesToResponse {
      */
     public static Response add(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.UpdateStock(attachment);
+        stockDataSource.UpdateUnitStock(attachment);
         Response response = new Response(true, null);
-        stockDataSource.close();
+        stockDataSource.Close();
         return response;
     }
 
@@ -217,9 +217,9 @@ public class CasesToResponse {
      */
     public static Response queryStock(User attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        Stock unitStock = stockDataSource.getStock(attachment);
+        Stock unitStock = stockDataSource.GetStock(attachment);
         Response response = new Response(true, unitStock);
-        stockDataSource.close();
+        stockDataSource.Close();
         return response;
     }
 
@@ -287,9 +287,9 @@ public class CasesToResponse {
      */
     public static Response delete(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.deleteStock(attachment);
+        stockDataSource.DeleteStock(attachment);
         Response response = new Response(true, null);
-        stockDataSource.close();
+        stockDataSource.Close();
         return response;
     }
 }

@@ -23,8 +23,8 @@ public class StockDataSource {
                     ");";
     private static final String EDIT_ITEM_QUANTITY =
             "UPDATE stock" +
-                    "   SET asset_quantity=?" +
-                    "   WHERE organisation_id=? AND asset_id=?";
+                    "   SET asset_quantity = ?" +
+                    "   WHERE organisation_id = ? AND asset_id = ?";
     private static final String GET_STOCK =
             "SELECT * FROM stock WHERE organisation_id = ?";
     private static final String GET_ALL_STOCK = "SELECT * FROM stock";
@@ -36,6 +36,8 @@ public class StockDataSource {
     private static final  String DELETE_ALL_DATA = "DELETE FROM stock";
     private static final String DELETE_AN_ITEM =
             "DELETE FROM stock WHERE organisation_id = ? AND asset_id = ?";
+
+
     private Connection connection;
     private PreparedStatement editItemQuantity;
     private PreparedStatement updateStock;
@@ -66,10 +68,10 @@ public class StockDataSource {
         }
     }
 
-    public void DeleteAnItem(Stock stock, Item item) {
+    public void DeleteAnItem(Stock stock) {
         try {
             deleteAnItem.setInt(1,stock.getUnitId());
-            deleteAnItem.setInt(2,item.getId());
+            deleteAnItem.setInt(2,stock.getAssetId());
             deleteAnItem.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,9 +92,9 @@ public class StockDataSource {
      */
     public void EditItemQuantity(Stock attachment) {
         try {
-            editItemQuantity.setInt(1, attachment.getUnitId());
-            editItemQuantity.setInt(2, attachment.getAssetId());
-            editItemQuantity.setInt(3, attachment.getAssetQuantity());
+            editItemQuantity.setInt(1, attachment.getAssetQuantity());
+            editItemQuantity.setInt(2, attachment.getUnitId());
+            editItemQuantity.setInt(3, attachment.getAssetId());
             editItemQuantity.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -103,8 +105,8 @@ public class StockDataSource {
      * Insert new asset with its quantity to stock table
      * @param attachment a Stock object
      */
-    public void UpdateStock(Stock attachment) {
-        deleteStock(attachment);
+    public void UpdateUnitStock(Stock attachment) {
+        DeleteStock(attachment);
         for(Item item: attachment)
         {
             try {
@@ -118,12 +120,24 @@ public class StockDataSource {
         }
     }
 
+    public void AddAnItem(Stock stock)
+    {
+        try {
+            updateStock.setInt(1, stock.getUnitId());
+            updateStock.setInt(2, stock.getAssetId());
+            updateStock.setInt(3, stock.getAssetQuantity());
+            updateStock.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Get stocks list from an organization
      * @param user user wanted to return his/her stock
      * @return an Object array of {asset_id, organization_id, asset_quantity}
      */
-    public Stock getStock(User user) {
+    public Stock GetStock(User user) {
         Stock stock = new Stock(user.getUnitId());
         try {
             //Provide value for query
@@ -140,14 +154,13 @@ public class StockDataSource {
                 Item newItem = new Item(newAsset, quantity);
                 stock.add(newItem);
             }
-            assetsDataSource.close();
         } catch (SQLException | InvalidArgumentValueException e) {
             e.printStackTrace();
         }
         return stock;
     }
 
-    public DataCollection<Stock> getStockList(){
+    public DataCollection<Stock> GetStockList(){
 
         DataCollection<Stock> stocks = new DataCollection<>();
 
@@ -174,8 +187,6 @@ public class StockDataSource {
                     }
                 }
             }
-            organisations.close();
-            asset.close();
         } catch (SQLException | InvalidArgumentValueException e) {
             e.printStackTrace();
         }
@@ -186,7 +197,7 @@ public class StockDataSource {
      * Delete stock of an organisation
      * @param attachment a Stock object
      */
-    public void deleteStock(Stock attachment) {
+    void DeleteStock(Stock attachment) {
         try {
             deleteUnitStock.setInt(1, attachment.getUnitId());
             deleteUnitStock.executeUpdate();
@@ -198,7 +209,7 @@ public class StockDataSource {
     /**
      * Close the connection to database
      */
-    public void close() {
+    public void Close() {
         try {
             connection.close();
         } catch (SQLException ex) {
