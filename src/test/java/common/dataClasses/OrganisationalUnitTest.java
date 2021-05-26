@@ -12,6 +12,7 @@ class OrganisationalUnitTest {
     void setUp() {
         OrganisationalUnit qut = new OrganisationalUnit(0, "QUT", 100);
     }
+
     @Test
     void getId() {
         assertEquals(qut.getId(), 0);
