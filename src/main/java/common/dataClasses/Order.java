@@ -21,7 +21,7 @@ public class Order implements IData {
     }
 
     protected int orderId;
-    protected Type orderType; //buy/sell
+    protected Type orderType; //   buy/sell
     protected int unitId;
     protected int assetId;
     protected int placedQuantity;//cartitem
