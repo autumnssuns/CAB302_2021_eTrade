@@ -151,7 +151,7 @@ public class AssetsDataSource {
             editAsset.setString(2, assetNewInfo.getDescription());
             editAsset.setInt(3, assetNewInfo.getId());
             editAsset.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e){
             e.printStackTrace();
         }
     }
