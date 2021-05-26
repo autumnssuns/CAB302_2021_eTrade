@@ -13,7 +13,9 @@ import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
 import java.sql.SQLException;
 
 public class UserDataSourceTest {
+
     private static UserDataSource userDataSource;
+
     @BeforeEach
     void setUP()
     {
