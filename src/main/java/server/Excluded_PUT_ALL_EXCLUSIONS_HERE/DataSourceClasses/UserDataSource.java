@@ -13,8 +13,7 @@ public class UserDataSource {
     //Create the environment
     //SQL queries
     private static final String CREATE_TABLE =
-                    //"TRUNCATE TABLE IF EXISTS users\n" +
-                    "CREATE TABLE IF NOT EXISTS users (\n" +
+            "CREATE TABLE IF NOT EXISTS users (\n" +
                     "    user_id         INT          NOT NULL,\n" +
                     "    fullname        VARCHAR (50) NOT NULL,\n" +
                     "    username        VARCHAR (16) NOT NULL,\n" +
@@ -24,16 +23,21 @@ public class UserDataSource {
                     "    organisation_id INT          DEFAULT NULL,\n" +
                     "    PRIMARY KEY (\n" +
                     "        username\n" +
-                    "    )\n" +
+                    "    ),\n" +
+                    "    CONSTRAINT user_organisaion\n" +
                     ");";
-    private static final String ADD_USER = "INSERT INTO users (user_id, fullname, username, password, user_type, organisation_id) VALUES (?, ?, ?, ?, ?, ?);";
-    private static final String DELETE_USER = "DELETE FROM users WHERE user_id=?";
-    private static final String GET_USER = "SELECT * FROM users WHERE username=?";
+    private static final String ADD_USER = "INSERT INTO users(user_id, fullname, username, password, user_type, organisation_id) VALUES (?, ?, ?, ?, ?, ?);";
+    private static final String DELETE_USER = "DELETE FROM users WHERE user_id = ?";
+    private static final String GET_USER = "SELECT * FROM users WHERE username = ?";
     private static final String GET_ALL_USER = "SELECT * FROM users";
     private static final String EDIT_USER =
-            "UPDATE users\n" +
-                    "SET user_id = ?, fullname = ?, username = ?, password = ?, user_type = ?, organisation_id = ?\n " +
-                    "WHERE user_id = ?";
+            "UPDATE users \n" +
+                    "SET " +
+                    "fullname = ?, username = ?, password = ?," +
+                    " user_type = ?, organisation_id = ? \n" +
+                    "WHERE \n" +
+                    "user_id = ?";
+    private static final  String DELETE_ALL_DATA = "DELETE FROM users";
 
     //Prepared statements
     private Connection connection;
@@ -42,6 +46,7 @@ public class UserDataSource {
     private PreparedStatement getUser;
     private PreparedStatement editUser;
     private PreparedStatement getAllUser;
+    private PreparedStatement deleteAll;
 
     /**
      * Connect to database then create the table if not exist.
@@ -56,8 +61,18 @@ public class UserDataSource {
             getUser = connection.prepareStatement(GET_USER);
             editUser = connection.prepareStatement(EDIT_USER);
             getAllUser = connection.prepareStatement(GET_ALL_USER);
+            deleteAll = connection.prepareStatement(DELETE_ALL_DATA);
         } catch (SQLException e)
         {e.printStackTrace();}
+    }
+
+
+    public void DeleteAll() {
+        try {
+            deleteAll.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -98,19 +113,23 @@ public class UserDataSource {
      */
     public User getUser(String userName) {
         //Create a dummy to store all information then return the dummy later
-        User dummy = new User(-1,null,null,null,null,-1);
-        ResultSet rs = null;
+        User dummy = null;
+        ResultSet rs;
         try {
             //Set values for the above SQL query
             getUser.setString(1, userName);
             rs = getUser.executeQuery();
-            //Stores values into dummy object
-            dummy.setUserId(rs.getInt("user_id"));
-            dummy.setFullName(rs.getString("fullname"));
-            dummy.setUsername(rs.getString("username"));
-            dummy.setPassword(rs.getString("password"));
-            dummy.setAccountType(rs.getString("user_type"));
-            dummy.setOrganisation(rs.getInt("organisation_id"));
+            while (rs.next()) {
+                dummy = new User(
+                //Stores values into dummy object
+                rs.getInt("user_id"),
+                rs.getString("fullname"),
+                rs.getString("username"),
+                rs.getString("password"),
+                rs.getString("user_type"),
+                rs.getInt("organisation_id")
+                );
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -147,13 +166,12 @@ public class UserDataSource {
      */
     public void editUser(User userNewInfo)  {
         try {
-            editUser.setInt(1, userNewInfo.getUserId());
-            editUser.setString(2, userNewInfo.getFullName());
-            editUser.setString(3, userNewInfo.getUsername());
-            editUser.setString(4, userNewInfo.getPassword());
-            editUser.setString(5, userNewInfo.getAccountType());
-            editUser.setInt(6, userNewInfo.getUnitId());
-            editUser.setInt(7, userNewInfo.getUserId());
+            editUser.setString(1, userNewInfo.getFullName());
+            editUser.setString(2, userNewInfo.getUsername());
+            editUser.setString(3, userNewInfo.getPassword());
+            editUser.setString(4, userNewInfo.getAccountType());
+            editUser.setInt(5, userNewInfo.getUnitId());
+            editUser.setInt(6, userNewInfo.getUserId());
             editUser.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
