@@ -12,18 +12,18 @@ import java.sql.*;
 public class OrganisationsDataSource {
     //Create environment
     //SQL queries
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `cab302_eTrade`.`organisationalUnits` (\n" +
-            "  `organisation_id` INT NOT NULL AUTO_INCREMENT,\n" +
-            "  `organisation_name` VARCHAR(16) NOT NULL,\n" +
-            "  `credits` DECIMAL(2) NOT NULL DEFAULT 0,\n" +
-            "  PRIMARY KEY (`organisation_id`))\n" +
-            "ENGINE = InnoDB;";
+    private static final String CREATE_TABLE =
+    "CREATE TABLE IF NOT EXISTS organisationalUnits (\n" +
+            "    organisation_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+            "        organisation_name        VARCHAR(16) NOT NULL,\n" +
+            "            credits  DECIMAL(2) NOT NULL DEFAULT 0\n" +
+            "                            );";
     private static final String ADD_ORGANISATION = "INSERT INTO organisationalUnits(organisation_id, organisation_name, credits) VALUES (?, ?, ?);";
     private static final String DELETE_ORGANISATION = "DELETE FROM organisationalUnits WHERE organisation_id=?";
     private static final String GET_ORGANISATION = "SELECT * FROM organisationalUnits WHERE organisation_id=?";
     private static final String GET_ALL_ORGANISATION = "SELECT * FROM organisationalUnits";
     private static final String EDIT_ORGANISATION =
-            "UPDATE organisationalUnits" +
+            "UPDATE organisationalUnits\n" +
                     "SET organisation_name=?, credits=?" +
                     "WHERE organisation_id=?";
 

@@ -3,7 +3,6 @@ package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
 import common.Request;
 import common.Response;
 import common.dataClasses.*;
-import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.*;
 
 public class CasesToResponse {
     //Todo: Add comment / description
@@ -83,7 +82,7 @@ public class CasesToResponse {
      */
     public static Response add(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.insertAsset(attachment);
+        stockDataSource.UpdateStock(attachment);
         Response response = new Response(true, null);
         stockDataSource.close();
         return response;
@@ -152,7 +151,7 @@ public class CasesToResponse {
      */
     public static Response edit(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.editQuantity(attachment);
+        stockDataSource.EditItemQuantity(attachment);
         Response response = new Response(true, attachment);
         return response;
     }
@@ -288,7 +287,7 @@ public class CasesToResponse {
      */
     public static Response delete(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.deleteAsset(attachment);
+        stockDataSource.deleteStock(attachment);
         Response response = new Response(true, null);
         stockDataSource.close();
         return response;
