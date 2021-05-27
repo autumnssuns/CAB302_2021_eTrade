@@ -16,7 +16,7 @@ public class UserDataSource {
             "CREATE TABLE IF NOT EXISTS users (\n" +
                     "    user_id         INT          NOT NULL,\n" +
                     "    fullname        VARCHAR (50) NOT NULL,\n" +
-                    "    username        VARCHAR (16) NOT NULL,\n" +
+                    "    username        VARCHAR (20) NOT NULL,\n" +
                     "    password        VARCHAR (32) NOT NULL,\n" +
                     "    user_type       VARCHAR (5)  NOT NULL\n" +
                     "                                 DEFAULT 'user',\n" +

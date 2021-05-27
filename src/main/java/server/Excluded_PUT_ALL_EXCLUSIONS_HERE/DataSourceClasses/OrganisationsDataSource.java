@@ -55,7 +55,7 @@ public class OrganisationsDataSource {
         }
     }
 
-    public void DeleteAll()
+    public void deleteAll()
     {
         try {
             deleteAll.executeUpdate();

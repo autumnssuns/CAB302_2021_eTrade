@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.3.3 on Tue May 25 14:40:53 2021
+-- File generated with SQLiteStudio v3.3.3 on Thu May 27 21:53:02 2021
 --
 -- Text encoding used: System
 --
@@ -34,10 +34,10 @@ CREATE TABLE orders (
     resolved_quantity INT          NOT NULL
                                    DEFAULT 0,
     price             DECIMAL (2)  NOT NULL,
-    order_date        DATETIME     NOT NULL
+    order_date        VARCHAR (10) NOT NULL
                                    DEFAULT CURRENT_TIMESTAMP,
-    finished_date     DATETIME     DEFAULT NULL,
-    status            VARCHAR (10) NOT NULL
+    finished_date     DATE         DEFAULT NULL,
+    status            DATE         NOT NULL
                                    DEFAULT ('placed') 
 );
 
@@ -85,6 +85,40 @@ CREATE TABLE users (
     ),
     CONSTRAINT user_organisaion
 );
+
+INSERT INTO users (
+                      user_id,
+                      fullname,
+                      username,
+                      password,
+                      user_type,
+                      organisation_id
+                  )
+                  VALUES (
+                      1,
+                      'Rodo Nguyen',
+                      'rodo',
+                      'rodo',
+                      'user',
+                      1
+                  );
+
+INSERT INTO users (
+                      user_id,
+                      fullname,
+                      username,
+                      password,
+                      user_type,
+                      organisation_id
+                  )
+                  VALUES (
+                      0,
+                      'Rodo',
+                      'a',
+                      'rodo',
+                      'user',
+                      0
+                  );
 
 
 COMMIT TRANSACTION;
