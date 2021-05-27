@@ -73,7 +73,7 @@ public class LoginSystem {
         ResultSet result;
         Connection conn;
         //Hash password
-        String HashedPassword = HashPassword.HashPassword(PassWord);
+        String HashedPassword = PassWord;
         try {
             //connect to database
             conn = DBconnection.getInstance();
@@ -81,12 +81,12 @@ public class LoginSystem {
             Statement statement = conn.createStatement();
 
             //create queries, input the username and password keywords for authentication.
-            String sql = String.format("SELECT * FROM users WHERE AccountName = '%s'  AND Password = '%s';",UserName,HashedPassword);
+            String sql = String.format("SELECT * FROM users WHERE username = '%s'  AND password = '%s';",UserName,HashedPassword);
             result = statement.executeQuery(sql);
             //checking each values to be the same (Password and Account)
             while (result.next()) {
-                String databaseUserName = result.getString("AccountName");
-                String databasePassWord = result.getString("Password");
+                String databaseUserName = result.getString("username");
+                String databasePassWord = result.getString("password");
                 if (UserName.equals(databaseUserName) && HashedPassword.equals(databasePassWord)) {
                     status = true;
                 }
