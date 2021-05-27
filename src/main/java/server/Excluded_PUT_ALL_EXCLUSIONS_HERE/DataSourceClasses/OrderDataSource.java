@@ -7,7 +7,6 @@ import server.DBconnection;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -143,11 +142,11 @@ public class OrderDataSource {
                         Type.valueOf(rs.getString("order_type")),
                         rs.getInt("organisation_id"),
                         rs.getInt("asset_id"),
-                        rs.getInt("places_quantity"),
-                        rs.getInt("resolved _quantity"),
+                        rs.getInt("placed_quantity"),
+                        rs.getInt("resolved_quantity"),
                         rs.getFloat("price"),
                         LocalDateTime.parse(rs.getString("order_date"), formatter),
-                        LocalDateTime.parse(rs.getString("finish_date"), formatter),
+                        LocalDateTime.parse(rs.getString("finished_date"), formatter),
                         Order.Status.valueOf(rs.getString("status")));
             };
         } catch (SQLException e) {
