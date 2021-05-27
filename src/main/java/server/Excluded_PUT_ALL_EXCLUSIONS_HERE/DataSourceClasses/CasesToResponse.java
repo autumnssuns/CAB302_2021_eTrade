@@ -76,7 +76,6 @@ public class CasesToResponse {
     {
         Response serverResponse = new Response(false, null);
         User sender = request.getUser();
-        System.out.println(sender.getPassword()+ "This password");
         UserDataSource userdata = new UserDataSource();
         User userInData = userdata.getUser(request.getUser().getUsername());
         if(userInData != null)
