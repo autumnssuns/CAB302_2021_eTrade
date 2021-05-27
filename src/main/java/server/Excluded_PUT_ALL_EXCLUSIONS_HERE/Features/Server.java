@@ -133,6 +133,10 @@ public class Server implements Serializable {
                 out.writeObject(serverResponse);
                 break;
 
+            case "delete stock item":
+                serverResponse = CasesToResponse.deleteAnItem(clientRequest);
+                break;
+
             case "edit":
                 serverResponse = CasesToResponse.edit(clientRequest);
                 out.writeObject(serverResponse);
@@ -141,6 +145,16 @@ public class Server implements Serializable {
             case "add":
                 serverResponse = CasesToResponse.add(clientRequest);
                 out.writeObject(serverResponse);
+                break;
+
+            case "add stock item":
+                serverResponse = CasesToResponse.addAnItem((Stock) clientRequest.getAttachment());
+                break;
+
+            case "update unit stock":
+                StockDataSource unitStock = new StockDataSource();
+                unitStock.UpdateUnitStock((Stock) clientRequest.getAttachment());
+                serverResponse = new Response(true,null);
                 break;
         }
 

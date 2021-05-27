@@ -18,23 +18,19 @@ class StockDataSourceTest {
         stockDataSource.DeleteAll();
     }
 
-    @AfterAll
-    static void tearDown()
-    {
-        stockDataSource.Close();
-    }
-
 
     @Test
     void EditItemQuantity() {
         User testuser = new User(1, "DuyPham",
                 "new", "123", "user", 1);
         Stock stock1 = new Stock(testuser.getUnitId());
+        AssetsDataSource assetsDataSource = new AssetsDataSource();
         //admin choice on GUI
         int assetIdOption = 1;
         int newQuantity = 100;
         try {
             Asset asset1 = new Asset(1,"Test asset 1", "Testing");
+            assetsDataSource.addAsset(asset1);
             stock1.add(new Item(asset1, 10));
             //input new value (but still keep the same asset id)
             stock1.setAssetId(assetIdOption);
@@ -58,9 +54,12 @@ class StockDataSourceTest {
         User testuser = new User(1, "DuyPham",
                 "new", "123", "user", 1);
         Stock stock1 = new Stock(testuser.getUnitId());
+        AssetsDataSource assetsDataSource = new AssetsDataSource();
         try {
             Asset asset1 = new Asset(1,"Test asset 1", "Testing");
             Asset asset2 = new Asset(2, "Test Asset 2", "Testing");
+            assetsDataSource.addAsset(asset1);
+            assetsDataSource.addAsset(asset2);
             stock1.add(new Item(asset1, 10));
             stock1.add(new Item(asset1, 10));
             stock1.add(new Item(asset2, 10));
@@ -152,9 +151,12 @@ class StockDataSourceTest {
         User testuser = new User(1, "DuyPham",
                 "new", "123", "user", 1);
         Stock stock1 = new Stock(testuser.getUnitId());
+        AssetsDataSource assetsDataSource = new AssetsDataSource();
         try {
             Asset asset1 = new Asset(1, "Test asset 1", "Testing");
             Asset asset2 = new Asset(2, "Test Asset 2", "Testing");
+            assetsDataSource.addAsset(asset1);
+            assetsDataSource.addAsset(asset2);
             stock1.add(new Item(asset1, 10));
             stock1.add(new Item(asset1, 10));
             stock1.add(new Item(asset2, 10));

@@ -142,7 +142,7 @@ public class CasesToResponse {
     }
 
     /**
-     * Edit quantity of a stock in an org unit
+     * Edit quantity of an item in a stock of an org unit
      * @param attachment
      * @return Response object
      */
@@ -281,9 +281,9 @@ public class CasesToResponse {
         return response;
     }
 
-    public static Response deleteAnItem(Stock attachment){
+    public static Response deleteAnItem(Request attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.DeleteAnItem(attachment);
+        stockDataSource.DeleteAnItem((Stock) attachment.getAttachment());
         Response response = new Response(true, null);
         return  response;
     }
