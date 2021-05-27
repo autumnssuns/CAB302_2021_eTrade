@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.3.3 on Tue May 25 14:40:53 2021
+-- File generated with SQLiteStudio v3.3.3 on Fri May 28 00:19:20 2021
 --
 -- Text encoding used: System
 --
@@ -12,8 +12,7 @@ DROP TABLE IF EXISTS assets;
 CREATE TABLE assets (
     asset_id          INT           NOT NULL,
     asset_name        VARCHAR (16)  NOT NULL,
-    asset_description VARCHAR (256) 
-                                    DEFAULT NULL,
+    asset_description VARCHAR (256) DEFAULT NULL,
     PRIMARY KEY (
         asset_id
     )
@@ -34,24 +33,59 @@ CREATE TABLE orders (
     resolved_quantity INT          NOT NULL
                                    DEFAULT 0,
     price             DECIMAL (2)  NOT NULL,
-    order_date        DATETIME     NOT NULL
+    order_date        VARCHAR (50) NOT NULL
                                    DEFAULT CURRENT_TIMESTAMP,
-    finished_date     DATETIME     DEFAULT NULL,
+    finished_date     VARCHAR (50) DEFAULT NULL,
     status            VARCHAR (10) NOT NULL
                                    DEFAULT ('placed') 
 );
+
+INSERT INTO orders (
+                       order_id,
+                       order_type,
+                       organisation_id,
+                       asset_id,
+                       placed_quantity,
+                       resolved_quantity,
+                       price,
+                       order_date,
+                       finished_date,
+                       status
+                   )
+                   VALUES (
+                       1,
+                       'BUY',
+                       0,
+                       9,
+                       99,
+                       0,
+                       10,
+                       '2021-05-06T16:52:00',
+                       '2021-05-06T16:52:00',
+                       'PENDING'
+                   );
 
 
 -- Table: organisationalUnits
 DROP TABLE IF EXISTS organisationalUnits;
 
 CREATE TABLE organisationalUnits (
-    organisation_id   INTEGER      NOT NULL
-                                   PRIMARY KEY AUTOINCREMENT,
+    organisation_id   INTEGER      PRIMARY KEY AUTOINCREMENT,
     organisation_name VARCHAR (16) NOT NULL,
     credits           DECIMAL (2)  NOT NULL
                                    DEFAULT 0
 );
+
+INSERT INTO organisationalUnits (
+                                    organisation_id,
+                                    organisation_name,
+                                    credits
+                                )
+                                VALUES (
+                                    0,
+                                    'QUTT',
+                                    9900
+                                );
 
 
 -- Table: stock
@@ -75,7 +109,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     user_id         INT          NOT NULL,
     fullname        VARCHAR (50) NOT NULL,
-    username        VARCHAR (16) NOT NULL,
+    username        VARCHAR (20) NOT NULL,
     password        VARCHAR (32) NOT NULL,
     user_type       VARCHAR (5)  NOT NULL
                                  DEFAULT 'user',

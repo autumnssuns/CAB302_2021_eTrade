@@ -2,8 +2,6 @@ package server.DataSourcesTest;
 import static org.junit.jupiter.api.Assertions.*;
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.*;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.AssetsDataSource;
@@ -17,7 +15,6 @@ class StockDataSourceTest {
         stockDataSource = new StockDataSource();
         stockDataSource.DeleteAll();
     }
-
 
     @Test
     void EditItemQuantity() {
@@ -85,7 +82,7 @@ class StockDataSourceTest {
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         assetsDataSource.deleteAllAsset();
-        organisationsDataSource.DeleteAll();
+        organisationsDataSource.deleteAll();
         Asset asset1 = null;
         Asset asset2 = null;
         OrganisationalUnit org1 = null;

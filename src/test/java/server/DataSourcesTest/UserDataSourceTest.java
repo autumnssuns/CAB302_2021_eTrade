@@ -4,13 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.User;
-import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.UserDataSource;
 import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
-
-import java.sql.SQLException;
 
 public class UserDataSourceTest {
 
@@ -23,10 +20,8 @@ public class UserDataSourceTest {
         userDataSource.DeleteAll();
     }
 
-
     @Test
-    void  addNewUser_getUser()
-    {
+    void addNewUser_getUser() {
         User testuser = new User(1, "DuyPham", "new", "123", "user", 1);
         userDataSource.addUser(testuser);
         User userData = userDataSource.getUser(testuser.getUsername());
@@ -35,6 +30,17 @@ public class UserDataSourceTest {
         assertEquals(HashPassword.HashPassword(HashPassword.HashPassword(testuser.getPassword())),
                 HashPassword.HashPassword(userData.getPassword()));
     }
+
+//    @Test
+//    void tooLongUserName() {
+//        User testuser = new User(1, "DuyPham",
+//                "loooooooooooooooooooooooooo0000000000000000000000000oong",
+//                "123",
+//                "user", 1);
+//        assertThrows(Exception.class, () -> {
+//            userDataSource.addUser(testuser);}
+//        );
+//    }
 
     @Test
     void deleteUser() {
