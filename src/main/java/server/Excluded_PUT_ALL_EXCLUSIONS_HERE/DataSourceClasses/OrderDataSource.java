@@ -7,7 +7,7 @@ import server.DBconnection;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Provides needed functions to interact with "orders" database for data
@@ -26,10 +26,10 @@ public class OrderDataSource {
             "    resolved_quantity INT          NOT NULL\n" +
             "                                   DEFAULT 0,\n" +
             "    price             DECIMAL (2)  NOT NULL,\n" +
-            "    order_date        VARCHAR (10) NOT NULL\n" +
+            "    order_date        VARCHAR(50)  NOT NULL\n" +
             "                                   DEFAULT CURRENT_TIMESTAMP,\n" +
-            "    finished_date     DATETIME     DEFAULT NULL,\n" +
-            "    status            DATETIME     NOT NULL\n" +
+            "    finished_date     VARCHAR(50)  DEFAULT NULL,\n" +
+            "    status            VARCHAR(10)  NOT NULL\n" +
             "                                   DEFAULT ('placed') \n" +
             ");";
 
@@ -37,6 +37,7 @@ public class OrderDataSource {
             "asset_id, placed_quantity, resolved_quantity, price, order_date, finished_date, status) \n" +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String DELETE_ORDER = "DELETE FROM orders WHERE order_id=?";
+    private static final String DELETE_ALL_ORDERS = "DELETE FROM orders";
     private static final String GET_ORDER = "SELECT * FROM orders WHERE order_id=?";
     private static final String GET_ALL_ORDER = "SELECT * FROM orders";
     private static final String EDIT_ORDER =
@@ -49,9 +50,12 @@ public class OrderDataSource {
     private Connection connection;
     private PreparedStatement addOrder;
     private PreparedStatement deleteOrder;
+    private PreparedStatement deleteAllOrders;
     private PreparedStatement getOrder;
     private PreparedStatement editOrder;
     private PreparedStatement getAllOrder;
+    static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+
 
     /**
      * Connect to the database and create one if not exists
@@ -66,6 +70,7 @@ public class OrderDataSource {
             getOrder = connection.prepareStatement(GET_ORDER);
             editOrder = connection.prepareStatement(EDIT_ORDER);
             getAllOrder = connection.prepareStatement(GET_ALL_ORDER);
+            deleteAllOrders = connection.prepareStatement(DELETE_ALL_ORDERS);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -85,8 +90,8 @@ public class OrderDataSource {
             addOrder.setInt(5, order.getPlacedQuantity());
             addOrder.setInt(6, order.getResolvedQuantity());
             addOrder.setFloat(7, order.getPrice());
-            addOrder.setDate(8, Date.valueOf(order.getOrderDate().toLocalDate()));
-            addOrder.setDate(9, Date.valueOf(order.getFinishDate().toLocalDate()));
+            addOrder.setString(8, order.getOrderDate().format(formatter));
+            addOrder.setString(9, order.getFinishDate().format(formatter));
             addOrder.setString(10, order.getStatus().name());
             //execute the query
             addOrder.executeUpdate();
@@ -103,6 +108,17 @@ public class OrderDataSource {
         try {
             deleteOrder.setInt(1, OrderId);
             deleteOrder.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Delete all orders
+     */
+    public void deleteAllOrders(){
+        try {
+            deleteAllOrders.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -126,11 +142,11 @@ public class OrderDataSource {
                         Type.valueOf(rs.getString("order_type")),
                         rs.getInt("organisation_id"),
                         rs.getInt("asset_id"),
-                        rs.getInt("places_quantity"),
-                        rs.getInt("resolved _quantity"),
+                        rs.getInt("placed_quantity"),
+                        rs.getInt("resolved_quantity"),
                         rs.getFloat("price"),
-                        rs.getDate("order_date").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
-                        rs.getDate("finish_date").toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                        LocalDateTime.parse(rs.getString("order_date"), formatter),
+                        LocalDateTime.parse(rs.getString("finished_date"), formatter),
                         Order.Status.valueOf(rs.getString("status")));
             };
         } catch (SQLException e) {
@@ -161,8 +177,6 @@ public class OrderDataSource {
 //        return dummy;
     }
 
-    //Todo: Get order list methods
-
     /**
      * Method to return all orders in the database
      * @return an Order data collection of Buy Order
@@ -180,8 +194,8 @@ public class OrderDataSource {
                         rs.getInt("placed_quantity"),
                         rs.getInt("resolved_quantity"),
                         rs.getFloat("price"),
-                        (rs.getDate("order_date")).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
-                        (rs.getDate("finished_date")).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                        LocalDateTime.parse(rs.getString("order_date"), formatter),
+                        LocalDateTime.parse(rs.getString("finished_date"), formatter),
                         Order.Status.valueOf(rs.getString("status")))
                         );
             }
@@ -204,8 +218,8 @@ public class OrderDataSource {
             editOrder.setInt(4, orderNewInfo.getPlacedQuantity());
             editOrder.setInt(5, orderNewInfo.getResolvedQuantity());
             editOrder.setFloat(6, orderNewInfo.getPrice());
-            editOrder.setDate(7, Date.valueOf(orderNewInfo.getOrderDate().toLocalDate()));
-            editOrder.setDate(8, Date.valueOf(orderNewInfo.getFinishDate().toLocalDate()));
+            editOrder.setString(7, orderNewInfo.getOrderDate().format(formatter));
+            editOrder.setString(8, orderNewInfo.getFinishDate().format(formatter));
             editOrder.setString(9, orderNewInfo.getStatus().name());
             editOrder.setInt(10, orderNewInfo.getOrderId());
             editOrder.executeUpdate();
