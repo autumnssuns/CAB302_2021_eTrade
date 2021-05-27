@@ -3,17 +3,15 @@ package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
 import common.Request;
 import common.Response;
 import common.dataClasses.*;
-import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.*;
 
 public class CasesToResponse {
     //Todo: Add comment / description
 
-    public static Response Login(String userName, String passWord)
+    public static Response Login(String userName)
     {
         UserDataSource userdata = new UserDataSource();
         User sender = userdata.getUser(userName);
         Response serverResponse = new Response(true,sender);
-        userdata.close();
         return  serverResponse;
     }
     //Main type of methods to response to request
@@ -47,7 +45,6 @@ public class CasesToResponse {
         UserDataSource userDataSource = new UserDataSource();
         userDataSource.addUser(attachment);
         Response response = new Response(true, null);
-        userDataSource.close();
         return response;
     }
 
@@ -56,7 +53,6 @@ public class CasesToResponse {
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         organisationsDataSource.addOrganisation(attachment);
         Response response = new Response(true, null);
-        organisationsDataSource.close();
         return response;
     }
     //Asset Type
@@ -64,7 +60,6 @@ public class CasesToResponse {
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         assetsDataSource.addAsset(attachment);
         Response response = new Response(true, null);
-        assetsDataSource.close();
         return response;
     }
     //Order Type
@@ -72,9 +67,15 @@ public class CasesToResponse {
             OrderDataSource orderDataSource = new OrderDataSource();
             orderDataSource.addOrder(attachment);
             Response response = new Response(true, null);
-            orderDataSource.close();
             return response;
         }
+
+    public static Response addAnItem(Stock attachment){
+        StockDataSource stockDataSource = new StockDataSource();
+        stockDataSource.AddAnItem(attachment);
+        Response response = new Response(true,null);
+        return response;
+    }
 
     /**
      * Add a stock to an org unit
@@ -83,9 +84,8 @@ public class CasesToResponse {
      */
     public static Response add(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.insertAsset(attachment);
+        stockDataSource.UpdateUnitStock(attachment);
         Response response = new Response(true, null);
-        stockDataSource.close();
         return response;
     }
 
@@ -117,7 +117,6 @@ public class CasesToResponse {
         UserDataSource userDataSource = new UserDataSource();
         userDataSource.editUser(attachment);
         Response response = new Response(true, attachment);
-        userDataSource.close();
         return response;
     }
     //Organisational Unit Type
@@ -125,7 +124,6 @@ public class CasesToResponse {
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         organisationsDataSource.editOrganisation(attachment);
         Response response = new Response(true, attachment);
-        organisationsDataSource.close();
         return response;
     }
     //Asset Type
@@ -133,7 +131,6 @@ public class CasesToResponse {
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         assetsDataSource.editAsset(attachment);
         Response response = new Response(true, attachment);
-        assetsDataSource.close();
         return response;
     }
     //Order Type
@@ -141,18 +138,17 @@ public class CasesToResponse {
         OrderDataSource orderDataSource = new OrderDataSource();
         orderDataSource.editOrder(attachment);
         Response response = new Response(true, attachment);
-        orderDataSource.close();
         return response;
     }
 
     /**
-     * Edit quantity of a stock in an org unit
+     * Edit quantity of an item in a stock of an org unit
      * @param attachment
      * @return Response object
      */
     public static Response edit(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.editQuantity(attachment);
+        stockDataSource.EditItemQuantity(attachment);
         Response response = new Response(true, attachment);
         return response;
     }
@@ -182,7 +178,6 @@ public class CasesToResponse {
         UserDataSource userDataSource = new UserDataSource();
         attachment = userDataSource.getUser(attachment.getUsername());
         Response response = new Response(true, attachment);
-        userDataSource.close();
         return response;
     }
     //Organisational Unit Type
@@ -190,7 +185,6 @@ public class CasesToResponse {
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         attachment = organisationsDataSource.getOrganisation(attachment.getId());
         Response response = new Response(true, attachment);
-        organisationsDataSource.close();
         return response;
     }
     //Asset Type
@@ -198,7 +192,6 @@ public class CasesToResponse {
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         attachment = assetsDataSource.getAsset(attachment.getId());
         Response response = new Response(true, attachment);
-        assetsDataSource.close();
         return response;
     }
     //Order Type
@@ -206,7 +199,6 @@ public class CasesToResponse {
         OrderDataSource orderDataSource = new OrderDataSource();
         attachment = orderDataSource.getOrder(attachment.getOrderId());
         Response response = new Response(true, attachment);
-        orderDataSource.close();
         return response;
     }
 
@@ -218,11 +210,11 @@ public class CasesToResponse {
      */
     public static Response queryStock(User attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        Stock unitStock = stockDataSource.getStock(attachment);
+        Stock unitStock = stockDataSource.GetStock(attachment);
         Response response = new Response(true, unitStock);
-        stockDataSource.close();
         return response;
     }
+
 
     //Todo: Overload Delete method
     public static <T extends IData> Response delete(Request<T> request) {
@@ -250,7 +242,6 @@ public class CasesToResponse {
         UserDataSource userDataSource = new UserDataSource();
         userDataSource.deleteUser(attachment.getUserId());
         Response response = new Response(true, null);
-        userDataSource.close();
         return response;
     }
 
@@ -259,7 +250,6 @@ public class CasesToResponse {
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         organisationsDataSource.deleteOrganisation(attachment.getId());
         Response response = new Response(true, null);
-        organisationsDataSource.close();
         return response;
     }
 
@@ -268,7 +258,6 @@ public class CasesToResponse {
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         assetsDataSource.deleteAsset(attachment.getId());
         Response response = new Response(true, null);
-        assetsDataSource.close();
         return response;
     }
 
@@ -277,7 +266,6 @@ public class CasesToResponse {
         OrderDataSource orderDataSource = new OrderDataSource();
         orderDataSource.deleteOrder(attachment.getOrderId());
         Response response = new Response(true, null);
-        orderDataSource.close();
         return response;
     }
 
@@ -288,9 +276,15 @@ public class CasesToResponse {
      */
     public static Response delete(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.deleteAsset(attachment);
+        stockDataSource.DeleteStock(attachment);
         Response response = new Response(true, null);
-        stockDataSource.close();
         return response;
+    }
+
+    public static Response deleteAnItem(Request attachment){
+        StockDataSource stockDataSource = new StockDataSource();
+        stockDataSource.DeleteAnItem((Stock) attachment.getAttachment());
+        Response response = new Response(true, null);
+        return  response;
     }
 }

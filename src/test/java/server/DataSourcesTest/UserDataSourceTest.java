@@ -23,11 +23,6 @@ public class UserDataSourceTest {
         userDataSource.DeleteAll();
     }
 
-    @AfterAll
-    static void tearDown()
-    {
-        userDataSource.close();
-    }
 
     @Test
     void  addNewUser_getUser()

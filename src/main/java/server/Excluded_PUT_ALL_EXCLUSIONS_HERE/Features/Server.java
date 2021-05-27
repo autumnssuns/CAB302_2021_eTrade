@@ -76,7 +76,7 @@ public class Server implements Serializable {
                 String password = sender.getPassword();
                 Boolean status = LoginSystem.login(userName,password);
                 if(status){
-                    serverResponse = CasesToResponse.Login(userName, password);
+                    serverResponse = CasesToResponse.Login(userName);
                     out.writeObject(serverResponse);
                 }
                 break;
@@ -102,10 +102,9 @@ public class Server implements Serializable {
 
             case "Query Stocks":
                 StockDataSource stockDataSource = new StockDataSource();
-                DataCollection<Stock> stocks = stockDataSource.getStockList();
+                DataCollection<Stock> stocks = stockDataSource.GetStockList();
                 serverResponse = new Response(true, stocks);
                 out.writeObject(serverResponse);
-                stockDataSource.close();
                 break;
 
             case "Query Organisational Units":
@@ -113,7 +112,6 @@ public class Server implements Serializable {
                 attachment = organisationsDataSource.getOrganisationList();
                 serverResponse = new Response(true, attachment);
                 out.writeObject(serverResponse);
-                organisationsDataSource.close();
                 break;
 
             case "Query Orders":
@@ -121,7 +119,6 @@ public class Server implements Serializable {
                 attachment = orderDataSource.getOrderList();
                 serverResponse = new Response(true, attachment);
                 out.writeObject(serverResponse);
-                orderDataSource.close();
                 break;
 
             case "Query Assets":
@@ -129,12 +126,15 @@ public class Server implements Serializable {
                 attachment = assetsDataSource.getAssetList();
                 serverResponse = new Response(true, attachment);
                 out.writeObject(serverResponse);
-                assetsDataSource.close();
                 break;
 
             case "delete":
                 serverResponse = CasesToResponse.delete(clientRequest);
                 out.writeObject(serverResponse);
+                break;
+
+            case "delete stock item":
+                serverResponse = CasesToResponse.deleteAnItem(clientRequest);
                 break;
 
             case "edit":
@@ -145,6 +145,16 @@ public class Server implements Serializable {
             case "add":
                 serverResponse = CasesToResponse.add(clientRequest);
                 out.writeObject(serverResponse);
+                break;
+
+            case "add stock item":
+                serverResponse = CasesToResponse.addAnItem((Stock) clientRequest.getAttachment());
+                break;
+
+            case "update unit stock":
+                StockDataSource unitStock = new StockDataSource();
+                unitStock.UpdateUnitStock((Stock) clientRequest.getAttachment());
+                serverResponse = new Response(true,null);
                 break;
         }
 
