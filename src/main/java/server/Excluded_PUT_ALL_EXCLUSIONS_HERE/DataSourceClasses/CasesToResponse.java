@@ -14,6 +14,8 @@ public class CasesToResponse {
         UserDataSource users = new UserDataSource();
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         StockDataSource stockDataSource = new StockDataSource();
+        OrderDataSource orderDataSource = new OrderDataSource();
+
 
         users.addUser(new User(1, "Dan Tran", "dan", "123", "user", 0));
         users.addUser(new User(2, "Daniel Pham", "duy", "abcd", "user", 1));
@@ -51,23 +53,23 @@ public class CasesToResponse {
         stock2.add(new Item(assets.get(3), 10));
         stockDataSource.UpdateUnitStock(stock1);
 
-//        add(new Order(0, Order.Type.SELL, 0, 0, 99, 0, 10f, null, LocalDateTime.of(2021, 5, 6, 16, 52), Order.Status.PENDING));
-//        add(new Order(1, Order.Type.SELL, 0, 1, 99, 0, 3f, null, LocalDateTime.of(2021, 5, 6, 13, 42), Order.Status.PENDING));
-//        add(new Order(2, Order.Type.SELL, 0, 2, 99, 0, 4f, null, LocalDateTime.of(2021, 5, 6, 7, 45), Order.Status.PENDING));
-//        add(new Order(3, Order.Type.SELL, 0, 3, 99, 0, 5f, null, LocalDateTime.of(2021, 5, 6, 22, 00), Order.Status.PENDING));
-//        add(new Order(4, Order.Type.SELL, 1, 0, 55, 0, 8f, null, LocalDateTime.of(2021, 5, 7, 21, 52), Order.Status.PENDING));
-//        add(new Order(5, Order.Type.SELL, 1, 1, 55, 0, 7f, null, LocalDateTime.of(2021, 5, 7, 15, 26), Order.Status.PENDING));
-//        add(new Order(6, Order.Type.SELL, 1, 2, 55, 0, 8f, null, LocalDateTime.of(2021, 5, 7, 18, 28), Order.Status.PENDING));
-//        add(new Order(7, Order.Type.SELL, 1, 3, 50, 0, 9f, null, LocalDateTime.of(2021, 5, 7, 13, 36), Order.Status.PENDING));
-//        add(new Order(8, Order.Type.BUY, 2, 0, 40, 0, 10f, null, LocalDateTime.of(2021, 5, 8, 14, 45), Order.Status.PENDING));
-//        add(new Order(9, Order.Type.BUY, 2, 1, 40, 0, 10.5f, null, LocalDateTime.of(2021, 5, 8, 11, 14), Order.Status.PENDING));
-//        add(new Order(10, Order.Type.BUY, 2, 2, 40, 0, 11.5f, null, LocalDateTime.of(2021, 5, 8, 7, 15), Order.Status.PENDING));
-//        add(new Order(11, Order.Type.BUY, 2, 3, 40, 0, 12.5f, null, LocalDateTime.of(2021, 5, 8, 4, 20), Order.Status.PENDING));
-//        add(new Order(12, Order.Type.BUY, 3, 0, 50, 0, 13.5f, null, LocalDateTime.of(2021, 5, 9, 6, 21), Order.Status.PENDING));
-//        add(new Order(13, Order.Type.BUY, 3, 1, 50, 0, 12.5f, null, LocalDateTime.of(2021, 5, 9, 8, 30), Order.Status.PENDING));
-//        add(new Order(14, Order.Type.BUY, 3, 2, 50, 0, 14.5f, null, LocalDateTime.of(2021, 5, 9, 0, 11), Order.Status.PENDING));
-//        add(new Order(15, Order.Type.BUY, 3, 3, 50, 0, 15.5f, null, LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
-    }
+        orderDataSource.addOrder(new Order(0, Order.Type.SELL, 0, 0, 99, 0, 10f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 16, 52), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(1, Order.Type.SELL, 0, 1, 99, 0, 3f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 13, 42), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(2, Order.Type.SELL, 0, 2, 99, 0, 4f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 7, 45), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(3, Order.Type.SELL, 0, 3, 99, 0, 5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 22, 00), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(4, Order.Type.SELL, 1, 0, 55, 0, 8f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 21, 52), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(5, Order.Type.SELL, 1, 1, 55, 0, 7f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 15, 26), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(6, Order.Type.SELL, 1, 2, 55, 0, 8f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 18, 28), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(7, Order.Type.SELL, 1, 3, 50, 0, 9f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 13, 36), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(8, Order.Type.BUY, 2, 0, 40, 0, 10f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 14, 45), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(9, Order.Type.BUY, 2, 1, 40, 0, 10.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 11, 14), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(10, Order.Type.BUY, 2, 2, 40, 0, 11.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 7, 15), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(11, Order.Type.BUY, 2, 3, 40, 0, 12.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 4, 20), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(12, Order.Type.BUY, 3, 0, 50, 0, 13.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 6, 21), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(13, Order.Type.BUY, 3, 1, 50, 0, 12.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 8, 30), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(14, Order.Type.BUY, 3, 2, 50, 0, 14.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 0, 11), Order.Status.PENDING));
+        orderDataSource.addOrder(new Order(15, Order.Type.BUY, 3, 3, 50, 0, 15.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
+}
 
 
     //Todo: Add comment / description
@@ -362,4 +364,118 @@ public class CasesToResponse {
         Response response = new Response(true, null);
         return  response;
     }
+
+    /**
+     * Match two orders on the following conditions:
+     * - SELL order with BUY order from different unit
+     * - SELL order price less than or equal to BUY order's price
+     * @param order
+     */
+    private static Order matchOrder(Order order)
+    {
+        OrderDataSource orderDataSource = new OrderDataSource();
+        DataCollection<Order> orders = orderDataSource.getOrderList();
+     if(order.getStatus().equals(Order.Status.PENDING))
+     {
+         // Initiate a lowest selling price
+         float lowestSellPrice = Float.MAX_VALUE;
+         int matchedOrderId = -1;
+         // Loop through all the orders
+         for(Order transaction : orders){
+             // If the order is a BUY, the match must be SELL and vice versa
+             Order.Type matchType = order.getOrderType() == Order.Type.BUY ? Order.Type.SELL : Order.Type.BUY;
+             float buyPrice = order.getOrderType() == Order.Type.BUY ? order.getPrice() : transaction.getPrice();
+             float sellPrice = order.getOrderType() == Order.Type.SELL ? order.getPrice() : transaction.getPrice();
+
+             int transAssetId = transaction.getAssetId();
+             Order.Type transType = transaction.getOrderType();
+             Order.Status transStatus = transaction.getStatus();
+             int transUnitId = transaction.getUnitId();
+
+             // Match condition
+             boolean isMatch =
+                     transType == matchType                 // Condition: Match type
+                     && transStatus == Order.Status.PENDING // Condition: Is pending
+                     && transAssetId == order.getAssetId()  // Condition: Same asset
+                     && transUnitId != order.getUnitId()    // Condition: Not from same unit
+                     && sellPrice <= buyPrice               // Condition: good price
+                     ;
+
+             // If a match is found, also check if it is lower than the currently known lowest price
+             // If it is lower, it becomes the chosen one
+             if (isMatch && sellPrice < lowestSellPrice){
+                 lowestSellPrice = sellPrice;
+                 matchedOrderId = transaction.getOrderId();
+             }
+         }
+
+         //return the matched transaction if found, otherwise null.
+         return matchedOrderId == -1 ? null : orderDataSource.getOrder(matchedOrderId);
+
+     }
+     return null;
+    }
+
+
+    /**
+     * Attempt to reconcile an order:
+     * - Finds the quantity to reconcile
+     * - Increases the resolved quantity of both orders
+     * - Marks one of the order as "Approved"
+     * - Adds credit to seller
+     * - Adds assets to buyer
+     */
+    private static void reconcileOrder(Order order){
+        OrderDataSource orderDataSource = new OrderDataSource();
+        Order matchOrder = matchOrder(order);
+        OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
+        StockDataSource stockDataSource = new StockDataSource();
+        DataCollection<Stock> stocks = stockDataSource.GetStockList();
+        DataCollection<OrganisationalUnit> organisationalUnits = organisationsDataSource.getOrganisationList();
+
+        if (matchOrder != null){
+            int orderAvailability = order.getPlacedQuantity() - order.getResolvedQuantity();
+            int matchOrderAvailability = matchOrder.getPlacedQuantity() - matchOrder.getResolvedQuantity();
+            // Chooses the one with lower availability
+            int reconcileQuantity = Math.min(orderAvailability, matchOrderAvailability);
+            float price = order.getOrderType() == Order.Type.SELL ? order.getPrice() : matchOrder.getPrice();
+            float total = reconcileQuantity * price;
+
+            // Update the resolved quantity of both orders & write edits to database
+            order.setResolvedQuantity(order.getResolvedQuantity() + reconcileQuantity);
+            matchOrder.setResolvedQuantity(matchOrder.getResolvedQuantity() + reconcileQuantity);
+            orderDataSource.editOrder(order);
+            orderDataSource.editOrder(matchOrder);
+
+            // Find the seller and buyer IDs
+            int sellerId = order.getOrderType() == Order.Type.SELL ? order.getUnitId() : matchOrder.getUnitId();
+            int buyerId = order.getOrderType() == Order.Type.BUY ? order.getUnitId() : matchOrder.getUnitId();
+
+            // to update the seller's balance
+            for (OrganisationalUnit organisation : organisationalUnits){
+                if (organisation.getId() == sellerId){
+                    organisation.setBalance( organisation.getBalance() + total );
+                    organisationsDataSource.editOrganisation(organisation);
+                    break;
+                }
+            }
+
+            // and the buyer's stock
+            for (Stock stock : stocks){
+                for(Item item : stock){
+                    if (stock.getUnitId() == buyerId && item.getId() == order.getAssetId()){
+                        stock.setAssetId(order.getAssetId());
+                        stock.setAssetQuantity(stock.getAssetQuantity() + reconcileQuantity);
+                        stockDataSource.EditItemQuantity(stock);
+                        break;
+                    }
+                }
+
+            }
+
+            // make another attempt to reconcile
+            reconcileOrder(order);
+        }
+    }
+
 }

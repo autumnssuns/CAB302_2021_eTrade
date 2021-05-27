@@ -14,12 +14,12 @@ class OrderDataSourceTest {
     private static OrderDataSource orders;
     Order order00 = new Order(0, Order.Type.SELL, 0, 0,
             99, 0, 10f,
-            LocalDateTime.of(2021, 5, 6, 16, 52),
+            LocalDateTime.of(0,1,1,0,0),
             LocalDateTime.of(2021, 5, 6, 16, 52),
             Order.Status.PENDING);
     Order order02 = new Order(2, Order.Type.BUY, 0, 9,
             99, 0, 10f,
-            LocalDateTime.of(2021, 5, 6, 16, 52),
+            LocalDateTime.of(0, 1, 1, 0, 0),
             LocalDateTime.of(2021, 5, 6, 16, 52),
             Order.Status.PENDING);
 
