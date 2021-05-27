@@ -5,6 +5,9 @@ import common.Request;
 import common.Response;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.Stock;
+import common.dataClasses.User;
+import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.CasesToResponse;
+import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.LoginSystem;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -141,67 +144,69 @@ public final class Server implements IServer{
 
     /**
      * Create a response based on the request.
-     * @param request The request sent by client.
+     * @param clientRequest The request sent by client.
      * @return An appropriate response.
      * @throws InvalidArgumentValueException
      */
     @Override
-    public Response createResponse(Request request) throws InvalidArgumentValueException {
+    public Response createResponse(Request clientRequest) throws InvalidArgumentValueException {
         // Unidentified requests are denied by default
-        Response response = new Response(false, null);
-        switch (request.getAction()){
+        //Get senders' information
+        User sender = clientRequest.getUser();
+        Response serverResponse = new Response(false, null);
+        switch (clientRequest.getAction()){
             case "init":
                 if (firstRun){
-                    MockDatabase.initiate();
+                    CasesToResponse.initiate();
                     firstRun = false;
-                    response = new Response(true, null);
+                    serverResponse = new Response(true, null);
                 }
                 break;
 
             case "login":
-                response = MockDatabase.login(request);
+                    serverResponse = CasesToResponse.Login(clientRequest);
                 break;
 
             case "query users":
-                response = MockDatabase.queryUsers(request);
+                serverResponse = MockDatabase.queryUsers(clientRequest);
                 break;
 
             case "query assets":
-                response = MockDatabase.queryAssets(request);
+                serverResponse = MockDatabase.queryAssets(clientRequest);
                 break;
 
             case "query organisationalUnits":
-                response = MockDatabase.queryOrganisations(request);
+                serverResponse = MockDatabase.queryOrganisations(clientRequest);
                 break;
 
             case "query stocks":
-                response = MockDatabase.queryStocks(request);
+                serverResponse = MockDatabase.queryStocks(clientRequest);
                 break;
 
             case "query organisational unit":
-                response = MockDatabase.queryOrganisationalUnit(request);
+                serverResponse = MockDatabase.queryOrganisationalUnit(clientRequest);
                 break;
 
             case "query stock":
-                response = MockDatabase.queryStock(request);
+                serverResponse = MockDatabase.queryStock(clientRequest);
                 break;
 
             case "query orders":
-                response = MockDatabase.queryOrders(request);
+                serverResponse = MockDatabase.queryOrders(clientRequest);
                 break;
 
             case "add":
-                response = MockDatabase.add(request);
+                serverResponse = MockDatabase.add(clientRequest);
                 break;
 
             case "edit":
-                response = MockDatabase.edit(request);
+                serverResponse = MockDatabase.edit(clientRequest);
                 break;
 
             case "delete":
-                response = MockDatabase.delete(request);
+                serverResponse = MockDatabase.delete(clientRequest);
                 break;
         }
-        return response;
+        return serverResponse;
     }
 }

@@ -72,13 +72,7 @@ public class Server implements Serializable {
         switch (command){
 
             case "Login":
-                String userName = sender.getUsername();
-                String password = sender.getPassword();
-                Boolean status = LoginSystem.login(userName,password);
-                if(status){
-                    serverResponse = CasesToResponse.Login(userName);
-                    out.writeObject(serverResponse);
-                }
+                serverResponse = CasesToResponse.Login(clientRequest);
                 break;
 
                 // Use overloaded method for these cases: Query, Delete, Edit and Add
