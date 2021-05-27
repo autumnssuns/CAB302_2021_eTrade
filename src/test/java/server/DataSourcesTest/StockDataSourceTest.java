@@ -85,8 +85,8 @@ class StockDataSourceTest {
         //create environment
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
-//        assetsDataSource.deleteAllAsset();
-//        organisationsDataSource.DeleteAll();
+        assetsDataSource.deleteAllAsset();
+        organisationsDataSource.DeleteAll();
         Asset asset1 = null;
         Asset asset2 = null;
         OrganisationalUnit org1 = null;
@@ -146,12 +146,70 @@ class StockDataSourceTest {
             e.printStackTrace();
         }
     }
-//
-//    @Test
-//    void deleteAsset() {
-//    }
-//
-//    @Test
-//    void close() {
-//    }
+
+    @Test
+    void deleteAnItem() {
+        User testuser = new User(1, "DuyPham",
+                "new", "123", "user", 1);
+        Stock stock1 = new Stock(testuser.getUnitId());
+        try {
+            Asset asset1 = new Asset(1, "Test asset 1", "Testing");
+            Asset asset2 = new Asset(2, "Test Asset 2", "Testing");
+            stock1.add(new Item(asset1, 10));
+            stock1.add(new Item(asset1, 10));
+            stock1.add(new Item(asset2, 10));
+            stock1.add(new Item(asset2, 10));
+            stockDataSource.UpdateUnitStock(stock1);
+            //delete item with id: "1" of above stock
+            int choiceOfItem = 1;
+            stock1.setAssetId(choiceOfItem);
+            stockDataSource.DeleteAnItem(stock1);
+            stock1 = stockDataSource.GetStock(testuser);
+            assertEquals(1,stock1.size());
+            assertEquals(2,stock1.get(0).getId());
+        }
+        catch (InvalidArgumentValueException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void AddAnItem() {
+        User testuser = new User(1, "DuyPham",
+                "new", "123", "user", 1);
+        Stock stock1 = new Stock(testuser.getUnitId());
+        try {
+            //add new data
+            AssetsDataSource assetsDataSource = new AssetsDataSource();
+            assetsDataSource.addAsset(new Asset(3,"test item 3", "testing"));
+            Asset asset1 = new Asset(1, "Test asset 1", "Testing");
+            Asset asset2 = new Asset(2, "Test Asset 2", "Testing");
+            stock1.add(new Item(asset1, 10));
+            stock1.add(new Item(asset1, 10));
+            stock1.add(new Item(asset2, 10));
+            stock1.add(new Item(asset2, 10));
+            stockDataSource.UpdateUnitStock(stock1);
+            //add item with id: "1" of above stock
+            int newItemId = 3;
+            //choice of quantity
+            int quantity = 100;
+            stock1.setAssetId(newItemId);
+            stock1.setAssetQuantity(quantity);
+            stockDataSource.AddAnItem(stock1);
+            stock1 = stockDataSource.GetStock(testuser);
+            //check size
+            assertEquals(3,stock1.size());
+            //check id
+            assertEquals(1,stock1.get(0).getId());
+            assertEquals(2,stock1.get(1).getId());
+            assertEquals(3,stock1.get(2).getId());
+            //check match quantity
+            assertEquals(20,stock1.get(0).getQuantity());
+            assertEquals(20,stock1.get(1).getQuantity());
+            assertEquals(100,stock1.get(2).getQuantity());
+        }
+        catch (InvalidArgumentValueException e) {
+            e.printStackTrace();
+        }
+    }
 }

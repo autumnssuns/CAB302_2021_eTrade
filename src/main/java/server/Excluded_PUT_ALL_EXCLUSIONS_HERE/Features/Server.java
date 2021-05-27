@@ -76,7 +76,7 @@ public class Server implements Serializable {
                 String password = sender.getPassword();
                 Boolean status = LoginSystem.login(userName,password);
                 if(status){
-                    serverResponse = CasesToResponse.Login(userName, password);
+                    serverResponse = CasesToResponse.Login(userName);
                     out.writeObject(serverResponse);
                 }
                 break;
@@ -105,7 +105,6 @@ public class Server implements Serializable {
                 DataCollection<Stock> stocks = stockDataSource.GetStockList();
                 serverResponse = new Response(true, stocks);
                 out.writeObject(serverResponse);
-                stockDataSource.Close();
                 break;
 
             case "Query Organisational Units":
@@ -113,7 +112,6 @@ public class Server implements Serializable {
                 attachment = organisationsDataSource.getOrganisationList();
                 serverResponse = new Response(true, attachment);
                 out.writeObject(serverResponse);
-                organisationsDataSource.close();
                 break;
 
             case "Query Orders":
@@ -121,7 +119,6 @@ public class Server implements Serializable {
                 attachment = orderDataSource.getOrderList();
                 serverResponse = new Response(true, attachment);
                 out.writeObject(serverResponse);
-                orderDataSource.close();
                 break;
 
             case "Query Assets":
@@ -129,7 +126,6 @@ public class Server implements Serializable {
                 attachment = assetsDataSource.getAssetList();
                 serverResponse = new Response(true, attachment);
                 out.writeObject(serverResponse);
-                assetsDataSource.close();
                 break;
 
             case "delete":
