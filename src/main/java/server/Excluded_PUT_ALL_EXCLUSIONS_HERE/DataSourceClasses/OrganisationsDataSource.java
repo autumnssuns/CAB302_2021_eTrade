@@ -26,7 +26,7 @@ public class OrganisationsDataSource {
             "UPDATE organisationalUnits\n" +
                     "SET organisation_name=?, credits=?" +
                     "WHERE organisation_id=?";
-
+    private static final String DELETE_ALL = "DELETE FROM organisationalUnits";
     //Prepared statements
     private Connection connection;
     private PreparedStatement addOrganisation;
@@ -34,6 +34,7 @@ public class OrganisationsDataSource {
     private PreparedStatement getOrganisation;
     private PreparedStatement editOrganisation;
     private PreparedStatement getAllOrganisation;
+    private PreparedStatement deleteAll;
 
     /**
      * Connect to the database then create table if not exists
@@ -48,6 +49,16 @@ public class OrganisationsDataSource {
             getOrganisation = connection.prepareStatement(GET_ORGANISATION);
             editOrganisation = connection.prepareStatement(EDIT_ORGANISATION);
             getAllOrganisation = connection.prepareStatement(GET_ALL_ORGANISATION);
+            deleteAll = connection.prepareStatement(DELETE_ALL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void DeleteAll()
+    {
+        try {
+            deleteAll.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -63,7 +74,7 @@ public class OrganisationsDataSource {
             addOrganisation.setInt(1, newOrganisationalUnit.getId());
             addOrganisation.setString(2, newOrganisationalUnit.getName());
             addOrganisation.setFloat(3, newOrganisationalUnit.getBalance());
-            addOrganisation.executeQuery();
+            addOrganisation.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -77,7 +88,7 @@ public class OrganisationsDataSource {
         try {
             //set values into the above query
             deleteOrganisation.setInt(1, id);
-            deleteOrganisation.executeQuery();
+            deleteOrganisation.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -133,7 +144,7 @@ public class OrganisationsDataSource {
             editOrganisation.setString(1, organisationNewInfo.getName());
             editOrganisation.setFloat(2, organisationNewInfo.getBalance());
             editOrganisation.setInt(3, organisationNewInfo.getId());
-            editOrganisation.executeQuery();
+            editOrganisation.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
         }

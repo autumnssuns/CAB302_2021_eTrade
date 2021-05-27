@@ -6,6 +6,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.AssetsDataSource;
+import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.OrganisationsDataSource;
 import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.StockDataSource;
 
 class StockDataSourceTest {
@@ -76,14 +78,74 @@ class StockDataSourceTest {
         }
     }
 
-//
-//    @Test
-//    void getStock() {
-//    }
-//
-//    @Test
-//    void getStockList() {
-//    }
+
+
+    @Test
+    void getStockList() {
+        //create environment
+        AssetsDataSource assetsDataSource = new AssetsDataSource();
+        OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
+//        assetsDataSource.deleteAllAsset();
+//        organisationsDataSource.DeleteAll();
+        Asset asset1 = null;
+        Asset asset2 = null;
+        OrganisationalUnit org1 = null;
+        OrganisationalUnit org0 = null;
+        DataCollection<Stock> stocks;
+        try {
+            //create assets in database.
+            asset1 = new Asset(1,"Test asset 1", "Testing");
+            asset2 = new Asset(2, "Test Asset 2", "Testing");
+            assetsDataSource.addAsset(asset1);
+            assetsDataSource.addAsset(asset2);
+            //create organisational units in database
+             org1 = new OrganisationalUnit(1, "TestUnit1", 999);
+             org0 = new OrganisationalUnit(0, "TestUnit0", 1000);
+            organisationsDataSource.addOrganisation(org1);
+            organisationsDataSource.addOrganisation(org0);
+        //create stocks
+        User testuser1 = new User(1, "DuyPham",
+                "new", "123", "user", org1.getId());
+        User testuser0 = new User(1, "tester 2",
+                "new", "123", "user", org0.getId());
+        Stock stock1 = new Stock(testuser1.getUnitId());
+        Stock stock0 = new Stock(testuser0.getUnitId());
+        //stock1
+        stock1.add(new Item(asset1,100));
+        stock1.add(new Item(asset1, 10));
+        stock1.add(new Item(asset2, 10));
+        stockDataSource.UpdateUnitStock(stock1);
+        //stock0
+        stock0.add(new Item(asset1, 10));
+        stock0.add(new Item(asset2, 10));
+        stockDataSource.UpdateUnitStock(stock0);
+        //get all stocks in database (put in a list)
+        stocks = stockDataSource.GetStockList();
+
+        //check return values
+        //stock1
+        //check unit id
+        assertEquals(org0.getId(),stocks.get(0).getUnitId());
+        //check first asset
+        assertEquals(stock0.get(0).getId(), stocks.get(0).get(0).getId());
+        assertEquals(stock0.get(0).getQuantity(), stocks.get(0).get(0).getQuantity());
+        //check 2nd asset
+        assertEquals(stock0.get(1).getId(), stocks.get(0).get(1).getId());
+        assertEquals(stock0.get(1).getQuantity(), stocks.get(0).get(1).getQuantity());
+
+        //stock0
+        //check unit id
+        assertEquals(org1.getId(), stocks.get(1).getUnitId());
+        //check 1st asset
+        assertEquals(stock1.get(0).getId(), stocks.get(1).get(0).getId());
+        assertEquals(stock1.get(0).getQuantity(), stocks.get(1).get(0).getQuantity());
+        //check 2nd asset
+        assertEquals(stock1.get(1).getId(), stocks.get(1).get(1).getId());
+        assertEquals(stock1.get(1).getQuantity(), stocks.get(1).get(1).getQuantity());
+        } catch (InvalidArgumentValueException e) {
+            e.printStackTrace();
+        }
+    }
 //
 //    @Test
 //    void deleteAsset() {
