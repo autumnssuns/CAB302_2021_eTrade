@@ -140,7 +140,7 @@ public class Server implements Serializable {
 
             case "update unit stock":
                 StockDataSource unitStock = new StockDataSource();
-                unitStock.UpdateUnitStock((Stock) clientRequest.getAttachment());
+                unitStock.updateUnitStock((Stock) clientRequest.getAttachment());
                 serverResponse = new Response(true,null);
                 break;
         }

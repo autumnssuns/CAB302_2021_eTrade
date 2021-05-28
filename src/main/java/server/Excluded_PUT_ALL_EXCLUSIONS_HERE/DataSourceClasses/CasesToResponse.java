@@ -128,7 +128,7 @@ public class CasesToResponse {
             int assetId = order.getAssetId();
             StockDataSource stockDataSource = new StockDataSource();
             //get units' stock
-            Stock unitStock = stockDataSource.GetStock(order.getUnitId());
+            Stock unitStock = stockDataSource.getStock(order.getUnitId());
             //Check item in stock
             Item itemInfor;
             for(Item item : unitStock)
@@ -158,7 +158,7 @@ public class CasesToResponse {
     public static Item findItem(int unitId, int assetId)
     {
         StockDataSource stockDataSource = new StockDataSource();
-        Stock unitStock = stockDataSource.GetStock(unitId);
+        Stock unitStock = stockDataSource.getStock(unitId);
         for(Item item : unitStock)
         {
             if(item.getId() == assetId){
@@ -208,7 +208,7 @@ public class CasesToResponse {
 
     public static Response addAnItem(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.AddAnItem(attachment);
+        stockDataSource.addAnItem(attachment);
         Response response = new Response(true,null);
         return response;
     }
@@ -220,7 +220,7 @@ public class CasesToResponse {
      */
     public static Response add(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.UpdateUnitStock(attachment);
+        stockDataSource.updateUnitStock(attachment);
         Response response = new Response(true, null);
         return response;
     }
@@ -289,7 +289,7 @@ public class CasesToResponse {
             int returnQuantity = order.getPlacedQuantity() - order.getResolvedQuantity();
             StockDataSource stockDataSource = new StockDataSource();
             // Update the seller's stock
-            Stock unitStock = stockDataSource.GetStock(order.getUnitId());
+            Stock unitStock = stockDataSource.getStock(order.getUnitId());
             Item changedItem;
             for(Item item : unitStock)
             {
@@ -385,7 +385,7 @@ public class CasesToResponse {
      */
     public static Response queryStock(User attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        Stock unitStock = stockDataSource.GetStock(attachment.getUnitId());
+        Stock unitStock = stockDataSource.getStock(attachment.getUnitId());
         Response response = new Response(true, unitStock);
         return response;
     }
@@ -455,7 +455,7 @@ public class CasesToResponse {
         StockDataSource stockDataSource = new StockDataSource();
         organisationsDataSource.deleteOrganisation(attachment.getId());
         //delete all stock of the organisation if delete the unit
-        stockDataSource.DeleteStock(stockDataSource.GetStock(attachment.getId()));
+        stockDataSource.DeleteStock(stockDataSource.getStock(attachment.getId()));
         Response response = new Response(true, null);
         return response;
     }
@@ -597,7 +597,7 @@ public class CasesToResponse {
                         Item newItem = new Item (asset,reconcileQuantity);
                         stock.add(newItem);
                         itemExistence = true;
-                        stockDataSource.UpdateUnitStock(stock);
+                        stockDataSource.updateUnitStock(stock);
                         break;
                     }
                 }
@@ -610,7 +610,7 @@ public class CasesToResponse {
                     if(stock.getUnitId() == buyerId)
                     {
                         stock.add(new Item(assetsDataSource.getAsset(order.getAssetId()),reconcileQuantity));
-                        stockDataSource.UpdateUnitStock(stock);
+                        stockDataSource.updateUnitStock(stock);
                         break;
                     }
                 }
