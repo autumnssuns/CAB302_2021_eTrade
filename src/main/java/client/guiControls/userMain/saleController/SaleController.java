@@ -124,7 +124,7 @@ public class SaleController extends DisplayController {
     }
 
     /**
-     * Updatees the total price of the cart.
+     * Updates the total price of the cart.
      */
     private void updateTotal(){
         saleTotalLabel.setText("Total: " + sellCart.getTotalPrice());

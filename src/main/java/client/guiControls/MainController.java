@@ -63,16 +63,35 @@ public class MainController {
      * @param action
      * @param attachment
      */
-    public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType) throws InvalidArgumentValueException {
+    public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType) {
         Request request = new Request(getUser(), action, attachment);
         request.setAttachmentType(attachmentType);
-        Response response = serverConnection.sendRequest(request);
-        updateLocalDatabase(attachmentType);
+        Response response = new Response(false, null);
+        try{
+            serverConnection.Start();
+            response = serverConnection.sendRequest(request);
+            serverConnection.Close();
+            updateLocalDatabase(attachmentType);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidArgumentValueException e) {
+            e.printStackTrace();
+        }
         return response;
     }
 
-    public Response sendRequest(String action) throws InvalidArgumentValueException {
-        return serverConnection.sendRequest(new Request(getUser(), action));
+    public Response sendRequest(String action) {
+        Response response = new Response(false, null);
+        try{
+            serverConnection.Start();
+            response = serverConnection.sendRequest(new Request(getUser(), action));
+            serverConnection.Close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidArgumentValueException e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 
     /**

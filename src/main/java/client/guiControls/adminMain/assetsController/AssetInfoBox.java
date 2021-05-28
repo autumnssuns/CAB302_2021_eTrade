@@ -1,5 +1,6 @@
 package client.guiControls.adminMain.assetsController;
 
+import client.IViewUnit;
 import client.guiControls.adminMain.AdminMainController;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
@@ -12,12 +13,9 @@ import javafx.scene.layout.VBox;
 /**
  * A box to display asset information and can be interacted with.
  */
-public class AssetInfoBox extends HBox {
+public class AssetInfoBox extends HBox implements IViewUnit {
     private AdminMainController controller;
-
-    private int assetId;
-    private String name;
-    private String description;
+    private Asset asset;
 
     private Label idLabel;
     private TextField nameTextField;
@@ -26,14 +24,25 @@ public class AssetInfoBox extends HBox {
     private Button editButton;
     private Button removeButton;
 
+
     /**
-     * Initiates the box with asset information.
-     * @param assetId The asset's id.
-     * @param name The name of the asset.
-     * @param description The description of the asset.
+     * Initiate the view with a linked asset.
+     * @param asset The linked asset.
      */
-    public AssetInfoBox(int assetId, String name, String description){
+    public AssetInfoBox(Asset asset){
         super();
+
+        this.asset = asset;
+
+        initialize();
+        load();
+    }
+
+    /**
+     * Initiates all the GUi components
+     */
+    @Override
+    public void initialize() {
         this.setAlignment(Pos.CENTER);
         this.setPrefHeight(80);
         this.setPrefWidth(1238);
@@ -41,14 +50,52 @@ public class AssetInfoBox extends HBox {
         this.setLayoutY(200);
         this.setSpacing(3);
 
-        this.assetId = assetId;
-        this.name = name;
-        this.description = description;
+        idLabel = new Label();
+        idLabel.getStyleClass().add("blackLabel");
+        idLabel.setAlignment(Pos.CENTER);
+        idLabel.setPrefWidth(100);
+        idLabel.setPrefHeight(80);
 
-        initiateNodes();
+        nameTextField = new TextField();
+        nameTextField.setPrefWidth(200);
+        nameTextField.setPrefHeight(30);
+        nameTextField.setId("assetName" + asset.getId());
+
+        descriptionTextField = new TextField();
+        descriptionTextField.setPrefWidth(450);
+        descriptionTextField.setPrefHeight(30);
+        descriptionTextField.setId("assetDescription" + asset.getId());
+
+        editButton = new Button("Edit");
+        editButton.setPrefWidth(100);
+        editButton.setPrefHeight(30);
+        editButton.setOnAction(e -> startEdit());
+        editButton.setId("assetEditButton" + asset.getId());
+
+        removeButton = new Button("Remove");
+        removeButton.setPrefWidth(100);
+        removeButton.setPrefHeight(30);
+        removeButton.setOnAction(e -> {
+            try {
+                removeEntry();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
+        removeButton.setId("assetRemoveButton" + asset.getId());
 
         this.getChildren().addAll(idLabel, nameTextField, descriptionTextField, editButton, removeButton);
         disable();
+    }
+
+    /**
+     * Loads the data from the linked object to the GUI components
+     */
+    @Override
+    public void load() {
+        loadIdLabel();
+        loadNameTextField();
+        loadDescriptionTextField();
     }
 
     /**
@@ -60,89 +107,36 @@ public class AssetInfoBox extends HBox {
     }
 
     /**
-     * Draw the nodes displaying the asset's info.
-     */
-    private void initiateNodes(){
-        createIdLabel();
-        createNameTextField();
-        createDescriptionTextField();
-        createEditButton();
-        createRemoveButton();
-    }
-
-    /**
      * Update the asset's info by taking data from the text fields.
      */
     private void updateValues(){
-        name = nameTextField.getText();
-        description = descriptionTextField.getText();
+        try {
+            asset.setName(nameTextField.getText());
+        } catch (InvalidArgumentValueException e) {
+            e.printStackTrace();
+        }
+        asset.setDescription(descriptionTextField.getText());
     }
 
     /**
-     * Reload the box using the stored asset's info.
+     * Loads a label to display the asset's id.
      */
-    private void reloadEntries(){
-        nameTextField.setText(name);
-        descriptionTextField.setText(description);
+    private void loadIdLabel(){
+        idLabel.setText(String.valueOf(asset.getId()));
     }
 
     /**
-     * Creates a label to display the asset's id.
+     * Loads a text field to display the asset's name.
      */
-    private void createIdLabel(){
-        idLabel = new Label(String.valueOf(assetId));
-        idLabel.getStyleClass().add("blackLabel");
-        idLabel.setAlignment(Pos.CENTER);
-        idLabel.setPrefWidth(100);
-        idLabel.setPrefHeight(80);
+    private void loadNameTextField(){
+        nameTextField.setText(asset.getName());
     }
 
     /**
-     * Creates a text field to display the asset's name.
+     * Loads a text field to display the asset's description.
      */
-    private void createNameTextField(){
-        nameTextField = new TextField(name);
-        nameTextField.setPrefWidth(200);
-        nameTextField.setPrefHeight(30);
-        nameTextField.setId("assetName" + assetId);
-    }
-
-    /**
-     * Creates a text field to display the asset's description.
-     */
-    private void createDescriptionTextField(){
-        descriptionTextField = new TextField(description);
-        descriptionTextField.setPrefWidth(450);
-        descriptionTextField.setPrefHeight(30);
-        descriptionTextField.setId("assetDescription" + assetId);
-    }
-
-    /**
-     * Creates a button that allows the admin to edit a asset's info.
-     */
-    private void createEditButton(){
-        editButton = new Button("Edit");
-        editButton.setPrefWidth(100);
-        editButton.setPrefHeight(30);
-        editButton.setOnAction(e -> startEdit());
-        editButton.setId("assetEditButton" + assetId);
-    }
-
-    /**
-     * Creates a button that allows the admin to remove an asset.
-     */
-    private void createRemoveButton(){
-        removeButton = new Button("Remove");
-        removeButton.setPrefWidth(100);
-        removeButton.setPrefHeight(30);
-        removeButton.setOnAction(e -> {
-            try {
-                removeEntry();
-            } catch (InvalidArgumentValueException invalidArgumentValueException) {
-                invalidArgumentValueException.printStackTrace();
-            }
-        });
-        removeButton.setId("assetRemoveButton" + assetId);
+    private void loadDescriptionTextField(){
+        descriptionTextField.setText(asset.getDescription());
     }
 
     /**
@@ -186,7 +180,7 @@ public class AssetInfoBox extends HBox {
     private void confirmEdit() throws InvalidArgumentValueException {
         disable();
         updateValues();
-        Response response = controller.sendRequest("edit", new Asset(assetId, name, description), Asset.class);
+        Response response = controller.sendRequest("edit", asset, Asset.class);
         if (response.isFulfilled()){
             controller.updateLocalDatabase(Asset.class);
         }
@@ -207,7 +201,7 @@ public class AssetInfoBox extends HBox {
      */
     private void cancelEdit(){
         disable();
-        reloadEntries();
+        load();
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
@@ -224,7 +218,7 @@ public class AssetInfoBox extends HBox {
      * Removes the current entry.
      */
     private void removeEntry() throws InvalidArgumentValueException {
-        Response response = controller.sendRequest("delete", new Asset(assetId, name, description), Asset.class);
+        Response response = controller.sendRequest("delete", asset, Asset.class);
         if (response.isFulfilled()){
             controller.updateLocalDatabase(Asset.class);
             ((VBox) this.getParent()).getChildren().remove(this);

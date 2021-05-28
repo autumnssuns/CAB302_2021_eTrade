@@ -1,20 +1,19 @@
 package common.dataClasses;
 
-import server.Features.HashPassword;
+import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Represents a user in the system.
  */
 public class User implements IData {
-    private int userId;
+    private Integer userId;
     private String fullName;
     private String username;
     private String password;
     private String accountType;
-    private int unitId;
+    private Integer unitId;
 
     /**
      * Initiates a user without a role and organisational unit.
@@ -33,7 +32,7 @@ public class User implements IData {
      * @param accountType The account type of the user.
      * @param unitId The ID of the organisational unit the user belongs to.
      */
-    public User(int userId, String fullName, String username, String password, String accountType, int unitId){
+    public User(Integer userId, String fullName, String username, String password, String accountType, Integer unitId){
         setUserId(userId);
         setUsername(username);
         setFullName(fullName);
@@ -46,7 +45,7 @@ public class User implements IData {
      * Sets the user's ID
      * @param userId The user's ID
      */
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -79,7 +78,7 @@ public class User implements IData {
     /**
      * @return The ID of the organisational unit the user belongs to.
      */
-    public int getUnitId(){
+    public Integer getUnitId(){
         return unitId;
     }
 
@@ -103,7 +102,7 @@ public class User implements IData {
      * Sets the user's organisational unit, identified by the organisational unit's ID.
      * @param unitId
      */
-    public void setOrganisation(int unitId){
+    public void setOrganisation(Integer unitId){
         this.unitId = unitId;
     }
 
@@ -111,7 +110,7 @@ public class User implements IData {
      * Returns the user id.
      * @return The user id.
      */
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -135,7 +134,7 @@ public class User implements IData {
      * Set the unit id the user is working for.
      * @param unitId The new unit id.
      */
-    public void setUnitId(int unitId) {
+    public void setUnitId(Integer unitId) {
         this.unitId = unitId;
     }
 

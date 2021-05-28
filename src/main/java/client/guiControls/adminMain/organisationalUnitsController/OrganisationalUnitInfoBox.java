@@ -1,8 +1,8 @@
 package client.guiControls.adminMain.organisationalUnitsController;
 
+import client.IViewUnit;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
-import common.dataClasses.Asset;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.Stock;
 import javafx.geometry.Pos;
@@ -15,32 +15,38 @@ import javafx.scene.layout.VBox;
  * A box to display organisational unit information and can be interacted with.
  * // TODO: Fix a bug where organisational unit info is not stored properly when added.
  */
-public class OrganisationalUnitInfoBox extends HBox {
-    private int unitId;
-    private String name;
-    private float credit;
-    private int assetQuantity;
+public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
+    private OrganisationalUnit unit;
     private Stock stock;
 
     private Label idLabel;
     private Label nameLabel;
     private Label creditLabel;
     private Label assetQuantityLabel;
-    private VBox organisationalUnitAssetsBox = new VBox();
-
-    private Button editButton;
-    private Button removeButton;
+    private final VBox organisationalUnitAssetsBox = new VBox();
 
     private OrganisationalUnitsController controller;
 
     /**
-     * Initiates the box with organisational unit information.
-     * @param unitId The organisational unit's id.
-     * @param name The name of the organisational unit.
-     * @param credit The credit of the organisational unit.
+     * Initiates a view with a linked organisational unit and stock
+     * @param unit The linked unit
+     * @param stock The linked stock
      */
-    public OrganisationalUnitInfoBox(int unitId, String name, float credit, int assetQuantity, Stock stock){
+    public OrganisationalUnitInfoBox(OrganisationalUnit unit, Stock stock){
         super();
+
+        this.unit = unit;
+        this.stock = stock;
+
+        initialize();
+        load();
+        }
+
+    /**
+     * Initiates all the GUi components
+     */
+    @Override
+    public void initialize() {
         this.setAlignment(Pos.CENTER);
         this.setPrefHeight(80);
         this.setPrefWidth(700);
@@ -48,97 +54,37 @@ public class OrganisationalUnitInfoBox extends HBox {
         this.setLayoutY(200);
         this.setSpacing(5);
 
-        this.unitId = unitId;
-        this.name = name;
-        this.credit = credit;
-        this.assetQuantity = assetQuantity;
-        this.stock = stock;
-
-        initiateNodes();
-
-        this.getChildren().addAll(idLabel, nameLabel, creditLabel, assetQuantityLabel, editButton, removeButton);
-    }
-
-    /**
-     * Draw the nodes displaying the organisational unit's info.
-     */
-    private void initiateNodes(){
-        createIdLabel();
-        createNameLabel();
-        createCreditLabel();
-        createAssetQuantityLabel();
-        createEditButton();
-        createRemoveButton();
-    }
-
-    /**
-     * Creates a label to display the organisational unit's id.
-     */
-    private void createIdLabel(){
-        idLabel = new Label(String.valueOf(unitId));
+        idLabel = new Label();
         idLabel.getStyleClass().add("blackLabel");
         idLabel.setAlignment(Pos.CENTER);
         idLabel.setPrefWidth(30);
         idLabel.setPrefHeight(80);
-    }
 
-    /**
-     * Creates a label to display the organisational unit's name.
-     */
-    private void createNameLabel(){
-        nameLabel = new Label(name);
+        nameLabel = new Label();
         nameLabel.getStyleClass().add("blackLabel");
         nameLabel.setPrefWidth(150);
         nameLabel.setPrefHeight(30);
-        nameLabel.setId("organisationalUnitName" + unitId);
-    }
+        nameLabel.setId("organisationalUnitName" + unit.getId());
 
-    /**
-     * Reload the box using the stored organisational unit's info.
-     */
-    public void reloadEntries(){
-        nameLabel.setText(name);
-        creditLabel.setText(String.valueOf(credit));
-    }
-
-    /**
-     * Creates a text field to display the organisational unit's description.
-     */
-    private void createCreditLabel(){
-        creditLabel = new Label(String.valueOf(credit));
+        creditLabel = new Label();
         creditLabel.getStyleClass().add("blackLabel");
         creditLabel.setPrefWidth(100);
         creditLabel.setPrefHeight(30);
-        creditLabel.setId("organisationalUnitCredit" + unitId);
-    }
+        creditLabel.setId("organisationalUnitCredit" + unit.getId());
 
-    /**
-     * Creates a text field to display the organisational unit's description.
-     */
-    private void createAssetQuantityLabel(){
-        assetQuantityLabel = new Label(String.valueOf(assetQuantity));
+        assetQuantityLabel = new Label();
         assetQuantityLabel.getStyleClass().add("blackLabel");
         assetQuantityLabel.setPrefWidth(100);
         assetQuantityLabel.setPrefHeight(30);
-    }
 
-    /**
-     * Creates a button that allows the admin to edit an organisational unit's info.
-     */
-    private void createEditButton(){
-        editButton = new Button("Edit");
+        Button editButton = new Button("Edit");
         editButton.setStyle("-fx-font-size:10");
         editButton.setPrefWidth(50);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
-        editButton.setId("organisationalUnitEditButton" + unitId);
-    }
+        editButton.setId("organisationalUnitEditButton" + unit.getId());
 
-    /**
-     * Creates a button that allows the admin to remove an organisational unit.
-     */
-    private void createRemoveButton(){
-        removeButton = new Button("Remove");
+        Button removeButton = new Button("Remove");
         removeButton.setStyle("-fx-font-size:10");
         removeButton.setPrefWidth(50);
         removeButton.setPrefHeight(30);
@@ -149,8 +95,59 @@ public class OrganisationalUnitInfoBox extends HBox {
                 invalidArgumentValueException.printStackTrace();
             }
         });
-        removeButton.setId("organisationalUnitRemoveButton" + unitId);
+        removeButton.setId("organisationalUnitRemoveButton" + unit.getId());
+
+        this.getChildren().addAll(idLabel, nameLabel, creditLabel, assetQuantityLabel, editButton, removeButton);
     }
+
+    /**
+     * Loads the linked data to the GUI components
+     */
+    @Override
+    public void load() {
+        loadIdLabel();
+        loadNameLabel();
+        loadAssetQuantityLabel();
+        loadCreditLabel();
+    }
+
+    /**
+     * Loads a label to display the organisational unit's id.
+     */
+    private void loadIdLabel(){
+        idLabel.setText(String.valueOf(unit.getId()));
+    }
+
+    /**
+     * Loads a label to display the organisational unit's name.
+     */
+    private void loadNameLabel(){
+        nameLabel.setText(unit.getName());
+
+    }
+
+    /**
+     * Loads a text field to display the organisational unit's description.
+     */
+    private void loadCreditLabel(){
+        creditLabel.setText(String.valueOf(unit.getBalance()));
+    }
+
+    /**
+     * Loads a text field to display the organisational unit's description.
+     */
+    private void loadAssetQuantityLabel(){
+        assetQuantityLabel.setText(String.valueOf(stock.size()));
+    }
+
+    /**
+     * Reload the box using the stored organisational unit's info.
+     */
+    public void reloadEntries(){
+        nameLabel.setText(unit.getName());
+        creditLabel.setText(String.valueOf(unit.getBalance()));
+    }
+
     //NOTE: Get info from display
     /**
      * Begins editing the current entry.
@@ -172,7 +169,7 @@ public class OrganisationalUnitInfoBox extends HBox {
      * @return The id of the organisational unit.
      */
     public int getUnitId(){
-        return unitId;
+        return unit.getId();
     }
 
     /**
@@ -180,7 +177,7 @@ public class OrganisationalUnitInfoBox extends HBox {
      * @return The name of the organisational unit.
      */
     public String getName(){
-        return name;
+        return unit.getName();
     }
 
     /**
@@ -188,7 +185,7 @@ public class OrganisationalUnitInfoBox extends HBox {
      * @return The credit of the organisational unit.
      */
     public float getCredit(){
-        return credit;
+        return unit.getBalance();
     }
 
     /**
@@ -213,7 +210,7 @@ public class OrganisationalUnitInfoBox extends HBox {
      * Removes the current entry.
      */
     private void removeEntry() throws InvalidArgumentValueException {
-        Response response = controller.sendRequest("delete", new OrganisationalUnit(unitId, name, credit), OrganisationalUnit.class);
+        Response response = controller.sendRequest("delete", unit, OrganisationalUnit.class);
         if (response.isFulfilled()){
             ((VBox) this.getParent()).getChildren().remove(this);
         }
@@ -224,7 +221,7 @@ public class OrganisationalUnitInfoBox extends HBox {
      * @param name The new name.
      */
     public void setName(String name) {
-        this.name = name;
+        unit.setName(name);
     }
 
     /**
@@ -232,7 +229,7 @@ public class OrganisationalUnitInfoBox extends HBox {
      * @param credit The new credit.
      */
     public void setCredit(float credit){
-        this.credit=credit;
+        unit.setBalance(credit);
     }
 
     /**

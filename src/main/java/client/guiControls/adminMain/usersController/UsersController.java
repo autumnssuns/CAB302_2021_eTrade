@@ -2,15 +2,14 @@ package client.guiControls.adminMain.usersController;
 
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
-import client.guiControls.adminMain.AdminMainController;
-import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
-import common.dataClasses.Asset;
 import common.dataClasses.DataCollection;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.User;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 /**
@@ -18,20 +17,20 @@ import javafx.scene.layout.VBox;
  */
 public class UsersController extends DisplayController {
     @FXML
-    VBox usersDisplayBox;
+    private VBox usersDisplayBox;
     @FXML
-    TextField newUserNameTextField;
+    private TextField newUserNameTextField;
     @FXML
-    TextField newUsernameTextField;
+    private TextField newUsernameTextField;
     @FXML
-    PasswordField newPasswordField;
+    private PasswordField newPasswordField;
     @FXML
-    ComboBox newOrganisationUnitSelectionBox;
+    private ComboBox<String> newOrganisationUnitSelectionBox;
     @FXML
-    ComboBox newRoleSelectionBox;
+    private ComboBox<String> newRoleSelectionBox;
 
     /**
-     * Initialses the page by sending a request to server and add initial data based on response(s).
+     * Initialises the page by sending a request to server and add initial data based on response(s).
      */
     @FXML
     public void initialize(){
@@ -41,13 +40,13 @@ public class UsersController extends DisplayController {
     /**
      * Adds a new entry, representing a new user.
      */
-    public void addEntry() throws InvalidArgumentValueException {
+    public void addEntry() {
         int userId = usersDisplayBox.getChildren().size();
         String name = newUserNameTextField.getText();
         String username = newUsernameTextField.getText();
         String password = newPasswordField.getText();
-        String organisationalUnit = (String) newOrganisationUnitSelectionBox.getValue();
-        String role = (String) newRoleSelectionBox.getValue();
+        String organisationalUnit = newOrganisationUnitSelectionBox.getValue();
+        String role = newRoleSelectionBox.getValue();
 
         int unitId = 0;
         for (OrganisationalUnit unit : ((AdminLocalDatabase)controller.getDatabase()).getOrganisationalUnits()){
@@ -60,23 +59,17 @@ public class UsersController extends DisplayController {
         Response response = controller.sendRequest("add", newUser, User.class);
         update();
         if (response.isFulfilled()){
-            addUserInfoBox(userId, name, username, password, organisationalUnit, role);
+            addUserInfoBox(newUser);
             clearAddEntry();
         }
     }
 
     /**
      * Adds a new entry to the current display.
-     * @param userId The ID of the user.
-     * @param name The name of the user.
-     * @param username The username of the user.
-     * @param password The password of the user (this is not viewable, only editable).
-     * @param organisationalUnit The organisationalUnit of the user.
-     * @param role The role of the user.
+     * @param user The linked user.
      */
-    private void addUserInfoBox(int userId, String name, String username, String password, String organisationalUnit, String role){
-        UserInfoBox userInfoBox = new UserInfoBox(userId, name, username, password, organisationalUnit, role);
-        userInfoBox.setController((AdminMainController) controller);
+    private void addUserInfoBox(User user){
+        UserInfoBox userInfoBox = new UserInfoBox(user, this);
         usersDisplayBox.getChildren().add(userInfoBox);
     }
 
@@ -93,7 +86,9 @@ public class UsersController extends DisplayController {
         newRoleSelectionBox.setPromptText("Role");
     }
 
-    //TODO: Gets data from database
+    /**
+     * Updates the view with new data
+     */
     @Override
     public void update(){
         usersDisplayBox.getChildren().clear();
@@ -101,18 +96,51 @@ public class UsersController extends DisplayController {
         DataCollection<User> users = localDatabase.getUsers();
         DataCollection<OrganisationalUnit> organisationalUnits = localDatabase.getOrganisationalUnits();
 
-        String[] organisationNames = new String[organisationalUnits.size()];
+        newOrganisationUnitSelectionBox.getItems().clear();
         for (int i = 0; i < organisationalUnits.size(); i++){
-            organisationNames[i] = organisationalUnits.get(i).getName();
+            newOrganisationUnitSelectionBox.getItems()
+                    .add(organisationalUnits.get(i).getName());
         }
 
         for (User user : users){
-            if (!user.getAccountType().equals("admin")){
-                int unitId = user.getUnitId();
-                String organisationalUnit = organisationalUnits.get(unitId).getName();
-                addUserInfoBox(user.getUserId(), user.getFullName(), user.getUsername(), user.getPassword(), organisationalUnit, user.getAccountType());
+            addUserInfoBox(user);
+        }
+    }
+
+    /**
+     * Get the organisational unit given the user
+     * @param user The user to find the unit
+     * @return The organisational unit linked to the user
+     */
+    public OrganisationalUnit getOrganisation(User user){
+        for (OrganisationalUnit unit : ((AdminLocalDatabase) controller.getDatabase()).getOrganisationalUnits()){
+            if (unit.getId().equals(user.getUnitId())){
+                return unit;
             }
         }
-        newOrganisationUnitSelectionBox.getItems().addAll(organisationNames);
+        return null;
+    }
+
+    /**
+     * Get the organisational unit given its name
+     * @param name the name of the organisational unit
+     * @return The organisational unit with given name
+     */
+    public OrganisationalUnit getOrganisation(String name){
+        for (OrganisationalUnit unit : ((AdminLocalDatabase) controller.getDatabase()).getOrganisationalUnits()){
+            if (unit.getName().equals(name)){
+                return unit;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Query all the organisational units in the system. This is necessary to
+     * know which organisational units are available.
+     * @return All the organisational units
+     */
+    public DataCollection<OrganisationalUnit> getOrganisationalUnits(){
+        return ((AdminLocalDatabase) controller.getDatabase()).getOrganisationalUnits();
     }
 }

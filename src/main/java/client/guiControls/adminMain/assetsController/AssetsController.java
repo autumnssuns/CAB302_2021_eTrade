@@ -25,13 +25,11 @@ public class AssetsController extends DisplayController {
     Button refreshAssetsButton;
 
     /**
-     * Adds a new entry to the current display.
-     * @param assetId The ID of the asset.
-     * @param name The name of the asset.
-     * @param description The username of the asset.
+     * Creates a GUI to view a linked asset
+     * @param asset
      */
-    private void addAssetInfoBox(int assetId, String name, String description){
-        AssetInfoBox assetInfoBox = new AssetInfoBox(assetId, name, description);
+    private void addAssetInfoBox(Asset asset){
+        AssetInfoBox assetInfoBox = new AssetInfoBox(asset);
         assetInfoBox.setController((AdminMainController) controller);
         assetsDisplayBox.getChildren().add(assetInfoBox);
     }
@@ -58,7 +56,7 @@ public class AssetsController extends DisplayController {
         update();
 
         if (response.isFulfilled()){
-            addAssetInfoBox(assetId, name, description);
+            addAssetInfoBox(newAsset);
             clearAddEntry();
         }
     }
@@ -72,7 +70,7 @@ public class AssetsController extends DisplayController {
         AdminLocalDatabase localDatabase = (AdminLocalDatabase) controller.getDatabase();
         if (!localDatabase.getAssets().isEmpty()){
             for (Asset asset : localDatabase.getAssets()){
-                addAssetInfoBox(asset.getId(), asset.getName(), asset.getDescription());
+                addAssetInfoBox(asset);
             }
         }
     }

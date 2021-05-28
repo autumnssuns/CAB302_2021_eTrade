@@ -1,7 +1,11 @@
 package client.guiControls.adminMain.organisationalUnitsController;
 
+import client.IViewUnit;
+import common.Exceptions.InvalidArgumentValueException;
+import common.dataClasses.Item;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -9,12 +13,11 @@ import javafx.scene.layout.VBox;
 /**
  * A box to display the assets that belong to an organisational unit and can be interacted with.
  */
-public class UnitAssetInfoBox extends HBox {
+public class UnitAssetInfoBox extends HBox implements IViewUnit {
     private static int counter = 0; // TODO: Replace with identification using both asset ID and organisational unit ID
-    private String name;
-    private int quantity;
+    private Item item;
 
-    private TextField nameTextField;
+    private Label nameLabel;
     private TextField quantityTextField;
 
     private Button editButton;
@@ -22,11 +25,23 @@ public class UnitAssetInfoBox extends HBox {
 
     /**
      * Initiates the box with asset information.
-     * @param name The name of the asset.
-     * @param quantity The description of the asset.
+     * @param item The linked asset with quantity.
      */
-    public UnitAssetInfoBox(String name, int quantity){
+    public UnitAssetInfoBox(Item item){
         super();
+
+        this.item = item;
+
+        initialize();
+        load();
+        counter++;
+    }
+
+    /**
+     * Initiates the GUI components
+     */
+    @Override
+    public void initialize() {
         this.setAlignment(Pos.CENTER);
         this.setPrefHeight(80);
         this.setPrefWidth(600);
@@ -35,91 +50,75 @@ public class UnitAssetInfoBox extends HBox {
         this.setLayoutY(60);
         this.setSpacing(20);
 
-        this.name = name;
-        this.quantity = quantity;
+        nameLabel = new Label();
+        nameLabel.setPrefWidth(250);
+        nameLabel.setPrefHeight(30);
+        nameLabel.getStyleClass().add("blackLabel");
+        nameLabel.setId("organisationalUnitAssetName" + counter);
 
-        initiateNodes();
-
-        this.getChildren().addAll(nameTextField, quantityTextField, editButton, removeButton);
-        disable();
-        counter++;
-    }
-
-    /**
-     * Draw the nodes displaying the asset's info.
-     */
-    private void initiateNodes(){
-        createNameTextField();
-        createQuantityTextField();
-        createEditButton();
-        createRemoveButton();
-    }
-
-    /**
-     * Update the asset's info by taking data from the text fields.
-     */
-    private void updateValues(){
-        name = nameTextField.getText();
-        quantity = Integer.parseInt(quantityTextField.getText());
-    }
-
-    /**
-     * Reload the box using the stored asset's info.
-     */
-    private void reloadEntries(){
-        nameTextField.setText(name);
-        quantityTextField.setText(String.valueOf(quantity));
-    }
-
-    /**
-     * Creates a text field to display the asset's name.
-     */
-    private void createNameTextField(){
-        nameTextField = new TextField(name);
-        nameTextField.setPrefWidth(250);
-        nameTextField.setPrefHeight(30);
-        nameTextField.setId("organisationalUnitAssetName" + counter);
-    }
-
-    /**
-     * Creates a text field to display the asset's description.
-     */
-    private void createQuantityTextField(){
-        quantityTextField = new TextField(String.valueOf(quantity));
+        quantityTextField = new TextField();
         quantityTextField.setPrefWidth(100);
         quantityTextField.setPrefHeight(30);
         quantityTextField.setId("organisationalUnitAssetQuantity" + counter);
-    }
 
-    /**
-     * Creates a button that allows the admin to edit a asset's info.
-     */
-    private void createEditButton(){
         editButton = new Button("Edit");
         editButton.setStyle("-fx-font-size:10");
         editButton.setPrefWidth(50);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
         editButton.setId("organisationalUnitAssetEditButton" + counter);
-    }
 
-    /**
-     * Creates a button that allows the admin to remove an asset.
-     */
-    private void createRemoveButton(){
         removeButton = new Button("Remove");
         removeButton.setPrefWidth(50);
         removeButton.setPrefHeight(30);
         removeButton.setStyle("-fx-font-size:10");
         removeButton.setOnAction(e -> removeEntry());
         removeButton.setId("organisationalUnitAssetRemoveButton" + counter);
+
+        this.getChildren().addAll(nameLabel, quantityTextField, editButton, removeButton);
+        disable();
+    }
+
+    /**
+     * Loads the GUI component from the linked data
+     */
+    @Override
+    public void load() {
+        loadQuantityTextField();
+        loadNameLabel();
+    }
+
+    /**
+     * Update the asset's info by taking data from the text fields.
+     */
+    private void updateValues(){
+        try {
+            item.setQuantity(Integer.parseInt(quantityTextField.getText()));
+        } catch (InvalidArgumentValueException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Loads a label to display the asset's name
+     */
+    private void loadNameLabel(){
+        System.out.println(item.getName());
+        nameLabel.setText(item.getName());
+    }
+
+    /**
+     * Loads a text field to display the asset's quantity
+     */
+    private void loadQuantityTextField(){
+        quantityTextField.setText(String.valueOf(item.getQuantity()));
     }
 
     /**
      * Disables the current entry from being edited.
      */
     private void disable(){
-        nameTextField.setDisable(true);
+        nameLabel.setDisable(true);
         quantityTextField.setDisable(true);
     }
 
@@ -127,7 +126,7 @@ public class UnitAssetInfoBox extends HBox {
      * Enables the current entry to be edited.
      */
     private void enable(){
-        nameTextField.setDisable(false);
+        nameLabel.setDisable(false);
         quantityTextField.setDisable(false);
         editButton.setText("Confirm");
         editButton.setOnAction(e -> startEdit());
@@ -161,7 +160,7 @@ public class UnitAssetInfoBox extends HBox {
      */
     private void cancelEdit(){
         disable();
-        reloadEntries();
+        load();
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
