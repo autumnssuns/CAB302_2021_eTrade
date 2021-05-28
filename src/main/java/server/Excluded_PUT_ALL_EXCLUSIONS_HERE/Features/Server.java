@@ -1,5 +1,6 @@
 package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.Features;
 
+import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.DataCollection;
@@ -56,7 +57,7 @@ public class Server implements Serializable {
      * request from the client at the socket so there is no parameter needed
      * @throws IOException
      */
-    public Response SendResponse() throws IOException, ClassNotFoundException {
+    public Response SendResponse() throws IOException, ClassNotFoundException, InvalidArgumentValueException {
 
         // For handler to assign value to serverResponse
         //setup the shell
@@ -139,7 +140,7 @@ public class Server implements Serializable {
 
             case "update unit stock":
                 StockDataSource unitStock = new StockDataSource();
-                unitStock.UpdateUnitStock((Stock) clientRequest.getAttachment());
+                unitStock.updateUnitStock((Stock) clientRequest.getAttachment());
                 serverResponse = new Response(true,null);
                 break;
         }
@@ -147,7 +148,7 @@ public class Server implements Serializable {
         return serverResponse;
     }
 
-    public static void main (String args[]) throws IOException, ClassNotFoundException {
+    public static void main (String args[]) throws IOException, ClassNotFoundException, InvalidArgumentValueException {
         Server server = new Server();
         server.Start();
         server.SendResponse();
