@@ -102,7 +102,7 @@ public class StockDataSource {
     }
 
     /**
-     * Insert new asset with its quantity to stock table
+     * Update a unit's stock on stock table
      * @param attachment a Stock object
      */
     public void UpdateUnitStock(Stock attachment) {
@@ -137,11 +137,11 @@ public class StockDataSource {
      * @param user user wanted to return his/her stock
      * @return an Object array of {asset_id, organization_id, asset_quantity}
      */
-    public Stock GetStock(User user) {
-        Stock stock = new Stock(user.getUnitId());
+    public Stock GetStock(int unitId) {
+        Stock stock = new Stock(unitId);
         try {
             //Provide value for query
-            getStock.setInt(1, user.getUnitId());
+            getStock.setInt(1, unitId);
             //Current assets in database
             AssetsDataSource assetsDataSource = new AssetsDataSource();
             //find all assets belonged to an user's unit (and get the asset id to link with a real asset object)

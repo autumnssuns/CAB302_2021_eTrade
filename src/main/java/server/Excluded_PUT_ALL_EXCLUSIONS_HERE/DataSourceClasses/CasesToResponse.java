@@ -6,6 +6,7 @@ import common.Response;
 import common.dataClasses.*;
 import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
 
+import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
 
 public class CasesToResponse {
@@ -140,10 +141,51 @@ public class CasesToResponse {
         return response;
     }
     //Order Type
+    //Todo: implement this
+    private static void placeOrder(Order order){
+        int unitId = order.getUnitId();
+        //if order is SELL: reduce seller stock's item quantity
+        if (order.getOrderType().equals(Order.Type.SELL)){
+            int assetId = order.getAssetId();
+            StockDataSource stockDataSource = new StockDataSource();
+            //get units' stock
+            Stock unitStock = stockDataSource.GetStock(order.getUnitId());
+            //Check item in stock
+            Item itemInfor;
+            for(Item item : unitStock)
+            {
+                if(item.getId() == assetId)
+                {
+                    itemInfor = item;
+                    unitStock.setAssetId(itemInfor.getId());
+                    unitStock.setAssetQuantity(itemInfor.getQuantity() - order.getPlacedQuantity());
+                    edit(unitStock);
+                    break;
+                }
+                else {System.out.println("This organisation doesn't have this asset in stock.");}
+            }
+
+        }
+        //if order is BUY: reduce organisation's balance
+        else if (order.getOrderType().equals(Order.Type.BUY)){
+            OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
+            OrganisationalUnit sellerUnit = organisationsDataSource.getOrganisation(order.getUnitId());
+            if(sellerUnit != null)
+            {
+                sellerUnit.setBalance(sellerUnit.getBalance() - order.getPrice() * order.getPlacedQuantity());
+                organisationsDataSource.editOrganisation(sellerUnit);
+            }
+        }
+    }
+
     public static Response add(Order attachment){
             OrderDataSource orderDataSource = new OrderDataSource();
             orderDataSource.addOrder(attachment);
+            //Todo: implement this function
+            placeOrder(attachment);
             Response response = new Response(true, null);
+
+            reconcileOrder(attachment);
             return response;
         }
 
@@ -210,8 +252,47 @@ public class CasesToResponse {
         Response response = new Response(true, attachment);
         return response;
     }
+
+
+    //Todo: implement this to use in database.
+    public static void cancelOrder(Order order){
+        OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
+        if (order.getOrderType().equals(Order.Type.BUY)){
+            // Refund = Available * Price
+            float refundTotal = (order.getPlacedQuantity() - order.getResolvedQuantity()) * order.getPrice();
+
+            // Update the buyer's balance
+            OrganisationalUnit orgNew = organisationsDataSource.getOrganisation(order.getUnitId());
+            if(orgNew != null) {
+                orgNew.setBalance(orgNew.getBalance() + refundTotal);
+                organisationsDataSource.editOrganisation(orgNew);
+            }
+        }
+        else{
+            int returnQuantity = order.getPlacedQuantity() - order.getResolvedQuantity();
+            StockDataSource stockDataSource = new StockDataSource();
+            // Update the seller's stock
+            Stock unitStock = stockDataSource.GetStock(order.getUnitId());
+            Item changedItem;
+            for(Item item : unitStock)
+            {
+                if(item.getId() == order.getAssetId())
+                {
+                    unitStock.setAssetId(item.getId());
+                    unitStock.setAssetQuantity(item.getQuantity() + returnQuantity);
+                    edit(unitStock);
+                    break;
+                }
+
+            }
+        }
+    }
     //Order Type
     public static Response edit(Order attachment){
+        //Todo: Cancel order condition
+        if (attachment.getStatus().equals(Order.Status.CANCELLED)){
+            cancelOrder(attachment);
+        }
         OrderDataSource orderDataSource = new OrderDataSource();
         orderDataSource.editOrder(attachment);
         Response response = new Response(true, attachment);
@@ -287,11 +368,42 @@ public class CasesToResponse {
      */
     public static Response queryStock(User attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        Stock unitStock = stockDataSource.GetStock(attachment);
+        Stock unitStock = stockDataSource.GetStock(attachment.getUnitId());
         Response response = new Response(true, unitStock);
         return response;
     }
 
+
+    public static Response queryStocks()
+    {
+        StockDataSource stockDataSource = new StockDataSource();
+        DataCollection<Stock> stocks = stockDataSource.GetStockList();
+        Response response = new Response(true, stocks);
+        return response;
+    }
+
+    public static Response queryOrganisations()
+    {
+        OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
+        DataCollection<OrganisationalUnit> attachment = organisationsDataSource.getOrganisationList();
+        Response response = new Response(true, attachment);
+        return response;
+    }
+
+    public static Response queryOrders()
+    {
+        OrderDataSource orderDataSource = new OrderDataSource();
+        DataCollection<Order> attachment = orderDataSource.getOrderList();
+        Response response = new Response(true, attachment);
+        return response;
+    }
+
+    public  static Response queryAssets() {
+        AssetsDataSource assetsDataSource = new AssetsDataSource();
+        DataCollection<Asset> attachment = assetsDataSource.getAssetList();
+        Response response = new Response(true, attachment);
+        return response;
+    }
 
     //Todo: Overload Delete method
     public static <T extends IData> Response delete(Request<T> request) {
@@ -309,9 +421,7 @@ public class CasesToResponse {
         else if (type.equals(Order.class)){
             return delete((Order) attachment);
         }
-        else if (type.equals(Stock.class)){
-            return delete((Stock) attachment);
-        }
+
         return null;
     }
     //User Type
@@ -325,7 +435,10 @@ public class CasesToResponse {
     //Organisational Unit Type
     public static Response delete(OrganisationalUnit attachment){
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
+        StockDataSource stockDataSource = new StockDataSource();
         organisationsDataSource.deleteOrganisation(attachment.getId());
+        //delete all stock of the organisation if delete the unit
+        stockDataSource.DeleteStock(stockDataSource.GetStock(attachment.getId()));
         Response response = new Response(true, null);
         return response;
     }
@@ -346,18 +459,12 @@ public class CasesToResponse {
         return response;
     }
 
-    /**
-     * Delete a stock of an org unit
-     * @param attachment
-     * @return Response object
-     */
-    public static Response delete(Stock attachment){
-        StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.DeleteStock(attachment);
-        Response response = new Response(true, null);
-        return response;
-    }
 
+    /**
+     * Delete an asset in stock table
+     * @param attachment
+     * @return
+     */
     public static Response deleteAnItem(Request attachment){
         StockDataSource stockDataSource = new StockDataSource();
         stockDataSource.DeleteAnItem((Stock) attachment.getAttachment());

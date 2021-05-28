@@ -95,30 +95,22 @@ public class Server implements Serializable {
                 break;
 
             case "Query Stocks":
-                StockDataSource stockDataSource = new StockDataSource();
-                DataCollection<Stock> stocks = stockDataSource.GetStockList();
-                serverResponse = new Response(true, stocks);
+                serverResponse = CasesToResponse.queryStocks();
                 out.writeObject(serverResponse);
                 break;
 
             case "Query Organisational Units":
-                OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
-                attachment = organisationsDataSource.getOrganisationList();
-                serverResponse = new Response(true, attachment);
+                serverResponse = CasesToResponse.queryOrganisations();
                 out.writeObject(serverResponse);
                 break;
 
             case "Query Orders":
-                OrderDataSource orderDataSource = new OrderDataSource();
-                attachment = orderDataSource.getOrderList();
-                serverResponse = new Response(true, attachment);
+                serverResponse = CasesToResponse.queryOrders();
                 out.writeObject(serverResponse);
                 break;
 
             case "Query Assets":
-                AssetsDataSource assetsDataSource = new AssetsDataSource();
-                attachment = assetsDataSource.getAssetList();
-                serverResponse = new Response(true, attachment);
+                serverResponse = CasesToResponse.queryAssets();
                 out.writeObject(serverResponse);
                 break;
 

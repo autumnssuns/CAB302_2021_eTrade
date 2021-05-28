@@ -36,7 +36,7 @@ class StockDataSourceTest {
             stockDataSource.UpdateUnitStock(stock1);
             stockDataSource.EditItemQuantity(stock1);
             //return stock from database to check value
-            stock1 = stockDataSource.GetStock(testuser);
+            stock1 = stockDataSource.GetStock(testuser.getUnitId());
             //checking
             assertEquals(1, stock1.get(0).getId());
             assertEquals(100 ,stock1.get(0).getQuantity());
@@ -62,7 +62,7 @@ class StockDataSourceTest {
             stock1.add(new Item(asset2, 10));
             stock1.add(new Item(asset2, 10));
             stockDataSource.UpdateUnitStock(stock1);
-            Stock userStock = stockDataSource.GetStock(testuser);
+            Stock userStock = stockDataSource.GetStock(testuser.getUnitId());
             //check all items id in the stock
             assertEquals(userStock.get(0).getId(),stock1.get(0).getId());
             assertEquals(userStock.get(1).getId(),stock1.get(1).getId());
@@ -163,7 +163,7 @@ class StockDataSourceTest {
             int choiceOfItem = 1;
             stock1.setAssetId(choiceOfItem);
             stockDataSource.DeleteAnItem(stock1);
-            stock1 = stockDataSource.GetStock(testuser);
+            stock1 = stockDataSource.GetStock(testuser.getUnitId());
             assertEquals(1,stock1.size());
             assertEquals(2,stock1.get(0).getId());
         }
@@ -195,7 +195,7 @@ class StockDataSourceTest {
             stock1.setAssetId(newItemId);
             stock1.setAssetQuantity(quantity);
             stockDataSource.AddAnItem(stock1);
-            stock1 = stockDataSource.GetStock(testuser);
+            stock1 = stockDataSource.GetStock(testuser.getUnitId());
             //check size
             assertEquals(3,stock1.size());
             //check id

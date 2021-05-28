@@ -24,6 +24,7 @@ public class MockDatabase {
         add(new User(0, "Admin", "admin", "root", "admin", 0));
     }
 
+    //DONE
     public static void initiate() throws InvalidArgumentValueException {
         add(new User(1, "Dan Tran", "dan", "123", "user", 0));
         add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1));
@@ -79,7 +80,7 @@ public class MockDatabase {
         add(new Order(14, Order.Type.BUY, 3, 2, 50, 0, 14.5f, null, LocalDateTime.of(2021, 5, 9, 0, 11), Order.Status.PENDING));
         add(new Order(15, Order.Type.BUY, 3, 3, 50, 0, 15.5f, null, LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
     }
-
+    //DONE
     public static Response login(Request request){
         User sender = request.getUser();
         for (Object[] user : users){
@@ -90,6 +91,7 @@ public class MockDatabase {
         return new Response(false, null);
     }
 
+    //DONE
     public static Response queryUsers(Request request) {
         DataCollection<User> attachedUsers = new DataCollection<>();
         for (Object[] user : users){
@@ -98,6 +100,7 @@ public class MockDatabase {
         return new Response(true, attachedUsers);
     }
 
+    //DONE
     public static Response queryAssets(Request request) throws InvalidArgumentValueException {
         DataCollection<Asset> attachedAssets = new DataCollection<>();
         for (int i = 0; i < assets.size(); i++){
@@ -107,6 +110,7 @@ public class MockDatabase {
         return new Response(true, attachedAssets);
     }
 
+    //DONE
     public static Response queryOrganisations(Request request) {
         DataCollection<OrganisationalUnit> attachedOrganisationalUnit = new DataCollection<>();
         for (Object[] organisationalUnit : organisationalUnits){
@@ -115,6 +119,7 @@ public class MockDatabase {
         return new Response(true, attachedOrganisationalUnit);
     }
 
+    //DONE
     public static Response queryStocks(Request request) throws InvalidArgumentValueException {
         //Create collection of stock
         DataCollection<Stock> attachedStocks = new DataCollection<>();
@@ -131,6 +136,7 @@ public class MockDatabase {
         return new Response(true, attachedStocks);
     }
 
+    //DONE
     public static Response queryOrganisationalUnit(Request request) {
         int unitId = request.getUser().getUnitId();
         Object[] matchedUnit = organisationalUnits.get(unitId);
@@ -138,6 +144,7 @@ public class MockDatabase {
         return new Response(true, attachedUnit);
     }
 
+    //DONE
     public static Response queryStock(Request request) throws InvalidArgumentValueException {
         int unitId = request.getUser().getUnitId();
         Stock returnStock = new Stock(unitId);
@@ -156,6 +163,7 @@ public class MockDatabase {
         return new Response(true, returnStock);
     }
 
+    //DONE
     public static Response queryOrders(Request request) {
         DataCollection<Order> returnOrders = new DataCollection<>();
         for (Object[] row : orders){
@@ -171,6 +179,7 @@ public class MockDatabase {
      * @param user The user to find
      * @return The index of the user in the database.
      */
+    //DONE
     private static int find(User user){
         int key = user.getUserId();
         Object[] match = new Object[]{};
@@ -188,6 +197,7 @@ public class MockDatabase {
      * @param asset The user to find
      * @return The index of the asset in the database.
      */
+    //DONE
     private static int find(Asset asset){
         int key = asset.getId();
         Object[] match = new Object[]{};
@@ -206,6 +216,7 @@ public class MockDatabase {
      * @param unit The organisational unit to find
      * @return The index of the unit in the database.
      */
+
     private static int find(OrganisationalUnit unit){
         int key = unit.getId();
         Object[] match = new Object[]{};
@@ -236,6 +247,7 @@ public class MockDatabase {
      * @param itemId The itemId to find
      * @return The index of the organisational unit - itemId relation.
      */
+
     private static int find(int organisationalUnitId, int itemId){
         int key = organisationalUnitId;
         int key2 = itemId;
@@ -317,6 +329,7 @@ public class MockDatabase {
      * Edit a user by overriding the database.
      * @param user The user to override, can be identified by ID.
      */
+    //DONE
     private static Response edit(User user){
         Object[] overrideRow = new Object[]{user.getUserId(), user.getFullName(), user.getUsername(), user.getPassword(), user.getAccountType(), user.getUnitId()};
         users.set(find(user), overrideRow);
@@ -328,6 +341,7 @@ public class MockDatabase {
      * Edit an asset by overriding the database.
      * @param asset The asset to override, can be identified by ID.
      */
+    //DONE
     private static Response edit(Asset asset){
         Object[] overrideRow = new Object[]{asset.getId(), asset.getName(), asset.getDescription()};
         assets.set(find(asset), overrideRow);
@@ -339,6 +353,7 @@ public class MockDatabase {
      * Edit an organisational unit by overriding the database.
      * @param organisationalUnit The organisational unit to override, can be identified by ID.
      */
+    //DONE
     private static Response edit(OrganisationalUnit organisationalUnit){
         Object[] overrideRow = new Object[]{organisationalUnit.getId(), organisationalUnit.getName(), organisationalUnit.getBalance()};
         organisationalUnits.set(find(organisationalUnit), overrideRow);
@@ -350,6 +365,7 @@ public class MockDatabase {
      * Edit the stock of an organisational unit by overriding the database.
      * @param stock The stock of the organisational unit to override, can be identified by the organisational unit's ID.
      */
+    //DONE - divided into "Edit an item quantity", "Delete an item in stock table", "Add an item into stock table"
     private static Response edit(Stock stock){
         for (Item item : stock){
             int matchIndex = find(stock.getUnitId(), item.getId());
@@ -386,7 +402,7 @@ public class MockDatabase {
         Response<Stock> response = new Response(true, stock);
         return response;
     }
-
+    //DONE
     public static Response edit(Order order){
         if (order.getStatus().equals(Order.Status.CANCELLED)){
             cancelOrder(order);
@@ -405,6 +421,7 @@ public class MockDatabase {
      * - If SELL order - return the asset
      * @param order
      */
+    //DONE
     public static void cancelOrder(Order order){
         if (order.getOrderType().equals(Order.Type.BUY)){
             // Refund = Available * Price
@@ -453,7 +470,7 @@ public class MockDatabase {
         }
         return null;
     }
-
+    //DONE
     private static Response add(User attachment) {
         Object[] newRow = new Object[]{users.size(), attachment.getFullName(),
                 attachment.getUsername(), attachment.getPassword(),
@@ -462,21 +479,21 @@ public class MockDatabase {
         Response response = new Response(true, null);
         return response;
     }
-
+    //DONE
     private static Response add(Asset attachment) {
         Object[] newRow = new Object[]{assets.size(), attachment.getName(), attachment.getDescription()};
         assets.add(newRow);
         Response response = new Response(true, null);
         return response;
     }
-
+    //DONE
     private static Response add(OrganisationalUnit attachment) {
         Object[] newRow = new Object[]{organisationalUnits.size(), attachment.getName(), attachment.getBalance()};
         organisationalUnits.add(newRow);
         Response response = new Response(true, null);
         return response;
     }
-
+    //DONE
     private static Response add(Order attachment){
         Object[] newRow = new Object[]{orders.size(), attachment.getOrderType(), attachment.getUnitId(), attachment.getAssetId(),
                 attachment.getPlacedQuantity(), attachment.getResolvedQuantity(), attachment.getPrice(),
@@ -489,7 +506,7 @@ public class MockDatabase {
         reconcileOrder(attachment);
         return response;
     }
-
+    //DONE
     private static void placeOrder(Order order){
         int unitId = order.getUnitId();
         if (order.getOrderType().equals(Order.Type.SELL)){
@@ -513,6 +530,7 @@ public class MockDatabase {
      * @param request The request
      * @return
      */
+
     public static <T extends IData> Response delete(Request<T> request){
         T attachment = request.getAttachment();
         Class<T> type = request.getAttachmentType();
@@ -527,14 +545,14 @@ public class MockDatabase {
         }
         return null;
     }
-
+    //DONE
     private static Response delete(User attachment) {
         int rowToDelete = find(attachment);
         users.remove(rowToDelete);
         Response response = new Response(true, null);
         return response;
     }
-
+    //DONE
     private static Response delete(Asset attachment) {
         int rowToDelete = find(attachment);
         assets.remove(rowToDelete);
@@ -548,7 +566,7 @@ public class MockDatabase {
         Response response = new Response(true, null);
         return response;
     }
-
+    //DONE
     private static Response delete(OrganisationalUnit attachment) {
         int rowToDelete = find(attachment);
         organisationalUnits.remove(rowToDelete);
@@ -569,6 +587,7 @@ public class MockDatabase {
      * - SELL order price less than or equal to BUY order's price
      * @param order
      */
+    //DONE
     private static Order matchOrder(Order order){
         if (order.getStatus().equals(Order.Status.PENDING)){
             // Initiate a lowest selling price
@@ -612,6 +631,7 @@ public class MockDatabase {
      * - Adds credit to seller
      * - Adds assets to buyer
      */
+    //DONE
     private static void reconcileOrder(Order order){
         Order matchOrder = matchOrder(order);
         if (matchOrder != null){
