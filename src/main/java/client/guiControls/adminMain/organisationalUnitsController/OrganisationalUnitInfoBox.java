@@ -102,7 +102,7 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
         removeButton.setOnAction(e -> {
             try {
                 removeEntry();
-            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+            } catch (Exception invalidArgumentValueException) {
                 invalidArgumentValueException.printStackTrace();
             }
         });
@@ -220,7 +220,7 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
     /**
      * Removes the current entry.
      */
-    private void removeEntry() throws InvalidArgumentValueException {
+    private void removeEntry() throws Exception {
         Response response = controller.sendRequest("delete", new OrganisationalUnit(unitId, name, credit), OrganisationalUnit.class);
         if (response.isFulfilled()){
             ((VBox) this.getParent()).getChildren().remove(this);

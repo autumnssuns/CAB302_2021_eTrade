@@ -118,9 +118,11 @@ public final class Server implements IServer{
                     continue;
                 } catch (InvalidArgumentValueException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-        } catch (IOException | ClassCastException | ClassNotFoundException e) {
+        } catch (IOException | ClassCastException e) {
             System.out.println(String.format("Connection %s closed", socket.toString()));
         }
     }
@@ -147,7 +149,7 @@ public final class Server implements IServer{
      * @throws InvalidArgumentValueException
      */
     @Override
-    public Response createResponse(Request clientRequest) throws InvalidArgumentValueException {
+    public Response createResponse(Request clientRequest) throws Exception {
         // Unidentified requests are denied by default
         //Get senders' information
         User sender = clientRequest.getUser();

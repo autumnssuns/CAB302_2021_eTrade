@@ -14,7 +14,7 @@ class OrderTest {
 
 
     @BeforeEach
-    void setUp() throws InvalidArgumentValueException {
+    void setUp() throws Exception {
         buy = new Order(0, Order.Type.BUY,
                 101, 0, 5, 0, 10,
                 null, null, Order.Status.PENDING);
@@ -95,7 +95,7 @@ class OrderTest {
     }
 
     @Test
-    void setOrderId() {
+    void setOrderId() throws Exception {
         buy.setOrderId(9);
         assertEquals(buy.getOrderId(), 9);
 
@@ -128,8 +128,7 @@ class OrderTest {
     @Test
     void setResolvedQuantity() {
         buy.setResolvedQuantity(2);
-        buy.setResolvedQuantity(2);
-        assertEquals(buy.getResolvedQuantity(), 1);
+        assertEquals(buy.getResolvedQuantity(), 2);
     }
 
     @Test
@@ -155,7 +154,7 @@ class OrderTest {
     }
 
     @Test
-    void testEquals() {
+    void testEquals() throws Exception {
         Object o = new Order(0, Order.Type.BUY,
                 101, 0, 5, 0, 10,
                 null, null, Order.Status.PENDING);
@@ -173,7 +172,7 @@ class OrderTest {
     }
 
     @Test
-    void isSimilarTo() {
+    void isSimilarTo() throws Exception {
         Order buy01 = new Order(0, Order.Type.BUY,
                 101, 0, 77, 0, 10,
                 null, null, Order.Status.PENDING);

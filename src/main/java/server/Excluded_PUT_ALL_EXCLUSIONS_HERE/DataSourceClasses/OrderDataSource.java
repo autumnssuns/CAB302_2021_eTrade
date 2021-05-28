@@ -151,6 +151,8 @@ public class OrderDataSource {
             };
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return dummy;
 
@@ -200,6 +202,8 @@ public class OrderDataSource {
                         );
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return orders;
