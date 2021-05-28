@@ -3,7 +3,7 @@
   <component name="GithubSharedProjectSettings">
     <option name="branchProtectionPatterns">
       <list>
-        <option value="CODE_MUST_PASS_TESTS_TO_MERGE" />
+        <option value="master" />
       </list>
     </option>
   </component>

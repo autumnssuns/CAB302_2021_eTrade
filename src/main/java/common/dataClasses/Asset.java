@@ -8,7 +8,7 @@ import java.util.Objects;
  * Represents an asset that can be traded in the system.
  */
 public class Asset implements IData {
-    protected int assetId;
+    protected Integer assetId;
     protected String assetName;
     protected String description;
 
@@ -17,7 +17,7 @@ public class Asset implements IData {
      * @param assetName The name of the asset.
      * @param description The description of the asset.
      */
-    public Asset(int assetId, String assetName, String description) throws InvalidArgumentValueException {
+    public Asset(Integer assetId, String assetName, String description) throws InvalidArgumentValueException {
         this.assetId = assetId;
         setName(assetName);
         setDescription(description);
@@ -27,7 +27,7 @@ public class Asset implements IData {
      * Retrieves the ID of the asset.
      * @return The ID of the asset.
      */
-    public int getId() {
+    public Integer getId() {
         return assetId;
     }
 
@@ -35,7 +35,7 @@ public class Asset implements IData {
      * Sets the ID of the asset.
      * @param Id the ID of the asset.
      */
-    public void setId(int Id) {this.assetId = Id;}
+    public void setId(Integer Id) {this.assetId = Id;}
 
     /**
      * Retrieves the name of the asset.

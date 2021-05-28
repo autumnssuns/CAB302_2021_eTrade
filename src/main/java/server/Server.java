@@ -106,16 +106,14 @@ public final class Server implements IServer{
                     // Create a response and write to stream
                     final Request request = (Request) inputStream.readObject();
                     System.out.println(request.getAction());
-                    TimeUnit.SECONDS.sleep(1);
                     Response response = createResponse(request);
+                    outputStream.flush();
                     outputStream.writeObject(response);
                     // Closes the socket after writing
                     socket.close();
                 } catch (SocketTimeoutException e) {
                     continue;
                 } catch (InvalidArgumentValueException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }

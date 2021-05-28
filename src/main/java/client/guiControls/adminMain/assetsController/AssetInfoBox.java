@@ -15,10 +15,7 @@ import javafx.scene.layout.VBox;
  */
 public class AssetInfoBox extends HBox implements IViewUnit {
     private AdminMainController controller;
-
-    private int assetId;
-    private String name;
-    private String description;
+    private Asset asset;
 
     private Label idLabel;
     private TextField nameTextField;
@@ -27,18 +24,15 @@ public class AssetInfoBox extends HBox implements IViewUnit {
     private Button editButton;
     private Button removeButton;
 
+
     /**
-     * Initiates the box with asset information.
-     * @param assetId The asset's id.
-     * @param name The name of the asset.
-     * @param description The description of the asset.
+     * Initiate the view with a linked asset.
+     * @param asset The linked asset.
      */
-    public AssetInfoBox(int assetId, String name, String description){
+    public AssetInfoBox(Asset asset){
         super();
 
-        this.assetId = assetId;
-        this.name = name;
-        this.description = description;
+        this.asset = asset;
 
         initialize();
         load();
@@ -65,18 +59,18 @@ public class AssetInfoBox extends HBox implements IViewUnit {
         nameTextField = new TextField();
         nameTextField.setPrefWidth(200);
         nameTextField.setPrefHeight(30);
-        nameTextField.setId("assetName" + assetId);
+        nameTextField.setId("assetName" + asset.getId());
 
         descriptionTextField = new TextField();
         descriptionTextField.setPrefWidth(450);
         descriptionTextField.setPrefHeight(30);
-        descriptionTextField.setId("assetDescription" + assetId);
+        descriptionTextField.setId("assetDescription" + asset.getId());
 
         editButton = new Button("Edit");
         editButton.setPrefWidth(100);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
-        editButton.setId("assetEditButton" + assetId);
+        editButton.setId("assetEditButton" + asset.getId());
 
         removeButton = new Button("Remove");
         removeButton.setPrefWidth(100);
@@ -88,14 +82,14 @@ public class AssetInfoBox extends HBox implements IViewUnit {
                 invalidArgumentValueException.printStackTrace();
             }
         });
-        removeButton.setId("assetRemoveButton" + assetId);
+        removeButton.setId("assetRemoveButton" + asset.getId());
 
         this.getChildren().addAll(idLabel, nameTextField, descriptionTextField, editButton, removeButton);
         disable();
     }
 
     /**
-     * Loads the data from the linked object to the GUI componets
+     * Loads the data from the linked object to the GUI components
      */
     @Override
     public void load() {
@@ -116,29 +110,33 @@ public class AssetInfoBox extends HBox implements IViewUnit {
      * Update the asset's info by taking data from the text fields.
      */
     private void updateValues(){
-        name = nameTextField.getText();
-        description = descriptionTextField.getText();
+        try {
+            asset.setName(nameTextField.getText());
+        } catch (InvalidArgumentValueException e) {
+            e.printStackTrace();
+        }
+        asset.setDescription(descriptionTextField.getText());
     }
 
     /**
-     * Loadas a label to display the asset's id.
+     * Loads a label to display the asset's id.
      */
     private void loadIdLabel(){
-        idLabel.setText(String.valueOf(assetId));
+        idLabel.setText(String.valueOf(asset.getId()));
     }
 
     /**
-     * Loadas a text field to display the asset's name.
+     * Loads a text field to display the asset's name.
      */
     private void loadNameTextField(){
-        nameTextField.setText(name);
+        nameTextField.setText(asset.getName());
     }
 
     /**
-     * Loadas a text field to display the asset's description.
+     * Loads a text field to display the asset's description.
      */
     private void loadDescriptionTextField(){
-        descriptionTextField.setText(description);
+        descriptionTextField.setText(asset.getDescription());
     }
 
     /**
@@ -182,7 +180,7 @@ public class AssetInfoBox extends HBox implements IViewUnit {
     private void confirmEdit() throws InvalidArgumentValueException {
         disable();
         updateValues();
-        Response response = controller.sendRequest("edit", new Asset(assetId, name, description), Asset.class);
+        Response response = controller.sendRequest("edit", asset, Asset.class);
         if (response.isFulfilled()){
             controller.updateLocalDatabase(Asset.class);
         }
@@ -220,7 +218,7 @@ public class AssetInfoBox extends HBox implements IViewUnit {
      * Removes the current entry.
      */
     private void removeEntry() throws InvalidArgumentValueException {
-        Response response = controller.sendRequest("delete", new Asset(assetId, name, description), Asset.class);
+        Response response = controller.sendRequest("delete", asset, Asset.class);
         if (response.isFulfilled()){
             controller.updateLocalDatabase(Asset.class);
             ((VBox) this.getParent()).getChildren().remove(this);
