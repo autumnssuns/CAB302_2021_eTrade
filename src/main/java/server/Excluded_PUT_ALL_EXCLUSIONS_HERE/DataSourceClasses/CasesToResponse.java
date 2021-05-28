@@ -12,27 +12,22 @@ import java.time.LocalDateTime;
 public class CasesToResponse {
 
     public static void initiate() throws InvalidArgumentValueException {
-        UserDataSource users = new UserDataSource();
-        AssetsDataSource assetsDataSource = new AssetsDataSource();
-        StockDataSource stockDataSource = new StockDataSource();
-        OrderDataSource orderDataSource = new OrderDataSource();
 
+        add(new User(1, "Dan Tran", "dan", "123", "user", 0));
+        add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1));
+        add(new User(3, "Linh Hoang", "lyn", "password", "user", 2));
+        add(new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3));
 
-        users.addUser(new User(1, "Dan Tran", "dan", "123", "user", 0));
-        users.addUser(new User(2, "Daniel Pham", "duy", "abcd", "user", 1));
-        users.addUser(new User(3, "Linh Hoang", "lyn", "password", "user", 2));
-        users.addUser(new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3));
+        add(new Asset(0, "CPU Hours", "CPU for rent"));
+        add(new Asset(1, "10 GB Database Server", "Remove SQL Server"));
+        add(new Asset(2, "A Generic Video Game", "Nothing is more generic than this."));
+        add(new Asset(3, "Coffin Dance Video", "You know what this is"));
+        DataCollection<Asset> assets = (DataCollection<Asset>) queryAssets().getAttachment();
 
-        assetsDataSource.addAsset(new Asset(0, "CPU Hours", "CPU for rent"));
-        assetsDataSource.addAsset(new Asset(1, "10 GB Database Server", "Remove SQL Server"));
-        assetsDataSource.addAsset(new Asset(2, "A Generic Video Game", "Nothing is more generic than this."));
-        assetsDataSource.addAsset(new Asset(3, "Coffin Dance Video", "You know what this is"));
-        DataCollection<Asset> assets = assetsDataSource.getAssetList();
-        OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
-        organisationsDataSource.addOrganisation(new OrganisationalUnit(0, "The Justice League", 9999.0f));
-        organisationsDataSource.addOrganisation(new OrganisationalUnit(1, "The supervillains", 5555.0f));
-        organisationsDataSource.addOrganisation(new OrganisationalUnit(2, "The random civilians", 3000.0f));
-        organisationsDataSource.addOrganisation(new OrganisationalUnit(3, "The brokers", 3000.0f));
+        add(new OrganisationalUnit(0, "The Justice League", 9999.0f));
+        add(new OrganisationalUnit(1, "The supervillains", 5555.0f));
+        add(new OrganisationalUnit(2, "The random civilians", 3000.0f));
+        add(new OrganisationalUnit(3, "The brokers", 3000.0f));
 
         Stock stock0 = new Stock(0);
         Stock stock1 = new Stock(1);
@@ -42,34 +37,34 @@ public class CasesToResponse {
         stock0.add(new Item(assets.get(1), 99));
         stock0.add(new Item(assets.get(2), 99));
         stock0.add(new Item(assets.get(3), 99));
-        stockDataSource.UpdateUnitStock(stock0);
+        add(stock0);
         stock1.add(new Item(assets.get(0), 99));
         stock1.add(new Item(assets.get(1), 99));
         stock1.add(new Item(assets.get(2), 99));
         stock1.add(new Item(assets.get(3), 99));
-        stockDataSource.UpdateUnitStock(stock1);
+        add(stock1);
         stock2.add(new Item(assets.get(0), 10));
         stock2.add(new Item(assets.get(1), 10));
         stock2.add(new Item(assets.get(2), 10));
         stock2.add(new Item(assets.get(3), 10));
-        stockDataSource.UpdateUnitStock(stock1);
+        add(stock1);
 
-        orderDataSource.addOrder(new Order(0, Order.Type.SELL, 0, 0, 99, 0, 10f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 16, 52), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(1, Order.Type.SELL, 0, 1, 99, 0, 3f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 13, 42), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(2, Order.Type.SELL, 0, 2, 99, 0, 4f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 7, 45), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(3, Order.Type.SELL, 0, 3, 99, 0, 5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 22, 00), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(4, Order.Type.SELL, 1, 0, 55, 0, 8f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 21, 52), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(5, Order.Type.SELL, 1, 1, 55, 0, 7f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 15, 26), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(6, Order.Type.SELL, 1, 2, 55, 0, 8f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 18, 28), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(7, Order.Type.SELL, 1, 3, 50, 0, 9f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 13, 36), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(8, Order.Type.BUY, 2, 0, 40, 0, 10f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 14, 45), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(9, Order.Type.BUY, 2, 1, 40, 0, 10.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 11, 14), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(10, Order.Type.BUY, 2, 2, 40, 0, 11.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 7, 15), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(11, Order.Type.BUY, 2, 3, 40, 0, 12.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 4, 20), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(12, Order.Type.BUY, 3, 0, 50, 0, 13.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 6, 21), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(13, Order.Type.BUY, 3, 1, 50, 0, 12.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 8, 30), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(14, Order.Type.BUY, 3, 2, 50, 0, 14.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 0, 11), Order.Status.PENDING));
-        orderDataSource.addOrder(new Order(15, Order.Type.BUY, 3, 3, 50, 0, 15.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
+        CasesToResponse.add(new Order(0, Order.Type.SELL, 0, 0, 99, 0, 10f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 16, 52), Order.Status.PENDING));
+        CasesToResponse.add(new Order(1, Order.Type.SELL, 0, 1, 99, 0, 3f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 13, 42), Order.Status.PENDING));
+        CasesToResponse.add(new Order(2, Order.Type.SELL, 0, 2, 99, 0, 4f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 7, 45), Order.Status.PENDING));
+        CasesToResponse.add(new Order(3, Order.Type.SELL, 0, 3, 99, 0, 5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 22, 00), Order.Status.PENDING));
+        CasesToResponse.add(new Order(4, Order.Type.SELL, 1, 0, 55, 0, 8f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 21, 52), Order.Status.PENDING));
+        CasesToResponse.add(new Order(5, Order.Type.SELL, 1, 1, 55, 0, 7f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 15, 26), Order.Status.PENDING));
+        CasesToResponse.add(new Order(6, Order.Type.SELL, 1, 2, 55, 0, 8f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 18, 28), Order.Status.PENDING));
+        CasesToResponse.add(new Order(7, Order.Type.SELL, 1, 3, 50, 0, 9f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 13, 36), Order.Status.PENDING));
+        CasesToResponse.add(new Order(8, Order.Type.BUY, 2, 0, 40, 0, 10f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 14, 45), Order.Status.PENDING));
+        CasesToResponse.add(new Order(9, Order.Type.BUY, 2, 1, 40, 0, 10.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 11, 14), Order.Status.PENDING));
+        CasesToResponse.add(new Order(10, Order.Type.BUY, 2, 2, 40, 0, 11.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 7, 15), Order.Status.PENDING));
+        CasesToResponse.add(new Order(11, Order.Type.BUY, 2, 3, 40, 0, 12.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 4, 20), Order.Status.PENDING));
+        CasesToResponse.add(new Order(12, Order.Type.BUY, 3, 0, 50, 0, 13.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 6, 21), Order.Status.PENDING));
+        CasesToResponse.add(new Order(13, Order.Type.BUY, 3, 1, 50, 0, 12.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 8, 30), Order.Status.PENDING));
+        CasesToResponse.add(new Order(14, Order.Type.BUY, 3, 2, 50, 0, 14.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 0, 11), Order.Status.PENDING));
+        CasesToResponse.add(new Order(15, Order.Type.BUY, 3, 3, 50, 0, 15.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
 }
 
 
@@ -577,7 +572,6 @@ public class CasesToResponse {
                         break;
                     }
                 }
-
             }
 
             // make another attempt to reconcile
