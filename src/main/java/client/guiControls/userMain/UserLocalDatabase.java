@@ -215,31 +215,35 @@ public class UserLocalDatabase extends ILocalDatabase {
             }
         }
 
-        // Interpolation of missing data
-        float[] ratesOfChange = new float[timestamps.size() - 1];
-        for (int i = 0; i < timestamps.size() - 1; i++){
-            ratesOfChange[i] = (prices.get(i + 1) - prices.get(i)) / (float) ChronoUnit.DAYS.between(timestamps.get(i), timestamps.get(i + 1));
-            System.out.println("Rate of change");
-            System.out.println(prices.get(i + 1) - prices.get(i));
-            System.out.println(ChronoUnit.DAYS.between(timestamps.get(i), timestamps.get(i + 1)));
-        }
+        // Interpolation of missing data, only perform if
+        // there are at least 2 data points
+        if (timestamps.size() > 1){
+            float[] ratesOfChange = new float[timestamps.size() - 1];
+            for (int i = 0; i < timestamps.size() - 1; i++){
+                ratesOfChange[i] = (prices.get(i + 1) - prices.get(i)) / (float) ChronoUnit.DAYS.between(timestamps.get(i), timestamps.get(i + 1));
+                System.out.println("Rate of change");
+                System.out.println(prices.get(i + 1) - prices.get(i));
+                System.out.println(ChronoUnit.DAYS.between(timestamps.get(i), timestamps.get(i + 1)));
+            }
 
-        LocalDate currentDate = timestamps.get(0);
-        int currentDateIndex = 0;
-        for (int i = 0; i < ratesOfChange.length; i++){
-            whileLoop:
-            while (currentDate.isBefore(timestamps.getLast())){
-                currentDate = currentDate.plusDays(1);
-                currentDateIndex++;
-                if (!timestamps.contains(currentDate)) {
-                    timestamps.add(currentDateIndex, currentDate);
-                    prices.add(currentDateIndex, prices.get(currentDateIndex - 1) + ratesOfChange[i]);
-                }
-                else{
-                    break whileLoop;
+            LocalDate currentDate = timestamps.get(0);
+            int currentDateIndex = 0;
+            for (int i = 0; i < ratesOfChange.length; i++){
+                whileLoop:
+                while (currentDate.isBefore(timestamps.getLast())){
+                    currentDate = currentDate.plusDays(1);
+                    currentDateIndex++;
+                    if (!timestamps.contains(currentDate)) {
+                        timestamps.add(currentDateIndex, currentDate);
+                        prices.add(currentDateIndex, prices.get(currentDateIndex - 1) + ratesOfChange[i]);
+                    }
+                    else{
+                        break whileLoop;
+                    }
                 }
             }
         }
+
 
         for (int i = 0; i < timestamps.size(); i++){
             priceHistory.put(timestamps.get(i), prices.get(i));

@@ -20,10 +20,10 @@ public class Order implements IData {
         CANCELLED
     }
 
-    protected int orderId;
+    protected Integer orderId;
     protected Type orderType; //buy/sell
-    protected int unitId;
-    protected int assetId;
+    protected Integer unitId;
+    protected Integer assetId;
     protected int placedQuantity;//cartitem
     protected int resolvedQuantity = 0;
     protected float price;
@@ -40,7 +40,7 @@ public class Order implements IData {
         return asset;
     }
 
-    public Order(int orderId, Type orderType, int unitId, int assetId, int placedQuantity, int resolvedQuantity, float price, LocalDateTime finishDate, LocalDateTime orderDate, Status status) {
+    public Order(Integer orderId, Type orderType, Integer unitId, Integer assetId, int placedQuantity, int resolvedQuantity, float price, LocalDateTime finishDate, LocalDateTime orderDate, Status status) {
         this.orderId = orderId;
         this.orderType = orderType;
         this.unitId = unitId;
@@ -65,7 +65,7 @@ public class Order implements IData {
      *
      * @return Order ID
      */
-    public int getOrderId(){return orderId;}
+    public Integer getOrderId(){return orderId;}
 
     /**
      *
@@ -77,13 +77,13 @@ public class Order implements IData {
      *
      * @return OrganisationalUnit ID
      */
-    public int getUnitId(){return unitId;}
+    public Integer getUnitId(){return unitId;}
 
     /**
      *
      * @return Asset ID
      */
-    public int getAssetId(){return assetId;}
+    public Integer getAssetId(){return assetId;}
 
     /**
      *
@@ -125,7 +125,7 @@ public class Order implements IData {
      * set the order id to given Int
      * @param order_id
      */
-    public void setOrderId(int order_id) { this.orderId = order_id;
+    public void setOrderId(Integer order_id) { this.orderId = order_id;
     }
 
     /**
@@ -139,14 +139,14 @@ public class Order implements IData {
      * Set new organisational unit ID
      * @param organisation_id
      */
-    public void setUnitId(int organisation_id) { this.unitId = organisation_id;
+    public void setUnitId(Integer organisation_id) { this.unitId = organisation_id;
     }
 
     /**
      * Set new asset ID
      * @param asset_id
      */
-    public void setAssetID(int asset_id) { this.assetId = asset_id;
+    public void setAssetID(Integer asset_id) { this.assetId = asset_id;
     }
 
     /**

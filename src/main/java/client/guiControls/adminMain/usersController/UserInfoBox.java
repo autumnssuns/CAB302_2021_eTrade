@@ -18,14 +18,9 @@ import javafx.scene.layout.*;
  * A box to display user information and can be interacted with.
  */
 public class UserInfoBox extends HBox implements IViewUnit {
-    private AdminMainController controller;
-
-    private int userId;
-    private String name;
-    private String username;
-    private String password;
-    private String organisationalUnit;
-    private String role;
+    private UsersController controller;
+    private User user;
+    private OrganisationalUnit unit;
 
     private Label idLabel;
     private TextField nameTextField;
@@ -37,25 +32,19 @@ public class UserInfoBox extends HBox implements IViewUnit {
     private Button editButton;
     private Button removeButton;
 
+
     /**
      * Initiates the box with user information.
-     * @param userId The user's id.
-     * @param name The name of the user.
-     * @param username The unique username of the user.
-     * @param password The user's password.
-     * @param organisationalUnit The name of the user's organisationalUnit.
-     * @param role The user's role.
+     * @param user The linked user.
+     * @param controller The controller for this field
      */
-    public UserInfoBox(int userId, String name, String username, String password, String organisationalUnit, String role){
+    public UserInfoBox(User user, UsersController controller){
         super();
-
-        this.userId = userId;
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.organisationalUnit = organisationalUnit;
-        this.role = role;
-
+        this.controller = controller;
+        this.user = user;
+        this.unit = controller.getOrganisation(user) == null ?
+                    new OrganisationalUnit(null,"N/A",0) :
+                    controller.getOrganisation(user);
         initialize();
         load();
     }
@@ -78,24 +67,24 @@ public class UserInfoBox extends HBox implements IViewUnit {
         nameTextField = new TextField();
         nameTextField.setPrefWidth(190);
         nameTextField.setPrefHeight(30);
-        nameTextField.setId("userFullname" + userId);
+        nameTextField.setId("userFullname" + user.getUserId());
 
         usernameTextField = new TextField();
         usernameTextField.setPrefWidth(190);
         usernameTextField.setPrefHeight(30);
-        usernameTextField.setId("username" + userId);
+        usernameTextField.setId("username" + user.getUserId());
 
         passwordField = new PasswordField();
         passwordField.setPrefWidth(190);
         passwordField.setPrefHeight(30);
-        passwordField.setId("password" + userId);
+        passwordField.setId("password" + user.getUserId());
 
         organisationUnitSelectionBox = new ComboBox();
         organisationUnitSelectionBox.setPromptText("Organisational Unit");
         organisationUnitSelectionBox.setPrefWidth(300);
         organisationUnitSelectionBox.setPrefHeight(30);
         organisationUnitSelectionBox.setEditable(true);
-        organisationUnitSelectionBox.setId("userOrganisation" + userId);
+        organisationUnitSelectionBox.setId("userOrganisation" + user.getUserId());
 
         roleSelectionBox = new ComboBox();
         roleSelectionBox.setPromptText("Role");
@@ -103,13 +92,13 @@ public class UserInfoBox extends HBox implements IViewUnit {
         roleSelectionBox.setPrefHeight(30);
         roleSelectionBox.setEditable(false);
         roleSelectionBox.getItems().addAll("user","admin");
-        roleSelectionBox.setId("userRole" + userId);
+        roleSelectionBox.setId("userRole" + user.getUserId());
 
         editButton = new Button("Edit");
         editButton.setPrefWidth(100);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
-        editButton.setId("userEditButton" + userId);
+        editButton.setId("userEditButton" + user.getUserId());
 
         removeButton = new Button("Remove");
         removeButton.setPrefWidth(100);
@@ -121,7 +110,7 @@ public class UserInfoBox extends HBox implements IViewUnit {
                 invalidArgumentValueException.printStackTrace();
             }
         });
-        removeButton.setId("userRemoveButton" + userId);
+        removeButton.setId("userRemoveButton" + user.getUserId());
 
         this.getChildren().addAll(idLabel, nameTextField, usernameTextField, passwordField, organisationUnitSelectionBox, roleSelectionBox, editButton, removeButton);
         disable();
@@ -138,50 +127,44 @@ public class UserInfoBox extends HBox implements IViewUnit {
     }
 
     /**
-     * Sets the controller for this component.
-     * @param controller The controller.
-     */
-    public void setController(AdminMainController controller){
-        this.controller = controller;
-    }
-
-    /**
      * Update the user's info by taking data from the text fields.
      */
     private void updateValues(){
-        name = nameTextField.getText();
-        username = usernameTextField.getText();
-        password = passwordField.getText();
-        organisationalUnit = (String) organisationUnitSelectionBox.getValue();
-        role = (String) roleSelectionBox.getValue();
+        user.setFullName(nameTextField.getText());
+        user.setUsername(usernameTextField.getText());
+        if (!user.getPassword().equals(passwordField.getText())){
+            user.setPassword(passwordField.getText());
+        }
+        user.setOrganisation(controller.getOrganisation((String) organisationUnitSelectionBox.getValue()).getId());
+        user.setAccountType((String) roleSelectionBox.getValue());
     }
 
     /**
      * Loads a label to display the user's id.
      */
     private void loadIdLabel(){
-        idLabel.setText(String.valueOf(userId));
+        idLabel.setText(String.valueOf(user.getUserId()));
     }
 
     /**
      * Loads a text field to display the user's name.
      */
     private void loadFullNameTextField(){
-        nameTextField.setText(name);
+        nameTextField.setText(user.getFullName());
     }
 
     /**
      * Loads a text field to display the user's unique username.
      */
     private void loadUsernameTextField(){
-        usernameTextField.setText(username);
+        usernameTextField.setText(user.getUsername());
     }
 
     /**
      * Loads a password field to edit the user's password.
      */
     private void loadPasswordField(){
-        passwordField.setText(password);
+        passwordField.setText(user.getPassword());
     }
 
     /**
@@ -189,16 +172,18 @@ public class UserInfoBox extends HBox implements IViewUnit {
      */
     // TODO: Sync with organisations
     private void loadOrganisationUnitSelectionBox(){
-        organisationUnitSelectionBox.setValue(organisationalUnit);
-        organisationUnitSelectionBox.getItems().addAll("TestOrg", "The Justice League", "The supervillains", "The random civilians");
-
+        organisationUnitSelectionBox.setValue(unit.getName());
+        organisationUnitSelectionBox.getItems().clear();
+        for (OrganisationalUnit unit : controller.getOrganisationalUnits()){
+            organisationUnitSelectionBox.getItems().add(unit.getName());
+        }
     }
 
     /**
      * Loads a ComboBox to display the user's role.
      */
     private void loadRoleSelectionBox(){
-        roleSelectionBox.setValue(role);
+        roleSelectionBox.setValue(user.getAccountType());
     }
 
     /**
@@ -248,17 +233,7 @@ public class UserInfoBox extends HBox implements IViewUnit {
     private void confirmEdit() throws InvalidArgumentValueException {
         disable();
         updateValues();
-        int unitId = 0;
-        for (OrganisationalUnit unit : ((AdminLocalDatabase)controller.getDatabase()).getOrganisationalUnits()){
-            if (unit.getName().equals(organisationalUnit)){
-                unitId = unit.getId();
-                break;
-            }
-        }
-        Response response = controller.sendRequest("edit", new User(userId, name, username, password, role, unitId), User.class);
-        if (response.isFulfilled()){
-            controller.updateLocalDatabase(User.class);
-        }
+        controller.sendRequest("edit", user, User.class);
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
@@ -293,17 +268,6 @@ public class UserInfoBox extends HBox implements IViewUnit {
      * Removes the current entry.
      */
     private void removeEntry() throws InvalidArgumentValueException {
-        int unitId = 0;
-        for (OrganisationalUnit unit : ((AdminLocalDatabase)controller.getDatabase()).getOrganisationalUnits()){
-            if (unit.getName().equals(organisationalUnit)){
-                unitId = unit.getId();
-                break;
-            }
-        }
-        Response response = controller.sendRequest("delete", new User(userId, name, username, password, role, unitId), User.class);
-        if (response.isFulfilled()){
-            controller.updateLocalDatabase(User.class);
-            ((VBox) this.getParent()).getChildren().remove(this);
-        }
+        controller.sendRequest("delete", user, User.class);
     }
 }

@@ -9,13 +9,13 @@ import java.util.Objects;
  * Represents a collection of items owned by an organisational unit.
  */
 public class Stock extends ArrayList<Item> implements IData{
-    private int unitId;
+    private Integer unitId;
 
     /**
      * Initiates the stock by declaring the organisational unit owning it.
      * @param unitId The ID of the organisational unit owning the stock.
      */
-    public Stock(int unitId){
+    public Stock(Integer unitId){
         this.unitId = unitId;
     }
 
@@ -23,7 +23,7 @@ public class Stock extends ArrayList<Item> implements IData{
      * Sets the ID of the organisational unit owning this stock.
      * @param unitId The ID of the organisational unit owning this stock.
      */
-    public void setUnitId(int unitId){
+    public void setUnitId(Integer unitId){
         this.unitId = unitId;
     }
 
@@ -31,7 +31,7 @@ public class Stock extends ArrayList<Item> implements IData{
      * Returns the ID of the organisational unit holding this stock.
      * @return The ID of the organisational unit holding this stock.
      */
-    public int getUnitId(){
+    public Integer getUnitId(){
         return this.unitId;
     }
 

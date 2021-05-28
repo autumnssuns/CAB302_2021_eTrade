@@ -107,6 +107,7 @@ public final class Server implements IServer{
                     final Request request = (Request) inputStream.readObject();
                     System.out.println(request.getAction());
                     Response response = createResponse(request);
+                    outputStream.flush();
                     outputStream.writeObject(response);
                     // Closes the socket after writing
                     socket.close();
