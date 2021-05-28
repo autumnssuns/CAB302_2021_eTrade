@@ -43,8 +43,8 @@ public class BuyController extends DisplayController {
      */
     private void addItemInfoBox(Item item){
         LinkedHashMap<LocalDate, Float> priceHistory = ((UserLocalDatabase) controller.getDatabase()).getPriceHistory(item, Order.Type.SELL);
-        ItemInfoBox itemInfoBox = new ItemInfoBox(item, priceHistory, this);
-        marketDisplayBox.getChildren().add(itemInfoBox);
+        BuyItemInfoBox buyItemInfoBox = new BuyItemInfoBox(item, priceHistory, this);
+        marketDisplayBox.getChildren().add(buyItemInfoBox);
     }
 
     /**
@@ -52,8 +52,8 @@ public class BuyController extends DisplayController {
      * @param cartItem The linked cartItem.
      */
     private void addCartItemInfoBox(CartItem cartItem){
-        CartItemInfoBox cartItemInfoBox = new CartItemInfoBox(cartItem, this);
-        buyCartDisplayBox.getChildren().add(cartItemInfoBox);
+        BuyCartItemInfoBox buyCartItemInfoBox = new BuyCartItemInfoBox(cartItem, this);
+        buyCartDisplayBox.getChildren().add(buyCartItemInfoBox);
     }
 
     /**
@@ -73,7 +73,7 @@ public class BuyController extends DisplayController {
      * @param price The price of the order
      */
     public void customiseItem(Asset asset, int quantity, float price){
-        ((ItemInfoBox) marketDisplayBox.lookup("#buyItemInfoBox" + asset.getId()))
+        ((BuyItemInfoBox) marketDisplayBox.lookup("#buyItemInfoBox" + asset.getId()))
                 .setQuantity(quantity)
                 .setPrice(price);
     }
@@ -155,8 +155,8 @@ public class BuyController extends DisplayController {
 
         int startingOrderIndex = pageIndex * ordersPerPage;
         for (int i = startingOrderIndex; i < startingOrderIndex + ordersPerPage && i < marketSellOrders.size(); i++){
-            MarketOrderInfoBox MarketOrderInfoBox = new MarketOrderInfoBox(marketSellOrders.get(i), this);
-            ordersContainerBox.getChildren().add(MarketOrderInfoBox);
+            MarketSellOrderInfoBox MarketSellOrderInfoBox = new MarketSellOrderInfoBox(marketSellOrders.get(i), this);
+            ordersContainerBox.getChildren().add(MarketSellOrderInfoBox);
         }
         return ordersContainerBox;
     }
