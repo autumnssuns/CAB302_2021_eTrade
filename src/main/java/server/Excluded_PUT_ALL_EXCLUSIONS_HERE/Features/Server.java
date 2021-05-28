@@ -1,6 +1,5 @@
 package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.Features;
 
-import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.DataCollection;
@@ -57,7 +56,7 @@ public class Server implements Serializable {
      * request from the client at the socket so there is no parameter needed
      * @throws IOException
      */
-    public Response SendResponse() throws IOException, ClassNotFoundException, InvalidArgumentValueException {
+    public Response SendResponse() throws Exception {
 
         // For handler to assign value to serverResponse
         //setup the shell
@@ -73,7 +72,7 @@ public class Server implements Serializable {
         switch (command){
 
             case "Login":
-                serverResponse = CasesToResponse.Login(clientRequest);
+                serverResponse = CasesToResponse.login(clientRequest);
                 break;
 
                 // Use overloaded method for these cases: Query, Delete, Edit and Add
@@ -148,7 +147,7 @@ public class Server implements Serializable {
         return serverResponse;
     }
 
-    public static void main (String args[]) throws IOException, ClassNotFoundException, InvalidArgumentValueException {
+    public static void main (String args[]) throws Exception {
         Server server = new Server();
         server.Start();
         server.SendResponse();

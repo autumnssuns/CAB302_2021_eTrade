@@ -8,16 +8,12 @@ import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.*;
 import common.Exceptions.InvalidArgumentValueException;
 import static org.junit.jupiter.api.Assertions.*;
 
-import common.dataClasses.Asset;
-import common.dataClasses.DataCollection;
-import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.AssetsDataSource;
-
 import java.time.LocalDateTime;
 
 public class CasesToResponseTest {
     static Boolean createTable = true; //change this to create a table
     @BeforeAll
-    public static void SetUp() throws InvalidArgumentValueException {
+    public static void SetUp() throws Exception {
         if(createTable == true) {
             CasesToResponse.initiate();
         }
@@ -35,6 +31,16 @@ public class CasesToResponseTest {
 //    }
 
     @Test
+    public void LoginTest() {
+        // Register for user???
+        User test = new User("duy","abcd");
+        Request loginRequest = new Request(test,"");
+        Response response = CasesToResponse.login(loginRequest);
+        test = (User) response.getAttachment();
+        assertEquals(2, test.getUserId());
+        assertEquals(1, test.getUnitId());
+        assertEquals("Daniel Pham", test.getFullName());
+    }
     public void addOrderBuyType() throws InvalidArgumentValueException {
 //        AssetsDataSource assetsDataSource = new AssetsDataSource();
 //        StockDataSource stockDataSource = new StockDataSource();
@@ -77,5 +83,10 @@ public class CasesToResponseTest {
         CasesToResponse.add(new Order(17, Order.Type.BUY, 2, 3, 50, 0, 15.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
         CasesToResponse.add(new Order(18, Order.Type.BUY, 0, 3, 59, 0, 15.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
 
+    @Test
+    public void addOrderBuyType() throws Exception {
+        CasesToResponse.add(new Order(17, Order.Type.BUY, 1, 0, 64, 0, 10f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 16, 52), Order.Status.PENDING));
+        CasesToResponse.add(new Order(18, Order.Type.SELL, 0, 0, 20, 0, 10f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 16, 52), Order.Status.PENDING));
+        CasesToResponse.add(new Order(19, Order.Type.SELL, 0, 0, 20, 0, 10f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 16, 52), Order.Status.PENDING));
     }
 }
