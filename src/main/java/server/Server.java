@@ -164,7 +164,7 @@ public final class Server implements IServer{
                 break;
 
             case "login":
-                    serverResponse = CasesToResponse.Login(clientRequest);
+                    serverResponse = CasesToResponse.login(clientRequest);
                 break;
 
             case "query users":
