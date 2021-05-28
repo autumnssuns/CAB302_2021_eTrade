@@ -1,18 +1,17 @@
-package client.guiControls.userMain.saleController;
+package client.guiControls.userMain.buyController;
 
 import client.IViewUnit;
 import common.Exceptions.InvalidArgumentValueException;
-import common.dataClasses.Order;
+import common.dataClasses.*;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 
 /**
  * A GUI representation of the
  */
-public class MarketOrderInfoBox extends HBox implements IViewUnit {
-    private SaleController controller;
+public class MarketSellOrderInfoBox extends HBox implements IViewUnit {
+    private BuyController controller;
     private Order order;
 
     private Label assetName;
@@ -21,7 +20,7 @@ public class MarketOrderInfoBox extends HBox implements IViewUnit {
     private Button buyNowButton;
     private Button customButton;
 
-    public MarketOrderInfoBox(Order order, SaleController controller) {
+    public MarketSellOrderInfoBox(Order order, BuyController controller) {
         this.controller = controller;
         this.order = order;
         initialize();
@@ -31,6 +30,7 @@ public class MarketOrderInfoBox extends HBox implements IViewUnit {
     /**
      * Initialise the display elements and their styling.
      */
+    @Override
     public void initialize(){
         this.setAlignment(Pos.CENTER_LEFT);
         this.setSpacing(20);
@@ -52,7 +52,7 @@ public class MarketOrderInfoBox extends HBox implements IViewUnit {
         buyNowButton = new Button("Add to Cart");
         buyNowButton.setOnAction(e -> {
             try {
-                controller.sellItem(order.getAsset(), order.getPlacedQuantity() - order.getResolvedQuantity(), order.getPrice());
+                controller.buyItem(order.getAsset(), order.getPlacedQuantity() - order.getResolvedQuantity(), order.getPrice());
             } catch (InvalidArgumentValueException invalidArgumentValueException) {
                 invalidArgumentValueException.printStackTrace();
             }

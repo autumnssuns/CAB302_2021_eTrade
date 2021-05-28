@@ -106,7 +106,6 @@ public final class Server implements IServer{
                     // Create a response and write to stream
                     final Request request = (Request) inputStream.readObject();
                     System.out.println(request.getAction());
-                    TimeUnit.SECONDS.sleep(1);
                     Response response = createResponse(request);
                     outputStream.writeObject(response);
                     // Closes the socket after writing
@@ -114,8 +113,6 @@ public final class Server implements IServer{
                 } catch (SocketTimeoutException e) {
                     continue;
                 } catch (InvalidArgumentValueException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
