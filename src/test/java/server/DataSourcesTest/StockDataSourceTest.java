@@ -10,10 +10,14 @@ import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.StockDataSource
 
 class StockDataSourceTest {
     private static StockDataSource stockDataSource;
+    private static AssetsDataSource assetsDataSource;
+
     @BeforeEach
     void setUp() {
         stockDataSource = new StockDataSource();
         stockDataSource.DeleteAll();
+        assetsDataSource = new AssetsDataSource();
+        assetsDataSource.deleteAllAsset();
     }
 
     @Test
@@ -21,7 +25,6 @@ class StockDataSourceTest {
         User testuser = new User(1, "DuyPham",
                 "new", "123", "user", 1);
         Stock stock1 = new Stock(testuser.getUnitId());
-        AssetsDataSource assetsDataSource = new AssetsDataSource();
         //admin choice on GUI
         int assetIdOption = 1;
         int newQuantity = 100;
@@ -33,10 +36,10 @@ class StockDataSourceTest {
             stock1.setAssetId(assetIdOption);
             stock1.setAssetQuantity(newQuantity);
             //update stock table with unit's stock
-            stockDataSource.UpdateUnitStock(stock1);
+            stockDataSource.updateUnitStock(stock1);
             stockDataSource.EditItemQuantity(stock1);
             //return stock from database to check value
-            stock1 = stockDataSource.GetStock(testuser.getUnitId());
+            stock1 = stockDataSource.getStock(testuser.getUnitId());
             //checking
             assertEquals(1, stock1.get(0).getId());
             assertEquals(100 ,stock1.get(0).getQuantity());
@@ -61,8 +64,8 @@ class StockDataSourceTest {
             stock1.add(new Item(asset1, 10));
             stock1.add(new Item(asset2, 10));
             stock1.add(new Item(asset2, 10));
-            stockDataSource.UpdateUnitStock(stock1);
-            Stock userStock = stockDataSource.GetStock(testuser.getUnitId());
+            stockDataSource.updateUnitStock(stock1);
+            Stock userStock = stockDataSource.getStock(testuser.getUnitId());
             //check all items id in the stock
             assertEquals(userStock.get(0).getId(),stock1.get(0).getId());
             assertEquals(userStock.get(1).getId(),stock1.get(1).getId());
@@ -110,11 +113,11 @@ class StockDataSourceTest {
         stock1.add(new Item(asset1,100));
         stock1.add(new Item(asset1, 10));
         stock1.add(new Item(asset2, 10));
-        stockDataSource.UpdateUnitStock(stock1);
+        stockDataSource.updateUnitStock(stock1);
         //stock0
         stock0.add(new Item(asset1, 10));
         stock0.add(new Item(asset2, 10));
-        stockDataSource.UpdateUnitStock(stock0);
+        stockDataSource.updateUnitStock(stock0);
         //get all stocks in database (put in a list)
         stocks = stockDataSource.GetStockList();
 
@@ -158,12 +161,12 @@ class StockDataSourceTest {
             stock1.add(new Item(asset1, 10));
             stock1.add(new Item(asset2, 10));
             stock1.add(new Item(asset2, 10));
-            stockDataSource.UpdateUnitStock(stock1);
+            stockDataSource.updateUnitStock(stock1);
             //delete item with id: "1" of above stock
             int choiceOfItem = 1;
             stock1.setAssetId(choiceOfItem);
             stockDataSource.DeleteAnItem(stock1);
-            stock1 = stockDataSource.GetStock(testuser.getUnitId());
+            stock1 = stockDataSource.getStock(testuser.getUnitId());
             assertEquals(1,stock1.size());
             assertEquals(2,stock1.get(0).getId());
         }
@@ -178,24 +181,25 @@ class StockDataSourceTest {
                 "new", "123", "user", 1);
         Stock stock1 = new Stock(testuser.getUnitId());
         try {
-            //add new data
-            AssetsDataSource assetsDataSource = new AssetsDataSource();
-            assetsDataSource.addAsset(new Asset(3,"test item 3", "testing"));
+            Asset asset3 = new Asset(3,"test item 3", "testing");
             Asset asset1 = new Asset(1, "Test asset 1", "Testing");
             Asset asset2 = new Asset(2, "Test Asset 2", "Testing");
+            assetsDataSource.addAsset(asset1);
+            assetsDataSource.addAsset(asset2);
+            assetsDataSource.addAsset(asset3);
             stock1.add(new Item(asset1, 10));
             stock1.add(new Item(asset1, 10));
             stock1.add(new Item(asset2, 10));
             stock1.add(new Item(asset2, 10));
-            stockDataSource.UpdateUnitStock(stock1);
+            stockDataSource.updateUnitStock(stock1);
             //add item with id: "1" of above stock
             int newItemId = 3;
             //choice of quantity
             int quantity = 100;
             stock1.setAssetId(newItemId);
             stock1.setAssetQuantity(quantity);
-            stockDataSource.AddAnItem(stock1);
-            stock1 = stockDataSource.GetStock(testuser.getUnitId());
+            stockDataSource.addAnItem(stock1);
+            stock1 = stockDataSource.getStock(testuser.getUnitId());
             //check size
             assertEquals(3,stock1.size());
             //check id
