@@ -47,25 +47,9 @@ public class CasesToResponse {
         stock2.add(new Item(assets.get(1), 10));
         stock2.add(new Item(assets.get(2), 10));
         stock2.add(new Item(assets.get(3), 10));
-        add(stock1);
+        add(stock2);
 
-        CasesToResponse.add(new Order(0, Order.Type.SELL, 0, 0, 99, 0, 10f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 16, 52), Order.Status.PENDING));
-        CasesToResponse.add(new Order(1, Order.Type.SELL, 0, 1, 99, 0, 3f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 13, 42), Order.Status.PENDING));
-        CasesToResponse.add(new Order(2, Order.Type.SELL, 0, 2, 99, 0, 4f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 7, 45), Order.Status.PENDING));
-        CasesToResponse.add(new Order(3, Order.Type.SELL, 0, 3, 99, 0, 5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 6, 22, 00), Order.Status.PENDING));
-        CasesToResponse.add(new Order(4, Order.Type.SELL, 1, 0, 55, 0, 8f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 21, 52), Order.Status.PENDING));
-        CasesToResponse.add(new Order(5, Order.Type.SELL, 1, 1, 55, 0, 7f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 15, 26), Order.Status.PENDING));
-        CasesToResponse.add(new Order(6, Order.Type.SELL, 1, 2, 55, 0, 8f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 18, 28), Order.Status.PENDING));
-        CasesToResponse.add(new Order(7, Order.Type.SELL, 1, 3, 50, 0, 9f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 7, 13, 36), Order.Status.PENDING));
-        CasesToResponse.add(new Order(8, Order.Type.BUY, 2, 0, 40, 0, 10f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 14, 45), Order.Status.PENDING));
-        CasesToResponse.add(new Order(9, Order.Type.BUY, 2, 1, 40, 0, 10.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 11, 14), Order.Status.PENDING));
-        CasesToResponse.add(new Order(10, Order.Type.BUY, 2, 2, 40, 0, 11.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 7, 15), Order.Status.PENDING));
-        CasesToResponse.add(new Order(11, Order.Type.BUY, 2, 3, 40, 0, 12.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 8, 4, 20), Order.Status.PENDING));
-        CasesToResponse.add(new Order(12, Order.Type.BUY, 3, 0, 50, 0, 13.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 6, 21), Order.Status.PENDING));
-        CasesToResponse.add(new Order(13, Order.Type.BUY, 3, 1, 50, 0, 12.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 8, 30), Order.Status.PENDING));
-        CasesToResponse.add(new Order(14, Order.Type.BUY, 3, 2, 50, 0, 14.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 0, 11), Order.Status.PENDING));
-        CasesToResponse.add(new Order(15, Order.Type.BUY, 3, 3, 50, 0, 15.5f, LocalDateTime.of(0000,1,1,00,00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
-}
+        }
 
 
     //Todo: Add comment / description
@@ -92,7 +76,7 @@ public class CasesToResponse {
     // stock, transaction(considering) and User)
 
     //Todo: Overload Add method
-    public static <T extends IData> Response add(Request<T> request){
+    public static <T extends IData> Response add(Request<T> request) throws InvalidArgumentValueException {
         T attachment = request.getAttachment();
         Class<T> type = request.getAttachmentType();
         if(type.equals(User.class)) {
@@ -157,7 +141,6 @@ public class CasesToResponse {
                     edit(unitStock);
                     break;
                 }
-                else {System.out.println("This organisation doesn't have this asset in stock.");}
             }
 
         }
@@ -172,16 +155,55 @@ public class CasesToResponse {
             }
         }
     }
+    public static Item findItem(int unitId, int assetId)
+    {
+        StockDataSource stockDataSource = new StockDataSource();
+        Stock unitStock = stockDataSource.GetStock(unitId);
+        for(Item item : unitStock)
+        {
+            if(item.getId() == assetId){
+                return item;
+            }
+        }
+    return null;
+    }
 
-    public static Response add(Order attachment){
+    public static Response add(Order attachment) throws InvalidArgumentValueException {
             OrderDataSource orderDataSource = new OrderDataSource();
-            orderDataSource.addOrder(attachment);
-            //Todo: implement this function
-            placeOrder(attachment);
-            Response response = new Response(true, null);
+            OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
+            //If SELLER: check if the asset quantity is enough.
+            if(attachment.getOrderType() == Order.Type.SELL)
+            {
+                int validQuantity = -1;
+                Item item = findItem(attachment.getUnitId(), attachment.getAssetId());
+                if(item != null) {
+                    validQuantity = item.getQuantity() - attachment.getPlacedQuantity();
+                }
 
-            reconcileOrder(attachment);
-            return response;
+                if(validQuantity >= 0)
+                {
+                    orderDataSource.addOrder(attachment);
+                    //Todo: implement this function
+                    placeOrder(attachment);
+                    reconcileOrder(attachment);
+                }
+                else {System.out.println("Asset's quantity is not enough!");}
+            }
+
+            else if(attachment.getOrderType() == Order.Type.BUY)
+            {
+                OrganisationalUnit unit = organisationsDataSource.getOrganisation(attachment.getUnitId());
+                if(unit.getBalance() > attachment.getPlacedQuantity()*attachment.getPrice())
+                {
+                    orderDataSource.addOrder(attachment);
+                    //Todo: implement this function
+                    placeOrder(attachment);
+                    reconcileOrder(attachment);
+                }
+                else {System.out.println("Insufficient balance.");}
+            }
+
+            return new Response(true, null);
         }
 
     public static Response addAnItem(Stock attachment){
@@ -527,12 +549,12 @@ public class CasesToResponse {
      * - Adds credit to seller
      * - Adds assets to buyer
      */
-    private static void reconcileOrder(Order order){
+    private static void reconcileOrder(Order order) throws InvalidArgumentValueException {
         OrderDataSource orderDataSource = new OrderDataSource();
+        AssetsDataSource assetsDataSource = new AssetsDataSource();
         Order matchOrder = matchOrder(order);
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         StockDataSource stockDataSource = new StockDataSource();
-        DataCollection<Stock> stocks = stockDataSource.GetStockList();
         DataCollection<OrganisationalUnit> organisationalUnits = organisationsDataSource.getOrganisationList();
 
         if (matchOrder != null){
@@ -561,14 +583,34 @@ public class CasesToResponse {
                     break;
                 }
             }
-
+            Boolean itemExistence = false; //item exists in the stock
             // and the buyer's stock
+            DataCollection<Stock> stocks = stockDataSource.GetStockList();
+            System.out.println(stocks.size() + "The size here");
             for (Stock stock : stocks){
                 for(Item item : stock){
+                    //Check if the unit already have this stock.
+                    //If existed: increase the quantity of the item
                     if (stock.getUnitId() == buyerId && item.getId() == order.getAssetId()){
-                        stock.setAssetId(order.getAssetId());
-                        stock.setAssetQuantity(stock.getAssetQuantity() + reconcileQuantity);
-                        stockDataSource.EditItemQuantity(stock);
+                        System.out.println(stock.getUnitId());
+                        Asset asset = assetsDataSource.getAsset(item.getId());
+                        Item newItem = new Item (asset,reconcileQuantity);
+                        stock.add(newItem);
+                        itemExistence = true;
+                        stockDataSource.UpdateUnitStock(stock);
+                        break;
+                    }
+                }
+            }
+            //If not create new
+            if(itemExistence == false)
+            {
+                for(Stock stock : stocks)
+                {
+                    if(stock.getUnitId() == buyerId)
+                    {
+                        stock.add(new Item(assetsDataSource.getAsset(order.getAssetId()),reconcileQuantity));
+                        stockDataSource.UpdateUnitStock(stock);
                         break;
                     }
                 }
