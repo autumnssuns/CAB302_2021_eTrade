@@ -105,7 +105,7 @@ public class StockDataSource {
      * Update a unit's stock on stock table
      * @param attachment a Stock object
      */
-    public void UpdateUnitStock(Stock attachment) {
+    public void updateUnitStock(Stock attachment) {
         DeleteStock(attachment);
         for(Item item: attachment)
         {
@@ -120,7 +120,7 @@ public class StockDataSource {
         }
     }
 
-    public void AddAnItem(Stock stock)
+    public void addAnItem(Stock stock)
     {
         try {
             updateStock.setInt(1, stock.getUnitId());
@@ -137,7 +137,7 @@ public class StockDataSource {
      * @param unitId user wanted to return his/her stock
      * @return an Object array of {asset_id, organization_id, asset_quantity}
      */
-    public Stock GetStock(int unitId) {
+    public Stock getStock(int unitId) {
         Stock stock = new Stock(unitId);
         try {
             //Provide value for query
