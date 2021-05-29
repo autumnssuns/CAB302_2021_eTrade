@@ -7,7 +7,7 @@ import java.util.Objects;
  * Represents an organisational unit.
  */
 public class OrganisationalUnit implements IData{
-    private int unitId;
+    private Integer unitId;
     private String unitName;
     public float balance;
 
@@ -17,7 +17,7 @@ public class OrganisationalUnit implements IData{
      * @param unitName The name of the organisational unit.
      * @param balance The balance of the organisational unit.
      */
-    public OrganisationalUnit(int unitId, String unitName, float balance) throws Exception {
+    public OrganisationalUnit(Integer unitId, String unitName, float balance) throws Exception {
         this.unitId = unitId;
         setName(unitName);
         setBalance(balance);
@@ -27,7 +27,7 @@ public class OrganisationalUnit implements IData{
      * Returns the ID of the organisational unit
      * @return The ID of the organisational unit.
      */
-    public int getId(){
+    public Integer getId(){
         return unitId;
     }
 

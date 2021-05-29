@@ -38,7 +38,7 @@ public class UserInfoBox extends HBox implements IViewUnit {
      * @param user The linked user.
      * @param controller The controller for this field
      */
-    public UserInfoBox(User user, UsersController controller){
+    public UserInfoBox(User user, UsersController controller) throws Exception {
         super();
         this.controller = controller;
         this.user = user;

@@ -20,7 +20,7 @@ public class Order implements IData {
         CANCELLED
     }
 
-    protected int orderId;
+    protected Integer orderId;
     protected Type orderType; //   buy/sell
     protected int unitId;
     protected int assetId;
@@ -40,7 +40,7 @@ public class Order implements IData {
         return asset;
     }
 
-    public Order(int orderId, Type orderType, int unitId, int assetId, int placedQuantity,
+    public Order(Integer orderId, Type orderType, int unitId, int assetId, int placedQuantity,
                  int resolvedQuantity, float price, LocalDateTime finishDate, LocalDateTime orderDate,
                  Status status) throws Exception {
         setOrderId(orderId);
@@ -82,13 +82,13 @@ public class Order implements IData {
      *
      * @return OrganisationalUnit ID
      */
-    public int getUnitId(){return unitId;}
+    public Integer getUnitId(){return unitId;}
 
     /**
      *
      * @return Asset ID
      */
-    public int getAssetId(){return assetId;}
+    public Integer getAssetId(){return assetId;}
 
     /**
      *
