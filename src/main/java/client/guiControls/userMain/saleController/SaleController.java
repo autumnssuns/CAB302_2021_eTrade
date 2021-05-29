@@ -57,6 +57,7 @@ public class SaleController extends DisplayController {
 
     /**
      * Sell an associated item and remove it from stock.
+     * This overload is called by the user placing the order manually.
      * @param item The item to sell
      * @param quantity The quantity to place
      * @param price the price to place
@@ -72,13 +73,14 @@ public class SaleController extends DisplayController {
 
     /**
      * Attempts to place an order using an asset (that may not be in stock)
+     * This overload is called using the quick sell button on the current market orders.
      * @param asset The item to sell
      * @param quantity The quantity to place
      * @param price the price to place
      */
     public void sellItem(Asset asset, int quantity, float price) throws InvalidArgumentValueException {
         for (Item i : tempStock){
-            if (i.getId() == asset.getId()){
+            if (i.getId().equals(asset.getId())){
                 int sellQuantity = Math.min(quantity, i.getQuantity());
                 sellItem(i, sellQuantity, price);
                 break;
@@ -105,7 +107,7 @@ public class SaleController extends DisplayController {
     public void removeCartItem(CartItem cartItem) throws InvalidArgumentValueException {
         sellCart.remove(cartItem);
         for (int i = 0; i < tempStock.size(); i++){
-            if (tempStock.get(i).getId() == cartItem.getId()){
+            if (tempStock.get(i).getId().equals(cartItem.getId())){
                 Item returnItem = tempStock.get(i);
                 returnItem.setQuantity(returnItem.getQuantity() + cartItem.getQuantity());
                 tempStock.set(i, returnItem);

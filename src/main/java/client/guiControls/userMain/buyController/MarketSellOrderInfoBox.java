@@ -78,16 +78,6 @@ public class MarketSellOrderInfoBox extends HBox implements IViewUnit {
         price.setText(String.valueOf(order.getPrice()));
     }
 
-    /**
-     * Request to cancel the current order (changing status to "cancelled").
-     */
-    public void cancelOrder() throws InvalidArgumentValueException {
-        order.setStatus(Order.Status.CANCELLED);
-        this.getChildren().remove(buyNowButton);
-        controller.sendRequest("edit", order, Order.class);
-        controller.update();
-    }
-
     @Override
     public void load() {
         loadAssetName();
