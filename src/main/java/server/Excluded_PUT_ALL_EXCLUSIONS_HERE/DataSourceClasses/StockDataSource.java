@@ -121,6 +121,10 @@ public class StockDataSource {
         }
     }
 
+    /**
+     * add an item to an unit's stock (using setter method: set Stock asset id and set Stock quantity)
+     * @param stock
+     */
     public void addAnItem(Stock stock)
     {
         try {

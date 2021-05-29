@@ -421,6 +421,13 @@ public class CasesToResponse {
         return response;
     }
 
+    public static Response queryUsers() {
+        UserDataSource userDataSource = new UserDataSource();
+        DataCollection<User> attachment = userDataSource.getUserList();
+        Response response = new Response(true, attachment);
+        return response;
+    }
+
     //Todo: Overload Delete method
     public static <T extends IData> Response delete(Request<T> request) {
         T attachment = request.getAttachment();

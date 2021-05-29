@@ -82,11 +82,8 @@ public class Server implements Serializable {
                 break;
 
             case "Query Users":
-                UserDataSource userDataSource = new UserDataSource();
-                DataCollection<User> userList = userDataSource.getUserList();
-                serverResponse = new Response(true, userList);
+                serverResponse = CasesToResponse.queryUsers();
                 out.writeObject(serverResponse);
-                userDataSource.close();
                 break;
 
             case  "query Stock":
