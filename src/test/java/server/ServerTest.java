@@ -247,7 +247,7 @@ class ServerTest {
 
             @Test
             void orderCreationTest() throws Exception {
-                Order newOrder = new Order(-1, Order.Type.BUY, 0, 0, 23, 0,
+                Order newOrder = new Order(1, Order.Type.BUY, 0, 0, 23, 0,
                         22f, null, LocalDateTime.of(2021, 5, 13, 16, 52), Order.Status.PENDING);
 
                 request = new Request<>(admin, "add", newOrder);
