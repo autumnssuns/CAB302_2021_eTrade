@@ -38,14 +38,14 @@
             </HBox>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="810.0" layoutY="70.0" prefHeight="792.0" prefWidth="538.0">
+      <VBox alignment="CENTER" layoutX="810.0" layoutY="70.0" prefHeight="612.0" prefWidth="538.0">
          <children>
             <Label prefHeight="35.0" prefWidth="250.0" text="Market's current sales">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <HBox prefHeight="50.0" prefWidth="560.0">
+            <HBox prefHeight="50.0" prefWidth="550.0">
                <children>
                   <Label alignment="CENTER" prefHeight="50.0" prefWidth="200.0" text="Asset" />
                   <Label alignment="CENTER" prefHeight="50.0" prefWidth="75.0" text="Quantity" />
@@ -54,7 +54,17 @@
                   <Label alignment="CENTER" prefHeight="50.0" prefWidth="100.0" />
                </children>
             </HBox>
-            <Pagination fx:id="marketSellOrdersDisplay" pageCount="10" prefHeight="770.0" prefWidth="550.0" styleClass="whitePane" />
+            <Pagination fx:id="marketSellOrdersDisplay" pageCount="10" prefHeight="400.0" prefWidth="550.0" styleClass="whitePane" />
+            <Label layoutX="154.0" layoutY="10.0" prefHeight="35.0" prefWidth="250.0" text="My current sales">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <ScrollPane layoutX="10.0" layoutY="88.0" prefHeight="97.0" prefWidth="538.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+              </content>
+            </ScrollPane>
          </children>
       </VBox>
       <VBox alignment="CENTER" layoutX="300.0" layoutY="70.0" prefHeight="719.0" prefWidth="500.0" styleClass="whitePane">

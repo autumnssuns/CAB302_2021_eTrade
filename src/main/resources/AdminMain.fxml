@@ -36,12 +36,15 @@
       <StackPane fx:id="displayStack" layoutX="178.0" layoutY="55.0" prefHeight="691.0" prefWidth="1346.0" />
       <Pane fx:id="menuPane" layoutX="178.0" prefHeight="49.0" prefWidth="1390.0" styleClass="menuPane">
          <children>
-            <Label fx:id="userLabel" layoutX="785.0" layoutY="1.0" prefHeight="47.0" prefWidth="212.0" text="username">
+            <Label fx:id="userLabel" layoutX="785.0" layoutY="1.0" prefHeight="40.0" prefWidth="400.0" text="username">
                <font>
                   <Font size="30.0" />
                </font>
             </Label>
-            <Button fx:id="logoutButton" layoutX="1085.0" layoutY="5.0" mnemonicParsing="false" onAction="#logOut" prefHeight="40.0" prefWidth="39.0" style="-fx-border-radius: 50;" styleClass="circularButton" />
+            <Button fx:id="logoutButton" layoutX="1197.0" layoutY="5.0" mnemonicParsing="false" onAction="#logOut" prefHeight="40.0" prefWidth="178.0" style="-fx-border-radius: 50;" styleClass="circularButton">
+               <font>
+                  <Font size="12.0" />
+               </font></Button>
          </children>
       </Pane>
       <Pane fx:id="filterPane" opacity="0.5" prefHeight="768.0" prefWidth="1568.0" style="-fx-background-color: black;" visible="false" />

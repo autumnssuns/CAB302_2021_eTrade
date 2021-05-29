@@ -32,9 +32,9 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Label fx:id="creditLabel" layoutY="92.0" prefHeight="45.0" prefWidth="380.0">
+            <Label fx:id="creditLabel" prefHeight="137.0" prefWidth="178.0">
                <font>
-                  <Font size="30.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
          </children>
@@ -49,7 +49,10 @@
          </children></StackPane>
       <Pane fx:id="menuPane" layoutX="178.0" layoutY="4.0" prefHeight="49.0" prefWidth="1390.0" styleClass="menuPane">
          <children>
-            <Button layoutX="1037.0" layoutY="5.0" mnemonicParsing="false" onAction="#logOut" prefHeight="40.0" prefWidth="53.0" style="-fx-border-radius: 50;" styleClass="circularButton" text="Log out" />
+            <Button layoutX="971.0" layoutY="5.0" mnemonicParsing="false" onAction="#logOut" prefHeight="40.0" prefWidth="178.0" style="-fx-border-radius: 50;" styleClass="circularButton" text="Log out">
+               <font>
+                  <Font size="12.0" />
+               </font></Button>
             <Label fx:id="userLabel" alignment="CENTER_RIGHT" layoutX="565.0" layoutY="2.0" prefHeight="30.0" prefWidth="400.0" textAlignment="RIGHT">
                <font>
                   <Font size="30.0" />
