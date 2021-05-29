@@ -33,7 +33,7 @@ public class MarketSellOrderInfoBox extends HBox implements IViewUnit {
     @Override
     public void initialize(){
         this.setAlignment(Pos.CENTER_LEFT);
-        this.setSpacing(20);
+        this.setSpacing(3);
         this.setPrefHeight(80);
         this.getStyleClass().add("whitePane");
 
@@ -57,11 +57,13 @@ public class MarketSellOrderInfoBox extends HBox implements IViewUnit {
                 invalidArgumentValueException.printStackTrace();
             }
         });
-        buyNowButton.setPrefWidth(100);
+        buyNowButton.setPrefWidth(80);
+        buyNowButton.setStyle("-fx-font-size: 10");
 
         customButton = new Button("Customise");
         customButton.setOnAction(e -> controller.customiseItem(order.getAsset(), order.getPlacedQuantity() - order.getResolvedQuantity(), order.getPrice()));
-        customButton.setPrefWidth(100);
+        customButton.setPrefWidth(80);
+        customButton.setStyle("-fx-font-size: 10");
 
         this.getChildren().addAll(assetName, quantity, price, buyNowButton, customButton);
     }

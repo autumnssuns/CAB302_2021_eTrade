@@ -47,7 +47,7 @@ public class UnitAssetInfoBox extends HBox implements IViewUnit {
         this.setPrefWidth(600);
         this.setLayoutX(41);
         this.setLayoutY(80);
-        this.setLayoutY(80);
+        this.setLayoutY(60);
         this.setSpacing(20);
 
         nameLabel = new Label();
