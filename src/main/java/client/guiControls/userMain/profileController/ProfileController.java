@@ -52,10 +52,12 @@ public class ProfileController extends DisplayController {
         User tempUser = new User(user.getUserId(), user.getFullName(), user.getUsername(),
                 currentPasswordField.getText(), user.getAccountType(), user.getUnitId());
         tempUser.setPassword(tempUser.getPassword());
+        tempUser.hashPassword();
         // Checks if the password entered is correct
         // and the new password is confirmed
         if (tempUser.equals(user) && confirmPassword()){
             user.setPassword(newPasswordField.getText());
+            user.hashPassword();
             controller.sendRequest("edit", user, User.class);
             currentPasswordField.clear();
             newPasswordField.clear();

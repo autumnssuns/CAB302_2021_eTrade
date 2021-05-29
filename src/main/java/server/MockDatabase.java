@@ -21,14 +21,14 @@ public class MockDatabase {
     static ArrayList<Object[]> orders = new ArrayList();
 
     public MockDatabase() {
-        add(new User(0, "Admin", "admin", "root", "admin", 0));
+        add(new User(0, "Admin", "admin", "root", "admin", 0).hashPassword());
     }
 
     public static void initiate() throws InvalidArgumentValueException {
-        add(new User(1, "Dan Tran", "dan", "123", "user", 0));
-        add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1));
-        add(new User(3, "Linh Hoang", "lyn", "password", "user", 2));
-        add(new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3));
+        add(new User(1, "Dan Tran", "dan", "123", "user", 0).hashPassword());
+        add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1).hashPassword());
+        add(new User(3, "Linh Hoang", "lyn", "password", "user", 2).hashPassword());
+        add(new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3).hashPassword());
 
         add(new Asset(0, "CPU Hours", "CPU for rent"));
         add(new Asset(1, "10 GB Database Server", "Remove SQL Server"));

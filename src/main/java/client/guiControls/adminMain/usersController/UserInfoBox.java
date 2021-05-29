@@ -132,8 +132,11 @@ public class UserInfoBox extends HBox implements IViewUnit {
     private void updateValues(){
         user.setFullName(nameTextField.getText());
         user.setUsername(usernameTextField.getText());
+        System.out.println(user.getPassword());
+        System.out.println(passwordField.getText());
         if (!user.getPassword().equals(passwordField.getText())){
             user.setPassword(passwordField.getText());
+            user.hashPassword();
         }
         user.setOrganisation(controller.getOrganisation((String) organisationUnitSelectionBox.getValue()).getId());
         user.setAccountType((String) roleSelectionBox.getValue());
