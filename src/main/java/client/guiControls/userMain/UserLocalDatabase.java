@@ -119,8 +119,8 @@ public class UserLocalDatabase extends ILocalDatabase {
             // It is still pending
             for (Order order : orders){
                 compareOrder:
-                if (order.getOrderType().equals(Order.Type.SELL) && order.getUnitId() != organisationalUnit.getId() && order.getStatus().equals(Order.Status.PENDING)){
-                    if (order.getAssetId() == asset.getId()){
+                if (order.getOrderType().equals(Order.Type.SELL) && !order.getUnitId().equals(organisationalUnit.getId()) && order.getStatus().equals(Order.Status.PENDING)){
+                    if (order.getAssetId().equals(asset.getId())){
                         Item marketItem = new Item(asset, (order.getPlacedQuantity() - order.getResolvedQuantity()));
                         marketStock.add(marketItem);
                         orderExists = true;
@@ -146,7 +146,7 @@ public class UserLocalDatabase extends ILocalDatabase {
     public DataCollection<Order> getMarketOrders(Order.Type type){
         DataCollection<Order> marketOrders = new DataCollection<Order>();
         for (Order order : orders){
-            if (order.getUnitId() != organisationalUnit.getId() && order.getOrderType() == type && order.getStatus() == Order.Status.PENDING){
+            if (!order.getUnitId().equals(organisationalUnit.getId()) && order.getOrderType().equals(type) && order.getStatus().equals(Order.Status.PENDING)){
                 marketOrders.add(order);
             }
         }
@@ -190,7 +190,7 @@ public class UserLocalDatabase extends ILocalDatabase {
         LinkedList<LocalDate> timestamps = new LinkedList<>();
         LinkedList<Float> prices = new LinkedList<>();
         for (Order order : orders){
-            if (order.getOrderType().equals(type) && order.getAssetId() == asset.getId()){
+            if (order.getOrderType().equals(type) && order.getAssetId().equals(asset.getId())){
                 timestamps.add(LocalDate.from(order.getOrderDate()));
                 prices.add(order.getPrice());
             }
