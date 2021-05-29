@@ -4,7 +4,7 @@ import common.Response;
 import common.dataClasses.*;
 import common.dataClasses.Order;
 import org.junit.jupiter.api.*;
-import server.CasesToResponse;
+import server.DataSourceClasses.CasesToResponse;
 
 import static org.junit.jupiter.api.Assertions.*;
 

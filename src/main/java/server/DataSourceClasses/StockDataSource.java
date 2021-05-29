@@ -1,4 +1,4 @@
-package server;
+package server.DataSourceClasses;
 
 // return add , edit , query, delete , return all, get 1,
 // server, casetoresponse

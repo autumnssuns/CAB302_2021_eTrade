@@ -4,7 +4,7 @@ import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Asset;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.AssetsDataSource;
+import server.DataSourceClasses.AssetsDataSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 

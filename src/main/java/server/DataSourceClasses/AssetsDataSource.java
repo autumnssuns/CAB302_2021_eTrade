@@ -1,4 +1,4 @@
-package server;
+package server.DataSourceClasses;
 
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Asset;
@@ -12,14 +12,11 @@ public class AssetsDataSource {
     //Setting up the environment.
     //SQL queries.
     private static final String CREATE_TABLE =
-            "CREATE TABLE IF NOT EXISTS assets (\n" +
-                    "    asset_id          INT           NOT NULL,\n" +
+            "CREATE TABLE assets (\n" +
+                    "    asset_id          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                     "    asset_name        VARCHAR (16)  NOT NULL,\n" +
-                    "    asset_description VARCHAR (256) DEFAULT NULL,\n" +
-                    "    PRIMARY KEY (\n" +
-                    "        asset_id\n" +
-                    "    )\n" +
-                    ");\n";
+                    "    asset_description VARCHAR (256) DEFAULT NULL\n" +
+                    ");";
     private static final String ADD_ASSET = "INSERT INTO assets (asset_id, asset_name, asset_description) \nVALUES (?, ?, ?);";
     private static final String DELETE_ASSET = "DELETE FROM assets WHERE asset_id=?";
     private static final String DELETE_ALL_ASSET = "DELETE FROM assets";
@@ -30,7 +27,6 @@ public class AssetsDataSource {
                     "SET asset_name=?, asset_description=?\n" +
                     "WHERE asset_id=?";
 
-    //Prepare statements.
     private Connection connection;
     private PreparedStatement addAsset;
     private PreparedStatement deleteAsset;

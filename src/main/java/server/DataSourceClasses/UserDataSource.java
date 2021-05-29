@@ -1,4 +1,4 @@
-package server;
+package server.DataSourceClasses;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.User;

@@ -3,7 +3,7 @@ package server.DataSourcesTest;
 import common.dataClasses.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.OrderDataSource;
+import server.DataSourceClasses.OrderDataSource;
 
 import java.time.LocalDateTime;
 

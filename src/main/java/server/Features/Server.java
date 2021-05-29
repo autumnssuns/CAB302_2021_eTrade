@@ -5,8 +5,8 @@ import common.Response;
 import common.dataClasses.IData;
 import common.dataClasses.Stock;
 import common.dataClasses.User;
-import server.CasesToResponse;
-import server.StockDataSource;
+import server.DataSourceClasses.CasesToResponse;
+import server.DataSourceClasses.StockDataSource;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

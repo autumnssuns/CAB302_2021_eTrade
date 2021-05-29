@@ -3,7 +3,7 @@ package server.DataSourcesTest;
 import common.dataClasses.OrganisationalUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.OrganisationsDataSource;
+import server.DataSourceClasses.OrganisationsDataSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 

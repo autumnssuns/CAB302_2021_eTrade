@@ -1,10 +1,8 @@
-package server;
+package server.DataSourceClasses;
 
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
-import common.dataClasses.OrganisationalUnit;
-import common.dataClasses.Stock;
 
 public final class MockServer implements IServer{
 

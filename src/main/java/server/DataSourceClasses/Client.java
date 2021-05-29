@@ -1,4 +1,4 @@
-package server;
+package server.DataSourceClasses;
 
 import common.Request;
 import common.Response;

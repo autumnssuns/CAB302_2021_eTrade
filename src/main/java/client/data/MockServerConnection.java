@@ -3,8 +3,8 @@ package client.data;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
-import server.IServer;
-import server.MockServer;
+import server.DataSourceClasses.IServer;
+import server.DataSourceClasses.MockServer;
 
 import java.io.IOException;
 
