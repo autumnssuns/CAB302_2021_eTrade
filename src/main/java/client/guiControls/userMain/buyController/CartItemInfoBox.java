@@ -68,13 +68,13 @@ public class CartItemInfoBox extends VBox implements IViewUnit {
         HBox upperInfoRow = new HBox();
         upperInfoRow.setSpacing(20);
         upperInfoRow.setAlignment(Pos.CENTER_LEFT);
-        upperInfoRow.setPrefWidth(350);
+        upperInfoRow.setPrefWidth(300);
         upperInfoRow.getChildren().addAll(priceTextField, totalPriceLabel);
 
         HBox lowerInfoRow = new HBox();
         lowerInfoRow.setSpacing(20);
         lowerInfoRow.setAlignment(Pos.CENTER_LEFT);
-        lowerInfoRow.setPrefWidth(350);
+        lowerInfoRow.setPrefWidth(300);
         lowerInfoRow.getChildren().addAll(quantityTextField, removeButton);
 
         this.getChildren().addAll(nameLabel, upperInfoRow, lowerInfoRow);
