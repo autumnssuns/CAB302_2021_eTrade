@@ -6,7 +6,7 @@ import common.dataClasses.DataCollection;
 import common.dataClasses.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.UserDataSource;
+import server.UserDataSource;
 import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
 
 public class UserDataSourceTest {

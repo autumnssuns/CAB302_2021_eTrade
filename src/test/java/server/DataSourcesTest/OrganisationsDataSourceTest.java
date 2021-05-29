@@ -3,7 +3,7 @@ package server.DataSourcesTest;
 import common.dataClasses.OrganisationalUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.OrganisationsDataSource;
+import server.OrganisationsDataSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 

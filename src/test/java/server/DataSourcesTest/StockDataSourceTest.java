@@ -4,9 +4,9 @@ import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.AssetsDataSource;
-import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.OrganisationsDataSource;
-import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.StockDataSource;
+import server.AssetsDataSource;
+import server.OrganisationsDataSource;
+import server.StockDataSource;
 
 class StockDataSourceTest {
     private static StockDataSource stockDataSource;

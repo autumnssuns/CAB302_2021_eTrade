@@ -2,12 +2,9 @@ package server.DataSourcesTest;
 
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Asset;
-import common.dataClasses.DataCollection;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.AssetsDataSource;
+import server.AssetsDataSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
