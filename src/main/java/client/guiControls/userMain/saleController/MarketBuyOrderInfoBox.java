@@ -1,17 +1,18 @@
-package client.guiControls.userMain.buyController;
+package client.guiControls.userMain.saleController;
 
 import client.IViewUnit;
 import common.Exceptions.InvalidArgumentValueException;
-import common.dataClasses.*;
+import common.dataClasses.Order;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 /**
  * A GUI representation of the
  */
-public class MarketOrderInfoBox extends HBox implements IViewUnit {
-    private BuyController controller;
+public class MarketBuyOrderInfoBox extends HBox implements IViewUnit {
+    private SaleController controller;
     private Order order;
 
     private Label assetName;
@@ -20,7 +21,7 @@ public class MarketOrderInfoBox extends HBox implements IViewUnit {
     private Button buyNowButton;
     private Button customButton;
 
-    public MarketOrderInfoBox(Order order, BuyController controller) {
+    public MarketBuyOrderInfoBox(Order order, SaleController controller) {
         this.controller = controller;
         this.order = order;
         initialize();
@@ -30,7 +31,6 @@ public class MarketOrderInfoBox extends HBox implements IViewUnit {
     /**
      * Initialise the display elements and their styling.
      */
-    @Override
     public void initialize(){
         this.setAlignment(Pos.CENTER_LEFT);
         this.setSpacing(20);
@@ -52,7 +52,7 @@ public class MarketOrderInfoBox extends HBox implements IViewUnit {
         buyNowButton = new Button("Add to Cart");
         buyNowButton.setOnAction(e -> {
             try {
-                controller.buyItem(order.getAsset(), order.getPlacedQuantity() - order.getResolvedQuantity(), order.getPrice());
+                controller.sellItem(order.getAsset(), order.getPlacedQuantity() - order.getResolvedQuantity(), order.getPrice());
             } catch (InvalidArgumentValueException invalidArgumentValueException) {
                 invalidArgumentValueException.printStackTrace();
             }
@@ -76,16 +76,6 @@ public class MarketOrderInfoBox extends HBox implements IViewUnit {
 
     private void loadPriceLabel(){
         price.setText(String.valueOf(order.getPrice()));
-    }
-
-    /**
-     * Request to cancel the current order (changing status to "cancelled").
-     */
-    public void cancelOrder() throws InvalidArgumentValueException {
-        order.setStatus(Order.Status.CANCELLED);
-        this.getChildren().remove(buyNowButton);
-        controller.sendRequest("edit", order, Order.class);
-        controller.update();
     }
 
     @Override

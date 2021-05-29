@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 /**
  * A box to display an item information and can be interacted with.
  */
-public class ItemInfoBox extends HBox implements IViewUnit {
+public class BuyItemInfoBox extends HBox implements IViewUnit {
     private BuyController controller;
     private Item item;
     private LinkedHashMap<LocalDate, Float> priceHistory;
@@ -34,7 +34,7 @@ public class ItemInfoBox extends HBox implements IViewUnit {
      * @param item The linked item.
      * @param controller The associated display controller containing this box.
      */
-    public ItemInfoBox(Item item, LinkedHashMap priceHistory, BuyController controller){
+    public BuyItemInfoBox(Item item, LinkedHashMap priceHistory, BuyController controller){
         this.item = item;
         this.controller = controller;
         this.priceHistory = priceHistory;
@@ -63,11 +63,13 @@ public class ItemInfoBox extends HBox implements IViewUnit {
         quantityTextField.setPrefWidth(150);
         quantityTextField.setPromptText("Quantity");
         quantityTextField.setId("itemBuyQuantityTextField" + item.getId());
+        quantityTextField.setOnKeyTyped(e -> limitSellQuantity());
 
         priceTextField = new TextField();
         priceTextField.setPrefWidth(150);
         priceTextField.setPromptText("Price");
         priceTextField.setId("itemBuyPriceTextField" + item.getId());
+        priceTextField.setOnKeyTyped(e -> limitPrice());
 
         buyButton = new Button("Buy");
         buyButton.setOnAction(e -> {
@@ -105,9 +107,32 @@ public class ItemInfoBox extends HBox implements IViewUnit {
      * @param quantity The quantity to display
      * @return The current instance to continue building
      */
-    public ItemInfoBox setQuantity(int quantity){
-        quantityTextField.setText(String.valueOf(quantity));
+    public BuyItemInfoBox setQuantity(int quantity){
+        // Set the input to an empty string if the quantity is 0
+        String quantityStr = quantity > 0 ? String.valueOf(quantity) : "";
+        quantityTextField.setText(quantityStr);
+        quantityTextField.requestFocus();
+        quantityTextField.end();
         return this;
+    }
+
+    /**
+     * If the quantity of the input field is greater than the unit has,
+     * or is negative, revert to the nearest limits.
+     * Set to 0 if input is not a number
+     */
+    private void limitSellQuantity(){
+        int buyQuantity = 0;
+        try{
+            buyQuantity = Integer.parseInt(quantityTextField.getText());
+        }
+        catch (NumberFormatException e){
+            buyQuantity = 0;
+        }
+        if (buyQuantity < 0){
+            buyQuantity = 0;
+        }
+        setQuantity(buyQuantity);
     }
 
     /**
@@ -115,9 +140,34 @@ public class ItemInfoBox extends HBox implements IViewUnit {
      * @param price The price to display
      * @return The current instance to continue building
      */
-    public ItemInfoBox setPrice(float price){
-        priceTextField.setText(String.valueOf(price));
+    public BuyItemInfoBox setPrice(float price){
+        String priceStr = price > 0f ? String.valueOf(price) : "";
+        priceTextField.setText(priceStr);
+        priceTextField.requestFocus();
+        priceTextField.end();
         return this;
+    }
+
+    /**
+     * If the price is negative, set it to 0
+     * Set to 0 if input is not a number
+     */
+    private void limitPrice(){
+        float sellPrice;
+        try{
+            sellPrice = Float.parseFloat(priceTextField.getText());
+            if (sellPrice < 0f){
+                setPrice(0);
+            }
+        }
+        catch (NumberFormatException e){
+            // IGNORE if the exception is caused by
+            // an unfinished number (i.e. '2.', without a decimal)
+            // otherwise set to 0
+            if (!priceTextField.getText().matches("\\.")){
+                setPrice(0);
+            }
+        }
     }
 
     /**

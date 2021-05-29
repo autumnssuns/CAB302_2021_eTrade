@@ -36,7 +36,7 @@ public class LoginController extends MainController {
     public void initialize(){
         Platform.runLater(() -> {
             if (getServerConnection() == null){
-                IServerConnection serverConnection = null;
+                IServerConnection serverConnection;
                 serverConnection = new ServerConnection();
                 this.setServerConnection(serverConnection);
                 createInitiationRequest();

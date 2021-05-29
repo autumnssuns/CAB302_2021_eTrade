@@ -7,7 +7,6 @@ import common.dataClasses.*;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -120,8 +119,8 @@ public class UserLocalDatabase extends ILocalDatabase {
             // It is still pending
             for (Order order : orders){
                 compareOrder:
-                if (order.getOrderType().equals(Order.Type.SELL) && order.getUnitId() != organisationalUnit.getId() && order.getStatus().equals(Order.Status.PENDING)){
-                    if (order.getAssetId() == asset.getId()){
+                if (order.getOrderType().equals(Order.Type.SELL) && !order.getUnitId().equals(organisationalUnit.getId()) && order.getStatus().equals(Order.Status.PENDING)){
+                    if (order.getAssetId().equals(asset.getId())){
                         Item marketItem = new Item(asset, (order.getPlacedQuantity() - order.getResolvedQuantity()));
                         marketStock.add(marketItem);
                         orderExists = true;
@@ -147,7 +146,7 @@ public class UserLocalDatabase extends ILocalDatabase {
     public DataCollection<Order> getMarketOrders(Order.Type type){
         DataCollection<Order> marketOrders = new DataCollection<Order>();
         for (Order order : orders){
-            if (order.getUnitId() != organisationalUnit.getId() && order.getOrderType() == type && order.getStatus() == Order.Status.PENDING){
+            if (!order.getUnitId().equals(organisationalUnit.getId()) && order.getOrderType().equals(type) && order.getStatus().equals(Order.Status.PENDING)){
                 marketOrders.add(order);
             }
         }
@@ -191,8 +190,8 @@ public class UserLocalDatabase extends ILocalDatabase {
         LinkedList<LocalDate> timestamps = new LinkedList<>();
         LinkedList<Float> prices = new LinkedList<>();
         for (Order order : orders){
-            if (order.getOrderType().equals(type) && order.getAssetId() == asset.getId()){
-                timestamps.add(LocalDate.from((TemporalAccessor) order.getOrderDate()));
+            if (order.getOrderType().equals(type) && order.getAssetId().equals(asset.getId())){
+                timestamps.add(LocalDate.from(order.getOrderDate()));
                 prices.add(order.getPrice());
             }
         }
@@ -216,31 +215,35 @@ public class UserLocalDatabase extends ILocalDatabase {
             }
         }
 
-        // Interpolation of missing data
-        float[] ratesOfChange = new float[timestamps.size() - 1];
-        for (int i = 0; i < timestamps.size() - 1; i++){
-            ratesOfChange[i] = (prices.get(i + 1) - prices.get(i)) / (float) ChronoUnit.DAYS.between(timestamps.get(i), timestamps.get(i + 1));
-            System.out.println("Rate of change");
-            System.out.println(prices.get(i + 1) - prices.get(i));
-            System.out.println(ChronoUnit.DAYS.between(timestamps.get(i), timestamps.get(i + 1)));
-        }
+        // Interpolation of missing data, only perform if
+        // there are at least 2 data points
+        if (timestamps.size() > 1){
+            float[] ratesOfChange = new float[timestamps.size() - 1];
+            for (int i = 0; i < timestamps.size() - 1; i++){
+                ratesOfChange[i] = (prices.get(i + 1) - prices.get(i)) / (float) ChronoUnit.DAYS.between(timestamps.get(i), timestamps.get(i + 1));
+                System.out.println("Rate of change");
+                System.out.println(prices.get(i + 1) - prices.get(i));
+                System.out.println(ChronoUnit.DAYS.between(timestamps.get(i), timestamps.get(i + 1)));
+            }
 
-        LocalDate currentDate = timestamps.get(0);
-        int currentDateIndex = 0;
-        for (int i = 0; i < ratesOfChange.length; i++){
-            whileLoop:
-            while (currentDate.isBefore(timestamps.getLast())){
-                currentDate = currentDate.plusDays(1);
-                currentDateIndex++;
-                if (!timestamps.contains(currentDate)) {
-                    timestamps.add(currentDateIndex, currentDate);
-                    prices.add(currentDateIndex, prices.get(currentDateIndex - 1) + ratesOfChange[i]);
-                }
-                else{
-                    break whileLoop;
+            LocalDate currentDate = timestamps.get(0);
+            int currentDateIndex = 0;
+            for (int i = 0; i < ratesOfChange.length; i++){
+                whileLoop:
+                while (currentDate.isBefore(timestamps.getLast())){
+                    currentDate = currentDate.plusDays(1);
+                    currentDateIndex++;
+                    if (!timestamps.contains(currentDate)) {
+                        timestamps.add(currentDateIndex, currentDate);
+                        prices.add(currentDateIndex, prices.get(currentDateIndex - 1) + ratesOfChange[i]);
+                    }
+                    else{
+                        break whileLoop;
+                    }
                 }
             }
         }
+
 
         for (int i = 0; i < timestamps.size(); i++){
             priceHistory.put(timestamps.get(i), prices.get(i));
