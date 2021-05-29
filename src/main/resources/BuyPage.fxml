@@ -12,16 +12,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="980.0" prefWidth="1540.0" styleClass="displayPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.buyController.BuyController">
+<AnchorPane prefHeight="700.0" prefWidth="1322.0" styleClass="displayPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.buyController.BuyController">
    <children>
-      <TextField fx:id="homeSearchField" layoutX="370.0" layoutY="15.0" prefHeight="64.0" prefWidth="1150.0">
+      <TextField fx:id="homeSearchField" layoutX="301.0" layoutY="5.0" prefHeight="60.0" prefWidth="1047.0">
          <font>
             <Font size="28.0" />
          </font>
       </TextField>
-      <VBox layoutX="10.0" layoutY="15.0" prefHeight="950.0" prefWidth="350.0" spacing="20.0">
+      <VBox layoutX="10.0" layoutY="5.0" prefHeight="736.0" prefWidth="280.0" spacing="20.0">
          <children>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="920.0" prefWidth="350.0" styleClass="bodyPane">
+            <ScrollPane hbarPolicy="NEVER" prefHeight="627.0" prefWidth="280.0" styleClass="bodyPane">
                <content>
                   <VBox fx:id="buyCartDisplayBox" alignment="CENTER_LEFT" prefWidth="350.0" spacing="20.0">
                      <padding>
@@ -30,17 +30,17 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+            <HBox prefHeight="54.0" prefWidth="200.0" spacing="20.0">
                <children>
                   <Label fx:id="buyTotalLabel" alignment="CENTER" prefHeight="55.0" prefWidth="155.0" text="Total: " />
-                  <Button fx:id="buyAllButton" mnemonicParsing="false" onAction="#checkOut" prefHeight="55.0" prefWidth="155.0" text="Buy All" />
+                  <Button fx:id="buyAllButton" layoutY="18.0" mnemonicParsing="false" onAction="#checkOut" prefHeight="55.0" prefWidth="155.0" text="Buy All" />
                </children>
             </HBox>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="950.0" layoutY="100.0" prefHeight="870.0" prefWidth="570.0">
+      <VBox alignment="CENTER" layoutX="810.0" layoutY="70.0" prefHeight="612.0" prefWidth="538.0">
          <children>
-            <Label prefHeight="35.0" prefWidth="235.0" text="Market's current sales">
+            <Label prefHeight="35.0" prefWidth="250.0" text="Market's current sales">
                <font>
                   <Font size="24.0" />
                </font>
@@ -54,10 +54,20 @@
                   <Label alignment="CENTER" prefHeight="50.0" prefWidth="100.0" />
                </children>
             </HBox>
-            <Pagination fx:id="marketSellOrdersDisplay" pageCount="10" prefHeight="770.0" prefWidth="550.0" styleClass="whitePane" />
+            <Pagination fx:id="marketSellOrdersDisplay" pageCount="10" prefHeight="400.0" prefWidth="550.0" styleClass="whitePane" />
+            <Label layoutX="154.0" layoutY="10.0" prefHeight="35.0" prefWidth="250.0" text="My current sales">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <ScrollPane layoutX="10.0" layoutY="88.0" prefHeight="97.0" prefWidth="538.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+              </content>
+            </ScrollPane>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="370.0" layoutY="100.0" prefHeight="870.0" prefWidth="570.0" styleClass="whitePane">
+      <VBox alignment="CENTER" layoutX="300.0" layoutY="70.0" prefHeight="719.0" prefWidth="500.0" styleClass="whitePane">
          <children>
             <Label alignment="CENTER" prefHeight="35.0" prefWidth="235.0" styleClass="blackLabel" text="All Assets">
                <font>
@@ -65,7 +75,7 @@
                </font>
             </Label>
             <Pane fx:id="sellChartContainer" prefHeight="300.0" styleClass="whilePane" />
-            <ScrollPane hbarPolicy="NEVER" prefHeight="500.0" prefWidth="570.0" styleClass="bodyPane">
+            <ScrollPane hbarPolicy="NEVER" prefHeight="400.0" prefWidth="570.0" styleClass="bodyPane">
                <content>
                   <VBox fx:id="marketDisplayBox" alignment="CENTER_LEFT" prefWidth="570.0" spacing="20.0">
                      <padding>

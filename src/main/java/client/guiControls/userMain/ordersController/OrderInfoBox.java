@@ -38,7 +38,7 @@ public class OrderInfoBox extends HBox implements IViewUnit {
     @Override
     public void initialize(){
         this.setAlignment(Pos.CENTER_LEFT);
-        this.setSpacing(20);
+        this.setSpacing(10);
         this.setPrefHeight(80);
         this.getStyleClass().add("whitePane");
 
