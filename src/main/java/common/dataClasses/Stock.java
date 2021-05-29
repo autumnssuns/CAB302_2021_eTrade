@@ -21,7 +21,6 @@ public class Stock extends ArrayList<Item> implements IData{
         this.unitId = unitId;
     }
 
-
     public int getAssetId() {
         return assetId;
     }

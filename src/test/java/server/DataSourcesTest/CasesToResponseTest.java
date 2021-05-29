@@ -20,17 +20,6 @@ public class CasesToResponseTest {
         }
     }
 
-//    @Test
-//    public void LoginTest() {
-//        User test = new User("duy","abcd");
-//        Request loginRequest = new Request(test,"");
-//        Response response = CasesToResponse.Login(loginRequest);
-//        test = (User) response.getAttachment();
-//        assertEquals(2, test.getUserId());
-//        assertEquals(1, test.getUnitId());
-//        assertEquals("Daniel Pham", test.getFullName());
-//    }
-
     @Test
     public void LoginTest() {
         // Register for user???
@@ -44,27 +33,6 @@ public class CasesToResponseTest {
     }
     @Test
     public void addOrderBuyType() throws Exception {
-//        AssetsDataSource assetsDataSource = new AssetsDataSource();
-//        StockDataSource stockDataSource = new StockDataSource();
-//        Stock stock = new Stock(2);
-//        Stock dataStock = stockDataSource.GetStock(2);
-//        Item cloneitem0 = new Item(assetsDataSource.getAsset(0),10);
-//        System.out.println(cloneitem0.getName());
-//
-//        Item item0 = new Item(assetsDataSource.getAsset(0),10);
-//        System.out.println(item0.getName());
-//        Item item1 = dataStock.get(1);
-//        Item item2 = dataStock.get(2);
-//        Item item3 = dataStock.get(3);
-//        System.out.println(item0.getName() == cloneitem0.getName());
-//        stock.add(cloneitem0);
-//        stock.add(item0);
-////        for (Item item : dataStock)
-////        {
-////            Item newitem = item;
-////            stock.add(item);
-////        }
-        //  stockDataSource.UpdateUnitStock(stock);
         CasesToResponse.add(new Order(0, Order.Type.SELL, 0, 0, 99, 0, 10f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 6, 16, 52), Order.Status.PENDING));
         CasesToResponse.add(new Order(1, Order.Type.SELL, 0, 1, 99, 0, 3f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 6, 13, 42), Order.Status.PENDING));
         CasesToResponse.add(new Order(2, Order.Type.SELL, 0, 2, 99, 0, 4f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 6, 7, 45), Order.Status.PENDING));

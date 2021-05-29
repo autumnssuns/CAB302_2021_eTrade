@@ -10,6 +10,7 @@ import server.DBconnection;
 import java.sql.*;
 
 public class StockDataSource {
+
     public static final String CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS stock (\n" +
                     "    organisation_id INT NOT NULL,\n" +

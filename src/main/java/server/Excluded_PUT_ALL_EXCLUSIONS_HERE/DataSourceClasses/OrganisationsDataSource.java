@@ -102,19 +102,14 @@ public class OrganisationsDataSource {
     public OrganisationalUnit getOrganisation(int id) {
         //Create dummy object to store data
         OrganisationalUnit dummy = null;
-        try {
-            dummy = new OrganisationalUnit(-1,null, -1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         ResultSet rs = null;
         try {
             getOrganisation.setInt(1, id);
             rs = getOrganisation.executeQuery();
             //Store data into the dummy
-            dummy.setId(rs.getInt("organisation_id"));
-            dummy.setName(rs.getString("organisation_name"));
-            dummy.setBalance(rs.getFloat("credits"));
+            dummy = new OrganisationalUnit(rs.getInt("organisation_id"),
+                        rs.getString("organisation_name"),
+                    rs.getFloat("credits"));
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {

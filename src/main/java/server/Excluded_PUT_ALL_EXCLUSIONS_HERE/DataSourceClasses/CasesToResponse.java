@@ -377,7 +377,6 @@ public class CasesToResponse {
         return response;
     }
 
-
     /**
      * Query all stock from an org unit
      * @param attachment
@@ -586,13 +585,11 @@ public class CasesToResponse {
             Boolean itemExistence = false; //item exists in the stock
             // and the buyer's stock
             DataCollection<Stock> stocks = stockDataSource.GetStockList();
-            System.out.println(stocks.size() + "The size here");
             for (Stock stock : stocks){
                 for(Item item : stock){
                     //Check if the unit already have this stock.
                     //If existed: increase the quantity of the item
                     if (stock.getUnitId() == buyerId && item.getId() == order.getAssetId()){
-                        System.out.println(stock.getUnitId());
                         Asset asset = assetsDataSource.getAsset(item.getId());
                         Item newItem = new Item (asset,reconcileQuantity);
                         stock.add(newItem);
