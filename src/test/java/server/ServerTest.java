@@ -205,7 +205,7 @@ class ServerTest {
 
             @Test
             void userCreationTest() {
-                User newUser = new User(-1, "New User", "newuser", "012345", "user", 0);
+                User newUser = new User(0, "New User", "newuser", "012345", "user", 0);
 
                 request = new Request<>(admin, "add", newUser);
                 request.setAttachmentType(User.class);
@@ -219,7 +219,7 @@ class ServerTest {
 
             @Test
             void assetCreationTest() throws InvalidArgumentValueException {
-                Asset newAsset = new Asset(-1, "New Asset","N/A");
+                Asset newAsset = new Asset(0, "New Asset","N/A");
 
                 request = new Request<>(admin, "add", newAsset);
                 request.setAttachmentType(Asset.class);
@@ -233,7 +233,7 @@ class ServerTest {
 
             @Test
             void organisationalUnitCreationTest() throws Exception {
-                OrganisationalUnit newOrganisationalUnit = new OrganisationalUnit(-1, "New OrganisationalUnit",150f);
+                OrganisationalUnit newOrganisationalUnit = new OrganisationalUnit(0, "New OrganisationalUnit",150f);
 
                 request = new Request<>(admin, "add", newOrganisationalUnit);
                 request.setAttachmentType(OrganisationalUnit.class);
@@ -247,7 +247,7 @@ class ServerTest {
 
             @Test
             void orderCreationTest() throws Exception {
-                Order newOrder = new Order(1, Order.Type.BUY, 0, 0, 23, 0,
+                Order newOrder = new Order(0, Order.Type.BUY, 0, 0, 23, 0,
                         22f, null, LocalDateTime.of(2021, 5, 13, 16, 52), Order.Status.PENDING);
 
                 request = new Request<>(admin, "add", newOrder);
