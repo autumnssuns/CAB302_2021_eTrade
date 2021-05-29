@@ -99,9 +99,14 @@ public class OrganisationsDataSource {
      * @param id OrganisationalUnit Object input to get values from
      * @return Object-OrganisationalUnit
      */
-    public OrganisationalUnit getOrganisation(int id){
+    public OrganisationalUnit getOrganisation(int id) {
         //Create dummy object to store data
-        OrganisationalUnit dummy = new OrganisationalUnit(-1,null, -1);
+        OrganisationalUnit dummy = null;
+        try {
+            dummy = new OrganisationalUnit(-1,null, -1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ResultSet rs = null;
         try {
             getOrganisation.setInt(1, id);
@@ -111,6 +116,8 @@ public class OrganisationsDataSource {
             dummy.setName(rs.getString("organisation_name"));
             dummy.setBalance(rs.getFloat("credits"));
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return dummy;
@@ -131,6 +138,8 @@ public class OrganisationsDataSource {
                 );
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return Organisations;

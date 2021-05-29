@@ -31,13 +31,13 @@ class ServerTest {
     DataCollection<Order> expectedOrders;
 
     @BeforeAll
-    void setUp() throws InvalidArgumentValueException {
+    void setUp() throws Exception {
         server = new MockServer();
         server.createResponse(new Request(null, "init"));
     }
 
     @BeforeEach
-    void resetExpectedData() throws InvalidArgumentValueException {
+    void resetExpectedData() throws Exception {
         expectedUsers = new DataCollection<>();
         unhashedPasswords = new ArrayList<String>();
         expectedAssets = new DataCollection<>();
@@ -113,7 +113,7 @@ class ServerTest {
         Response<IData> expectedResponse;
 
         @AfterEach
-        void executeAssertion() throws InvalidArgumentValueException {
+        void executeAssertion() throws Exception {
             actualResponse = server.createResponse(request);
             assertEquals(expectedResponse, actualResponse);
         }
@@ -232,7 +232,7 @@ class ServerTest {
             }
 
             @Test
-            void organisationalUnitCreationTest(){
+            void organisationalUnitCreationTest() throws Exception {
                 OrganisationalUnit newOrganisationalUnit = new OrganisationalUnit(-1, "New OrganisationalUnit",150f);
 
                 request = new Request<>(admin, "add", newOrganisationalUnit);
@@ -246,7 +246,7 @@ class ServerTest {
             }
 
             @Test
-            void orderCreationTest(){
+            void orderCreationTest() throws Exception {
                 Order newOrder = new Order(-1, Order.Type.BUY, 0, 0, 23, 0,
                         22f, null, LocalDateTime.of(2021, 5, 13, 16, 52), Order.Status.PENDING);
 
@@ -303,7 +303,7 @@ class ServerTest {
             }
 
             @RepeatedTest(4)
-             void organisationalUnitUpdatingTest(RepetitionInfo repetitionInfo){
+             void organisationalUnitUpdatingTest(RepetitionInfo repetitionInfo) throws Exception {
                 OrganisationalUnit overrideOrganisationalUnit = new OrganisationalUnit(repetitionInfo.getCurrentRepetition() - 1,
                         "OrganisationalUnit " + (repetitionInfo.getCurrentRepetition() - 1),
                         1000f * (repetitionInfo.getCurrentRepetition() - 1));

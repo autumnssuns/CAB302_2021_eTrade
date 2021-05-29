@@ -13,6 +13,9 @@ class OrganisationsDataSourceTest {
     OrganisationalUnit org00 = new OrganisationalUnit(0, "QUT", 99);
     OrganisationalUnit org01 = new OrganisationalUnit(1, "UQ", 100);
 
+    OrganisationsDataSourceTest() throws Exception {
+    }
+
     @BeforeEach
     void setUp() {
         organisationsDataSource = new OrganisationsDataSource();
@@ -45,7 +48,7 @@ class OrganisationsDataSourceTest {
     }
 
     @Test
-    void editOrganisation() {
+    void editOrganisation() throws Exception {
         organisationsDataSource.editOrganisation(new OrganisationalUnit(0, "QUTT", 9900));
         assertEquals(organisationsDataSource.getOrganisation(0).getName(), "QUTT");
         assertEquals(organisationsDataSource.getOrganisation(0).getBalance(), 9900);

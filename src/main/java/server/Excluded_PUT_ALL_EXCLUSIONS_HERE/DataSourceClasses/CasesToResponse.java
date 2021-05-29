@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 public class CasesToResponse {
 
-    public static void initiate() throws InvalidArgumentValueException {
+    public static void initiate() throws Exception {
 
         add(new User(1, "Dan Tran", "dan", "123", "user", 0));
         add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1));
@@ -54,7 +54,7 @@ public class CasesToResponse {
 
     //Todo: Add comment / description
 
-    public static Response Login(Request request)
+    public static Response login(Request request)
     {
         Response serverResponse = new Response(false, null);
         User sender = request.getUser();
@@ -76,7 +76,7 @@ public class CasesToResponse {
     // stock, transaction(considering) and User)
 
     //Todo: Overload Add method
-    public static <T extends IData> Response add(Request<T> request) throws InvalidArgumentValueException {
+    public static <T extends IData> Response add(Request<T> request) throws Exception {
         T attachment = request.getAttachment();
         Class<T> type = request.getAttachmentType();
         if(type.equals(User.class)) {
@@ -121,7 +121,7 @@ public class CasesToResponse {
     }
     //Order Type
     //Todo: implement this
-    private static void placeOrder(Order order){
+    private static void placeOrder(Order order) throws Exception {
         int unitId = order.getUnitId();
         //if order is SELL: reduce seller stock's item quantity
         if (order.getOrderType().equals(Order.Type.SELL)){
@@ -168,7 +168,7 @@ public class CasesToResponse {
     return null;
     }
 
-    public static Response add(Order attachment) throws InvalidArgumentValueException {
+    public static Response add(Order attachment) throws Exception {
             OrderDataSource orderDataSource = new OrderDataSource();
             OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
             //If SELLER: check if the asset quantity is enough.
@@ -228,7 +228,7 @@ public class CasesToResponse {
 
 
     //Todo: Overload Edit method
-    public static <T extends IData> Response edit(Request<T> request){
+    public static <T extends IData> Response edit(Request<T> request) throws Exception {
         T attachment = request.getAttachment();
         Class<T> type = request.getAttachmentType();
         if (type.equals(User.class)){
@@ -272,7 +272,7 @@ public class CasesToResponse {
 
 
     //Todo: implement this to use in database.
-    public static void cancelOrder(Order order){
+    public static void cancelOrder(Order order) throws Exception {
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         if (order.getOrderType().equals(Order.Type.BUY)){
             // Refund = Available * Price
@@ -305,7 +305,7 @@ public class CasesToResponse {
         }
     }
     //Order Type
-    public static Response edit(Order attachment){
+    public static Response edit(Order attachment) throws Exception {
         //Todo: Cancel order condition
         if (attachment.getStatus().equals(Order.Status.CANCELLED)){
             cancelOrder(attachment);
@@ -556,7 +556,7 @@ public class CasesToResponse {
      * - Adds credit to seller
      * - Adds assets to buyer
      */
-    private static void reconcileOrder(Order order) throws InvalidArgumentValueException {
+    private static void reconcileOrder(Order order) throws Exception {
         OrderDataSource orderDataSource = new OrderDataSource();
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         Order matchOrder = matchOrder(order);

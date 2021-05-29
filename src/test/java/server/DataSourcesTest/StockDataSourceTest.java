@@ -80,7 +80,7 @@ class StockDataSourceTest {
 
 
     @Test
-    void getStockList() {
+    void getStockList() throws Exception {
         //create environment
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();

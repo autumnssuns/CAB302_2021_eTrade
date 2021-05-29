@@ -40,8 +40,10 @@ public class Order implements IData {
         return asset;
     }
 
-    public Order(int orderId, Type orderType, int unitId, int assetId, int placedQuantity, int resolvedQuantity, float price, LocalDateTime finishDate, LocalDateTime orderDate, Status status) {
-        this.orderId = orderId;
+    public Order(int orderId, Type orderType, int unitId, int assetId, int placedQuantity,
+                 int resolvedQuantity, float price, LocalDateTime finishDate, LocalDateTime orderDate,
+                 Status status) throws Exception {
+        setOrderId(orderId);
         this.orderType = orderType;
         this.unitId = unitId;
         this.assetId = assetId;
@@ -57,7 +59,10 @@ public class Order implements IData {
      * A method to record how many assets in an order have been successfully purchased
      * @param assetnumber number of the assets in the transaction
      */
-    public  void ResolvedQuantity(int assetnumber) {
+    public void ResolvedQuantity(int assetnumber) throws Exception {
+        if (assetnumber > placedQuantity - resolvedQuantity) {
+            throw new Exception("ResolvedQuantity is greater than current placedQuantiy-resolvedQuantity");
+        }
         resolvedQuantity += assetnumber;
     }
 
@@ -125,7 +130,11 @@ public class Order implements IData {
      * set the order id to given Int
      * @param order_id
      */
-    public void setOrderId(int order_id) { this.orderId = order_id;
+    public void setOrderId(int order_id) throws Exception {
+        if (order_id < 0) {
+            throw new Exception("Invalid orderId! Must not be a negative.");
+        }
+        this.orderId = order_id;
     }
 
     /**

@@ -9,8 +9,8 @@ class OrganisationalUnitTest {
     OrganisationalUnit qut;
 
     @BeforeEach
-    void setUp() {
-        OrganisationalUnit qut = new OrganisationalUnit(0, "QUT", 100);
+    void setUp() throws Exception {
+        qut = new OrganisationalUnit(0, "QUT", 100);
     }
 
     @Test
@@ -19,14 +19,14 @@ class OrganisationalUnitTest {
     }
 
     @Test
-    void setId() {
+    void setId() throws Exception {
         qut.setId(1);
         assertEquals(qut.getId(), 1);
     }
 
     @Test
     void setNegativeId() {
-        assertThrows(BalanceException.class, () -> {
+        assertThrows(Exception.class, () -> {
             qut.setId(-10);
         });
     }
@@ -48,9 +48,9 @@ class OrganisationalUnitTest {
     }
 
     @Test
-    void setBalance() {
+    void setBalance() throws Exception {
         qut.setBalance(200);
-        assertEquals(qut.getBalance(), 100);
+        assertEquals(qut.getBalance(), 200);
     }
 
     @Test
@@ -61,7 +61,7 @@ class OrganisationalUnitTest {
     }
 
     @Test
-    void testEquals() {
+    void testEquals() throws Exception {
         Object o = new OrganisationalUnit(1, "UQ", 999);
         assertEquals(qut.equals(o), false);
         Object oo = new OrganisationalUnit(0, "QUT", 100);

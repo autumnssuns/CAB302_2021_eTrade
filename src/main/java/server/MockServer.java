@@ -15,7 +15,7 @@ public final class MockServer implements IServer{
     }
 
     @Override
-    public Response createResponse(Request request) throws InvalidArgumentValueException {
+    public Response createResponse(Request request) throws Exception {
         // Unidentified requests are denied by default
         Response response = new Response(false, null);
         switch (request.getAction()){

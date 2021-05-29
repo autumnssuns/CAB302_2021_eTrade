@@ -23,8 +23,11 @@ class OrderDataSourceTest {
             LocalDateTime.of(2021, 5, 6, 16, 52),
             Order.Status.PENDING);
 
+    OrderDataSourceTest() throws Exception {
+    }
+
     @BeforeEach
-    void setUpWithOneOrderSuccessfully() {
+    void setUpWithOneOrderSuccessfully() throws Exception {
         orders = new OrderDataSource();
         orders.deleteAllOrders();
         orders.addOrder(new Order(1, Order.Type.BUY, 0, 9,
@@ -67,7 +70,7 @@ class OrderDataSourceTest {
     }
 
     @Test
-    void editOrder() {
+    void editOrder() throws Exception {
         orders.editOrder(new Order(1, Order.Type.BUY, 0, 9,
                 99, 0, 1000000,
                 LocalDateTime.of(2021, 5, 6, 16, 52),
