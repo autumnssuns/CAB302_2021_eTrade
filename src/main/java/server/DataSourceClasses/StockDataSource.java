@@ -68,7 +68,7 @@ public class StockDataSource {
         }
     }
 
-    public void DeleteAnItem(Stock stock) {
+    public void deleteAnItem(Stock stock) {
         try {
             deleteAnItem.setInt(1,stock.getUnitId());
             deleteAnItem.setInt(2,stock.getAssetId());
@@ -78,7 +78,7 @@ public class StockDataSource {
         }
     }
 
-    public void DeleteAll() {
+    public void deleteAll() {
         try {
             deleteAll.executeUpdate();
         } catch (SQLException e) {
@@ -90,7 +90,7 @@ public class StockDataSource {
      * Edit quantity of an asset of an organization
      * @param attachment a Stock object
      */
-    public void EditItemQuantity(Stock attachment) {
+    public void editItemQuantity(Stock attachment) {
         try {
             editItemQuantity.setInt(1, attachment.getAssetQuantity());
             editItemQuantity.setInt(2, attachment.getUnitId());
@@ -106,7 +106,7 @@ public class StockDataSource {
      * @param attachment a Stock object
      */
     public void updateUnitStock(Stock attachment) {
-        DeleteStock(attachment);
+        deleteStock(attachment);
         for(Item item: attachment)
         {
             try {
@@ -164,7 +164,7 @@ public class StockDataSource {
         return stock;
     }
 
-    public DataCollection<Stock> GetStockList(){
+    public DataCollection<Stock> getStockList(){
 
         DataCollection<Stock> stocks = new DataCollection<>();
 
@@ -201,7 +201,7 @@ public class StockDataSource {
      * Delete stock of an organisation
      * @param attachment a Stock object
      */
-    void DeleteStock(Stock attachment) {
+    void deleteStock(Stock attachment) {
         try {
             deleteUnitStock.setInt(1, attachment.getUnitId());
             deleteUnitStock.executeUpdate();

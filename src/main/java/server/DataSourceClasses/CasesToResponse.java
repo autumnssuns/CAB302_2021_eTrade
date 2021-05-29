@@ -20,7 +20,7 @@ public class CasesToResponse {
         add(new Asset(3, "Coffin Dance Video", "You know what this is"));
         DataCollection<Asset> assets = (DataCollection<Asset>) queryAssets().getAttachment();
 
-        add(new OrganisationalUnit(0, "The Justice League", 9999.0f));
+        add(new OrganisationalUnit(0, "The Justice League", 10000));
         add(new OrganisationalUnit(1, "The supervillains", 5555.0f));
         add(new OrganisationalUnit(2, "The random civilians", 3000.0f));
         add(new OrganisationalUnit(3, "The brokers", 3000.0f));
@@ -319,7 +319,7 @@ public class CasesToResponse {
      */
     public static Response edit(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.EditItemQuantity(attachment);
+        stockDataSource.editItemQuantity(attachment);
         Response response = new Response(true, attachment);
         return response;
     }
@@ -389,7 +389,7 @@ public class CasesToResponse {
     public static Response queryStocks()
     {
         StockDataSource stockDataSource = new StockDataSource();
-        DataCollection<Stock> stocks = stockDataSource.GetStockList();
+        DataCollection<Stock> stocks = stockDataSource.getStockList();
         Response response = new Response(true, stocks);
         return response;
     }
@@ -457,7 +457,7 @@ public class CasesToResponse {
         StockDataSource stockDataSource = new StockDataSource();
         organisationsDataSource.deleteOrganisation(attachment.getId());
         //delete all stock of the organisation if delete the unit
-        stockDataSource.DeleteStock(stockDataSource.getStock(attachment.getId()));
+        stockDataSource.deleteStock(stockDataSource.getStock(attachment.getId()));
         Response response = new Response(true, null);
         return response;
     }
@@ -486,7 +486,7 @@ public class CasesToResponse {
      */
     public static Response deleteAnItem(Request attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.DeleteAnItem((Stock) attachment.getAttachment());
+        stockDataSource.deleteAnItem((Stock) attachment.getAttachment());
         Response response = new Response(true, null);
         return  response;
     }
@@ -587,7 +587,7 @@ public class CasesToResponse {
             }
             Boolean itemExistence = false; //item exists in the stock
             // and the buyer's stock
-            DataCollection<Stock> stocks = stockDataSource.GetStockList();
+            DataCollection<Stock> stocks = stockDataSource.getStockList();
             for (Stock stock : stocks){
                 for(Item item : stock){
                     //Check if the unit already have this stock.

@@ -160,26 +160,26 @@ class ServerTest {
         }
 
         @Test
-        void queryStocksTest() throws InvalidArgumentValueException {
+        void queryStocksTest(){
             request = new Request<>(admin, "query stocks");
             expectedResponse = new Response<>(true, expectedStocks);
         }
 
         @Disabled
         @Test
-        void queryOrdersTest() throws InvalidArgumentValueException {
+        void queryOrdersTest(){
             request = new Request<>(expectedUsers.get(0), "query orders");
             expectedResponse = new Response<>(true, expectedOrders);
         }
 
         @RepeatedTest(4)
-        void queryStockTest(RepetitionInfo repetitionInfo) throws InvalidArgumentValueException {
+        void queryStockTest(RepetitionInfo repetitionInfo) {
             request = new Request<>(expectedUsers.get(repetitionInfo.getCurrentRepetition()), "query stock");
             expectedResponse = new Response<>(true, expectedStocks.get(repetitionInfo.getCurrentRepetition() - 1));
         }
 
         @RepeatedTest(4)
-        void queryOrganisationalUnitTest(RepetitionInfo repetitionInfo) throws InvalidArgumentValueException {
+        void queryOrganisationalUnitTest(RepetitionInfo repetitionInfo) {
             request = new Request<User>(expectedUsers.get(repetitionInfo.getCurrentRepetition()), "query stock");
             expectedResponse = new Response<>(true, expectedStocks.get(repetitionInfo.getCurrentRepetition() - 1));
         }

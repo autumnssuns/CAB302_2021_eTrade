@@ -12,11 +12,11 @@ public class OrganisationsDataSource {
     //Create environment
     //SQL queries
     private static final String CREATE_TABLE =
-    "CREATE TABLE IF NOT EXISTS organisationalUnits (\n" +
-            "    organisation_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-            "        organisation_name        VARCHAR(16) NOT NULL,\n" +
-            "            credits  DECIMAL(2) NOT NULL DEFAULT 0\n" +
-            "                            );";
+            "CREATE TABLE IF NOT EXISTS     organisationalUnits (\n" +
+            "    organisation_id            INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+            "    organisation_name          VARCHAR(16) NOT NULL,\n" +
+            "    credits  DECIMAL(2)        NOT NULL DEFAULT 0\n" +
+            "    );";
     private static final String ADD_ORGANISATION = "INSERT INTO organisationalUnits(organisation_id, organisation_name, credits) VALUES (?, ?, ?);";
     private static final String DELETE_ORGANISATION = "DELETE FROM organisationalUnits WHERE organisation_id=?";
     private static final String GET_ORGANISATION = "SELECT * FROM organisationalUnits WHERE organisation_id=?";

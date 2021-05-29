@@ -5,8 +5,10 @@ import common.dataClasses.*;
 import common.dataClasses.Order;
 import org.junit.jupiter.api.*;
 import server.DataSourceClasses.CasesToResponse;
+import server.DataSourceClasses.OrderDataSource;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static server.DataSourceClasses.CasesToResponse.findItem;
 
 import java.time.LocalDateTime;
 
@@ -32,7 +34,7 @@ public class CasesToResponseTest {
         assertEquals("Daniel Pham", test.getFullName());
     }
     @Test
-    public void addOrderBuyType() throws Exception {
+    public void addOrder() throws Exception {
         CasesToResponse.add(new Order(0, Order.Type.SELL, 0, 0, 99, 0, 10f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 6, 16, 52), Order.Status.PENDING));
         CasesToResponse.add(new Order(1, Order.Type.SELL, 0, 1, 99, 0, 3f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 6, 13, 42), Order.Status.PENDING));
         CasesToResponse.add(new Order(2, Order.Type.SELL, 0, 2, 99, 0, 4f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 6, 7, 45), Order.Status.PENDING));
@@ -52,5 +54,12 @@ public class CasesToResponseTest {
         CasesToResponse.add(new Order(16, Order.Type.SELL, 3, 3, 50, 0, 15.5f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
         CasesToResponse.add(new Order(17, Order.Type.BUY, 2, 3, 50, 0, 15.5f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
         CasesToResponse.add(new Order(18, Order.Type.BUY, 0, 3, 59, 0, 15.5f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
+
+
+        OrderDataSource orderDataSource = new OrderDataSource();
+        assertEquals(orderDataSource.getOrder(10).getAssetId(), 2);
+
+        Item item = findItem(1,0);
+        assertEquals(44, item.getQuantity());
     }
 }

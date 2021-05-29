@@ -15,7 +15,7 @@ class StockDataSourceTest {
     @BeforeEach
     void setUp() {
         stockDataSource = new StockDataSource();
-        stockDataSource.DeleteAll();
+        stockDataSource.deleteAll();
         assetsDataSource = new AssetsDataSource();
         assetsDataSource.deleteAllAsset();
     }
@@ -37,7 +37,7 @@ class StockDataSourceTest {
             stock1.setAssetQuantity(newQuantity);
             //update stock table with unit's stock
             stockDataSource.updateUnitStock(stock1);
-            stockDataSource.EditItemQuantity(stock1);
+            stockDataSource.editItemQuantity(stock1);
             //return stock from database to check value
             stock1 = stockDataSource.getStock(testuser.getUnitId());
             //checking
@@ -119,7 +119,7 @@ class StockDataSourceTest {
         stock0.add(new Item(asset2, 10));
         stockDataSource.updateUnitStock(stock0);
         //get all stocks in database (put in a list)
-        stocks = stockDataSource.GetStockList();
+        stocks = stockDataSource.getStockList();
 
         //check return values
         //stock1
@@ -165,7 +165,7 @@ class StockDataSourceTest {
             //delete item with id: "1" of above stock
             int choiceOfItem = 1;
             stock1.setAssetId(choiceOfItem);
-            stockDataSource.DeleteAnItem(stock1);
+            stockDataSource.deleteAnItem(stock1);
             stock1 = stockDataSource.getStock(testuser.getUnitId());
             assertEquals(1,stock1.size());
             assertEquals(2,stock1.get(0).getId());
