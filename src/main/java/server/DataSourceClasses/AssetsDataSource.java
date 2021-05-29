@@ -12,7 +12,7 @@ public class AssetsDataSource {
     //Setting up the environment.
     //SQL queries.
     private static final String CREATE_TABLE =
-            "CREATE TABLE assets (\n" +
+            "CREATE TABLE IF NOT EXISTS assets (\n" +
                     "    asset_id          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                     "    asset_name        VARCHAR (16)  NOT NULL,\n" +
                     "    asset_description VARCHAR (256) DEFAULT NULL\n" +

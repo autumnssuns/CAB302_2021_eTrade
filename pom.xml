@@ -88,7 +88,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>server.DataSourceClasses.Main</mainClass>
+                                    <mainClass>server.Main</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>

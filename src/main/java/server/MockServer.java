@@ -1,4 +1,4 @@
-package server.DataSourceClasses;
+package server;
 
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;

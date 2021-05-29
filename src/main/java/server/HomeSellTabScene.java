@@ -1,4 +1,4 @@
-package server.DataSourceClasses;
+package server;
 
 public class HomeSellTabScene {
 

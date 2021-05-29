@@ -1,4 +1,4 @@
-package server.DataSourceClasses;
+package server;
 
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
@@ -7,6 +7,7 @@ import common.dataClasses.IData;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.Stock;
 import common.dataClasses.User;
+import server.DataSourceClasses.CasesToResponse;
 
 import java.io.*;
 import java.net.ServerSocket;
