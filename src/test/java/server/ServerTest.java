@@ -45,11 +45,11 @@ class ServerTest {
         expectedStocks = new DataCollection<>();
         expectedOrders = new DataCollection<>();
 
-        expectedUsers.add(new User(0, "Admin", "admin", "root", "admin", 0));
-        expectedUsers.add(new User(1, "Dan Tran", "dan", "123", "user", 0));
-        expectedUsers.add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1));
-        expectedUsers.add(new User(3, "Linh Hoang", "lyn", "password", "user", 2));
-        expectedUsers.add(new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3));
+        expectedUsers.add(new User(0, "Admin", "admin", "root", "admin", 0).hashPassword());
+        expectedUsers.add(new User(1, "Dan Tran", "dan", "123", "user", 0).hashPassword());
+        expectedUsers.add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1).hashPassword());
+        expectedUsers.add(new User(3, "Linh Hoang", "lyn", "password", "user", 2).hashPassword());
+        expectedUsers.add(new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3).hashPassword());
 
         unhashedPasswords.add("root");
         unhashedPasswords.add("123");
@@ -122,7 +122,7 @@ class ServerTest {
         void validLoginTest(RepetitionInfo repetitionInfo) {
             String username = expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1).getUsername();
             String password = unhashedPasswords.get(repetitionInfo.getCurrentRepetition() - 1);
-            User tempUser = new User(username, password);
+            User tempUser = new User(username, password).hashPassword();
             request = new Request<>(tempUser, "login");
             User expectedUser = expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1);
             expectedUser.setPassword(expectedUser.getPassword());
