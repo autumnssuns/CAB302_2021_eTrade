@@ -27,6 +27,7 @@ public class AssetsDataSource {
                     "SET asset_name=?, asset_description=?\n" +
                     "WHERE asset_id=?";
 
+    //Prepare statements.
     private Connection connection;
     private PreparedStatement addAsset;
     private PreparedStatement deleteAsset;

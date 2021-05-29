@@ -10,12 +10,9 @@ BEGIN TRANSACTION;
 DROP TABLE IF EXISTS assets;
 
 CREATE TABLE assets (
-    asset_id          INT           NOT NULL,
+    asset_id          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     asset_name        VARCHAR (16)  NOT NULL,
-    asset_description VARCHAR (256) DEFAULT NULL,
-    PRIMARY KEY (
-        asset_id
-    )
+    asset_description VARCHAR (256) DEFAULT NULL
 );
 
 
