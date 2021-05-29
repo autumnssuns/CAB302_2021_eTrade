@@ -32,7 +32,7 @@ class OrganisationsDataSourceTest {
     @Test
     void addOrganisation() {
         organisationsDataSource.addOrganisation(org01);
-        assertEquals(organisationsDataSource.getOrganisationList().size(), 2);
+        assertEquals(2,organisationsDataSource.getOrganisationList().size());
     }
 
     @Test
