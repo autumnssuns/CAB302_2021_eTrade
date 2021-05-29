@@ -3,6 +3,7 @@ package server;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
+import common.dataClasses.IData;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.Stock;
 import common.dataClasses.User;
@@ -151,6 +152,7 @@ public final class Server implements IServer{
         // Unidentified requests are denied by default
         //Get senders' information
         User sender = clientRequest.getUser();
+        IData attachment = clientRequest.getAttachment();
         Response serverResponse = new Response(false, null);
         switch (clientRequest.getAction()){
             case "init":
@@ -166,43 +168,48 @@ public final class Server implements IServer{
                 break;
 
             case "query users":
-                serverResponse = MockDatabase.queryUsers(clientRequest);
+                serverResponse = CasesToResponse.queryUsers();
                 break;
 
             case "query assets":
-                serverResponse = MockDatabase.queryAssets(clientRequest);
+                serverResponse = CasesToResponse.queryAssets();
                 break;
 
             case "query organisationalUnits":
-                serverResponse = MockDatabase.queryOrganisations(clientRequest);
+                serverResponse = CasesToResponse.queryOrganisations();
                 break;
 
             case "query stocks":
-                serverResponse = MockDatabase.queryStocks(clientRequest);
+                serverResponse = CasesToResponse.queryStocks();
                 break;
 
             case "query organisational unit":
-                serverResponse = MockDatabase.queryOrganisationalUnit(clientRequest);
+                serverResponse = CasesToResponse.query((OrganisationalUnit) attachment);
                 break;
 
             case "query stock":
-                serverResponse = MockDatabase.queryStock(clientRequest);
+                serverResponse = CasesToResponse.queryStock(sender);
                 break;
 
             case "query orders":
-                serverResponse = MockDatabase.queryOrders(clientRequest);
+                serverResponse = CasesToResponse.queryOrders();
                 break;
 
             case "add":
-                serverResponse = MockDatabase.add(clientRequest);
+                serverResponse = CasesToResponse.add(clientRequest);
                 break;
 
             case "edit":
-                serverResponse = MockDatabase.edit(clientRequest);
+                serverResponse = CasesToResponse.edit(clientRequest);
                 break;
 
             case "delete":
-                serverResponse = MockDatabase.delete(clientRequest);
+                serverResponse = CasesToResponse.delete(clientRequest);
+                break;
+
+                // Make sure to set Stock object's asset id and asset quantity to use this function.
+            case "add item":
+                serverResponse = CasesToResponse.addAnItem((Stock) attachment);
                 break;
         }
         return serverResponse;
