@@ -10,7 +10,7 @@ import javafx.scene.layout.HBox;
 /**
  * A GUI representation of the
  */
-public class MarketOrderInfoBox extends HBox implements IViewUnit {
+public class MarketSellOrderInfoBox extends HBox implements IViewUnit {
     private BuyController controller;
     private Order order;
 
@@ -20,7 +20,7 @@ public class MarketOrderInfoBox extends HBox implements IViewUnit {
     private Button buyNowButton;
     private Button customButton;
 
-    public MarketOrderInfoBox(Order order, BuyController controller) {
+    public MarketSellOrderInfoBox(Order order, BuyController controller) {
         this.controller = controller;
         this.order = order;
         initialize();

@@ -68,7 +68,7 @@ public class Item extends Asset {
      * @return An instance of the current asset, but in cart.
      */
     public CartItem moveToCart(int amount, float price) throws InvalidArgumentValueException {
-        this.quantity -= amount;
+        setQuantity(this.getQuantity() - amount);
         return new CartItem(this, amount, price);
     }
 

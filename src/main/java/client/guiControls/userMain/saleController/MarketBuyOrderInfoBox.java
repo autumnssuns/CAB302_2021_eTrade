@@ -11,7 +11,7 @@ import javafx.scene.layout.HBox;
 /**
  * A GUI representation of the
  */
-public class MarketOrderInfoBox extends HBox implements IViewUnit {
+public class MarketBuyOrderInfoBox extends HBox implements IViewUnit {
     private SaleController controller;
     private Order order;
 
@@ -21,7 +21,7 @@ public class MarketOrderInfoBox extends HBox implements IViewUnit {
     private Button buyNowButton;
     private Button customButton;
 
-    public MarketOrderInfoBox(Order order, SaleController controller) {
+    public MarketBuyOrderInfoBox(Order order, SaleController controller) {
         this.controller = controller;
         this.order = order;
         initialize();

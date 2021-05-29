@@ -1,19 +1,22 @@
-package client.guiControls.userMain.buyController;
+package client.guiControls.userMain.saleController;
 
 import client.IViewUnit;
+import client.guiControls.DisplayController;
+import client.guiControls.userMain.UserMainController;
+import client.guiControls.userMain.buyController.BuyController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.CartItem;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
  * A box to display an item information and can be interacted with.
  */
-public class CartItemInfoBox extends VBox implements IViewUnit {
-    private BuyController controller;
+public class SellCartItemInfoBox extends VBox implements IViewUnit {
+    private SaleController controller;
     private CartItem cartItem;
 
     private Label nameLabel;
@@ -28,7 +31,7 @@ public class CartItemInfoBox extends VBox implements IViewUnit {
      * @param cartItem The linked cartItem.
      * @param controller The associated display controller containing this box.
      */
-    public CartItemInfoBox(CartItem cartItem, BuyController controller){
+    public SellCartItemInfoBox(CartItem cartItem, SaleController controller){
         this.cartItem = cartItem;
         this.controller = controller;
 
@@ -54,27 +57,33 @@ public class CartItemInfoBox extends VBox implements IViewUnit {
         quantityTextField = new TextField();
         quantityTextField.setPrefWidth(150);
         quantityTextField.setText("Quantity: " + cartItem.getQuantity());
-        quantityTextField.setId("cartItemBuyQuantityTextField" + cartItem.getId());
+        quantityTextField.setId("cartItemSellQuantityTextField" + cartItem.getId());
 
         priceTextField = new TextField();
         priceTextField.setPrefWidth(150);
         priceTextField.setText("Price: " + cartItem.getPrice());
-        priceTextField.setId("cartItemBuyPriceTextField" + cartItem.getId());
+        priceTextField.setId("cartItemSellPriceTextField" + cartItem.getId());
 
         removeButton = new Button("x");
-        removeButton.setOnAction(e -> removeBox());
+        removeButton.setOnAction(e -> {
+            try {
+                removeBox();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
         removeButton.setId("cartItemRemoveButton" + cartItem.getId());
 
         HBox upperInfoRow = new HBox();
         upperInfoRow.setSpacing(20);
         upperInfoRow.setAlignment(Pos.CENTER_LEFT);
-        upperInfoRow.setPrefWidth(300);
+        upperInfoRow.setPrefWidth(350);
         upperInfoRow.getChildren().addAll(priceTextField, totalPriceLabel);
 
         HBox lowerInfoRow = new HBox();
         lowerInfoRow.setSpacing(20);
         lowerInfoRow.setAlignment(Pos.CENTER_LEFT);
-        lowerInfoRow.setPrefWidth(300);
+        lowerInfoRow.setPrefWidth(350);
         lowerInfoRow.getChildren().addAll(quantityTextField, removeButton);
 
         this.getChildren().addAll(nameLabel, upperInfoRow, lowerInfoRow);
@@ -124,7 +133,7 @@ public class CartItemInfoBox extends VBox implements IViewUnit {
     /**
      * Removes the current box.
      */
-    private void removeBox() {
+    private void removeBox() throws InvalidArgumentValueException {
         controller.removeCartItem(cartItem);
     }
 }

@@ -1,33 +1,25 @@
 package client.guiControls.userMain.saleController;
 
 import client.guiControls.DisplayController;
-import client.guiControls.adminMain.AdminLocalDatabase;
-import client.guiControls.adminMain.usersController.UserInfoBox;
 import client.guiControls.userMain.UserLocalDatabase;
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.*;
-import client.guiControls.MainController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * A controller to control the SELL Page (which allows the user to sell items from their organisation's stock).
@@ -50,8 +42,8 @@ public class SaleController extends DisplayController {
      */
     private void addItemInfoBox(Item item){
         LinkedHashMap<LocalDate, Float> priceHistory = ((UserLocalDatabase) controller.getDatabase()).getPriceHistory(item, Order.Type.BUY);
-        ItemInfoBox itemInfoBox = new ItemInfoBox(item,priceHistory, this);
-        stockDisplayBox.getChildren().add(itemInfoBox);
+        SellItemInfoBox sellItemInfoBox = new SellItemInfoBox(item,priceHistory, this);
+        stockDisplayBox.getChildren().add(sellItemInfoBox);
     }
 
     /**
@@ -59,8 +51,8 @@ public class SaleController extends DisplayController {
      * @param cartItem The linked cartItem.
      */
     private void addCartItemInfoBox(CartItem cartItem){
-        CartItemInfoBox cartItemInfoBox = new CartItemInfoBox(cartItem, this);
-        sellCartDisplayBox.getChildren().add(cartItemInfoBox);
+        SellCartItemInfoBox sellCartItemInfoBox = new SellCartItemInfoBox(cartItem, this);
+        sellCartDisplayBox.getChildren().add(sellCartItemInfoBox);
     }
 
     /**
@@ -101,7 +93,7 @@ public class SaleController extends DisplayController {
      * @param price The price of the order
      */
     public void customiseItem(Asset asset, int quantity, float price){
-        ((ItemInfoBox) stockDisplayBox.lookup("#sellItemInfoBox" + asset.getId()))
+        ((SellItemInfoBox) stockDisplayBox.lookup("#sellItemInfoBox" + asset.getId()))
                 .setQuantity(quantity)
                 .setPrice(price);
     }
@@ -190,8 +182,8 @@ public class SaleController extends DisplayController {
 
         int startingOrderIndex = pageIndex * ordersPerPage;
         for (int i = startingOrderIndex; i < startingOrderIndex + ordersPerPage && i < marketBuyOrders.size(); i++){
-            MarketOrderInfoBox MarketOrderInfoBox = new MarketOrderInfoBox(marketBuyOrders.get(i), this);
-            ordersContainerBox.getChildren().add(MarketOrderInfoBox);
+            MarketBuyOrderInfoBox MarketBuyOrderInfoBox = new MarketBuyOrderInfoBox(marketBuyOrders.get(i), this);
+            ordersContainerBox.getChildren().add(MarketBuyOrderInfoBox);
         }
         return ordersContainerBox;
     }

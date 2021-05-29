@@ -1,12 +1,11 @@
-package client.guiControls.userMain.buyController;
+package client.guiControls.userMain.saleController;
 
 import client.IViewUnit;
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Item;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -16,8 +15,8 @@ import java.util.LinkedHashMap;
 /**
  * A box to display an item information and can be interacted with.
  */
-public class ItemInfoBox extends HBox implements IViewUnit {
-    private BuyController controller;
+public class SellItemInfoBox extends HBox implements IViewUnit {
+    private SaleController controller;
     private Item item;
     private LinkedHashMap<LocalDate, Float> priceHistory;
 
@@ -26,7 +25,7 @@ public class ItemInfoBox extends HBox implements IViewUnit {
     private TextField quantityTextField;
     private TextField priceTextField;
 
-    private Button buyButton;
+    private Button sellButton;
     private Button historyButton;
 
     /**
@@ -34,7 +33,7 @@ public class ItemInfoBox extends HBox implements IViewUnit {
      * @param item The linked item.
      * @param controller The associated display controller containing this box.
      */
-    public ItemInfoBox(Item item, LinkedHashMap priceHistory, BuyController controller){
+    public SellItemInfoBox(Item item, LinkedHashMap priceHistory, SaleController controller){
         this.item = item;
         this.controller = controller;
         this.priceHistory = priceHistory;
@@ -47,9 +46,9 @@ public class ItemInfoBox extends HBox implements IViewUnit {
      */
     @Override
     public void initialize(){
-        this.setId("buyItemInfoBox" + item.getId());
+        this.setId("sellItemInfoBox" + item.getId());
         this.setAlignment(Pos.CENTER_LEFT);
-        this.setSpacing(10);
+        this.setSpacing(20);
 
         nameLabel = new Label(item.getName());
         nameLabel.getStyleClass().add("blackLabel");
@@ -60,20 +59,21 @@ public class ItemInfoBox extends HBox implements IViewUnit {
         availabilityLabel.setId("itemAvailabilityLabel" + item.getId());
 
         quantityTextField = new TextField();
-        quantityTextField.setPrefWidth(100);
+        quantityTextField.setPrefWidth(150);
         quantityTextField.setPromptText("Quantity");
-        quantityTextField.setId("itemBuyQuantityTextField" + item.getId());
+        quantityTextField.setId("itemSellQuantityTextField" + item.getId());
+        quantityTextField.setOnKeyTyped(e -> limitSellQuantity());
 
         priceTextField = new TextField();
-        priceTextField.setPrefWidth(100);
+        priceTextField.setPrefWidth(150);
         priceTextField.setPromptText("Price");
-        priceTextField.setId("itemBuyPriceTextField" + item.getId());
+        priceTextField.setId("itemSellPriceTextField" + item.getId());
+        priceTextField.setOnKeyTyped(e -> limitPrice());
 
-        buyButton = new Button("Buy");
-
-        buyButton.setOnAction(e -> {
+        sellButton = new Button("Sell");
+        sellButton.setOnAction(e -> {
                     try {
-                        controller.buyItem(
+                        controller.sellItem(
                                 item,
                                 Integer.parseInt(quantityTextField.getText()),
                                 Float.parseFloat(priceTextField.getText())
@@ -83,7 +83,7 @@ public class ItemInfoBox extends HBox implements IViewUnit {
                     }
                 }
         );
-        buyButton.setId("itemBuyButton" + item.getId());
+        sellButton.setId("itemSellButton" + item.getId());
 
         historyButton = new Button("History");
         historyButton.setOnAction(e -> controller.showHistory(priceHistory));
@@ -91,14 +91,14 @@ public class ItemInfoBox extends HBox implements IViewUnit {
 
         VBox infoGroup = new VBox();
         infoGroup.setAlignment(Pos.CENTER);
-        infoGroup.setPrefWidth(150);
+        infoGroup.setPrefWidth(200);
         infoGroup.getChildren().addAll(nameLabel, availabilityLabel, historyButton);
 
-        VBox buyInfoGroup = new VBox();
-        buyInfoGroup.setAlignment(Pos.CENTER_LEFT);
-        buyInfoGroup.getChildren().addAll(quantityTextField, priceTextField);
+        VBox sellInfoGroup = new VBox();
+        sellInfoGroup.setAlignment(Pos.CENTER_LEFT);
+        sellInfoGroup.getChildren().addAll(quantityTextField, priceTextField);
 
-        this.getChildren().addAll(infoGroup, buyInfoGroup, buyButton);
+        this.getChildren().addAll(infoGroup, sellInfoGroup, sellButton);
     }
 
     /**
@@ -106,9 +106,35 @@ public class ItemInfoBox extends HBox implements IViewUnit {
      * @param quantity The quantity to display
      * @return The current instance to continue building
      */
-    public ItemInfoBox setQuantity(int quantity){
-        quantityTextField.setText(String.valueOf(quantity));
+    public SellItemInfoBox setQuantity(int quantity){
+        // Set the input to an empty string if the quantity is 0
+        String quantityStr = quantity > 0 ? String.valueOf(quantity) : "";
+        quantityTextField.setText(quantityStr);
+        quantityTextField.requestFocus();
+        quantityTextField.end();
         return this;
+    }
+
+    /**
+     * If the quantity of the input field is greater than the unit has,
+     * or is negative, revert to the nearest limits.
+     * Set to 0 if input is not a number
+     */
+    private void limitSellQuantity(){
+        int sellQuantity = 0;
+        try{
+            sellQuantity = Integer.parseInt(quantityTextField.getText());
+        }
+        catch (NumberFormatException e){
+            sellQuantity = 0;
+        }
+        if (sellQuantity < 0){
+            sellQuantity = 0;
+        }
+        if (sellQuantity > item.getQuantity()){
+            sellQuantity = item.getQuantity();
+        }
+        setQuantity(sellQuantity);
     }
 
     /**
@@ -116,9 +142,34 @@ public class ItemInfoBox extends HBox implements IViewUnit {
      * @param price The price to display
      * @return The current instance to continue building
      */
-    public ItemInfoBox setPrice(float price){
-        priceTextField.setText(String.valueOf(price));
+    public SellItemInfoBox setPrice(float price){
+        String priceStr = price > 0f ? String.valueOf(price) : "";
+        priceTextField.setText(priceStr);
+        priceTextField.requestFocus();
+        priceTextField.end();
         return this;
+    }
+
+    /**
+     * If the price is negative, set it to 0
+     * Set to 0 if input is not a number (except for .)
+     */
+    private void limitPrice(){
+        float sellPrice;
+        try{
+            sellPrice = Float.parseFloat(priceTextField.getText());
+            if (sellPrice < 0f){
+                setPrice(0);
+            }
+        }
+        catch (NumberFormatException e){
+            // IGNORE if the exception is caused by
+            // an unfinished number (i.e. '2.', without a decimal)
+            // otherwise set to 0
+            if (!priceTextField.getText().matches("\\.")){
+                setPrice(0);
+            }
+        }
     }
 
     /**
