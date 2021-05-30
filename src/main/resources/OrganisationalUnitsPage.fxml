@@ -37,15 +37,15 @@
             <Button fx:id="addNewOrganisationalUnitButton" layoutX="491.0" layoutY="68.0" mnemonicParsing="false" onAction="#startEditor" prefHeight="48.0" prefWidth="200.0" text="Add" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="organisationalUnitEditPane" layoutX="730.0" prefHeight="747.0" prefWidth="740.0" styleClass="displayPane" visible="false">
+      <AnchorPane fx:id="organisationalUnitEditPane" layoutX="705.0" prefHeight="747.0" prefWidth="765.0" styleClass="displayPane">
          <children>
-            <TextField fx:id="organisationalUnitNameTextField" layoutX="309.0" layoutY="15.0" prefHeight="30.0" prefWidth="300.0" promptText="Set organisational unit name" />
-            <ScrollPane hbarPolicy="NEVER" layoutX="41.0" layoutY="200.0" prefHeight="422.0" prefWidth="590.0" styleClass="bodyPane">
+            <TextField fx:id="organisationalUnitNameTextField" layoutX="309.0" layoutY="-1.0" prefHeight="20.0" prefWidth="300.0" promptText="Set organisational unit name" />
+            <ScrollPane hbarPolicy="NEVER" layoutX="41.0" layoutY="151.0" prefHeight="422.0" prefWidth="590.0" styleClass="bodyPane">
                <content>
                   <VBox fx:id="organisationalUnitAssetsBox" prefWidth="600.0" spacing="20.0" />
                </content>
             </ScrollPane>
-            <HBox alignment="CENTER" layoutX="42.0" layoutY="140.0" prefHeight="50.0" prefWidth="600.0" spacing="20.0">
+            <HBox alignment="CENTER" layoutX="41.0" layoutY="101.0" prefHeight="50.0" prefWidth="600.0" spacing="20.0">
                <children>
                   <Label alignment="CENTER" prefHeight="80.0" prefWidth="250.0" text="Asset Name" />
                   <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" text="Asset Quantity" />
@@ -53,24 +53,24 @@
                   <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutX="42.0" layoutY="611.0" prefHeight="119.0" prefWidth="620.0" spacing="20.0" styleClass="whitePane">
+            <HBox alignment="CENTER" layoutX="42.0" layoutY="582.0" prefHeight="58.0" prefWidth="590.0" spacing="20.0" styleClass="whitePane">
                <children>
-                  <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
-                  <ComboBox fx:id="newOrganisationalUnitAssetNameComboBox" editable="true" prefHeight="30.0" prefWidth="250.0" promptText="New Asset Name" visibleRowCount="5" />
-                  <TextField fx:id="newOrganisationalUnitAssetQuantityTextField" prefHeight="30.0" prefWidth="100.0" promptText="Quantity" />
-                  <Button fx:id="addNewOrganisationalUnitAssetButton" mnemonicParsing="false" onAction="#addOrganisationalUnitAssetInfoBox" prefHeight="48.0" prefWidth="200.0" text="Add Asset" />
+                  <Label alignment="CENTER" prefHeight="37.0" prefWidth="100.0" />
+                  <ComboBox fx:id="newOrganisationalUnitAssetNameComboBox" editable="true" prefHeight="5.0" prefWidth="80.0" promptText="New Asset Name" visibleRowCount="5" />
+                  <TextField fx:id="newOrganisationalUnitAssetQuantityTextField" prefHeight="5.0" prefWidth="80.0" promptText="Quantity" />
+                  <Button fx:id="addNewOrganisationalUnitAssetButton" mnemonicParsing="false" onAction="#addOrganisationalUnitAssetInfoBox" prefHeight="31.0" prefWidth="143.0" text="Add Asset" />
                </children>
             </HBox>
-            <Label alignment="CENTER_RIGHT" layoutX="78.0" layoutY="15.0" prefHeight="43.0" prefWidth="217.0" text="Organisational Unit's Name" />
-            <Label alignment="CENTER_RIGHT" layoutX="78.0" layoutY="55.0" prefHeight="43.0" prefWidth="217.0" text="Credit" />
-            <TextField fx:id="creditTextField" layoutX="310.0" layoutY="50.0" prefHeight="43.0" prefWidth="300.0" promptText="Set organisational unit credit" />
-            <Label alignment="CENTER" layoutX="55.0" layoutY="100.0" prefHeight="40.0" prefWidth="200.0" text="Asset List">
+            <Label alignment="CENTER_RIGHT" layoutX="78.0" layoutY="-13.0" prefHeight="43.0" prefWidth="217.0" text="Organisational Unit's Name" />
+            <Label alignment="CENTER_RIGHT" layoutX="78.0" layoutY="29.0" prefHeight="43.0" prefWidth="217.0" text="Credit" />
+            <TextField fx:id="creditTextField" layoutX="310.0" layoutY="37.0" prefHeight="10.0" prefWidth="300.0" promptText="Set organisational unit credit" />
+            <Label alignment="CENTER" layoutX="38.0" layoutY="63.0" prefHeight="40.0" prefWidth="200.0" text="Asset List">
                <font>
                   <Font size="27.0" />
                </font>
             </Label>
-            <Button fx:id="confirmOrganisationalUnitButton" layoutX="118.0" layoutY="700.0" mnemonicParsing="false" onAction="#confirmEditor" prefHeight="31.0" prefWidth="118.0" text="Confirm" />
-            <Button fx:id="cancelOrganisationalUnitButton" layoutX="418.0" layoutY="700.0" mnemonicParsing="false" onAction="#closeEditor" prefHeight="31.0" prefWidth="140.0" text="Cancel" />
+            <Button fx:id="confirmOrganisationalUnitButton" layoutX="223.0" layoutY="640.0" mnemonicParsing="false" onAction="#confirmEditor" prefHeight="31.0" prefWidth="118.0" text="Confirm" />
+            <Button fx:id="cancelOrganisationalUnitButton" layoutX="367.0" layoutY="640.0" mnemonicParsing="false" onAction="#closeEditor" prefHeight="31.0" prefWidth="140.0" text="Cancel" />
          </children>
       </AnchorPane>
    </children>

@@ -1,7 +1,9 @@
-package server.DataSourceClasses;
+package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.User;
+import server.DBconnection;
+import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
 
 import java.sql.*;
 
@@ -79,12 +81,13 @@ public class UserDataSource {
      * @param newuser user object to add
      */
         public void addUser(User newuser){
+            String hashedPass = HashPassword.HashPassword(newuser.getPassword());
         try{
             //Set values for the above SQL query
             addUser.setInt(1,newuser.getUserId());
             addUser.setString(2, newuser.getFullName());
             addUser.setString(3, newuser.getUsername());
-            addUser.setString(4, newuser.getPassword());
+            addUser.setString(4, hashedPass);
             addUser.setString(5, newuser.getAccountType());
             addUser.setInt(6, newuser.getUnitId());
             addUser.executeUpdate();
@@ -164,10 +167,11 @@ public class UserDataSource {
      * @param userNewInfo an Asset class object containing new data
      */
     public void editUser(User userNewInfo)  {
+        String hashedPass = HashPassword.HashPassword(userNewInfo.getPassword());
         try {
             editUser.setString(1, userNewInfo.getFullName());
             editUser.setString(2, userNewInfo.getUsername());
-            editUser.setString(3, userNewInfo.getPassword());
+            editUser.setString(3, hashedPass);
             editUser.setString(4, userNewInfo.getAccountType());
             editUser.setInt(5, userNewInfo.getUnitId());
             editUser.setInt(6, userNewInfo.getUserId());

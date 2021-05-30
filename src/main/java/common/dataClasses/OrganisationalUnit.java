@@ -18,7 +18,7 @@ public class OrganisationalUnit implements IData{
      * @param balance The balance of the organisational unit.
      */
     public OrganisationalUnit(Integer unitId, String unitName, float balance) throws Exception {
-        this.unitId = unitId;
+        setId(unitId);
         setName(unitName);
         setBalance(balance);
     }
@@ -35,9 +35,10 @@ public class OrganisationalUnit implements IData{
      * Set the id of the organisational unit to a new value.
      * @param unitId The new value for the organisational unit.
      */
-    public void setId(int unitId) throws Exception{
-        if (unitId<0) {
-            throw new Exception("Invalid unitId! Must not be a negative.");
+    public void setId(Integer unitId) throws Exception{
+        if(unitId < 0)
+        {
+            throw new Exception("Invalid Unit ID.");
         }
         this.unitId = unitId;
     }
@@ -71,9 +72,8 @@ public class OrganisationalUnit implements IData{
      * @param balance The new balance for the organisational unit.
      */
     public void setBalance(float balance) throws Exception {
-        if (balance < 0) {
-            throw new Exception("Invalid balance! Can't be a negative.");
-        }
+        if(balance < 0)
+        {throw new Exception("balance must be positive!");}
         this.balance = balance;
     }
 

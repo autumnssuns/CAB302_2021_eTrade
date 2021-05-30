@@ -20,8 +20,8 @@ public class SellCartItemInfoBox extends VBox implements IViewUnit {
     private CartItem cartItem;
 
     private Label nameLabel;
-    private TextField quantityTextField;
-    private TextField priceTextField;
+    private Label quantityTextField;
+    private Label priceTextField;
     private Label totalPriceLabel;
 
     private Button removeButton;
@@ -54,14 +54,14 @@ public class SellCartItemInfoBox extends VBox implements IViewUnit {
         totalPriceLabel.getStyleClass().add("blackLabel");
         totalPriceLabel.setId("cartItemTotalPriceLabel" + cartItem.getId());
 
-        quantityTextField = new TextField();
+        quantityTextField = new Label("Quantity: " + cartItem.getQuantity());
         quantityTextField.setPrefWidth(150);
-        quantityTextField.setText("Quantity: " + cartItem.getQuantity());
+        quantityTextField.getStyleClass().add("blackLabel");
         quantityTextField.setId("cartItemSellQuantityTextField" + cartItem.getId());
 
-        priceTextField = new TextField();
+        priceTextField = new Label("Price: " + cartItem.getPrice());
         priceTextField.setPrefWidth(150);
-        priceTextField.setText("Price: " + cartItem.getPrice());
+        priceTextField.getStyleClass().add("blackLabel");
         priceTextField.setId("cartItemSellPriceTextField" + cartItem.getId());
 
         removeButton = new Button("x");

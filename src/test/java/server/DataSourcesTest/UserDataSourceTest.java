@@ -27,8 +27,8 @@ public class UserDataSourceTest {
         User userData = userDataSource.getUser(testuser.getUsername());
         assertEquals(testuser.getUserId(),userData.getUserId());
         assertEquals(testuser.getUsername(), userData.getUsername());
-        assertEquals(HashPassword.HashPassword(HashPassword.HashPassword(testuser.getPassword())),
-                HashPassword.HashPassword(userData.getPassword()));
+        assertEquals(HashPassword.HashPassword(testuser.getPassword()),
+                userData.getPassword());
     }
 
 //    @Test
@@ -80,8 +80,8 @@ public class UserDataSourceTest {
         assertEquals(newData.getFullName(),testuser1_New.getFullName());
         assertEquals(newData.getAccountType(), testuser1_New.getAccountType());
         assertEquals(newData.getUnitId(), testuser1_New.getUnitId());
-        assertEquals(HashPassword.HashPassword(HashPassword.HashPassword(testuser1_New.getPassword())),
-                HashPassword.HashPassword(newData.getPassword()));
+        assertEquals(HashPassword.HashPassword(testuser1_New.getPassword()),
+                newData.getPassword());
     }
 
 }

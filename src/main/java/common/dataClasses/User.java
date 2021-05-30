@@ -83,11 +83,20 @@ public class User implements IData {
     }
 
     /**
-     * Hashes the password of the user and stores it.
+     * Set the user's password
      * @param password The new password.
      */
     public void setPassword(String password){
-        this.password = HashPassword.HashPassword(password);
+        this.password = password;
+    }
+
+    /**
+     * Hashes the user's password
+     * @return
+     */
+    public User hashPassword(){
+        this.password = HashPassword.HashPassword(this.password);
+        return this;
     }
 
     /**

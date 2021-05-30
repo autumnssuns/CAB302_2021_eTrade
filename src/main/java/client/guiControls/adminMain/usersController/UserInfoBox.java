@@ -53,15 +53,15 @@ public class UserInfoBox extends HBox implements IViewUnit {
     public void initialize() {
         this.setAlignment(Pos.CENTER);
         this.setPrefHeight(80);
-        this.setPrefWidth(1363);
+        this.setPrefWidth(1300);
         this.setLayoutX(41);
         this.setLayoutY(260);
-        this.setSpacing(20);
+        this.setSpacing(5);
 
         idLabel = new Label();
         idLabel.getStyleClass().add("blackLabel");
         idLabel.setAlignment(Pos.CENTER);
-        idLabel.setPrefWidth(100);
+        idLabel.setPrefWidth(80);
         idLabel.setPrefHeight(80);
 
         nameTextField = new TextField();
@@ -95,14 +95,16 @@ public class UserInfoBox extends HBox implements IViewUnit {
         roleSelectionBox.setId("userRole" + user.getUserId());
 
         editButton = new Button("Edit");
-        editButton.setPrefWidth(100);
+        editButton.setPrefWidth(80);
         editButton.setPrefHeight(30);
+        editButton.setStyle("-fx-font-size:10");
         editButton.setOnAction(e -> startEdit());
         editButton.setId("userEditButton" + user.getUserId());
 
         removeButton = new Button("Remove");
-        removeButton.setPrefWidth(100);
+        removeButton.setPrefWidth(80);
         removeButton.setPrefHeight(30);
+        removeButton    .setStyle("-fx-font-size:10");
         removeButton.setOnAction(e -> {
             try {
                 removeEntry();
@@ -132,8 +134,11 @@ public class UserInfoBox extends HBox implements IViewUnit {
     private void updateValues(){
         user.setFullName(nameTextField.getText());
         user.setUsername(usernameTextField.getText());
+        System.out.println(user.getPassword());
+        System.out.println(passwordField.getText());
         if (!user.getPassword().equals(passwordField.getText())){
             user.setPassword(passwordField.getText());
+            user.hashPassword();
         }
         user.setOrganisation(controller.getOrganisation((String) organisationUnitSelectionBox.getValue()).getId());
         user.setAccountType((String) roleSelectionBox.getValue());
