@@ -91,6 +91,6 @@ class UserTest {
     void testEquals() {
         User otherUser = new User(0, "Test User", "testuser", "p@ssw0rd", "user", 0).hashPassword();
         assertTrue(user.equals(otherUser) && otherUser.equals(user));
-        assertEquals(user.hashCode(), otherUser.hashCode());
+        assertTrue(user.hashCode() == otherUser.hashCode());
     }
 }

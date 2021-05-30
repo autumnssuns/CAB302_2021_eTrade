@@ -60,7 +60,7 @@ public class OrganisationalUnitsController extends DisplayController {
         confirmOrganisationalUnitButton.setOnAction(e -> {
             try {
                 confirmEditor();
-            } catch (Exception invalidArgumentValueException) {
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
                 invalidArgumentValueException.printStackTrace();
             }
         });
@@ -85,8 +85,6 @@ public class OrganisationalUnitsController extends DisplayController {
                 confirmEditor(caller);
             } catch (InvalidArgumentValueException invalidArgumentValueException) {
                 invalidArgumentValueException.printStackTrace();
-            } catch (Exception exception) {
-                exception.printStackTrace();
             }
         });
     }
@@ -94,7 +92,7 @@ public class OrganisationalUnitsController extends DisplayController {
     /**
      * Confirms the addition of a new organisational unit.
      */
-    public void confirmEditor() throws Exception {
+    public void confirmEditor() throws InvalidArgumentValueException {
         int unitId = organisationalUnitsDisplayBox.getChildren().size();
         String name = organisationalUnitNameTextField.getText();
         float credit = Float.parseFloat(creditTextField.getText());
@@ -114,7 +112,7 @@ public class OrganisationalUnitsController extends DisplayController {
      * Confirms the edit of an existing organisational unit.
      * @param caller The instance that calls for an editor.
      */
-    public void confirmEditor(OrganisationalUnitInfoBox caller) throws Exception {
+    public void confirmEditor(OrganisationalUnitInfoBox caller) throws InvalidArgumentValueException {
         String name = organisationalUnitNameTextField.getText();
         float credit = Float.parseFloat(creditTextField.getText());
 

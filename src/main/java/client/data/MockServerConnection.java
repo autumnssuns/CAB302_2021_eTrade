@@ -16,7 +16,7 @@ public final class MockServerConnection implements IServerConnection{
     }
 
     @Override
-    public Response sendRequest(Request request) throws Exception {
+    public Response sendRequest(Request request) throws InvalidArgumentValueException {
         Response response = server.createResponse(request);
         return response;
     }

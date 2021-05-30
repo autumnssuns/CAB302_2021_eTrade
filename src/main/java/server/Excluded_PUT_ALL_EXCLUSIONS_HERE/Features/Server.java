@@ -3,11 +3,8 @@ package server.Features;
 import common.Request;
 import common.Response;
 import common.dataClasses.IData;
-import common.dataClasses.Stock;
 import common.dataClasses.User;
-import server.DataSourceClasses.CasesToResponse;
-import server.DataSourceClasses.StockDataSource;
-
+import server.DataSourceClasses.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -56,7 +53,7 @@ public class Server implements Serializable {
      * request from the client at the socket so there is no parameter needed
      * @throws IOException
      */
-    public Response SendResponse() throws Exception {
+    public void SendResponse() throws IOException, ClassNotFoundException {
 
         // For handler to assign value to serverResponse
         //setup the shell
@@ -72,7 +69,13 @@ public class Server implements Serializable {
         switch (command){
 
             case "Login":
-                serverResponse = CasesToResponse.login(clientRequest);
+                String userName = sender.getUsername();
+                String password = sender.getPassword();
+                Boolean status = LoginSystem.login(userName,password);
+                if(status){
+                    serverResponse = CasesToResponse.Login(userName, password);
+                    out.writeObject(serverResponse);
+                }
                 break;
 
                 // Use overloaded method for these cases: Query, Delete, Edit and Add
@@ -82,42 +85,44 @@ public class Server implements Serializable {
                 break;
 
             case "Query Users":
-                serverResponse = CasesToResponse.queryUsers();
+                UserDataSource userDataSource = new UserDataSource();
+                attachment = userDataSource.getUserList();
+                serverResponse = new Response(true, attachment);
                 out.writeObject(serverResponse);
-                break;
-
-            case  "query Stock":
-                serverResponse = CasesToResponse.queryStock(sender);
-                out.writeObject(serverResponse);
+                userDataSource.close();
                 break;
 
             case "Query Stocks":
-                serverResponse = CasesToResponse.queryStocks();
-                out.writeObject(serverResponse);
+
                 break;
 
             case "Query Organisational Units":
-                serverResponse = CasesToResponse.queryOrganisations();
+                OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
+                attachment = organisationsDataSource.getOrganisationList();
+                serverResponse = new Response(true, attachment);
                 out.writeObject(serverResponse);
+                organisationsDataSource.close();
                 break;
 
             case "Query Orders":
-                serverResponse = CasesToResponse.queryOrders();
+                OrderDataSource orderDataSource = new OrderDataSource();
+                attachment = orderDataSource.getOrderList();
+                serverResponse = new Response(true, attachment);
                 out.writeObject(serverResponse);
+                orderDataSource.close();
                 break;
 
             case "Query Assets":
-                serverResponse = CasesToResponse.queryAssets();
+                AssetsDataSource assetsDataSource = new AssetsDataSource();
+                attachment = assetsDataSource.getAssetList();
+                serverResponse = new Response(true, attachment);
                 out.writeObject(serverResponse);
+                assetsDataSource.close();
                 break;
 
             case "delete":
                 serverResponse = CasesToResponse.delete(clientRequest);
                 out.writeObject(serverResponse);
-                break;
-
-            case "delete stock item":
-                serverResponse = CasesToResponse.deleteAnItem(clientRequest);
                 break;
 
             case "edit":
@@ -130,21 +135,11 @@ public class Server implements Serializable {
                 out.writeObject(serverResponse);
                 break;
 
-            case "add stock item":
-                serverResponse = CasesToResponse.addAnItem((Stock) clientRequest.getAttachment());
-                break;
-
-            case "update unit stock":
-                StockDataSource unitStock = new StockDataSource();
-                unitStock.updateUnitStock((Stock) clientRequest.getAttachment());
-                serverResponse = new Response(true,null);
-                break;
         }
 
-        return serverResponse;
     }
 
-    public static void main (String args[]) throws Exception {
+    public static void main (String args[]) throws IOException, ClassNotFoundException {
         Server server = new Server();
         server.Start();
         server.SendResponse();
