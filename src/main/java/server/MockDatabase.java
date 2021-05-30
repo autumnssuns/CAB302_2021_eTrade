@@ -24,7 +24,7 @@ public class MockDatabase {
         add(new User(0, "Admin", "admin", "root", "admin", 0).hashPassword());
     }
 
-    public static void initiate() throws InvalidArgumentValueException {
+    public static void initiate() throws Exception {
         add(new User(1, "Dan Tran", "dan", "123", "user", 0).hashPassword());
         add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1).hashPassword());
         add(new User(3, "Linh Hoang", "lyn", "password", "user", 2).hashPassword());
@@ -107,7 +107,7 @@ public class MockDatabase {
         return new Response(true, attachedAssets);
     }
 
-    public static Response queryOrganisations(Request request) {
+    public static Response queryOrganisations(Request request) throws Exception {
         DataCollection<OrganisationalUnit> attachedOrganisationalUnit = new DataCollection<>();
         for (Object[] organisationalUnit : organisationalUnits){
             attachedOrganisationalUnit.add(new OrganisationalUnit((int) organisationalUnit[0], (String) organisationalUnit[1], (float) organisationalUnit[2]));
@@ -128,7 +128,7 @@ public class MockDatabase {
         return new Response(true, attachedStocks);
     }
 
-    public static Response queryOrganisationalUnit(Request request) {
+    public static Response queryOrganisationalUnit(Request request) throws Exception {
         int unitId = request.getUser().getUnitId();
         Object[] matchedUnit = organisationalUnits.get(unitId);
         OrganisationalUnit attachedUnit = new OrganisationalUnit((int) matchedUnit[0], (String) matchedUnit[1], (float) matchedUnit[2]);

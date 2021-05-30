@@ -53,7 +53,7 @@ public class AdminMainController extends MainController {
         Platform.runLater(() -> {
             try {
                 setupController();
-            } catch (IOException | InvalidArgumentValueException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -63,7 +63,7 @@ public class AdminMainController extends MainController {
      * Sets up the controller
      * @throws IOException Required by JavaFX
      */
-    private void setupController() throws IOException, InvalidArgumentValueException {
+    private void setupController() throws Exception {
         userLabel.setText(getUser().getUsername());
         fetchDatabase();
 
@@ -105,7 +105,7 @@ public class AdminMainController extends MainController {
     /**
      * Switches the display to the USERS pane.
      */
-    public void toUsers(){
+    public void toUsers() throws Exception {
         usersController.update();
         usersPane.toFront();
         organisationalUnitsButton.setDisable(false);
