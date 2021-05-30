@@ -4,9 +4,8 @@ import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.DataSourceClasses.AssetsDataSource;
-import server.DataSourceClasses.OrganisationsDataSource;
-import server.DataSourceClasses.StockDataSource;
+import server.DataSourceClasses.*;
+
 
 class StockDataSourceTest {
     private static StockDataSource stockDataSource;
@@ -15,7 +14,11 @@ class StockDataSourceTest {
     @BeforeEach
     void setUp() {
         stockDataSource = new StockDataSource();
-        stockDataSource.deleteAll();
+        DataCollection<Stock> content = stockDataSource.getStockList();
+        if(content.size() > 0)
+        {
+            stockDataSource.deleteAll();
+        }
         assetsDataSource = new AssetsDataSource();
         assetsDataSource.deleteAllAsset();
     }
