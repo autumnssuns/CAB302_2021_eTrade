@@ -187,6 +187,7 @@ public class OrganisationalUnitsController extends DisplayController {
         newOrganisationalUnitAssetNameComboBox.getItems().clear();
         for (Asset asset : assets){
             newOrganisationalUnitAssetNameComboBox.getItems().add(asset.getName());
+            //TODO: Filter the options
         }
 
         String[] organisationNames = new String[organisationalUnits.size()];

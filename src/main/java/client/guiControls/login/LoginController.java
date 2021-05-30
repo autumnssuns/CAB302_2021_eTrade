@@ -67,8 +67,9 @@ public class LoginController extends MainController {
         //TODO: Connect to server to authenticate the user
         String username = nameTextField.getText();
         String password = passwordField.getText();
-
-        this.setUser(new User(username, password));
+        User tempUser = new User(username, password);
+        tempUser.hashPassword();
+        this.setUser(tempUser);
         System.out.println(this.getUser().getPassword());
         Response response = this.sendRequest("login");
         boolean loginSuccess = response.isFulfilled();

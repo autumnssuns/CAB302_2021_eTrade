@@ -49,7 +49,7 @@ public class BuyItemInfoBox extends HBox implements IViewUnit {
     public void initialize(){
         this.setId("buyItemInfoBox" + item.getId());
         this.setAlignment(Pos.CENTER_LEFT);
-        this.setSpacing(20);
+        this.setSpacing(10);
 
         nameLabel = new Label(item.getName());
         nameLabel.getStyleClass().add("blackLabel");
@@ -60,18 +60,19 @@ public class BuyItemInfoBox extends HBox implements IViewUnit {
         availabilityLabel.setId("itemAvailabilityLabel" + item.getId());
 
         quantityTextField = new TextField();
-        quantityTextField.setPrefWidth(150);
+        quantityTextField.setPrefWidth(100);
         quantityTextField.setPromptText("Quantity");
         quantityTextField.setId("itemBuyQuantityTextField" + item.getId());
         quantityTextField.setOnKeyTyped(e -> limitSellQuantity());
 
         priceTextField = new TextField();
-        priceTextField.setPrefWidth(150);
+        priceTextField.setPrefWidth(100);
         priceTextField.setPromptText("Price");
         priceTextField.setId("itemBuyPriceTextField" + item.getId());
         priceTextField.setOnKeyTyped(e -> limitPrice());
 
         buyButton = new Button("Buy");
+
         buyButton.setOnAction(e -> {
                     try {
                         controller.buyItem(
@@ -92,7 +93,7 @@ public class BuyItemInfoBox extends HBox implements IViewUnit {
 
         VBox infoGroup = new VBox();
         infoGroup.setAlignment(Pos.CENTER);
-        infoGroup.setPrefWidth(200);
+        infoGroup.setPrefWidth(150);
         infoGroup.getChildren().addAll(nameLabel, availabilityLabel, historyButton);
 
         VBox buyInfoGroup = new VBox();
