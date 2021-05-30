@@ -76,8 +76,6 @@ public class MainController {
             e.printStackTrace();
         } catch (InvalidArgumentValueException e) {
             e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return response;
     }
@@ -91,8 +89,6 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InvalidArgumentValueException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
             e.printStackTrace();
         }
         return response;

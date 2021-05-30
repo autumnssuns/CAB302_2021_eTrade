@@ -1,4 +1,4 @@
-package server;
+package server.Features;
 
 public class HomeSellTabScene {
 

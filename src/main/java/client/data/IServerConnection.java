@@ -15,7 +15,7 @@ public interface IServerConnection {
      * @param request The request to be sent.
      * @return The server's response.
      */
-    Response sendRequest(Request request) throws Exception;
+    Response sendRequest(Request request) throws InvalidArgumentValueException;
 
     /**
      * Starts the connection to the server.
