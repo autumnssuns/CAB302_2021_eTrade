@@ -35,7 +35,11 @@ public class OrganisationalUnit implements IData{
      * Set the id of the organisational unit to a new value.
      * @param unitId The new value for the organisational unit.
      */
-    public void setId(Integer unitId){
+    public void setId(Integer unitId) throws Exception{
+        if(unitId < 0)
+        {
+            throw new Exception("Invalid Unit ID.");
+        }
         this.unitId = unitId;
     }
 

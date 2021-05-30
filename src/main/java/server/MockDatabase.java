@@ -153,7 +153,7 @@ public class MockDatabase {
         return new Response(true, returnStock);
     }
 
-    public static Response queryOrders(Request request) {
+    public static Response queryOrders(Request request) throws Exception {
         DataCollection<Order> returnOrders = new DataCollection<>();
         for (Object[] row : orders){
             Order newOrder = new Order((int) row[0], (Order.Type) row[1], (int) row[2], (int) row[3], (int) row[4],
@@ -433,7 +433,7 @@ public class MockDatabase {
      * @param request The request
      * @return
      */
-    public static <T extends IData> Response add(Request<T> request){
+    public static <T extends IData> Response add(Request<T> request) throws Exception {
         T attachment = request.getAttachment();
         Class<T> type = request.getAttachmentType();
         if (type.equals(User.class)){
@@ -474,7 +474,7 @@ public class MockDatabase {
         return response;
     }
 
-    private static Response add(Order attachment){
+    private static Response add(Order attachment) throws Exception {
         Object[] newRow = new Object[]{orders.size(), attachment.getOrderType(), attachment.getUnitId(), attachment.getAssetId(),
                 attachment.getPlacedQuantity(), attachment.getResolvedQuantity(), attachment.getPrice(),
                 attachment.getFinishDate(), attachment.getOrderDate(), attachment.getStatus()};
@@ -566,7 +566,7 @@ public class MockDatabase {
      * - SELL order price less than or equal to BUY order's price
      * @param order
      */
-    private static Order matchOrder(Order order){
+    private static Order matchOrder(Order order) throws Exception {
         if (order.getStatus().equals(Order.Status.PENDING)){
             // Initiate a lowest selling price
             float lowestSellPrice = Float.MAX_VALUE;
@@ -609,7 +609,7 @@ public class MockDatabase {
      * - Adds credit to seller
      * - Adds assets to buyer
      */
-    private static void reconcileOrder(Order order){
+    private static void reconcileOrder(Order order) throws Exception {
         Order matchOrder = matchOrder(order);
         if (matchOrder != null){
             int orderAvailability = order.getPlacedQuantity() - order.getResolvedQuantity();
