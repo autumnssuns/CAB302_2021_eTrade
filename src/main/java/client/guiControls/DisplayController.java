@@ -18,7 +18,7 @@ public class DisplayController {
         this.controller = controller;
     }
 
-    public void update() throws InvalidArgumentValueException { }
+    public void update() throws Exception { }
 
     /**
      * Pass the request to the mainController and in turns, be sent to the database.

@@ -2,7 +2,6 @@ package server.DataSourceClasses;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.OrganisationalUnit;
-import server.DBconnection;
 
 import java.sql.*;
 
@@ -12,21 +11,21 @@ import java.sql.*;
 public class OrganisationsDataSource {
     //Create environment
     //SQL queries
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `cab302_eTrade`.`organisationalUnits` (\n" +
-            "  `organisation_id` INT NOT NULL AUTO_INCREMENT,\n" +
-            "  `organisation_name` VARCHAR(16) NOT NULL,\n" +
-            "  `credits` DECIMAL(2) NOT NULL DEFAULT 0,\n" +
-            "  PRIMARY KEY (`organisation_id`))\n" +
-            "ENGINE = InnoDB;";
+    private static final String CREATE_TABLE =
+            "CREATE TABLE IF NOT EXISTS     organisationalUnits (\n" +
+            "    organisation_id            INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+            "    organisation_name          VARCHAR(16) NOT NULL,\n" +
+            "    credits  DECIMAL(2)        NOT NULL DEFAULT 0\n" +
+            "    );";
     private static final String ADD_ORGANISATION = "INSERT INTO organisationalUnits(organisation_id, organisation_name, credits) VALUES (?, ?, ?);";
     private static final String DELETE_ORGANISATION = "DELETE FROM organisationalUnits WHERE organisation_id=?";
     private static final String GET_ORGANISATION = "SELECT * FROM organisationalUnits WHERE organisation_id=?";
     private static final String GET_ALL_ORGANISATION = "SELECT * FROM organisationalUnits";
     private static final String EDIT_ORGANISATION =
-            "UPDATE organisationalUnits" +
+            "UPDATE organisationalUnits\n" +
                     "SET organisation_name=?, credits=?" +
                     "WHERE organisation_id=?";
-
+    private static final String DELETE_ALL = "DELETE FROM organisationalUnits";
     //Prepared statements
     private Connection connection;
     private PreparedStatement addOrganisation;
@@ -34,6 +33,7 @@ public class OrganisationsDataSource {
     private PreparedStatement getOrganisation;
     private PreparedStatement editOrganisation;
     private PreparedStatement getAllOrganisation;
+    private PreparedStatement deleteAll;
 
     /**
      * Connect to the database then create table if not exists
@@ -48,6 +48,16 @@ public class OrganisationsDataSource {
             getOrganisation = connection.prepareStatement(GET_ORGANISATION);
             editOrganisation = connection.prepareStatement(EDIT_ORGANISATION);
             getAllOrganisation = connection.prepareStatement(GET_ALL_ORGANISATION);
+            deleteAll = connection.prepareStatement(DELETE_ALL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAll()
+    {
+        try {
+            deleteAll.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -63,7 +73,7 @@ public class OrganisationsDataSource {
             addOrganisation.setInt(1, newOrganisationalUnit.getId());
             addOrganisation.setString(2, newOrganisationalUnit.getName());
             addOrganisation.setFloat(3, newOrganisationalUnit.getBalance());
-            addOrganisation.executeQuery();
+            addOrganisation.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -77,7 +87,7 @@ public class OrganisationsDataSource {
         try {
             //set values into the above query
             deleteOrganisation.setInt(1, id);
-            deleteOrganisation.executeQuery();
+            deleteOrganisation.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -88,18 +98,20 @@ public class OrganisationsDataSource {
      * @param id OrganisationalUnit Object input to get values from
      * @return Object-OrganisationalUnit
      */
-    public OrganisationalUnit getOrganisation(int id){
+    public OrganisationalUnit getOrganisation(int id) {
         //Create dummy object to store data
-        OrganisationalUnit dummy = new OrganisationalUnit(-1,null, -1);
+        OrganisationalUnit dummy = null;
         ResultSet rs = null;
         try {
             getOrganisation.setInt(1, id);
             rs = getOrganisation.executeQuery();
             //Store data into the dummy
-            dummy.setId(rs.getInt("organisation_id"));
-            dummy.setName(rs.getString("organisation_name"));
-            dummy.setBalance(rs.getFloat("credits"));
+            dummy = new OrganisationalUnit(rs.getInt("organisation_id"),
+                        rs.getString("organisation_name"),
+                    rs.getFloat("credits"));
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return dummy;
@@ -121,6 +133,8 @@ public class OrganisationsDataSource {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return Organisations;
     }
@@ -133,7 +147,7 @@ public class OrganisationsDataSource {
             editOrganisation.setString(1, organisationNewInfo.getName());
             editOrganisation.setFloat(2, organisationNewInfo.getBalance());
             editOrganisation.setInt(3, organisationNewInfo.getId());
-            editOrganisation.executeQuery();
+            editOrganisation.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
         }

@@ -9,21 +9,39 @@ import java.util.Objects;
  * Represents a collection of items owned by an organisational unit.
  */
 public class Stock extends ArrayList<Item> implements IData{
-    private Integer unitId;
+    private int unitId;
+    private int assetId;
+    private int assetQuantity;
 
     /**
      * Initiates the stock by declaring the organisational unit owning it.
      * @param unitId The ID of the organisational unit owning the stock.
      */
-    public Stock(Integer unitId){
+    public Stock(int unitId) {
         this.unitId = unitId;
+    }
+
+    public int getAssetId() {
+        return assetId;
+    }
+
+    public void setAssetId(int assetId) {
+        this.assetId = assetId;
+    }
+
+    public int getAssetQuantity() {
+        return assetQuantity;
+    }
+
+    public void setAssetQuantity(int assetQuantity) {
+        this.assetQuantity = assetQuantity;
     }
 
     /**
      * Sets the ID of the organisational unit owning this stock.
      * @param unitId The ID of the organisational unit owning this stock.
      */
-    public void setUnitId(Integer unitId){
+    public void setUnitId(int unitId){
         this.unitId = unitId;
     }
 
@@ -31,7 +49,7 @@ public class Stock extends ArrayList<Item> implements IData{
      * Returns the ID of the organisational unit holding this stock.
      * @return The ID of the organisational unit holding this stock.
      */
-    public Integer getUnitId(){
+    public int getUnitId(){
         return this.unitId;
     }
 
@@ -46,7 +64,7 @@ public class Stock extends ArrayList<Item> implements IData{
         // Checks if the item has already exist. If yes, add the new item on top.
         for(int i = 0; i < this.size(); i++){
             Item currentItem = this.get(i);
-            if (currentItem.getName() == newItem.getName()){
+            if (currentItem.getId() == newItem.getId()){
                 try {
                     this.get(i).add(newItem.getQuantity());
                 } catch (InvalidArgumentValueException e) {

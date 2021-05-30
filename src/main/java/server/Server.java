@@ -3,15 +3,17 @@ package server;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
+import common.dataClasses.IData;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.Stock;
+import common.dataClasses.User;
+import server.DataSourceClasses.CasesToResponse;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class Server implements IServer{
@@ -106,8 +108,8 @@ public final class Server implements IServer{
                     // Create a response and write to stream
                     final Request request = (Request) inputStream.readObject();
                     System.out.println(request.getAction());
+//                    TimeUnit.SECONDS.sleep(1);
                     Response response = createResponse(request);
-                    outputStream.flush();
                     outputStream.writeObject(response);
                     // Closes the socket after writing
                     socket.close();
@@ -115,9 +117,11 @@ public final class Server implements IServer{
                     continue;
                 } catch (InvalidArgumentValueException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-        } catch (IOException | ClassCastException | ClassNotFoundException e) {
+        } catch (IOException | ClassCastException e) {
             System.out.println(String.format("Connection %s closed", socket.toString()));
         }
     }
@@ -139,67 +143,75 @@ public final class Server implements IServer{
 
     /**
      * Create a response based on the request.
-     * @param request The request sent by client.
+     * @param clientRequest The request sent by client.
      * @return An appropriate response.
      * @throws InvalidArgumentValueException
      */
     @Override
-    public Response createResponse(Request request) throws InvalidArgumentValueException {
+    public Response createResponse(Request clientRequest) throws Exception {
         // Unidentified requests are denied by default
-        Response response = new Response(false, null);
-        switch (request.getAction()){
+        //Get senders' information
+        User sender = clientRequest.getUser();
+        IData attachment = clientRequest.getAttachment();
+        Response serverResponse = new Response(false, null);
+        switch (clientRequest.getAction()){
             case "init":
                 if (firstRun){
-                    MockDatabase.initiate();
+                    CasesToResponse.initiate();
                     firstRun = false;
-                    response = new Response(true, null);
+                    serverResponse = new Response(true, null);
                 }
                 break;
 
             case "login":
-                response = MockDatabase.login(request);
+                    serverResponse = CasesToResponse.login(clientRequest);
                 break;
 
             case "query users":
-                response = MockDatabase.queryUsers(request);
+                serverResponse = CasesToResponse.queryUsers();
                 break;
 
             case "query assets":
-                response = MockDatabase.queryAssets(request);
+                serverResponse = CasesToResponse.queryAssets();
                 break;
 
             case "query organisationalUnits":
-                response = MockDatabase.queryOrganisations(request);
+                serverResponse = CasesToResponse.queryOrganisations();
                 break;
 
             case "query stocks":
-                response = MockDatabase.queryStocks(request);
+                serverResponse = CasesToResponse.queryStocks();
                 break;
 
             case "query organisational unit":
-                response = MockDatabase.queryOrganisationalUnit(request);
+                serverResponse = CasesToResponse.query((OrganisationalUnit) attachment);
                 break;
 
             case "query stock":
-                response = MockDatabase.queryStock(request);
+                serverResponse = CasesToResponse.queryStock(sender);
                 break;
 
             case "query orders":
-                response = MockDatabase.queryOrders(request);
+                serverResponse = CasesToResponse.queryOrders();
                 break;
 
             case "add":
-                response = MockDatabase.add(request);
+                serverResponse = CasesToResponse.add(clientRequest);
                 break;
 
             case "edit":
-                response = MockDatabase.edit(request);
+                serverResponse = CasesToResponse.edit(clientRequest);
                 break;
 
             case "delete":
-                response = MockDatabase.delete(request);
+                serverResponse = CasesToResponse.delete(clientRequest);
+                break;
+
+                // Make sure to set Stock object's asset id and asset quantity to use this function.
+            case "add item":
+                serverResponse = CasesToResponse.addAnItem((Stock) attachment);
                 break;
         }
-        return response;
+        return serverResponse;
     }
 }

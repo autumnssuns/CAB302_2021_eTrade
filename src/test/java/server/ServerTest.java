@@ -31,13 +31,13 @@ class ServerTest {
     DataCollection<Order> expectedOrders;
 
     @BeforeAll
-    void setUp() throws InvalidArgumentValueException {
+    void setUp() throws Exception {
         server = new MockServer();
         server.createResponse(new Request(null, "init"));
     }
 
     @BeforeEach
-    void resetExpectedData() throws InvalidArgumentValueException {
+    void resetExpectedData() throws Exception {
         expectedUsers = new DataCollection<>();
         unhashedPasswords = new ArrayList<String>();
         expectedAssets = new DataCollection<>();
@@ -113,7 +113,7 @@ class ServerTest {
         Response<IData> expectedResponse;
 
         @AfterEach
-        void executeAssertion() throws InvalidArgumentValueException {
+        void executeAssertion() throws Exception {
             actualResponse = server.createResponse(request);
             assertEquals(expectedResponse, actualResponse);
         }
@@ -160,26 +160,26 @@ class ServerTest {
         }
 
         @Test
-        void queryStocksTest() throws InvalidArgumentValueException {
+        void queryStocksTest(){
             request = new Request<>(admin, "query stocks");
             expectedResponse = new Response<>(true, expectedStocks);
         }
 
         @Disabled
         @Test
-        void queryOrdersTest() throws InvalidArgumentValueException {
+        void queryOrdersTest(){
             request = new Request<>(expectedUsers.get(0), "query orders");
             expectedResponse = new Response<>(true, expectedOrders);
         }
 
         @RepeatedTest(4)
-        void queryStockTest(RepetitionInfo repetitionInfo) throws InvalidArgumentValueException {
+        void queryStockTest(RepetitionInfo repetitionInfo) {
             request = new Request<>(expectedUsers.get(repetitionInfo.getCurrentRepetition()), "query stock");
             expectedResponse = new Response<>(true, expectedStocks.get(repetitionInfo.getCurrentRepetition() - 1));
         }
 
         @RepeatedTest(4)
-        void queryOrganisationalUnitTest(RepetitionInfo repetitionInfo) throws InvalidArgumentValueException {
+        void queryOrganisationalUnitTest(RepetitionInfo repetitionInfo) {
             request = new Request<User>(expectedUsers.get(repetitionInfo.getCurrentRepetition()), "query stock");
             expectedResponse = new Response<>(true, expectedStocks.get(repetitionInfo.getCurrentRepetition() - 1));
         }
@@ -205,7 +205,7 @@ class ServerTest {
 
             @Test
             void userCreationTest() {
-                User newUser = new User(-1, "New User", "newuser", "012345", "user", 0);
+                User newUser = new User(0, "New User", "newuser", "012345", "user", 0);
 
                 request = new Request<>(admin, "add", newUser);
                 request.setAttachmentType(User.class);
@@ -219,7 +219,7 @@ class ServerTest {
 
             @Test
             void assetCreationTest() throws InvalidArgumentValueException {
-                Asset newAsset = new Asset(-1, "New Asset","N/A");
+                Asset newAsset = new Asset(0, "New Asset","N/A");
 
                 request = new Request<>(admin, "add", newAsset);
                 request.setAttachmentType(Asset.class);
@@ -232,8 +232,8 @@ class ServerTest {
             }
 
             @Test
-            void organisationalUnitCreationTest(){
-                OrganisationalUnit newOrganisationalUnit = new OrganisationalUnit(-1, "New OrganisationalUnit",150f);
+            void organisationalUnitCreationTest() throws Exception {
+                OrganisationalUnit newOrganisationalUnit = new OrganisationalUnit(0, "New OrganisationalUnit",150f);
 
                 request = new Request<>(admin, "add", newOrganisationalUnit);
                 request.setAttachmentType(OrganisationalUnit.class);
@@ -246,8 +246,8 @@ class ServerTest {
             }
 
             @Test
-            void orderCreationTest(){
-                Order newOrder = new Order(-1, Order.Type.BUY, 0, 0, 23, 0,
+            void orderCreationTest() throws Exception {
+                Order newOrder = new Order(0, Order.Type.BUY, 0, 0, 23, 0,
                         22f, null, LocalDateTime.of(2021, 5, 13, 16, 52), Order.Status.PENDING);
 
                 request = new Request<>(admin, "add", newOrder);
@@ -303,7 +303,7 @@ class ServerTest {
             }
 
             @RepeatedTest(4)
-             void organisationalUnitUpdatingTest(RepetitionInfo repetitionInfo){
+             void organisationalUnitUpdatingTest(RepetitionInfo repetitionInfo) throws Exception {
                 OrganisationalUnit overrideOrganisationalUnit = new OrganisationalUnit(repetitionInfo.getCurrentRepetition() - 1,
                         "OrganisationalUnit " + (repetitionInfo.getCurrentRepetition() - 1),
                         1000f * (repetitionInfo.getCurrentRepetition() - 1));

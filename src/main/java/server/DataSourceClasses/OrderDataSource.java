@@ -2,55 +2,59 @@ package server.DataSourceClasses;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.Order;
-import server.DBconnection;
+import common.dataClasses.Order.Type;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Provides needed functions to interact with "orders" database for data
  */
 public class OrderDataSource {
     //Setting up the environment.
     //SQL queries
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `cab302_eTrade`.`orders` (\n" +
-            "  `order_id` INT NOT NULL AUTO_INCREMENT,\n" +
-            "  `order_type` ENUM('buy', 'sell') NOT NULL,\n" +
-            "  `organisation_id` INT NOT NULL,\n" +
-            "  `asset_id` INT NOT NULL,\n" +
-            "  `placed_quantity` INT NOT NULL DEFAULT 0,\n" +
-            "  `resolved_quantity` INT NOT NULL DEFAULT 0,\n" +
-            "  `price` DECIMAL(2) NOT NULL,\n" +
-            "  `order_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
-            "  `finished_date` DATETIME NULL DEFAULT NULL,\n" +
-            "  `status` ENUM('placed', 'finished', 'cancelled') NOT NULL DEFAULT 'placed',\n" +
-            "  PRIMARY KEY (`order_id`),\n" +
-            "  CONSTRAINT `buy_organisation`\n" +
-            "    FOREIGN KEY (`organisation_id` , `asset_id`)\n" +
-            "    REFERENCES `cab302_eTrade`.`stock` (`organisation_id` , `asset_id`)\n" +
-            "    ON DELETE NO ACTION\n" +
-            "    ON UPDATE NO ACTION)\n" +
-            "ENGINE = InnoDB;\n" +
-            "\n" +
-            "CREATE INDEX `organisation_idx` ON `cab302_eTrade`.`orders` (`organisation_id` ASC, `asset_id` ASC) VISIBLE;";
+    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS orders (\n" +
+            "    order_id          INTEGER      NOT NULL\n" +
+            "                                   PRIMARY KEY AUTOINCREMENT,\n" +
+            "    order_type        VARCHAR (4)  NOT NULL,\n" +
+            "    organisation_id   INT          NOT NULL,\n" +
+            "    asset_id          INT          NOT NULL,\n" +
+            "    placed_quantity   INT          NOT NULL\n" +
+            "                                   DEFAULT 0,\n" +
+            "    resolved_quantity INT          NOT NULL\n" +
+            "                                   DEFAULT 0,\n" +
+            "    price             DECIMAL (2)  NOT NULL,\n" +
+            "    order_date        VARCHAR(50)  NOT NULL\n" +
+            "                                   DEFAULT CURRENT_TIMESTAMP,\n" +
+            "    finished_date     VARCHAR(50)  DEFAULT NULL,\n" +
+            "    status            VARCHAR(10)  NOT NULL\n" +
+            "                                   DEFAULT ('placed') \n" +
+            ");";
 
     private static final String ADD_ORDER = "INSERT INTO orders(order_id, order_type, organisation_id, " +
-            "asset_id, placed_quantity, resolved_quantity, price, order_date, finished_date, status) " +
+            "asset_id, placed_quantity, resolved_quantity, price, order_date, finished_date, status) \n" +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String DELETE_ORDER = "DELETE FROM orders WHERE order_id=?";
+    private static final String DELETE_ALL_ORDERS = "DELETE FROM orders";
     private static final String GET_ORDER = "SELECT * FROM orders WHERE order_id=?";
     private static final String GET_ALL_ORDER = "SELECT * FROM orders";
     private static final String EDIT_ORDER =
-            "UPDATE orders" +
-                    "SET order_type=?, organisation_id=?, asset_id=?, placed_quantity=?, resolved_quantity=?, price=?," +
-                    "order_date=?, finished_date=?, status=?" +
-                    "WHERE order_id=?";
+            "UPDATE orders\n" +
+            "SET order_type=?, organisation_id=?, asset_id=?, placed_quantity=?, resolved_quantity=?, price=?, " +
+            "order_date=?, finished_date=?, status=?\n" +
+            "WHERE order_id=?";
 
     //Prepare statements.
     private Connection connection;
     private PreparedStatement addOrder;
     private PreparedStatement deleteOrder;
+    private PreparedStatement deleteAllOrders;
     private PreparedStatement getOrder;
     private PreparedStatement editOrder;
     private PreparedStatement getAllOrder;
+    static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+
 
     /**
      * Connect to the database and create one if not exists
@@ -65,6 +69,7 @@ public class OrderDataSource {
             getOrder = connection.prepareStatement(GET_ORDER);
             editOrder = connection.prepareStatement(EDIT_ORDER);
             getAllOrder = connection.prepareStatement(GET_ALL_ORDER);
+            deleteAllOrders = connection.prepareStatement(DELETE_ALL_ORDERS);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,11 +89,11 @@ public class OrderDataSource {
             addOrder.setInt(5, order.getPlacedQuantity());
             addOrder.setInt(6, order.getResolvedQuantity());
             addOrder.setFloat(7, order.getPrice());
-            addOrder.setDate(8, order.getOrderDate());
-            addOrder.setDate(9, order.getFinishDate());
+            addOrder.setString(8, order.getOrderDate().format(formatter));
+            addOrder.setString(9, order.getFinishDate().format(formatter));
             addOrder.setString(10, order.getStatus().name());
             //execute the query
-            addOrder.executeQuery();
+            addOrder.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -101,7 +106,18 @@ public class OrderDataSource {
     public void deleteOrder(int OrderId){
         try {
             deleteOrder.setInt(1, OrderId);
-            deleteOrder.executeQuery();
+            deleteOrder.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Delete all orders
+     */
+    public void deleteAllOrders(){
+        try {
+            deleteAllOrders.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -114,30 +130,53 @@ public class OrderDataSource {
      */
     public Order getOrder(int OrderId){
         //create a dummy Order Object to store values
-        Order dummy = new Order( -1, null, -1, -1, -1, -1,
-                -1,null,null, null);
+        Order dummy = null;
         try {
             //set value
             getOrder.setInt(1, OrderId);
             ResultSet rs = getOrder.executeQuery();
-            //Stores values into the dummy object
-            dummy.setOrderID(rs.getInt("order_id"));
-            dummy.setOrderType(Order.Type.valueOf(rs.getString("order_type")));
-            dummy.setunitId(rs.getInt("organisation_id"));
-            dummy.setAssetID(rs.getInt("asset_id"));
-            dummy.setPlacedQuantity(rs.getInt("placed_quantity"));
-            dummy.setResolvedQuantity(rs.getInt("resolved_quantity"));
-            dummy.setPrice(rs.getFloat("price"));
-            dummy.setOrderDate(rs.getDate("order_date"));
-            dummy.setFinishDate(rs.getDate("finished_date"));
-            dummy.setStatus(Order.Status.valueOf(rs.getString("status")));
+            while( rs.next() ) {
+                dummy = new Order(
+                        rs.getInt("order_id"),
+                        Type.valueOf(rs.getString("order_type")),
+                        rs.getInt("organisation_id"),
+                        rs.getInt("asset_id"),
+                        rs.getInt("placed_quantity"),
+                        rs.getInt("resolved_quantity"),
+                        rs.getFloat("price"),
+                        LocalDateTime.parse(rs.getString("order_date"), formatter),
+                        LocalDateTime.parse(rs.getString("finished_date"), formatter),
+                        Order.Status.valueOf(rs.getString("status")));
+            };
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return dummy;
-    }
 
-    //Todo: Get order list methods
+//        Order dummy = new Order( -1, null, -1, -1, -1, -1,
+//                -1,null,null, null);
+//        try {
+//            //set value
+//            getOrder.setInt(1, OrderId);
+//            ResultSet rs = getOrder.executeQuery();
+//            //Stores values into the dummy object
+//            dummy.setOrderId(rs.getInt("order_id"));
+//            dummy.setOrderType(Order.Type.valueOf(rs.getString("order_type")));
+//            dummy.setUnitId(rs.getInt("organisation_id"));
+//            dummy.setAssetID(rs.getInt("asset_id"));
+//            dummy.setPlacedQuantity(rs.getInt("placed_quantity"));
+//            dummy.setResolvedQuantity(rs.getInt("resolved_quantity"));
+//            dummy.setPrice(rs.getFloat("price"));
+//            dummy.setOrderDate((rs.getDate("order_date")).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+//            dummy.setFinishDate((rs.getDate("order_date")).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+//            dummy.setStatus(Order.Status.valueOf(rs.getString("status")));
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return dummy;
+    }
 
     /**
      * Method to return all orders in the database
@@ -148,21 +187,22 @@ public class OrderDataSource {
         try {
             ResultSet rs = getAllOrder.executeQuery();
             while (rs.next()){
-
                 orders.add(new Order(
                         rs.getInt("order_id"),
-                        Order.Type.valueOf(rs.getString("order_type")),
+                        Type.valueOf(rs.getString("order_type")),
                         rs.getInt("organisation_id"),
                         rs.getInt("asset_id"),
                         rs.getInt("placed_quantity"),
                         rs.getInt("resolved_quantity"),
                         rs.getFloat("price"),
-                        rs.getDate("order_date"),
-                        rs.getDate("finished_date"),
+                        LocalDateTime.parse(rs.getString("order_date"), formatter),
+                        LocalDateTime.parse(rs.getString("finished_date"), formatter),
                         Order.Status.valueOf(rs.getString("status")))
                         );
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return orders;
@@ -181,11 +221,11 @@ public class OrderDataSource {
             editOrder.setInt(4, orderNewInfo.getPlacedQuantity());
             editOrder.setInt(5, orderNewInfo.getResolvedQuantity());
             editOrder.setFloat(6, orderNewInfo.getPrice());
-            editOrder.setDate(7, orderNewInfo.getOrderDate());
-            editOrder.setDate(8, orderNewInfo.getFinishDate());
+            editOrder.setString(7, orderNewInfo.getOrderDate().format(formatter));
+            editOrder.setString(8, orderNewInfo.getFinishDate().format(formatter));
             editOrder.setString(9, orderNewInfo.getStatus().name());
             editOrder.setInt(10, orderNewInfo.getOrderId());
-            editOrder.executeQuery();
+            editOrder.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
         }

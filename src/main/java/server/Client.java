@@ -1,4 +1,4 @@
-package server.Features;
+package server;
 
 import common.Request;
 import common.Response;
