@@ -2,7 +2,6 @@ package server.DataSourceClasses;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.User;
-import server.DataSourceClasses.*;
 import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
 
 import java.sql.*;
@@ -38,7 +37,7 @@ public class UserDataSource {
                     " user_type = ?, organisation_id = ? \n" +
                     "WHERE \n" +
                     "user_id = ?";
-    private static final  String DELETE_ALL_DATA = "DELETE FROM users";
+    private static final  String DELETE_ALL = "DELETE FROM users";
 
     //Prepared statements
     private Connection connection;
@@ -62,13 +61,13 @@ public class UserDataSource {
             getUser = connection.prepareStatement(GET_USER);
             editUser = connection.prepareStatement(EDIT_USER);
             getAllUser = connection.prepareStatement(GET_ALL_USER);
-            deleteAll = connection.prepareStatement(DELETE_ALL_DATA);
+            deleteAll = connection.prepareStatement(DELETE_ALL);
         } catch (SQLException e)
         {e.printStackTrace();}
     }
 
 
-    public void DeleteAll() {
+    public void deleteAll() {
         try {
             deleteAll.executeUpdate();
         } catch (SQLException e) {
