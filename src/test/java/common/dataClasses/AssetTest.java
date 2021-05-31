@@ -17,29 +17,29 @@ class AssetTest {
 
     @Test
     void getId() {
-        assertEquals(asset.getId(), 0);
+        assertEquals(0, asset.getId());
     }
 
     @Test
     void setId() {
         asset.setId(1);
-        assertEquals(asset.getId(), 1);
+        assertEquals(1, asset.getId());
     }
 
     @Test
     void getName() {
-        assertEquals(asset.getName(), "Asset 0");
+        assertEquals("Asset 0", asset.getName());
     }
 
     @Test
     void getDescription() {
-        assertEquals(asset.getDescription(), "N/A");
+        assertEquals("N/A", asset.getDescription());
     }
 
     @Test
     void setName() throws InvalidArgumentValueException {
         asset.setName("New Name");
-        assertEquals(asset.getName(), "New Name");
+        assertEquals("New Name", asset.getName());
     }
 
     @Test
@@ -51,13 +51,13 @@ class AssetTest {
     @Test
     void setDescription() {
         asset.setDescription("Description");
-        assertEquals(asset.getDescription(), "Description");
+        assertEquals("Description", asset.getDescription());
     }
 
     @Test
     void testEquals() throws InvalidArgumentValueException {
         Asset otherAsset = new Asset(0, "Asset 0", "N/A");
         assertTrue(asset.equals(otherAsset) && otherAsset.equals(asset));
-        assertEquals(asset.hashCode(), otherAsset.hashCode());
+        assertEquals(otherAsset.hashCode(), asset.hashCode());
     }
 }
