@@ -22,12 +22,12 @@ public class UserDataSourceTest {
 
     @Test
     void addNewUser_getUser() {
-        User testuser = new User(1, "DuyPham", "new", "123", "user", 1);
+        User testuser = new User(1, "DuyPham", "new", "123", "user", 1).hashPassword();
         userDataSource.addUser(testuser);
         User userData = userDataSource.getUser(testuser.getUsername());
         assertEquals(testuser.getUserId(),userData.getUserId());
         assertEquals(testuser.getUsername(), userData.getUsername());
-        assertEquals(HashPassword.HashPassword(testuser.getPassword()),
+        assertEquals(testuser.getPassword(),
                 userData.getPassword());
     }
 
@@ -70,9 +70,9 @@ public class UserDataSourceTest {
 
     @Test
     void editUser() {
-        User testuser1 = new User(0, "DuyPham", "new1", "123", "user", 1);
+        User testuser1 = new User(0, "DuyPham", "new1", "123", "user", 1).hashPassword();
         userDataSource.addUser(testuser1);
-        User testuser1_New = new User(0, "NEW NAME", "NEW USER NAME", "NEW PASS", "NEW", 0);
+        User testuser1_New = new User(0, "NEW NAME", "NEW USER NAME", "NEW PASS", "NEW", 0).hashPassword();
         userDataSource.editUser(testuser1_New);
         User newData = userDataSource.getUser(testuser1_New.getUsername());
         assertEquals(newData.getUsername(),testuser1_New.getUsername());
@@ -80,7 +80,7 @@ public class UserDataSourceTest {
         assertEquals(newData.getFullName(),testuser1_New.getFullName());
         assertEquals(newData.getAccountType(), testuser1_New.getAccountType());
         assertEquals(newData.getUnitId(), testuser1_New.getUnitId());
-        assertEquals(HashPassword.HashPassword(testuser1_New.getPassword()),
+        assertEquals(testuser1_New.getPassword(),
                 newData.getPassword());
     }
 
