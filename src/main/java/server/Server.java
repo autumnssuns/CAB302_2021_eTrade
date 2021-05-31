@@ -108,8 +108,8 @@ public final class Server implements IServer{
                     // Create a response and write to stream
                     final Request request = (Request) inputStream.readObject();
                     System.out.println(request.getAction());
-//                    TimeUnit.SECONDS.sleep(1);
                     Response response = createResponse(request);
+                    outputStream.flush();
                     outputStream.writeObject(response);
                     // Closes the socket after writing
                     socket.close();
@@ -117,11 +117,9 @@ public final class Server implements IServer{
                     continue;
                 } catch (InvalidArgumentValueException e) {
                     e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
-        } catch (IOException | ClassCastException e) {
+        } catch (IOException | ClassCastException | ClassNotFoundException e) {
             System.out.println(String.format("Connection %s closed", socket.toString()));
         }
     }
@@ -141,6 +139,72 @@ public final class Server implements IServer{
         }
     }
 
+//    /**
+//     * Create a response based on the request.
+//     * @param request The request sent by client.
+//     * @return An appropriate response.
+//     * @throws InvalidArgumentValueException
+//     */
+//    @Override
+//    public Response createResponse(Request request) throws InvalidArgumentValueException {
+//        // Unidentified requests are denied by default
+//        Response response = new Response(false, null);
+//        switch (request.getAction()){
+//            case "init":
+//                if (firstRun){
+//                    MockDatabase.initiate();
+//                    firstRun = false;
+//                    response = new Response(true, null);
+//                }
+//                break;
+//
+//            case "login":
+//                response = MockDatabase.login(request);
+//                break;
+//
+//            case "query users":
+//                response = MockDatabase.queryUsers(request);
+//                break;
+//
+//            case "query assets":
+//                response = MockDatabase.queryAssets(request);
+//                break;
+//
+//            case "query organisationalUnits":
+//                response = MockDatabase.queryOrganisations(request);
+//                break;
+//
+//            case "query stocks":
+//                response = MockDatabase.queryStocks(request);
+//                break;
+//
+//            case "query organisational unit":
+//                response = MockDatabase.queryOrganisationalUnit(request);
+//                break;
+//
+//            case "query stock":
+//                response = MockDatabase.queryStock(request);
+//                break;
+//
+//            case "query orders":
+//                response = MockDatabase.queryOrders(request);
+//                break;
+//
+//            case "add":
+//                response = MockDatabase.add(request);
+//                break;
+//
+//            case "edit":
+//                response = MockDatabase.edit(request);
+//                break;
+//
+//            case "delete":
+//                response = MockDatabase.delete(request);
+//                break;
+//        }
+//        return response;
+//    }
+
     /**
      * Create a response based on the request.
      * @param clientRequest The request sent by client.
@@ -148,7 +212,7 @@ public final class Server implements IServer{
      * @throws InvalidArgumentValueException
      */
     @Override
-    public Response createResponse(Request clientRequest) throws Exception {
+    public Response createResponse(Request clientRequest) throws InvalidArgumentValueException {
         // Unidentified requests are denied by default
         //Get senders' information
         User sender = clientRequest.getUser();

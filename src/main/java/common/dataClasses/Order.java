@@ -1,5 +1,7 @@
 package common.dataClasses;
 
+import common.Exceptions.InvalidArgumentValueException;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -129,10 +131,10 @@ public class Order implements IData {
      * set the order id to given Int
      * @param order_id
      */
-    public void setOrderId(Integer order_id) throws Exception{
+    public void setOrderId(Integer order_id) throws InvalidArgumentValueException {
         if(order_id < 0)
         {
-            throw new  Exception("Invalid Order ID.");
+            throw new  InvalidArgumentValueException();
         }
         this.orderId = order_id;
     }

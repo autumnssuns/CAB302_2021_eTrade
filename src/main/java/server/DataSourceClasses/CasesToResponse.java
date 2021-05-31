@@ -1,5 +1,6 @@
 package server.DataSourceClasses;
 
+import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.*;
@@ -7,14 +8,16 @@ import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
 
 public class CasesToResponse {
 
-    public static void initiate() throws Exception {
+    public static void initiate() throws InvalidArgumentValueException {
 
         add(new User(1, "Dan Tran", "dan", "123", "user", 0));
         add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1));
         add(new User(3, "Linh Hoang", "lyn", "password", "user", 2));
         add(new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3));
 
-        add(new Asset(0, "CPU Hours", "CPU for rent"));
+        try {
+            add(new Asset(0, "CPU Hours", "CPU for rent"));
+
         add(new Asset(1, "10 GB Database Server", "Remove SQL Server"));
         add(new Asset(2, "A Generic Video Game", "Nothing is more generic than this."));
         add(new Asset(3, "Coffin Dance Video", "You know what this is"));
@@ -44,6 +47,9 @@ public class CasesToResponse {
         stock2.add(new Item(assets.get(2), 10));
         stock2.add(new Item(assets.get(3), 10));
         add(stock2);
+        } catch (InvalidArgumentValueException e) {
+            e.printStackTrace();
+        }
 
         }
 
@@ -72,7 +78,7 @@ public class CasesToResponse {
     // stock, transaction(considering) and User)
 
     //Todo: Overload Add method
-    public static <T extends IData> Response add(Request<T> request) throws Exception {
+    public static <T extends IData> Response add(Request<T> request) throws InvalidArgumentValueException {
         T attachment = request.getAttachment();
         Class<T> type = request.getAttachmentType();
         if(type.equals(User.class)) {
@@ -117,7 +123,7 @@ public class CasesToResponse {
     }
     //Order Type
     //Todo: implement this
-    private static void placeOrder(Order order) throws Exception {
+    private static void placeOrder(Order order) throws InvalidArgumentValueException {
         int unitId = order.getUnitId();
         //if order is SELL: reduce seller stock's item quantity
         if (order.getOrderType().equals(Order.Type.SELL)){
@@ -164,7 +170,7 @@ public class CasesToResponse {
     return null;
     }
 
-    public static Response add(Order attachment) throws Exception {
+    public static Response add(Order attachment) throws InvalidArgumentValueException {
             OrderDataSource orderDataSource = new OrderDataSource();
             OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
             //If SELLER: check if the asset quantity is enough.
@@ -224,7 +230,7 @@ public class CasesToResponse {
 
 
     //Todo: Overload Edit method
-    public static <T extends IData> Response edit(Request<T> request) throws Exception {
+    public static <T extends IData> Response edit(Request<T> request) throws InvalidArgumentValueException {
         T attachment = request.getAttachment();
         Class<T> type = request.getAttachmentType();
         if (type.equals(User.class)){
@@ -268,7 +274,7 @@ public class CasesToResponse {
 
 
     //Todo: implement this to use in database.
-    public static void cancelOrder(Order order) throws Exception {
+    public static void cancelOrder(Order order) throws InvalidArgumentValueException {
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         if (order.getOrderType().equals(Order.Type.BUY)){
             // Refund = Available * Price
@@ -301,7 +307,7 @@ public class CasesToResponse {
         }
     }
     //Order Type
-    public static Response edit(Order attachment) throws Exception {
+    public static Response edit(Order attachment) throws InvalidArgumentValueException {
         //Todo: Cancel order condition
         if (attachment.getStatus().equals(Order.Status.CANCELLED)){
             cancelOrder(attachment);
@@ -551,7 +557,7 @@ public class CasesToResponse {
      * - Adds credit to seller
      * - Adds assets to buyer
      */
-    private static void reconcileOrder(Order order) throws Exception {
+    private static void reconcileOrder(Order order) throws InvalidArgumentValueException {
         OrderDataSource orderDataSource = new OrderDataSource();
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         Order matchOrder = matchOrder(order);
