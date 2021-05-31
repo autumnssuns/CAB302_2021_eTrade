@@ -17,7 +17,7 @@ public class UserDataSourceTest {
     void setUP()
     {
         userDataSource = new UserDataSource();
-        userDataSource.DeleteAll();
+        userDataSource.deleteAll();
     }
 
     @Test
