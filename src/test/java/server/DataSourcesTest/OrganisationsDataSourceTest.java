@@ -26,7 +26,8 @@ class OrganisationsDataSourceTest {
     @Test
     void deleteAll() {
         organisationsDataSource.deleteAll();
-        assertEquals(organisationsDataSource.getOrganisationList().size(), 0);
+        assertEquals(0,organisationsDataSource.getOrganisationList().size());
+
     }
 
     @Test

@@ -19,20 +19,20 @@ class AssetsDataSourceTest {
         assetsDataSource.deleteAllAsset();
     }
 
+
     @Test
     void addAndGetAsset() throws InvalidArgumentValueException {
         assetsDataSource.addAsset(new Asset(0, "Bitcoin", "Crypto currency"));
-        assertEquals(assetsDataSource.getAsset(0).getId(), 0);
-        assertEquals(assetsDataSource.getAsset(0).getName(), "Bitcoin") ;
-        assertEquals(assetsDataSource.getAsset(0).getDescription(), "Crypto currency");
+        assertEquals(0, assetsDataSource.getAsset(0).getId());
+        assertEquals("Bitcoin", assetsDataSource.getAsset(0).getName()) ;
+        assertEquals("Crypto currency", assetsDataSource.getAsset(0).getDescription());
     }
 
     @Test
     void deleteAssetAndGetAssetList() throws InvalidArgumentValueException {
-        emptyAssetsDataSource = new AssetsDataSource();
         assetsDataSource.addAsset(new Asset(0, "Bitcoin", "Crypto currency"));
         assetsDataSource.deleteAsset(0);
-        assertEquals(assetsDataSource.getAssetList(), emptyAssetsDataSource.getAssetList());
+        assertEquals(0, assetsDataSource.getAssetList().size());
     }
 
     @Test
@@ -43,7 +43,7 @@ class AssetsDataSourceTest {
         assetsDataSource.addAsset(new Asset(1, "GPU 100x", "GPU cal power"));
         assetsDataSource.addAsset(new Asset(2, "GPU 500x", "GPU cal power"));
         assetsDataSource.deleteAllAsset();
-        assertEquals(assetsDataSource.getAssetList(), emptyAssetsDataSource.getAssetList()) ;
+        assertEquals(0, assetsDataSource.getAssetList().size()) ;
     }
 
     @Test
@@ -51,7 +51,7 @@ class AssetsDataSourceTest {
         assetsDataSource.addAsset(new Asset(0, "Bitcoin", "Crypto currency"));
         assertEquals(assetsDataSource.getAsset(0).getName(), "Bitcoin");
         assetsDataSource.editAsset(new Asset(0, "Ethereum", "Crypto"));
-        assertEquals(assetsDataSource.getAsset(0).getName(), "Ethereum");
-        assertEquals(assetsDataSource.getAsset(0).getDescription(), "Crypto");
+        assertEquals("Ethereum", assetsDataSource.getAsset(0).getName());
+        assertEquals( "Crypto", assetsDataSource.getAsset(0).getDescription());
     }
 }

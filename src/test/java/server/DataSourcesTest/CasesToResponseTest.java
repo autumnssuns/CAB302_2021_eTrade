@@ -57,7 +57,7 @@ public class CasesToResponseTest {
 
 
         OrderDataSource orderDataSource = new OrderDataSource();
-        assertEquals(orderDataSource.getOrder(10).getAssetId(), 2);
+        assertEquals(2, orderDataSource.getOrder(10).getAssetId());
 
         Item item = findItem(1,0);
         assertEquals(44, item.getQuantity());
