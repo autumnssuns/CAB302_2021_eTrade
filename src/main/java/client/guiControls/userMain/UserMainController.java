@@ -155,6 +155,7 @@ public class UserMainController extends MainController {
     public void fetchDatabase() throws InvalidArgumentValueException {
         Response response = this.sendRequest("query organisational unit");
         OrganisationalUnit organisationalUnit = (OrganisationalUnit) response.getAttachment();
+        System.out.println(organisationalUnit.getId() +" "+ organisationalUnit.getName() + " " + getDatabase());
 
         response = this.sendRequest("query stock");
         Stock stock = (Stock) response.getAttachment();
