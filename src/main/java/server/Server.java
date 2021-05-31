@@ -8,6 +8,7 @@ import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.Stock;
 import common.dataClasses.User;
 import server.DataSourceClasses.CasesToResponse;
+import server.DataSourceClasses.OrganisationsDataSource;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -248,7 +249,9 @@ public final class Server implements IServer{
                 break;
 
             case "query organisational unit":
-                serverResponse = CasesToResponse.query((OrganisationalUnit) attachment);
+                OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
+                OrganisationalUnit unit = organisationsDataSource.getOrganisation(sender.getUnitId());
+                serverResponse = CasesToResponse.query(unit);
                 break;
 
             case "query stock":
