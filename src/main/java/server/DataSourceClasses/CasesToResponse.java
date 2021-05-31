@@ -61,11 +61,11 @@ public class CasesToResponse {
         Response serverResponse = new Response(false, null);
         User sender = request.getUser();
         UserDataSource userdata = new UserDataSource();
-        User userInData = userdata.getUser(request.getUser().getUsername());
+        User userInData = userdata.getUser(sender.getUsername());
         if(userInData != null)
         {
             if(sender.getUsername().equals(userInData.getUsername())
-            && HashPassword.HashPassword(sender.getPassword()).equals(userInData.getPassword()))
+            && sender.getPassword().equals(userInData.getPassword()))
             {
                 serverResponse = new Response(true,userInData);
             }
