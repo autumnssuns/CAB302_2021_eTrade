@@ -25,7 +25,7 @@ public class CasesToResponseTest {
     @Test
     public void LoginTest() {
         // Register for user???
-        User test = new User("duy","abcd");
+        User test = new User("duy","abcd").hashPassword();
         Request loginRequest = new Request(test,"");
         Response response = CasesToResponse.login(loginRequest);
         test = (User) response.getAttachment();
