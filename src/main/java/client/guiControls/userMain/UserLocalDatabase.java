@@ -154,6 +154,21 @@ public class UserLocalDatabase extends ILocalDatabase {
     }
 
     /**
+     * Returns the collection of orders from the current organisational unit.
+     * @param type The order type
+     * @return
+     */
+    public DataCollection<Order> getOwnOrders(Order.Type type){
+        DataCollection<Order> ownOrders = new DataCollection<>();
+        for (Order order : orders){
+            if (order.getUnitId().equals(organisationalUnit.getId()) && order.getOrderType().equals(type) && order.getStatus().equals(Order.Status.PENDING)){
+                ownOrders.add(order);
+            }
+        }
+        return ownOrders;
+    }
+
+    /**
      * Merges similar orders (same asset with the same price and type) in a given collection.
      * @return
      */
@@ -243,7 +258,6 @@ public class UserLocalDatabase extends ILocalDatabase {
                 }
             }
         }
-
 
         for (int i = 0; i < timestamps.size(); i++){
             priceHistory.put(timestamps.get(i), prices.get(i));

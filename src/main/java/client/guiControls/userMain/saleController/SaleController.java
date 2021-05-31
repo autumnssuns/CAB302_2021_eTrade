@@ -1,6 +1,7 @@
 package client.guiControls.userMain.saleController;
 
 import client.guiControls.DisplayController;
+import client.guiControls.userMain.CurrentOrdersInfoBox;
 import client.guiControls.userMain.UserLocalDatabase;
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.*;
@@ -28,6 +29,7 @@ public class SaleController extends DisplayController {
     Cart sellCart = new Cart(Order.Type.SELL);
     Stock tempStock;
     DataCollection<Order> marketBuyOrders;
+    DataCollection<Order> myOrders;
 
     @FXML Pagination marketBuyOrdersDisplay;
     @FXML VBox stockDisplayBox;
@@ -36,6 +38,9 @@ public class SaleController extends DisplayController {
     @FXML Label saleTotalLabel;
     @FXML
     Pane buyChartContainer;
+    @FXML
+    VBox myCurrentBuys;
+
     /**
      * Displays a new box containing an item's information in the stock.
      * @param item The linked item.
@@ -166,6 +171,13 @@ public class SaleController extends DisplayController {
             marketBuyOrdersDisplay.setPageFactory(pageIndex -> createPage(pageIndex));
             marketBuyOrdersDisplay.setPageCount((int) Math.ceil((float) marketBuyOrders.size() / ordersPerPage));
         }
+        // Show the orders from the current organisational unit
+        myOrders = localDatabase.getOwnOrders(Order.Type.BUY);
+        for (Order order : myOrders){
+            CurrentOrdersInfoBox mySellOrderInfoBox = new CurrentOrdersInfoBox(order, this);
+            myCurrentBuys.getChildren().add(mySellOrderInfoBox);
+        }
+        refresh();
         refresh();
     }
 
