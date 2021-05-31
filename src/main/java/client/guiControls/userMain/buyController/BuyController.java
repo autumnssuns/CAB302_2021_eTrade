@@ -1,6 +1,7 @@
 package client.guiControls.userMain.buyController;
 
 import client.guiControls.DisplayController;
+import client.guiControls.userMain.CurrentOrdersInfoBox;
 import client.guiControls.userMain.UserLocalDatabase;
 import client.guiControls.userMain.UserMainController;
 import common.Exceptions.InvalidArgumentValueException;
@@ -27,15 +28,23 @@ import java.util.Map;
 public class BuyController extends DisplayController {
     Cart buyCart = new Cart(Order.Type.BUY);
     Stock marketStock;
+    DataCollection<Order> myOrders;
     DataCollection<Order> marketSellOrders;
 
-    @FXML Pagination marketSellOrdersDisplay;
-    @FXML VBox marketDisplayBox;
-    @FXML VBox buyCartDisplayBox;
-    @FXML Button buyAllButton;
-    @FXML Label buyTotalLabel;
+    @FXML
+    Pagination marketSellOrdersDisplay;
+    @FXML
+    VBox marketDisplayBox;
+    @FXML
+    VBox buyCartDisplayBox;
+    @FXML
+    Button buyAllButton;
+    @FXML
+    Label buyTotalLabel;
     @FXML
     Pane sellChartContainer;
+    @FXML
+    VBox myCurrentSales;
 
     /**
      * Displays a new box containing an item's information in the stock.
@@ -130,12 +139,20 @@ public class BuyController extends DisplayController {
     @Override
     public void update() throws InvalidArgumentValueException {
         UserLocalDatabase localDatabase = (UserLocalDatabase) controller.getDatabase();
+        // Show the orders from the market (excluding the current organisational unit)
         marketStock = localDatabase.getMarket();
         marketSellOrders = localDatabase.getMarketOrders(Order.Type.SELL);
         if(marketSellOrders != null){
             // Resets the page and page factory http://www.java2s.com/Tutorials/Java/JavaFX/0610__JavaFX_Pagination.htm
             marketSellOrdersDisplay.setPageFactory(pageIndex -> createPage(pageIndex));
             marketSellOrdersDisplay.setPageCount((int) Math.ceil((float) marketSellOrders.size() / ordersPerPage));
+        }
+        myCurrentSales.getChildren().clear();
+        // Show the orders from the current organisational unit
+        myOrders = localDatabase.getOwnOrders(Order.Type.SELL);
+        for (Order order : myOrders){
+            CurrentOrdersInfoBox mySellOrderInfoBox = new CurrentOrdersInfoBox(order, this);
+            myCurrentSales.getChildren().add(mySellOrderInfoBox);
         }
         refresh();
     }
