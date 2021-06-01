@@ -11,7 +11,7 @@ class UserTest {
 
     @BeforeEach
     void setUp() {
-        user = new User(0, "Test User", "testuser", "p@ssw0rd", "user", 0).hashPassword();
+        user = new User(0, "Test UserGUI", "testuser", "p@ssw0rd", "user", 0).hashPassword();
     }
 
     @Test
@@ -72,7 +72,7 @@ class UserTest {
 
     @Test
     void getFullName() {
-        assertEquals("Test User", user.getFullName());
+        assertEquals("Test UserGUI", user.getFullName());
     }
 
     @Test
@@ -89,7 +89,7 @@ class UserTest {
 
     @Test
     void testEquals() {
-        User otherUser = new User(0, "Test User", "testuser", "p@ssw0rd", "user", 0).hashPassword();
+        User otherUser = new User(0, "Test UserGUI", "testuser", "p@ssw0rd", "user", 0).hashPassword();
         assertTrue(user.equals(otherUser) && otherUser.equals(user));
         assertTrue(user.hashCode() == otherUser.hashCode());
     }

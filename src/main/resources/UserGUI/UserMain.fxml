@@ -6,39 +6,45 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="768.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.UserMainController">
+<AnchorPane fx:id="anchorPane" prefHeight="768.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.UserMainController">
    <children>
-      <Pane fx:id="tabPane" layoutY="4.0" prefHeight="768.0" prefWidth="178.0" styleClass="buttonPane">
+      <VBox prefHeight="772.0" prefWidth="178.0" spacing="20.0">
          <children>
-            <Button fx:id="homeButton" layoutY="199.0" mnemonicParsing="false" onAction="#toHome" prefHeight="100.0" prefWidth="178.0" styleClass="tabButton" text="SELL">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Button>
-            <Button fx:id="marketButton" layoutY="339.0" mnemonicParsing="false" onAction="#toMarket" prefHeight="100.0" prefWidth="178.0" styleClass="tabButton" text="BUY">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Button>
-            <Button fx:id="ordersButton" layoutY="479.0" mnemonicParsing="false" onAction="#toOrders" prefHeight="100.0" prefWidth="178.0" styleClass="tabButton" text="HISTORY">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Button>
-            <Button fx:id="profileButton" layoutY="619.0" mnemonicParsing="false" onAction="#toProfile" prefHeight="100.0" prefWidth="178.0" styleClass="tabButton" text="PROFILE">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Button>
             <Label fx:id="creditLabel" prefHeight="137.0" prefWidth="178.0">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
+            <Button fx:id="homePageButton" mnemonicParsing="false" onAction="#switchToHomePage" prefHeight="100.0" prefWidth="178.0" styleClass="tabButton" text="HOME">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="sellPageButton" mnemonicParsing="false" onAction="#switchToSellPage" prefHeight="100.0" prefWidth="178.0" styleClass="tabButton" text="SELL">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="buyPageButton" mnemonicParsing="false" onAction="#switchToBuyPage" prefHeight="100.0" prefWidth="178.0" styleClass="tabButton" text="BUY">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="historyButton" mnemonicParsing="false" onAction="#switchToHistoryPage" prefHeight="100.0" prefWidth="178.0" styleClass="tabButton" text="HISTORY">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="profileButton" mnemonicParsing="false" onAction="#switchToProfilePage" prefHeight="100.0" prefWidth="178.0" styleClass="tabButton" text="PROFILE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
          </children>
-      </Pane>
+      </VBox>
       <StackPane fx:id="displayStack" layoutX="178.0" layoutY="67.0" prefHeight="691.0" prefWidth="1346.0">
          <children>
             <Label fx:id="organisationalUnitLabel" alignment="CENTER_RIGHT" graphicTextGap="0.0" prefHeight="30.0" prefWidth="400.0" textAlignment="RIGHT">

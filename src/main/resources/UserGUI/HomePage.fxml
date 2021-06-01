@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1322.0" styleClass="displayPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.homeController.HomeController">
+   <children>
+      <HBox prefHeight="700.0" prefWidth="1322.0">
+         <children>
+            <VBox prefHeight="700.0" prefWidth="661.0">
+               <children>
+                  <Label prefWidth="661.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Pane fx:id="graphPane" prefHeight="426.0" prefWidth="661.0" styleClass="whitePane" />
+                  <HBox alignment="CENTER" prefHeight="35.0" prefWidth="661.0">
+                     <children>
+                        <Label prefHeight="35.0" prefWidth="50.0" />
+                        <Label prefHeight="35.0" prefWidth="200.0" text="Name" />
+                        <Label prefHeight="35.0" prefWidth="150.0" text="Lowest SELL Price" />
+                        <Label prefHeight="35.0" prefWidth="150.0" text="Lowest BUY Price" />
+                        <Label prefHeight="35.0" prefWidth="100.0" />
+                     </children>
+                  </HBox>
+                  <Pagination fx:id="assetsPagination" prefHeight="203.0" prefWidth="661.0" styleClass="whitePane" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="661.0">
+               <children>
+                  <Label text="Notifications">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="661.0">
+                     <content>
+                        <VBox fx:id="notificationBox" prefHeight="200.0" prefWidth="661.0" />
+                     </content>
+                  </ScrollPane>
+                  <Label text="Current SELL Orders">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="661.0">
+                     <content>
+                        <VBox fx:id="currentSellOrdersBox" prefHeight="200.0" prefWidth="661.0" />
+                     </content>
+                  </ScrollPane>
+                  <Label text="Current BUY Orders">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="661.0">
+                     <content>
+                        <VBox fx:id="currentBuylOrdersBox" prefHeight="200.0" prefWidth="661.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

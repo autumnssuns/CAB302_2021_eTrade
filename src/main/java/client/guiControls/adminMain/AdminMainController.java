@@ -67,19 +67,19 @@ public class AdminMainController extends MainController {
         userLabel.setText(getUser().getUsername());
         fetchDatabase();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UsersPage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("AdminGUI/UsersPage.fxml"));
         usersPane = fxmlLoader.load();
         usersController = fxmlLoader.getController();
         usersController.setController(this);
         usersController.update();
 
-        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("OrganisationalUnitsPage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("AdminGUI/OrganisationalUnitsPage.fxml"));
         organisationUnitsPane = fxmlLoader.load();
         organisationalUnitsController = fxmlLoader.getController();
         organisationalUnitsController.setController(this);
         organisationalUnitsController.update();
 
-        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("AssetsPage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("AdminGUI/AssetsPage.fxml"));
         assetsPane = fxmlLoader.load();
         assetsController = fxmlLoader.getController();
         assetsController.setController(this);
