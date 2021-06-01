@@ -158,8 +158,6 @@ public class UserDataSource {
         return users;
     }
 
-
-
     /**
      * A method to update an asset information on  database
      * @param userNewInfo an Asset class object containing new data
@@ -177,8 +175,6 @@ public class UserDataSource {
             e.printStackTrace();
         }
     }
-
-
 
     /**
      * Close the connection to database

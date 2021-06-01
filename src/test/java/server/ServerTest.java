@@ -24,7 +24,6 @@ class ServerTest {
     Request request;
 
     DataCollection<User> expectedUsers;
-    ArrayList<String> unhashedPasswords;
     DataCollection<Asset> expectedAssets;
     DataCollection<OrganisationalUnit> expectedOrganisationalUnits;
     DataCollection<Stock> expectedStocks;
@@ -32,30 +31,23 @@ class ServerTest {
 
     @BeforeAll
     void setUp() throws Exception {
-        server = new MockServer();
+        server = new Server();
         server.createResponse(new Request(null, "init"));
     }
 
     @BeforeEach
     void resetExpectedData() throws Exception {
         expectedUsers = new DataCollection<>();
-        unhashedPasswords = new ArrayList<String>();
         expectedAssets = new DataCollection<>();
         expectedOrganisationalUnits = new DataCollection<>();
         expectedStocks = new DataCollection<>();
         expectedOrders = new DataCollection<>();
 
-        expectedUsers.add(new User(0, "Admin", "admin", "root", "admin", 0).hashPassword());
+        expectedUsers.add(new User(0, "Admin", "admin", "root", "admin", null).hashPassword());
         expectedUsers.add(new User(1, "Dan Tran", "dan", "123", "user", 0).hashPassword());
         expectedUsers.add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1).hashPassword());
         expectedUsers.add(new User(3, "Linh Hoang", "lyn", "password", "user", 2).hashPassword());
         expectedUsers.add(new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3).hashPassword());
-
-        unhashedPasswords.add("root");
-        unhashedPasswords.add("123");
-        unhashedPasswords.add("abcd");
-        unhashedPasswords.add("password");
-        unhashedPasswords.add("rodo");
 
         expectedAssets.add(new Asset(0, "CPU Hours", "CPU for rent"));
         expectedAssets.add(new Asset(1, "10 GB Database Server", "Remove SQL Server"));
@@ -121,8 +113,8 @@ class ServerTest {
         @RepeatedTest(5)
         void validLoginTest(RepetitionInfo repetitionInfo) {
             String username = expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1).getUsername();
-            String password = unhashedPasswords.get(repetitionInfo.getCurrentRepetition() - 1);
-            User tempUser = new User(username, password).hashPassword();
+            String password  =expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1).getPassword();
+            User tempUser = new User(username, password);
             request = new Request<>(tempUser, "login");
             User expectedUser = expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1);
             expectedUser.setPassword(expectedUser.getPassword());
@@ -139,12 +131,7 @@ class ServerTest {
         @Test
         void queryUsersTest() throws InvalidArgumentValueException {
             request = new Request<>(admin, "query users");
-            DataCollection<User> doubleHashedExpectedUsers = new DataCollection();
-            for (User user : expectedUsers){
-                user.setPassword(user.getPassword());
-                doubleHashedExpectedUsers.add(user);
-            }
-            expectedResponse = new Response<>(true, doubleHashedExpectedUsers);
+            expectedResponse = new Response<>(true, expectedUsers);
         }
 
         @Test

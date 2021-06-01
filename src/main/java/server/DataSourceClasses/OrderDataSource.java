@@ -154,28 +154,6 @@ public class OrderDataSource {
             e.printStackTrace();
         }
         return dummy;
-
-//        Order dummy = new Order( -1, null, -1, -1, -1, -1,
-//                -1,null,null, null);
-//        try {
-//            //set value
-//            getOrder.setInt(1, OrderId);
-//            ResultSet rs = getOrder.executeQuery();
-//            //Stores values into the dummy object
-//            dummy.setOrderId(rs.getInt("order_id"));
-//            dummy.setOrderType(Order.Type.valueOf(rs.getString("order_type")));
-//            dummy.setUnitId(rs.getInt("organisation_id"));
-//            dummy.setAssetID(rs.getInt("asset_id"));
-//            dummy.setPlacedQuantity(rs.getInt("placed_quantity"));
-//            dummy.setResolvedQuantity(rs.getInt("resolved_quantity"));
-//            dummy.setPrice(rs.getFloat("price"));
-//            dummy.setOrderDate((rs.getDate("order_date")).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-//            dummy.setFinishDate((rs.getDate("order_date")).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-//            dummy.setStatus(Order.Status.valueOf(rs.getString("status")));
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return dummy;
     }
 
     /**
