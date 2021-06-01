@@ -10,7 +10,7 @@ import java.sql.*;
 /**
  * Provides needed functions to interact with "users" database for data
  */
-public class UserDataSource {
+public class UserDataSource extends DataSource {
     //Create the environment
     //SQL queries
     private static final String CREATE_TABLE =
@@ -41,7 +41,6 @@ public class UserDataSource {
     private static final  String DELETE_ALL = "DELETE FROM users";
 
     //Prepared statements
-    private Connection connection;
     private PreparedStatement addUser;
     private PreparedStatement deleteUser;
     private PreparedStatement getUser;

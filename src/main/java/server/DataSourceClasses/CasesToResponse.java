@@ -15,7 +15,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-public class CasesToResponse {
+public class CasesToResponse  {
 
     public static void initiate() throws InvalidArgumentValueException {
         try {

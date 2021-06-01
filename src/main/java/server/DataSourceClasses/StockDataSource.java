@@ -8,7 +8,7 @@ import common.dataClasses.*;
 
 import java.sql.*;
 
-public class StockDataSource {
+public class StockDataSource extends DataSource {
 
     public static final String CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS stock (\n" +
@@ -38,7 +38,6 @@ public class StockDataSource {
             "DELETE FROM stock WHERE organisation_id = ? AND asset_id = ?";
 
 
-    private Connection connection;
     private PreparedStatement editItemQuantity;
     private PreparedStatement updateStock;
     private PreparedStatement getStock;

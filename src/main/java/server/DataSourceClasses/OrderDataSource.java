@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * Provides needed functions to interact with "orders" database for data
  */
-public class OrderDataSource {
+public class OrderDataSource extends DataSource {
     //Setting up the environment.
     //SQL queries
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS orders (\n" +
@@ -46,7 +46,6 @@ public class OrderDataSource {
             "WHERE order_id=?";
 
     //Prepare statements.
-    private Connection connection;
     private PreparedStatement addOrder;
     private PreparedStatement deleteOrder;
     private PreparedStatement deleteAllOrders;

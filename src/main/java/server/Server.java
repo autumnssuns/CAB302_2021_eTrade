@@ -23,7 +23,7 @@ public final class Server implements IServer{
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private int port;
-    private boolean firstRun;
+    private boolean firstRun = true;
 
     /**
      * this is the timeout in between accepting clients, not reading from the socket itself.
@@ -52,7 +52,6 @@ public final class Server implements IServer{
             e.printStackTrace();
         }
         firstRun = true;
-        new MockDatabase();
     }
 
     /**
@@ -163,7 +162,7 @@ public final class Server implements IServer{
                 break;
 
             case "login":
-                    serverResponse = CasesToResponse.login(clientRequest);
+                serverResponse = CasesToResponse.login(clientRequest);
                 break;
 
             case "query users":

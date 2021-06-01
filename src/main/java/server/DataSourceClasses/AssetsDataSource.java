@@ -8,7 +8,7 @@ import java.sql.*;
 /**
  * Provides needed functions to interact with "assets" database for data
  */
-public class AssetsDataSource {
+public class AssetsDataSource extends DataSource {
     //Setting up the environment.
     //SQL queries.
     private static final String CREATE_TABLE =
@@ -28,7 +28,6 @@ public class AssetsDataSource {
                     "WHERE asset_id=?";
 
     //Prepare statements.
-    private Connection connection;
     private PreparedStatement addAsset;
     private PreparedStatement deleteAsset;
     private PreparedStatement deleteAllAsset;
@@ -149,17 +148,6 @@ public class AssetsDataSource {
             editAsset.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * Close the connection to database
-     */
-    public void close() {
-        try {
-            connection.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
     }
 }

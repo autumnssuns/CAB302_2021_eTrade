@@ -23,6 +23,11 @@ public class CasesToResponseTest {
             CasesToResponse.initiate();
         }
     }
+//
+//    @AfterAll
+//    public static void tearDown() throws IOException {
+//        DBConnection.dropDatabase();
+//    }
 
     @Test
     public void LoginTest() {

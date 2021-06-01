@@ -8,7 +8,7 @@ import java.sql.*;
 /**
  * Provides needed functions to interact with "organisationalUnits" database for data
  */
-public class OrganisationsDataSource {
+public class OrganisationsDataSource extends DataSource {
     //Create environment
     //SQL queries
     private static final String CREATE_TABLE =
@@ -27,7 +27,6 @@ public class OrganisationsDataSource {
                     "WHERE organisation_id=?";
     private static final String DELETE_ALL = "DELETE FROM organisationalUnits";
     //Prepared statements
-    private Connection connection;
     private PreparedStatement addOrganisation;
     private PreparedStatement deleteOrganisation;
     private PreparedStatement getOrganisation;
@@ -123,7 +122,6 @@ public class OrganisationsDataSource {
         try {
             ResultSet rs = getAllOrganisation.executeQuery();
             while (rs.next()){
-
                 Organisations.add(new OrganisationalUnit(
                         rs.getInt("organisation_id"),
                         rs.getString("organisation_name"),
