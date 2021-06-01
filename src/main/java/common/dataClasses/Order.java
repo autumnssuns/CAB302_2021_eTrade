@@ -42,7 +42,7 @@ public class Order implements IData {
         return asset;
     }
 
-    public Order(Integer orderId, Type orderType, Integer unitId, Integer assetId, int placedQuantity, int resolvedQuantity, float price, LocalDateTime finishDate, LocalDateTime orderDate, Status status) throws Exception {
+    public Order(Integer orderId, Type orderType, Integer unitId, Integer assetId, int placedQuantity, int resolvedQuantity, float price, LocalDateTime finishDate, LocalDateTime orderDate, Status status) throws InvalidArgumentValueException {
         setOrderId(orderId);
         this.orderType = orderType;
         this.unitId = unitId;

@@ -24,7 +24,6 @@ class ServerTest {
     Request request;
 
     DataCollection<User> expectedUsers;
-    ArrayList<String> unhashedPasswords;
     DataCollection<Asset> expectedAssets;
     DataCollection<OrganisationalUnit> expectedOrganisationalUnits;
     DataCollection<Stock> expectedStocks;
@@ -32,14 +31,13 @@ class ServerTest {
 
     @BeforeAll
     void setUp() throws Exception {
-        server = new MockServer();
+        server = new Server();
         server.createResponse(new Request(null, "init"));
     }
 
     @BeforeEach
     void resetExpectedData() throws Exception {
         expectedUsers = new DataCollection<>();
-        unhashedPasswords = new ArrayList<String>();
         expectedAssets = new DataCollection<>();
         expectedOrganisationalUnits = new DataCollection<>();
         expectedStocks = new DataCollection<>();
@@ -51,21 +49,17 @@ class ServerTest {
         expectedUsers.add(new User(3, "Linh Hoang", "lyn", "password", "user", 2).hashPassword());
         expectedUsers.add(new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3).hashPassword());
 
-        unhashedPasswords.add("root");
-        unhashedPasswords.add("123");
-        unhashedPasswords.add("abcd");
-        unhashedPasswords.add("password");
-        unhashedPasswords.add("rodo");
+
 
         expectedAssets.add(new Asset(0, "CPU Hours", "CPU for rent"));
         expectedAssets.add(new Asset(1, "10 GB Database Server", "Remove SQL Server"));
         expectedAssets.add(new Asset(2, "A Generic Video Game", "Nothing is more generic than this."));
         expectedAssets.add(new Asset(3, "Coffin Dance Video", "You know what this is"));
 
-        expectedOrganisationalUnits.add(new OrganisationalUnit(0, "The Justice League", 11429.0f));
-        expectedOrganisationalUnits.add(new OrganisationalUnit(1, "The supervillains", 5995.0f));
-        expectedOrganisationalUnits.add(new OrganisationalUnit(2, "The random civilians", 1220.0f));
-        expectedOrganisationalUnits.add(new OrganisationalUnit(3, "The brokers", 200.0f));
+        expectedOrganisationalUnits.add(new OrganisationalUnit(0, "The Justice League", 11430));
+        expectedOrganisationalUnits.add(new OrganisationalUnit(1, "The supervillains", 5995));
+        expectedOrganisationalUnits.add(new OrganisationalUnit(2, "The random civilians", 1220));
+        expectedOrganisationalUnits.add(new OrganisationalUnit(3, "The brokers", 200));
 
         Stock stock0 = new Stock(0);
         Stock stock1 = new Stock(1);
@@ -86,6 +80,12 @@ class ServerTest {
         stock2.add(new Item(expectedAssets.get(1), 50));
         stock2.add(new Item(expectedAssets.get(2), 50));
         stock2.add(new Item(expectedAssets.get(3), 50));
+
+        stock3.add(new Item(expectedAssets.get(0), 50));
+        stock3.add(new Item(expectedAssets.get(1), 50));
+        stock3.add(new Item(expectedAssets.get(2), 50));
+        stock3.add(new Item(expectedAssets.get(3), 50));
+
 
         expectedStocks.addAll(new Stock[]{stock0, stock1, stock2, stock3});
 
@@ -121,8 +121,8 @@ class ServerTest {
         @RepeatedTest(5)
         void validLoginTest(RepetitionInfo repetitionInfo) {
             String username = expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1).getUsername();
-            String password = unhashedPasswords.get(repetitionInfo.getCurrentRepetition() - 1);
-            User tempUser = new User(username, password).hashPassword();
+            String password  =expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1).getPassword();
+            User tempUser = new User(username, password);
             request = new Request<>(tempUser, "login");
             User expectedUser = expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1);
             expectedUser.setPassword(expectedUser.getPassword());
@@ -139,12 +139,7 @@ class ServerTest {
         @Test
         void queryUsersTest() throws InvalidArgumentValueException {
             request = new Request<>(admin, "query users");
-            DataCollection<User> doubleHashedExpectedUsers = new DataCollection();
-            for (User user : expectedUsers){
-                user.setPassword(user.getPassword());
-                doubleHashedExpectedUsers.add(user);
-            }
-            expectedResponse = new Response<>(true, doubleHashedExpectedUsers);
+            expectedResponse = new Response<>(true, expectedUsers);
         }
 
         @Test
