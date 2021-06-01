@@ -60,7 +60,7 @@ public class OrganisationalUnitsController extends DisplayController {
         confirmOrganisationalUnitButton.setOnAction(e -> {
             try {
                 confirmEditor();
-            } catch (Exception invalidArgumentValueException) {
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
                 invalidArgumentValueException.printStackTrace();
             }
         });
@@ -77,7 +77,7 @@ public class OrganisationalUnitsController extends DisplayController {
 
         organisationalUnitAssetsBox.getChildren().clear();
         for (Item item : caller.getStock()){
-            organisationalUnitAssetsBox.getChildren().add(new UnitAssetInfoBox(item));
+            organisationalUnitAssetsBox.getChildren().add(new UnitAssetInfoBox(item, this));
         }
 
         confirmOrganisationalUnitButton.setOnAction(e -> {
@@ -85,8 +85,6 @@ public class OrganisationalUnitsController extends DisplayController {
                 confirmEditor(caller);
             } catch (InvalidArgumentValueException invalidArgumentValueException) {
                 invalidArgumentValueException.printStackTrace();
-            } catch (Exception exception) {
-                exception.printStackTrace();
             }
         });
     }
@@ -94,7 +92,7 @@ public class OrganisationalUnitsController extends DisplayController {
     /**
      * Confirms the addition of a new organisational unit.
      */
-    public void confirmEditor() throws Exception {
+    public void confirmEditor() throws InvalidArgumentValueException {
         int unitId = organisationalUnitsDisplayBox.getChildren().size();
         String name = organisationalUnitNameTextField.getText();
         float credit = Float.parseFloat(creditTextField.getText());
@@ -114,7 +112,7 @@ public class OrganisationalUnitsController extends DisplayController {
      * Confirms the edit of an existing organisational unit.
      * @param caller The instance that calls for an editor.
      */
-    public void confirmEditor(OrganisationalUnitInfoBox caller) throws Exception {
+    public void confirmEditor(OrganisationalUnitInfoBox caller) throws InvalidArgumentValueException {
         String name = organisationalUnitNameTextField.getText();
         float credit = Float.parseFloat(creditTextField.getText());
 
@@ -168,7 +166,7 @@ public class OrganisationalUnitsController extends DisplayController {
 
         Item newItem = new Item(linkedAsset, quantity);
 
-        UnitAssetInfoBox unitAssetInfoBox = new UnitAssetInfoBox(newItem);
+        UnitAssetInfoBox unitAssetInfoBox = new UnitAssetInfoBox(newItem, this);
         tempStock.add(newItem);
         organisationalUnitAssetsBox.getChildren().add(unitAssetInfoBox);
         newOrganisationalUnitAssetNameComboBox.valueProperty().set(null);
@@ -206,7 +204,22 @@ public class OrganisationalUnitsController extends DisplayController {
         return true;
     }
 
+    public void removeItemFromStock(Item item){
+        tempStock.remove(item);
+    }
+
+    /**
+     * Creates a request and pass to the main controller
+     * @param action The request action "query", "add", "edit", "delete"
+     * @param attachment The attachment related to the request.
+     * @param attachmentType The type of the attachment that can be read.
+     * @param <T> The type of the object contained in the request's attachment
+     * @return A response from the server.
+     * @throws InvalidArgumentValueException Thrown when the attachment contains invalid arguments.
+     */
     public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType) throws InvalidArgumentValueException {
         return controller.sendRequest(action, attachment, attachmentType);
     }
+
+
 }

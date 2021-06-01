@@ -23,14 +23,17 @@ public class UnitAssetInfoBox extends HBox implements IViewUnit {
     private Button editButton;
     private Button removeButton;
 
+    private OrganisationalUnitsController controller;
+
     /**
      * Initiates the box with asset information.
      * @param item The linked asset with quantity.
      */
-    public UnitAssetInfoBox(Item item){
+    public UnitAssetInfoBox(Item item, OrganisationalUnitsController controller){
         super();
 
         this.item = item;
+        this.controller = controller;
 
         initialize();
         load();
@@ -171,6 +174,7 @@ public class UnitAssetInfoBox extends HBox implements IViewUnit {
      * Removes the current entry.
      */
     private void removeEntry() {
+        controller.removeItemFromStock(item);
         ((VBox) this.getParent()).getChildren().remove(this);
     }
 }

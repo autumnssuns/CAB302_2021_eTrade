@@ -30,11 +30,9 @@ public class DBconnection {
      */
     private DBconnection(){
         try{
-            //String url = "jdbc:sqlite:/D:\\SQLite\\sqlite-tools-win32-x86-3350400\\Accounts.db";
-            String url = "jdbc:sqlite:cab302_eTrade.db";
+            String url = "jdbc:sqlite:/D:\\SQLite\\sqlite-tools-win32-x86-3350400\\Accounts.db";
             instance = DriverManager.getConnection(url);
-            System.out.println("Connection established!");
-        } catch (SQLException e){System.out.println(e.getMessage());}
+        }catch (SQLException e){System.out.println(e.getMessage());}
     }
 
     /**

@@ -228,7 +228,7 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
      * Sets the credit of the current organisational unit to a new value.
      * @param credit The new credit.
      */
-    public void setCredit(float credit) throws Exception {
+    public void setCredit(float credit){
         unit.setBalance(credit);
     }
 
