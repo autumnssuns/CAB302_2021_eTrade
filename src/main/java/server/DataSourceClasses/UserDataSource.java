@@ -2,6 +2,7 @@ package server.DataSourceClasses;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.User;
+import org.sonatype.guice.asm.Type;
 import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
 
 import java.sql.*;
@@ -52,7 +53,7 @@ public class UserDataSource {
      * Connect to database then create the table if not exist.
      */
     public UserDataSource() {
-        connection = DBconnection.getInstance();
+        connection = DBConnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);
@@ -87,7 +88,13 @@ public class UserDataSource {
             addUser.setString(3, newuser.getUsername());
             addUser.setString(4, newuser.getPassword());
             addUser.setString(5, newuser.getAccountType());
-            addUser.setInt(6, newuser.getUnitId());
+            if (newuser.getUnitId() == null){
+                addUser.setNull(6, Type.INT);
+            }
+            else{
+                addUser.setInt(6, newuser.getUnitId());
+            }
+
             addUser.executeUpdate();
         } catch (SQLException e) {e.printStackTrace();}
     }
@@ -120,6 +127,7 @@ public class UserDataSource {
             getUser.setString(1, userName);
             rs = getUser.executeQuery();
             while (rs.next()) {
+                Integer unitId = (Integer) rs.getObject("organisation_id");
                 dummy = new User(
                 //Stores values into dummy object
                 rs.getInt("user_id"),
@@ -127,7 +135,7 @@ public class UserDataSource {
                 rs.getString("username"),
                 rs.getString("password"),
                 rs.getString("user_type"),
-                rs.getInt("organisation_id")
+                unitId
                 );
             }
         } catch (SQLException e) {
@@ -142,14 +150,14 @@ public class UserDataSource {
         try {
             ResultSet rs = getAllUser.executeQuery();
             while (rs.next()){
-
+                Integer unitId = (Integer) rs.getObject("organisation_id");
                 users.add(new User(
                         rs.getInt("user_id"),
                         rs.getString("fullname"),
                         rs.getString("username"),
                         rs.getString("password"),
                         rs.getString("user_type"),
-                        rs.getInt("organisation_id")));
+                        unitId));
             }
 
         } catch (SQLException e) {

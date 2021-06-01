@@ -212,6 +212,10 @@ public final class Server implements IServer{
             case "add item":
                 serverResponse = CasesToResponse.addAnItem((Stock) attachment);
                 break;
+
+            case "drop":
+                serverResponse = CasesToResponse.drop();
+                break;
         }
         return serverResponse;
     }

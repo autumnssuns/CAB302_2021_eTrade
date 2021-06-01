@@ -157,7 +157,7 @@ public class User implements IData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId && unitId == user.unitId && Objects.equals(fullName, user.fullName) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(accountType, user.accountType);
+        return Objects.equals(userId, user.userId) && Objects.equals(unitId,user.unitId) && Objects.equals(fullName, user.fullName) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(accountType, user.accountType);
     }
 
     /**

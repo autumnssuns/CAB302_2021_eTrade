@@ -35,6 +35,11 @@ class ServerTest {
         server.createResponse(new Request(null, "init"));
     }
 
+    @AfterAll
+    void cleanUp() throws Exception {
+        server.createResponse(new Request(null, "drop"));
+    }
+
     @BeforeEach
     void resetExpectedData() throws Exception {
         expectedUsers = new DataCollection<>();
@@ -43,23 +48,21 @@ class ServerTest {
         expectedStocks = new DataCollection<>();
         expectedOrders = new DataCollection<>();
 
-        expectedUsers.add(new User(0, "Admin", "admin", "root", "admin", 0).hashPassword());
+        expectedUsers.add(new User(0, "Admin", "admin", "root", "admin", null).hashPassword());
         expectedUsers.add(new User(1, "Dan Tran", "dan", "123", "user", 0).hashPassword());
         expectedUsers.add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1).hashPassword());
         expectedUsers.add(new User(3, "Linh Hoang", "lyn", "password", "user", 2).hashPassword());
         expectedUsers.add(new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3).hashPassword());
-
-
 
         expectedAssets.add(new Asset(0, "CPU Hours", "CPU for rent"));
         expectedAssets.add(new Asset(1, "10 GB Database Server", "Remove SQL Server"));
         expectedAssets.add(new Asset(2, "A Generic Video Game", "Nothing is more generic than this."));
         expectedAssets.add(new Asset(3, "Coffin Dance Video", "You know what this is"));
 
-        expectedOrganisationalUnits.add(new OrganisationalUnit(0, "The Justice League", 11430));
-        expectedOrganisationalUnits.add(new OrganisationalUnit(1, "The supervillains", 5995));
-        expectedOrganisationalUnits.add(new OrganisationalUnit(2, "The random civilians", 1220));
-        expectedOrganisationalUnits.add(new OrganisationalUnit(3, "The brokers", 200));
+        expectedOrganisationalUnits.add(new OrganisationalUnit(0, "The Justice League", 11429.0f));
+        expectedOrganisationalUnits.add(new OrganisationalUnit(1, "The supervillains", 5995.0f));
+        expectedOrganisationalUnits.add(new OrganisationalUnit(2, "The random civilians", 1220.0f));
+        expectedOrganisationalUnits.add(new OrganisationalUnit(3, "The brokers", 200.0f));
 
         Stock stock0 = new Stock(0);
         Stock stock1 = new Stock(1);
@@ -85,7 +88,6 @@ class ServerTest {
         stock3.add(new Item(expectedAssets.get(1), 50));
         stock3.add(new Item(expectedAssets.get(2), 50));
         stock3.add(new Item(expectedAssets.get(3), 50));
-
 
         expectedStocks.addAll(new Stock[]{stock0, stock1, stock2, stock3});
 

@@ -52,7 +52,7 @@ public class StockDataSource {
      * Connect to the Stock database and create one if not exists
      */
     public StockDataSource() {
-        connection = DBconnection.getInstance();
+        connection = DBConnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);

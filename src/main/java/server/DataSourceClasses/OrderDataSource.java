@@ -24,7 +24,7 @@ public class OrderDataSource {
             "                                   DEFAULT 0,\n" +
             "    resolved_quantity INT          NOT NULL\n" +
             "                                   DEFAULT 0,\n" +
-            "    price             DECIMAL (2)  NOT NULL,\n" +
+            "    price             DECIMAL (10,2)  NOT NULL,\n" +
             "    order_date        VARCHAR(50)  NOT NULL\n" +
             "                                   DEFAULT CURRENT_TIMESTAMP,\n" +
             "    finished_date     VARCHAR(50)  DEFAULT NULL,\n" +
@@ -60,7 +60,7 @@ public class OrderDataSource {
      * Connect to the database and create one if not exists
      */
     public OrderDataSource() {
-        connection = DBconnection.getInstance();
+        connection = DBConnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);
@@ -90,7 +90,13 @@ public class OrderDataSource {
             addOrder.setInt(6, order.getResolvedQuantity());
             addOrder.setFloat(7, order.getPrice());
             addOrder.setString(8, order.getOrderDate().format(formatter));
-            addOrder.setString(9, order.getFinishDate().format(formatter));
+            if (order.getFinishDate() == null){
+                addOrder.setNull(9, java.sql.Types.VARCHAR);
+            }
+            else{
+                addOrder.setString(9, order.getFinishDate().format(formatter));
+            }
+
             addOrder.setString(10, order.getStatus().name());
             //execute the query
             addOrder.executeUpdate();
@@ -136,6 +142,13 @@ public class OrderDataSource {
             getOrder.setInt(1, OrderId);
             ResultSet rs = getOrder.executeQuery();
             while( rs.next() ) {
+                LocalDateTime finishedDate;
+                try{
+                    finishedDate = LocalDateTime.parse(rs.getString("finished_date"), formatter);
+                }
+                catch (NullPointerException e){
+                    finishedDate = null;
+                }
                 dummy = new Order(
                         rs.getInt("order_id"),
                         Type.valueOf(rs.getString("order_type")),
@@ -144,8 +157,8 @@ public class OrderDataSource {
                         rs.getInt("placed_quantity"),
                         rs.getInt("resolved_quantity"),
                         rs.getFloat("price"),
+                        finishedDate,
                         LocalDateTime.parse(rs.getString("order_date"), formatter),
-                        LocalDateTime.parse(rs.getString("finished_date"), formatter),
                         Order.Status.valueOf(rs.getString("status")));
             };
         } catch (SQLException e) {
@@ -165,6 +178,13 @@ public class OrderDataSource {
         try {
             ResultSet rs = getAllOrder.executeQuery();
             while (rs.next()){
+                LocalDateTime finishedDate;
+                try{
+                    finishedDate = LocalDateTime.parse(rs.getString("finished_date"), formatter);
+                }
+                catch (NullPointerException e){
+                    finishedDate = null;
+                }
                 orders.add(new Order(
                         rs.getInt("order_id"),
                         Type.valueOf(rs.getString("order_type")),
@@ -173,8 +193,8 @@ public class OrderDataSource {
                         rs.getInt("placed_quantity"),
                         rs.getInt("resolved_quantity"),
                         rs.getFloat("price"),
+                        finishedDate,
                         LocalDateTime.parse(rs.getString("order_date"), formatter),
-                        LocalDateTime.parse(rs.getString("finished_date"), formatter),
                         Order.Status.valueOf(rs.getString("status")))
                         );
             }
@@ -199,11 +219,22 @@ public class OrderDataSource {
             editOrder.setInt(4, orderNewInfo.getPlacedQuantity());
             editOrder.setInt(5, orderNewInfo.getResolvedQuantity());
             editOrder.setFloat(6, orderNewInfo.getPrice());
-            editOrder.setString(7, orderNewInfo.getOrderDate().format(formatter));
-            editOrder.setString(8, orderNewInfo.getFinishDate().format(formatter));
+            if (orderNewInfo.getOrderDate() == null){
+                editOrder.setNull(7, java.sql.Types.VARCHAR);
+            }
+            else{
+                editOrder.setString(7, orderNewInfo.getOrderDate().format(formatter));
+            }
+            if (orderNewInfo.getFinishDate() == null){
+                editOrder.setNull(8, java.sql.Types.VARCHAR);
+            }
+            else{
+                editOrder.setString(8, orderNewInfo.getFinishDate().format(formatter));
+            }
             editOrder.setString(9, orderNewInfo.getStatus().name());
             editOrder.setInt(10, orderNewInfo.getOrderId());
             editOrder.executeUpdate();
+
         }catch (SQLException e){
             e.printStackTrace();
         }

@@ -2,9 +2,13 @@ package server.DataSourcesTest;
 
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Asset;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.DataSourceClasses.AssetsDataSource;
+import server.DataSourceClasses.DBConnection;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +22,6 @@ class AssetsDataSourceTest {
         assetsDataSource = new AssetsDataSource();
         assetsDataSource.deleteAllAsset();
     }
-
 
     @Test
     void addAndGetAsset() throws InvalidArgumentValueException {

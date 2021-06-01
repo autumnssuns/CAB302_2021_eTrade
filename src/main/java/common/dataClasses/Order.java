@@ -218,9 +218,9 @@ public class Order implements IData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return orderId == order.orderId
-                && unitId == order.unitId
-                && assetId == order.assetId
+        return Objects.equals(orderId, order.orderId)
+                && Objects.equals(unitId, order.unitId)
+                && Objects.equals(assetId, order.assetId)
                 && placedQuantity == order.placedQuantity
                 && resolvedQuantity == order.resolvedQuantity
                 && Float.compare(order.price, price) == 0
@@ -245,6 +245,6 @@ public class Order implements IData {
      * @return true if the other order is equal to the current order, false otherwise.
      */
     public boolean isSimilarTo(Order order){
-        return orderType == order.orderType && assetId == order.assetId && Float.compare(order.price, price) == 0 && status == order.status;
+        return orderType == order.orderType && Objects.equals(assetId, order.assetId) && Float.compare(order.price, price) == 0 && status == order.status;
     }
 }

@@ -1,9 +1,13 @@
 package server.DataSourcesTest;
 
 import common.dataClasses.OrganisationalUnit;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.DataSourceClasses.DBConnection;
 import server.DataSourceClasses.OrganisationsDataSource;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +31,6 @@ class OrganisationsDataSourceTest {
     void deleteAll() {
         organisationsDataSource.deleteAll();
         assertEquals(0,organisationsDataSource.getOrganisationList().size());
-
     }
 
     @Test

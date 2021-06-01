@@ -40,7 +40,7 @@ public class AssetsDataSource {
      * Connect to the database then create one if not exists
      */
     public AssetsDataSource() {
-        connection = DBconnection.getInstance();
+        connection = DBConnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);

@@ -39,7 +39,7 @@ public class OrganisationsDataSource {
      * Connect to the database then create table if not exists
      */
     public OrganisationsDataSource() {
-        connection = DBconnection.getInstance();
+        connection = DBConnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);

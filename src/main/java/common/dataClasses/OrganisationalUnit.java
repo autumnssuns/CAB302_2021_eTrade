@@ -89,7 +89,7 @@ public class OrganisationalUnit implements IData{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrganisationalUnit that = (OrganisationalUnit) o;
-        return unitId == that.unitId && Float.compare(that.balance, balance) == 0 && Objects.equals(unitName, that.unitName);
+        return Objects.equals(unitId, that.unitId) && Float.compare(that.balance, balance) == 0 && Objects.equals(unitName, that.unitName);
     }
 
     /**
