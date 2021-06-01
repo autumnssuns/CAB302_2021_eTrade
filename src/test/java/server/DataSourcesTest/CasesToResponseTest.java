@@ -4,6 +4,7 @@ import common.Response;
 import common.dataClasses.*;
 import common.dataClasses.Order;
 import org.junit.jupiter.api.*;
+import server.DBConnection;
 import server.DataSourceClasses.CasesToResponse;
 import server.DataSourceClasses.OrderDataSource;
 
@@ -14,6 +15,16 @@ import java.time.LocalDateTime;
 
 public class CasesToResponseTest {
     static Boolean createTable = true; //change this to create a table
+
+    @BeforeAll
+    static void startTestMode(){
+        DBConnection.setTestMode(true);
+    }
+
+    @AfterAll
+    static void stopTestMode(){
+        DBConnection.setTestMode(false);
+    }
 
     @BeforeAll
     public static void SetUp() throws Exception {

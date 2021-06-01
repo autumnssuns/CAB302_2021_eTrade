@@ -69,7 +69,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>client.Main</mainClass>
+                                    <mainClass>client.ClientMain</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
@@ -88,7 +88,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>server.Main</mainClass>
+                                    <mainClass>server.ServerMain</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
@@ -113,7 +113,7 @@
                     <artifactId>javafx-maven-plugin</artifactId>
                     <version>0.0.6</version>
                     <configuration>
-                        <mainClass>client.Main</mainClass>
+                        <mainClass>client.ClientMain</mainClass>
                     </configuration>
                 </plugin>
 

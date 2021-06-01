@@ -1,9 +1,8 @@
 package server.DataSourcesTest;
 
 import common.dataClasses.OrganisationalUnit;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import server.DBConnection;
 import server.DataSourceClasses.CasesToResponse;
 import server.DataSourceClasses.OrganisationsDataSource;
 
@@ -16,6 +15,16 @@ class OrganisationsDataSourceTest {
     OrganisationalUnit org01 = new OrganisationalUnit(1, "UQ", 100);
 
     OrganisationsDataSourceTest() throws Exception {
+    }
+
+    @BeforeAll
+    static void startTestMode(){
+        DBConnection.setTestMode(true);
+    }
+
+    @AfterAll
+    static void stopTestMode(){
+        DBConnection.setTestMode(false);
     }
 
     @BeforeEach

@@ -2,15 +2,24 @@ package server.DataSourcesTest;
 import static org.junit.jupiter.api.Assertions.*;
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import server.DBConnection;
 import server.DataSourceClasses.*;
 
 
 class StockDataSourceTest {
     private static StockDataSource stockDataSource;
     private static AssetsDataSource assetsDataSource;
+
+    @BeforeAll
+    static void startTestMode(){
+        DBConnection.setTestMode(true);
+    }
+
+    @AfterAll
+    static void stopTestMode(){
+        DBConnection.setTestMode(false);
+    }
 
     @BeforeEach
     void setUp() {

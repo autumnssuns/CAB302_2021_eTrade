@@ -4,15 +4,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.User;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import server.DBConnection;
 import server.DataSourceClasses.CasesToResponse;
 import server.DataSourceClasses.UserDataSource;
 
 public class UserDataSourceTest {
 
     private static UserDataSource userDataSource;
+
+    @BeforeAll
+    static void startTestMode(){
+        DBConnection.setTestMode(true);
+    }
+
+    @AfterAll
+    static void stopTestMode(){
+        DBConnection.setTestMode(false);
+    }
 
     @BeforeEach
     void setUP(){

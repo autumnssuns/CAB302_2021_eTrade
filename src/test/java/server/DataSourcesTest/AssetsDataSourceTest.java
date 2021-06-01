@@ -2,9 +2,8 @@ package server.DataSourcesTest;
 
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Asset;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import server.DBConnection;
 import server.DataSourceClasses.AssetsDataSource;
 import server.DataSourceClasses.CasesToResponse;
 
@@ -14,6 +13,16 @@ class AssetsDataSourceTest {
 
     private static AssetsDataSource assetsDataSource;
     private static AssetsDataSource emptyAssetsDataSource;
+
+    @BeforeAll
+    static void startTestMode(){
+        DBConnection.setTestMode(true);
+    }
+
+    @AfterAll
+    static void stopTestMode(){
+        DBConnection.setTestMode(false);
+    }
 
     @BeforeEach
     void setUp() {

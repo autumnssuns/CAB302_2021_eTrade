@@ -14,6 +14,24 @@ public class DBConnection {
      */
     private static Connection instance = null;
 
+    private static boolean isTestDatabase = false;
+
+    /**
+     * Determines whether or not the connection is used for testing (which redirects it to the test database).
+     * @param testMode true if the database is in test mode, false otherwise.
+     */
+    public static void setTestMode(boolean testMode){
+        isTestDatabase = testMode;
+        if (instance != null) {
+            try {
+                instance.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        new DBConnection();
+    }
+
     /**
      * Provides global access to the singleton instance of the UrlSet.
      * @return a handle to the singleton instance of the UrlSet.
@@ -31,24 +49,17 @@ public class DBConnection {
     private DBConnection(){
         try{
             //String url = "jdbc:sqlite:/D:\\SQLite\\sqlite-tools-win32-x86-3350400\\Accounts.db";
-            String url = "jdbc:sqlite:cab302_eTrade.db";
+            String url;
+            // Test database
+            if (isTestDatabase){
+                url = "jdbc:sqlite:cab302_eTrade_test.db";
+            }
+            // Deploy database
+            else{
+                url = "jdbc:sqlite:cab302_eTrade.db";
+            }
             instance = DriverManager.getConnection(url);
             System.out.println("Connection established!");
         } catch (SQLException e){System.out.println(e.getMessage());}
-    }
-
-    /**
-     * Drops the current database.
-     * @throws IOException Thrown if the database cannot be dropped.
-     */
-    public static void dropDatabase() throws IOException {
-        try {
-            instance.close();
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
-        System.out.println("Dropping database...");
-        Path databaseFilePath = Paths.get("cab302_eTrade.db");
-        Files.deleteIfExists(databaseFilePath);
     }
 }

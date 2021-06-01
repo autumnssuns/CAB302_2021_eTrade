@@ -32,12 +32,14 @@ class ServerTest {
     @BeforeAll
     void setUp() throws Exception {
         server = new Server();
+        DBConnection.setTestMode(true);
         server.createResponse(new Request(null, "init"));
     }
 
     @AfterAll
     void cleanUp() throws Exception {
         server.createResponse(new Request(null, "clean"));
+        DBConnection.setTestMode(false);
     }
 
     @BeforeEach
