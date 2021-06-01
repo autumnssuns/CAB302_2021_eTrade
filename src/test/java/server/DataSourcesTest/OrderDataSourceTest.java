@@ -1,9 +1,8 @@
 package server.DataSourcesTest;
 
 import common.dataClasses.Order;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import server.DBConnection;
 import server.DataSourceClasses.CasesToResponse;
 import server.DataSourceClasses.OrderDataSource;
 
@@ -26,6 +25,16 @@ class OrderDataSourceTest {
             Order.Status.PENDING);
 
     OrderDataSourceTest() throws Exception {
+    }
+
+    @BeforeAll
+    static void startTestMode(){
+        DBConnection.setTestMode(true);
+    }
+
+    @AfterAll
+    static void stopTestMode(){
+        DBConnection.setTestMode(false);
     }
 
     @BeforeEach

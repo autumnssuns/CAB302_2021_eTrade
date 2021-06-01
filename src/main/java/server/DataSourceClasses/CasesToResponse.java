@@ -111,7 +111,7 @@ public class CasesToResponse  {
 
         return  serverResponse;
     }
-    //Main type of methods to response to request
+    //ServerMain type of methods to response to request
     // (each type contains classes: Asset, Organisation, Order,
     // stock, transaction(considering) and User)
 
@@ -662,22 +662,6 @@ public class CasesToResponse  {
 
             // make another attempt to reconcile
             reconcileOrder(order);
-        }
-    }
-
-    /**
-     * Drops the current database.
-     * @return A response indicating if the database is dropped successfully
-     */
-    public static Response drop() {
-        try {
-            DBConnection.dropDatabase();
-            System.out.println("Database dropped successfully");
-            return new Response(true, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Cannot drop database");
-            return new Response(false, null);
         }
     }
 }
