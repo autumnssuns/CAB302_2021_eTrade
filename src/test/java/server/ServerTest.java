@@ -117,6 +117,9 @@ class ServerTest {
         @AfterEach
         void executeAssertion() throws Exception {
             actualResponse = server.createResponse(request);
+//            for (int i = 0; i < ((DataCollection) actualResponse.getAttachment()).size(); i++){
+//                System.out.println(((DataCollection) actualResponse.getAttachment()).get(i).equals(((DataCollection) expectedResponse.getAttachment()).get(i)));
+//            }
             assertEquals(expectedResponse, actualResponse);
         }
 

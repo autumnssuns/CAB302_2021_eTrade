@@ -4,6 +4,7 @@ import common.dataClasses.OrganisationalUnit;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.DataSourceClasses.CasesToResponse;
 import server.DataSourceClasses.DBConnection;
 import server.DataSourceClasses.OrganisationsDataSource;
 
@@ -22,8 +23,8 @@ class OrganisationsDataSourceTest {
 
     @BeforeEach
     void setUp() {
+        CasesToResponse.cleanDatabase();
         organisationsDataSource = new OrganisationsDataSource();
-        organisationsDataSource.deleteAll();
         organisationsDataSource.addOrganisation(org00);
     }
 

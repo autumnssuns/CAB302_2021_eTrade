@@ -7,6 +7,7 @@ import common.dataClasses.User;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.DataSourceClasses.CasesToResponse;
 import server.DataSourceClasses.DBConnection;
 import server.DataSourceClasses.UserDataSource;
 import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
@@ -18,10 +19,9 @@ public class UserDataSourceTest {
     private static UserDataSource userDataSource;
 
     @BeforeEach
-    void setUP()
-    {
+    void setUP(){
+        CasesToResponse.cleanDatabase();
         userDataSource = new UserDataSource();
-        userDataSource.deleteAll();
     }
 
     @Test

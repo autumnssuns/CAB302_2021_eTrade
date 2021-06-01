@@ -19,6 +19,7 @@ public class CasesToResponseTest {
 
     @BeforeAll
     public static void SetUp() throws Exception {
+        CasesToResponse.cleanDatabase();
         if(createTable == true) {
             CasesToResponse.initiate();
         }

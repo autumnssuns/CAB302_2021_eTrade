@@ -4,6 +4,7 @@ import common.dataClasses.Order;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.DataSourceClasses.CasesToResponse;
 import server.DataSourceClasses.DBConnection;
 import server.DataSourceClasses.OrderDataSource;
 
@@ -31,8 +32,8 @@ class OrderDataSourceTest {
 
     @BeforeEach
     void setUpWithOneOrderSuccessfully() throws Exception {
+        CasesToResponse.cleanDatabase();
         orders = new OrderDataSource();
-        orders.deleteAllOrders();
         orders.addOrder(new Order(1, Order.Type.BUY, 0, 9,
                 99, 0, 10f,
                 LocalDateTime.of(2021, 5, 6, 16, 52),

@@ -80,6 +80,21 @@ public class CasesToResponse  {
 
     }
 
+    /**
+     * Empties the database
+     */
+    public static void cleanDatabase(){
+        AssetsDataSource assetData = new AssetsDataSource();
+        UserDataSource userData = new UserDataSource();
+        OrderDataSource orderData = new OrderDataSource();
+        StockDataSource stockData = new StockDataSource();
+        OrganisationsDataSource organisationalUnitData = new OrganisationsDataSource();
+        stockData.deleteAll();
+        orderData.deleteAllOrders();
+        userData.deleteAll();
+        assetData.deleteAllAsset();
+        organisationalUnitData.deleteAll();
+    }
 
     //Todo: Add comment / description
 

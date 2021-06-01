@@ -16,14 +16,9 @@ class StockDataSourceTest {
 
     @BeforeEach
     void setUp() {
-        stockDataSource = new StockDataSource();
-        DataCollection<Stock> content = stockDataSource.getStockList();
-        if(content.size() > 0)
-        {
-            stockDataSource.deleteAll();
-        }
+        CasesToResponse.cleanDatabase();
         assetsDataSource = new AssetsDataSource();
-        assetsDataSource.deleteAllAsset();
+        stockDataSource = new StockDataSource();
     }
 
     @Test

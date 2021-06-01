@@ -6,6 +6,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.DataSourceClasses.AssetsDataSource;
+import server.DataSourceClasses.CasesToResponse;
 import server.DataSourceClasses.DBConnection;
 
 import java.io.IOException;
@@ -19,8 +20,8 @@ class AssetsDataSourceTest {
 
     @BeforeEach
     void setUp() {
+        CasesToResponse.cleanDatabase();
         assetsDataSource = new AssetsDataSource();
-        assetsDataSource.deleteAllAsset();
     }
 
     @Test
