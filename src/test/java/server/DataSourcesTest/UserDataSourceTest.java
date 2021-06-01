@@ -4,15 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.User;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.DataSourceClasses.CasesToResponse;
-import server.DataSourceClasses.DBConnection;
-import server.DataSourceClasses.UserDataSource;
-import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
-
-import java.io.IOException;
+import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.CasesToResponse;
+import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.UserDataSource;
 
 public class UserDataSourceTest {
 

@@ -4,14 +4,12 @@ import common.Response;
 import common.dataClasses.*;
 import common.dataClasses.Order;
 import org.junit.jupiter.api.*;
-import server.DataSourceClasses.CasesToResponse;
-import server.DataSourceClasses.DBConnection;
-import server.DataSourceClasses.OrderDataSource;
+import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.CasesToResponse;
+import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.OrderDataSource;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static server.DataSourceClasses.CasesToResponse.findItem;
+import static server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.CasesToResponse.findItem;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class CasesToResponseTest {
@@ -27,7 +25,7 @@ public class CasesToResponseTest {
 //
 //    @AfterAll
 //    public static void tearDown() throws IOException {
-//        DBConnection.dropDatabase();
+//        DBconnection.dropDatabase();
 //    }
 
     @Test

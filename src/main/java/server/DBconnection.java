@@ -1,6 +1,4 @@
-package server.DataSourceClasses;
-
-import common.Response;
+package server;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,7 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DBConnection {
+public class DBconnection {
     /**
      * The singleton instance of the database connection.
      */
@@ -22,7 +20,7 @@ public class DBConnection {
      */
     public static Connection getInstance() {
         if (instance == null) {
-             new DBConnection();
+             new DBconnection();
         }
         return instance;
     }
@@ -30,7 +28,7 @@ public class DBConnection {
     /**
      * Constructor initializes the connection.
      */
-    private DBConnection(){
+    private DBconnection(){
         try{
             //String url = "jdbc:sqlite:/D:\\SQLite\\sqlite-tools-win32-x86-3350400\\Accounts.db";
             String url = "jdbc:sqlite:cab302_eTrade.db";

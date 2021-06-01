@@ -1,4 +1,4 @@
-package server.DataSourceClasses;
+package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
 
 // return add , edit , query, delete , return all, get 1,
 // server, casetoresponse
@@ -51,7 +51,7 @@ public class StockDataSource extends DataSource {
      * Connect to the Stock database and create one if not exists
      */
     public StockDataSource() {
-        connection = DBConnection.getInstance();
+        connection = DBconnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);

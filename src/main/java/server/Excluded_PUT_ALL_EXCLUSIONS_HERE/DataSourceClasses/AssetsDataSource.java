@@ -1,8 +1,9 @@
-package server.DataSourceClasses;
+package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
 
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Asset;
 import common.dataClasses.DataCollection;
+import server.DBconnection;
 
 import java.sql.*;
 /**
@@ -39,7 +40,7 @@ public class AssetsDataSource extends DataSource {
      * Connect to the database then create one if not exists
      */
     public AssetsDataSource() {
-        connection = DBConnection.getInstance();
+        connection = DBconnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);

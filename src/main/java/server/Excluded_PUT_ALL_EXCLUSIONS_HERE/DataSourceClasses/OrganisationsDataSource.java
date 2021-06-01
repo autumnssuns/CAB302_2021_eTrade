@@ -1,7 +1,8 @@
-package server.DataSourceClasses;
+package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.OrganisationalUnit;
+import server.DBconnection;
 
 import java.sql.*;
 
@@ -38,7 +39,7 @@ public class OrganisationsDataSource extends DataSource {
      * Connect to the database then create table if not exists
      */
     public OrganisationsDataSource() {
-        connection = DBConnection.getInstance();
+        connection = DBconnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);

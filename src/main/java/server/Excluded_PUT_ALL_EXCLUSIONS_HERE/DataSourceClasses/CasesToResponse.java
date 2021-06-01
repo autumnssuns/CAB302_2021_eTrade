@@ -1,18 +1,12 @@
-package server.DataSourceClasses;
+package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
 
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.*;
-import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
+import server.DBconnection;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class CasesToResponse  {
@@ -675,7 +669,7 @@ public class CasesToResponse  {
      */
     public static Response drop() {
         try {
-            DBConnection.dropDatabase();
+            DBconnection.dropDatabase();
             System.out.println("Database dropped successfully");
             return new Response(true, null);
         } catch (IOException e) {

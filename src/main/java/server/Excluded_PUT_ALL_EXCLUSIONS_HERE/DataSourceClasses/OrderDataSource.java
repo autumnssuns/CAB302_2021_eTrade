@@ -1,8 +1,9 @@
-package server.DataSourceClasses;
+package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.Order;
 import common.dataClasses.Order.Type;
+import server.DBconnection;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -59,7 +60,7 @@ public class OrderDataSource extends DataSource {
      * Connect to the database and create one if not exists
      */
     public OrderDataSource() {
-        connection = DBConnection.getInstance();
+        connection = DBconnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);

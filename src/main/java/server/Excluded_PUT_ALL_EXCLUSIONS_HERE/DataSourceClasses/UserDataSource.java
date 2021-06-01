@@ -1,9 +1,9 @@
-package server.DataSourceClasses;
+package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.User;
 import org.sonatype.guice.asm.Type;
-import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
+import server.DBconnection;
 
 import java.sql.*;
 
@@ -52,7 +52,7 @@ public class UserDataSource extends DataSource {
      * Connect to database then create the table if not exist.
      */
     public UserDataSource() {
-        connection = DBConnection.getInstance();
+        connection = DBconnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);

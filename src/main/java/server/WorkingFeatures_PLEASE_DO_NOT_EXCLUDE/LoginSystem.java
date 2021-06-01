@@ -1,6 +1,6 @@
 package server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE;
 
-import server.DataSourceClasses.DBConnection;
+import server.DBconnection;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -31,7 +31,7 @@ public class LoginSystem {
         String HashedPassword = HashPassword.HashPassword(PassWord);
         try {
             // create a connection to the database
-            conn = DBConnection.getInstance();
+            conn = DBconnection.getInstance();
 
             //create statement for sql queries
             Statement statement = conn.createStatement();
@@ -75,7 +75,7 @@ public class LoginSystem {
         String HashedPassword = PassWord;
         try {
             //connect to database
-            conn = DBConnection.getInstance();
+            conn = DBconnection.getInstance();
             //create statement for sql queries
             Statement statement = conn.createStatement();
 
@@ -128,7 +128,7 @@ public class LoginSystem {
 
             try {
                 //connect to database
-                Connection conn = DBConnection.getInstance();
+                Connection conn = DBconnection.getInstance();
                 statement = conn.createStatement();
                 ResultSet name = statement.executeQuery(Query);
                 while (name.next()){
@@ -155,7 +155,7 @@ public class LoginSystem {
         String existPass = null;
             try {
                 //connect to database
-                Connection conn = DBConnection.getInstance();
+                Connection conn = DBconnection.getInstance();
                 statement = conn.createStatement();
                 ResultSet name = statement.executeQuery(Query);
                 while (name.next()) {

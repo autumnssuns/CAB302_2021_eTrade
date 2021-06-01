@@ -1,12 +1,12 @@
-package server.Features;
+package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.Features;
 
 import common.Request;
 import common.Response;
 import common.dataClasses.IData;
 import common.dataClasses.Stock;
 import common.dataClasses.User;
-import server.DataSourceClasses.CasesToResponse;
-import server.DataSourceClasses.StockDataSource;
+import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.CasesToResponse;
+import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.StockDataSource;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
