@@ -1,6 +1,7 @@
 package server.DataSourcesTest;
 
 import common.dataClasses.Order;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.CasesToResponse;
@@ -36,6 +37,11 @@ class OrderDataSourceTest {
                 LocalDateTime.of(2021, 5, 6, 16, 52),
                 LocalDateTime.of(2021, 5, 6, 16, 52),
                 Order.Status.PENDING));
+    }
+
+    @AfterEach
+    void tearDown(){
+        CasesToResponse.cleanDatabase();
     }
 
     @Test

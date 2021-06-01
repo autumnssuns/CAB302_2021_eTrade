@@ -1,6 +1,7 @@
 package server.DataSourcesTest;
 
 import common.dataClasses.OrganisationalUnit;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.CasesToResponse;
@@ -22,6 +23,11 @@ class OrganisationsDataSourceTest {
         CasesToResponse.cleanDatabase();
         organisationsDataSource = new OrganisationsDataSource();
         organisationsDataSource.addOrganisation(org00);
+    }
+
+    @AfterEach
+    void tearDown(){
+        CasesToResponse.cleanDatabase();
     }
 
     @Test

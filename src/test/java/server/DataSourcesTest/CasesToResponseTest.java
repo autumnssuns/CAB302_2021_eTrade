@@ -24,7 +24,7 @@ public class CasesToResponseTest {
     }
 //
 //    @AfterAll
-//    public static void tearDown() throws IOException {
+//    public static void tearDownn() throws IOException {
 //        DBconnection.dropDatabase();
 //    }
 

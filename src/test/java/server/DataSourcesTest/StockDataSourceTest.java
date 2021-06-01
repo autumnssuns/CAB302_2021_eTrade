@@ -2,6 +2,7 @@ package server.DataSourcesTest;
 import static org.junit.jupiter.api.Assertions.*;
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.*;
@@ -16,6 +17,11 @@ class StockDataSourceTest {
         CasesToResponse.cleanDatabase();
         assetsDataSource = new AssetsDataSource();
         stockDataSource = new StockDataSource();
+    }
+
+    @AfterEach
+    void tearDown(){
+        CasesToResponse.cleanDatabase();
     }
 
     @Test
