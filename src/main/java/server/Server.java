@@ -7,8 +7,8 @@ import common.dataClasses.IData;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.Stock;
 import common.dataClasses.User;
-import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.CasesToResponse;
-import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.OrganisationsDataSource;
+import server.DataSourceClasses.CasesToResponse;
+import server.DataSourceClasses.OrganisationsDataSource;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -212,8 +212,8 @@ public final class Server implements IServer{
                 serverResponse = CasesToResponse.addAnItem((Stock) attachment);
                 break;
 
-            case "drop":
-                serverResponse = CasesToResponse.drop();
+            case "clean":
+                serverResponse = CasesToResponse.cleanDatabase();
                 break;
         }
         return serverResponse;

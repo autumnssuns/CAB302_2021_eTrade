@@ -1,9 +1,9 @@
-package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
+package server.DataSourceClasses;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.Order;
 import common.dataClasses.Order.Type;
-import server.DBconnection;
+import server.DBConnection;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -42,9 +42,9 @@ public class OrderDataSource extends DataSource {
     private static final String GET_ALL_ORDER = "SELECT * FROM orders";
     private static final String EDIT_ORDER =
             "UPDATE orders\n" +
-            "SET order_type=?, organisation_id=?, asset_id=?, placed_quantity=?, resolved_quantity=?, price=?, " +
-            "order_date=?, finished_date=?, status=?\n" +
-            "WHERE order_id=?";
+                    "SET order_type=?, organisation_id=?, asset_id=?, placed_quantity=?, resolved_quantity=?, price=?, " +
+                    "order_date=?, finished_date=?, status=?\n" +
+                    "WHERE order_id=?";
 
     //Prepare statements.
     private PreparedStatement addOrder;
@@ -60,7 +60,7 @@ public class OrderDataSource extends DataSource {
      * Connect to the database and create one if not exists
      */
     public OrderDataSource() {
-        connection = DBconnection.getInstance();
+        connection = DBConnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);
@@ -196,7 +196,7 @@ public class OrderDataSource extends DataSource {
                         finishedDate,
                         LocalDateTime.parse(rs.getString("order_date"), formatter),
                         Order.Status.valueOf(rs.getString("status")))
-                        );
+                );
             }
         } catch (SQLException e) {
             e.printStackTrace();

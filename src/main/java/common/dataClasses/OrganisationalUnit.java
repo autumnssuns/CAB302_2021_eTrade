@@ -38,7 +38,7 @@ public class OrganisationalUnit implements IData{
      * @param unitId The new value for the organisational unit.
      */
     public void setId(Integer unitId) throws InvalidArgumentValueException{
-        if(unitId < 0)
+        if(unitId != null && unitId < 0)
         {
             throw new InvalidArgumentValueException();
         }

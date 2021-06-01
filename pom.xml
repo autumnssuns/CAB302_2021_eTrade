@@ -139,9 +139,9 @@
                             <exclude>**/unusedTest/**</exclude>
                             <exclude>**/*GUITest.java</exclude>
                         </excludes>
-                        <forkCount>4</forkCount>
-                        <reuseForks>false</reuseForks>
-                        <parallel>all</parallel>
+<!--                        <forkCount>4</forkCount>-->
+<!--                        <reuseForks>false</reuseForks>-->
+<!--                        <parallel>all</parallel>-->
                     </configuration>
                 </plugin>
             </plugins>

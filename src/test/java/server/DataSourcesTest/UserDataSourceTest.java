@@ -7,8 +7,8 @@ import common.dataClasses.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.CasesToResponse;
-import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.UserDataSource;
+import server.DataSourceClasses.CasesToResponse;
+import server.DataSourceClasses.UserDataSource;
 
 public class UserDataSourceTest {
 

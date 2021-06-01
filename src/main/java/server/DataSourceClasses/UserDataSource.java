@@ -1,9 +1,9 @@
-package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
+package server.DataSourceClasses;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.User;
 import org.sonatype.guice.asm.Type;
-import server.DBconnection;
+import server.DBConnection;
 
 import java.sql.*;
 
@@ -52,7 +52,7 @@ public class UserDataSource extends DataSource {
      * Connect to database then create the table if not exist.
      */
     public UserDataSource() {
-        connection = DBconnection.getInstance();
+        connection = DBConnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);
@@ -79,7 +79,7 @@ public class UserDataSource extends DataSource {
      * Add a new user to the table if not exists
      * @param newuser user object to add
      */
-        public void addUser(User newuser){
+    public void addUser(User newuser){
         try{
             //Set values for the above SQL query
             addUser.setInt(1,newuser.getUserId());
@@ -128,13 +128,13 @@ public class UserDataSource extends DataSource {
             while (rs.next()) {
                 Integer unitId = (Integer) rs.getObject("organisation_id");
                 dummy = new User(
-                //Stores values into dummy object
-                rs.getInt("user_id"),
-                rs.getString("fullname"),
-                rs.getString("username"),
-                rs.getString("password"),
-                rs.getString("user_type"),
-                unitId
+                        //Stores values into dummy object
+                        rs.getInt("user_id"),
+                        rs.getString("fullname"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("user_type"),
+                        unitId
                 );
             }
         } catch (SQLException e) {

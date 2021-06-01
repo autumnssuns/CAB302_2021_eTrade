@@ -5,7 +5,7 @@ import common.dataClasses.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses.*;
+import server.DataSourceClasses.*;
 
 
 class StockDataSourceTest {

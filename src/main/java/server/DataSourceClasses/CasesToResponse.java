@@ -1,10 +1,10 @@
-package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
+package server.DataSourceClasses;
 
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.*;
-import server.DBconnection;
+import server.DBConnection;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -76,8 +76,9 @@ public class CasesToResponse  {
 
     /**
      * Empties the database
+     * @return
      */
-    public static void cleanDatabase(){
+    public static Response cleanDatabase(){
         AssetsDataSource assetData = new AssetsDataSource();
         UserDataSource userData = new UserDataSource();
         OrderDataSource orderData = new OrderDataSource();
@@ -88,6 +89,7 @@ public class CasesToResponse  {
         userData.deleteAll();
         assetData.deleteAllAsset();
         organisationalUnitData.deleteAll();
+        return new Response(true, null);
     }
 
     //Todo: Add comment / description
@@ -101,7 +103,7 @@ public class CasesToResponse  {
         if(userInData != null)
         {
             if(sender.getUsername().equals(userInData.getUsername())
-            && sender.getPassword().equals(userInData.getPassword()))
+                    && sender.getPassword().equals(userInData.getPassword()))
             {
                 serverResponse = new Response(true,userInData);
             }
@@ -203,46 +205,46 @@ public class CasesToResponse  {
                 return item;
             }
         }
-    return null;
+        return null;
     }
 
     public static Response add(Order attachment) throws InvalidArgumentValueException {
-            OrderDataSource orderDataSource = new OrderDataSource();
-            OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
-            //If SELLER: check if the asset quantity is enough.
-            if(attachment.getOrderType() == Order.Type.SELL)
-            {
-                int validQuantity = -1;
-                Item item = findItem(attachment.getUnitId(), attachment.getAssetId());
-                if(item != null) {
-                    validQuantity = item.getQuantity() - attachment.getPlacedQuantity();
-                }
-
-                if(validQuantity >= 0)
-                {
-                    orderDataSource.addOrder(attachment);
-                    //Todo: implement this function
-                    placeOrder(attachment);
-                    reconcileOrder(attachment);
-                }
-                else {System.out.println("Asset's quantity is not enough!");}
+        OrderDataSource orderDataSource = new OrderDataSource();
+        OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
+        //If SELLER: check if the asset quantity is enough.
+        if(attachment.getOrderType() == Order.Type.SELL)
+        {
+            int validQuantity = -1;
+            Item item = findItem(attachment.getUnitId(), attachment.getAssetId());
+            if(item != null) {
+                validQuantity = item.getQuantity() - attachment.getPlacedQuantity();
             }
 
-            else if(attachment.getOrderType() == Order.Type.BUY)
+            if(validQuantity >= 0)
             {
-                OrganisationalUnit unit = organisationsDataSource.getOrganisation(attachment.getUnitId());
-                if(unit.getBalance() > attachment.getPlacedQuantity()*attachment.getPrice())
-                {
-                    orderDataSource.addOrder(attachment);
-                    //Todo: implement this function
-                    placeOrder(attachment);
-                    reconcileOrder(attachment);
-                }
-                else {System.out.println("Insufficient balance.");}
+                orderDataSource.addOrder(attachment);
+                //Todo: implement this function
+                placeOrder(attachment);
+                reconcileOrder(attachment);
             }
-
-            return new Response(true, null);
+            else {System.out.println("Asset's quantity is not enough!");}
         }
+
+        else if(attachment.getOrderType() == Order.Type.BUY)
+        {
+            OrganisationalUnit unit = organisationsDataSource.getOrganisation(attachment.getUnitId());
+            if(unit.getBalance() > attachment.getPlacedQuantity()*attachment.getPrice())
+            {
+                orderDataSource.addOrder(attachment);
+                //Todo: implement this function
+                placeOrder(attachment);
+                reconcileOrder(attachment);
+            }
+            else {System.out.println("Insufficient balance.");}
+        }
+
+        return new Response(true, null);
+    }
 
     public static Response addAnItem(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
@@ -543,45 +545,45 @@ public class CasesToResponse  {
     {
         OrderDataSource orderDataSource = new OrderDataSource();
         DataCollection<Order> orders = orderDataSource.getOrderList();
-     if(order.getStatus().equals(Order.Status.PENDING))
-     {
-         // Initiate a lowest selling price
-         float lowestSellPrice = Float.MAX_VALUE;
-         int matchedOrderId = -1;
-         // Loop through all the orders
-         for(Order transaction : orders){
-             // If the order is a BUY, the match must be SELL and vice versa
-             Order.Type matchType = order.getOrderType() == Order.Type.BUY ? Order.Type.SELL : Order.Type.BUY;
-             float buyPrice = order.getOrderType() == Order.Type.BUY ? order.getPrice() : transaction.getPrice();
-             float sellPrice = order.getOrderType() == Order.Type.SELL ? order.getPrice() : transaction.getPrice();
+        if(order.getStatus().equals(Order.Status.PENDING))
+        {
+            // Initiate a lowest selling price
+            float lowestSellPrice = Float.MAX_VALUE;
+            int matchedOrderId = -1;
+            // Loop through all the orders
+            for(Order transaction : orders){
+                // If the order is a BUY, the match must be SELL and vice versa
+                Order.Type matchType = order.getOrderType() == Order.Type.BUY ? Order.Type.SELL : Order.Type.BUY;
+                float buyPrice = order.getOrderType() == Order.Type.BUY ? order.getPrice() : transaction.getPrice();
+                float sellPrice = order.getOrderType() == Order.Type.SELL ? order.getPrice() : transaction.getPrice();
 
-             int transAssetId = transaction.getAssetId();
-             Order.Type transType = transaction.getOrderType();
-             Order.Status transStatus = transaction.getStatus();
-             int transUnitId = transaction.getUnitId();
+                int transAssetId = transaction.getAssetId();
+                Order.Type transType = transaction.getOrderType();
+                Order.Status transStatus = transaction.getStatus();
+                int transUnitId = transaction.getUnitId();
 
-             // Match condition
-             boolean isMatch =
-                     transType == matchType                 // Condition: Match type
-                     && transStatus == Order.Status.PENDING // Condition: Is pending
-                     && transAssetId == order.getAssetId()  // Condition: Same asset
-                     && transUnitId != order.getUnitId()    // Condition: Not from same unit
-                     && sellPrice <= buyPrice               // Condition: good price
-                     ;
+                // Match condition
+                boolean isMatch =
+                        transType == matchType                 // Condition: Match type
+                                && transStatus == Order.Status.PENDING // Condition: Is pending
+                                && transAssetId == order.getAssetId()  // Condition: Same asset
+                                && transUnitId != order.getUnitId()    // Condition: Not from same unit
+                                && sellPrice <= buyPrice               // Condition: good price
+                        ;
 
-             // If a match is found, also check if it is lower than the currently known lowest price
-             // If it is lower, it becomes the chosen one
-             if (isMatch && sellPrice < lowestSellPrice){
-                 lowestSellPrice = sellPrice;
-                 matchedOrderId = transaction.getOrderId();
-             }
-         }
+                // If a match is found, also check if it is lower than the currently known lowest price
+                // If it is lower, it becomes the chosen one
+                if (isMatch && sellPrice < lowestSellPrice){
+                    lowestSellPrice = sellPrice;
+                    matchedOrderId = transaction.getOrderId();
+                }
+            }
 
-         //return the matched transaction if found, otherwise null.
-         return matchedOrderId == -1 ? null : orderDataSource.getOrder(matchedOrderId);
+            //return the matched transaction if found, otherwise null.
+            return matchedOrderId == -1 ? null : orderDataSource.getOrder(matchedOrderId);
 
-     }
-     return null;
+        }
+        return null;
     }
 
 
@@ -669,7 +671,7 @@ public class CasesToResponse  {
      */
     public static Response drop() {
         try {
-            DBconnection.dropDatabase();
+            DBConnection.dropDatabase();
             System.out.println("Database dropped successfully");
             return new Response(true, null);
         } catch (IOException e) {

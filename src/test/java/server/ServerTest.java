@@ -37,7 +37,7 @@ class ServerTest {
 
     @AfterAll
     void cleanUp() throws Exception {
-        server.createResponse(new Request(null, "drop"));
+        server.createResponse(new Request(null, "clean"));
     }
 
     @BeforeEach
@@ -79,12 +79,12 @@ class ServerTest {
         stock1.add(new Item(expectedAssets.get(2), 44));
         stock1.add(new Item(expectedAssets.get(3), 49));
 
-        stock2.add(new Item(expectedAssets.get(0), 50));
-        stock2.add(new Item(expectedAssets.get(1), 50));
-        stock2.add(new Item(expectedAssets.get(2), 50));
-        stock2.add(new Item(expectedAssets.get(3), 50));
+        stock2.add(new Item(expectedAssets.get(0), 10));
+        stock2.add(new Item(expectedAssets.get(1), 10));
+        stock2.add(new Item(expectedAssets.get(2), 10));
+        stock2.add(new Item(expectedAssets.get(3), 10));
 
-        stock3.add(new Item(expectedAssets.get(0), 50));
+        stock3.add(new Item(expectedAssets.get(0), 15));
         stock3.add(new Item(expectedAssets.get(1), 50));
         stock3.add(new Item(expectedAssets.get(2), 50));
         stock3.add(new Item(expectedAssets.get(3), 50));

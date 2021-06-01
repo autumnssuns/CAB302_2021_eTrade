@@ -1,11 +1,11 @@
-package server.Excluded_PUT_ALL_EXCLUSIONS_HERE.DataSourceClasses;
+package server.DataSourceClasses;
 
 // return add , edit , query, delete , return all, get 1,
 // server, casetoresponse
 
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.*;
-import server.DBconnection;
+import server.DBConnection;
 
 import java.sql.*;
 
@@ -52,7 +52,7 @@ public class StockDataSource extends DataSource {
      * Connect to the Stock database and create one if not exists
      */
     public StockDataSource() {
-        connection = DBconnection.getInstance();
+        connection = DBConnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);
@@ -221,5 +221,3 @@ public class StockDataSource extends DataSource {
         }
     }
 }
-
-
