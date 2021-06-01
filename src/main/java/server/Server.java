@@ -3,15 +3,18 @@ package server;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
+import common.dataClasses.IData;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.Stock;
+import common.dataClasses.User;
+import server.DataSourceClasses.CasesToResponse;
+import server.DataSourceClasses.OrganisationsDataSource;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class Server implements IServer{
@@ -20,7 +23,7 @@ public final class Server implements IServer{
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private int port;
-    private boolean firstRun;
+    private boolean firstRun = true;
 
     /**
      * this is the timeout in between accepting clients, not reading from the socket itself.
@@ -49,7 +52,6 @@ public final class Server implements IServer{
             e.printStackTrace();
         }
         firstRun = true;
-        new MockDatabase();
     }
 
     /**
@@ -139,67 +141,81 @@ public final class Server implements IServer{
 
     /**
      * Create a response based on the request.
-     * @param request The request sent by client.
+     * @param clientRequest The request sent by client.
      * @return An appropriate response.
      * @throws InvalidArgumentValueException
      */
     @Override
-    public Response createResponse(Request request) throws InvalidArgumentValueException {
+    public Response createResponse(Request clientRequest) throws InvalidArgumentValueException {
         // Unidentified requests are denied by default
-        Response response = new Response(false, null);
-        switch (request.getAction()){
+        //Get senders' information
+        User sender = clientRequest.getUser();
+        IData attachment = clientRequest.getAttachment();
+        Response serverResponse = new Response(false, null);
+        switch (clientRequest.getAction()){
             case "init":
                 if (firstRun){
-                    MockDatabase.initiate();
+                    CasesToResponse.initiate();
                     firstRun = false;
-                    response = new Response(true, null);
+                    serverResponse = new Response(true, null);
                 }
                 break;
 
             case "login":
-                response = MockDatabase.login(request);
+                serverResponse = CasesToResponse.login(clientRequest);
                 break;
 
             case "query users":
-                response = MockDatabase.queryUsers(request);
+                serverResponse = CasesToResponse.queryUsers();
                 break;
 
             case "query assets":
-                response = MockDatabase.queryAssets(request);
+                serverResponse = CasesToResponse.queryAssets();
                 break;
 
             case "query organisationalUnits":
-                response = MockDatabase.queryOrganisations(request);
+                serverResponse = CasesToResponse.queryOrganisations();
                 break;
 
             case "query stocks":
-                response = MockDatabase.queryStocks(request);
+                serverResponse = CasesToResponse.queryStocks();
                 break;
 
             case "query organisational unit":
-                response = MockDatabase.queryOrganisationalUnit(request);
+                OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
+                OrganisationalUnit unit = organisationsDataSource.getOrganisation(sender.getUnitId());
+                serverResponse = CasesToResponse.query(unit);
                 break;
 
             case "query stock":
-                response = MockDatabase.queryStock(request);
+                serverResponse = CasesToResponse.queryStock(sender);
                 break;
 
             case "query orders":
-                response = MockDatabase.queryOrders(request);
+                serverResponse = CasesToResponse.queryOrders();
                 break;
 
             case "add":
-                response = MockDatabase.add(request);
+                serverResponse = CasesToResponse.add(clientRequest);
                 break;
 
             case "edit":
-                response = MockDatabase.edit(request);
+                serverResponse = CasesToResponse.edit(clientRequest);
                 break;
 
             case "delete":
-                response = MockDatabase.delete(request);
+                serverResponse = CasesToResponse.delete(clientRequest);
+                break;
+
+                // Make sure to set Stock object's asset id and asset quantity to use this function.
+            case "add item":
+                serverResponse = CasesToResponse.addAnItem((Stock) attachment);
+                break;
+
+            case "clean":
+                serverResponse = CasesToResponse.cleanDatabase();
                 break;
         }
-        return response;
+        return serverResponse;
     }
 }

@@ -63,7 +63,7 @@ public class LoginController extends MainController {
      * @param event The event linked with the method (the button click).
      * @throws IOException
      */
-    public void attemptLogin(ActionEvent event) throws IOException, InvalidArgumentValueException {
+    public void attemptLogin(ActionEvent event) throws IOException {
         //TODO: Connect to server to authenticate the user
         String username = nameTextField.getText();
         String password = passwordField.getText();

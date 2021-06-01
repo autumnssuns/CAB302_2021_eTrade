@@ -1,5 +1,7 @@
 package common.dataClasses;
 
+import common.Exceptions.InvalidArgumentValueException;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -17,7 +19,7 @@ public class OrganisationalUnit implements IData{
      * @param unitName The name of the organisational unit.
      * @param balance The balance of the organisational unit.
      */
-    public OrganisationalUnit(Integer unitId, String unitName, float balance){
+    public OrganisationalUnit(Integer unitId, String unitName, float balance) throws InvalidArgumentValueException {
         setId(unitId);
         setName(unitName);
         setBalance(balance);
@@ -35,7 +37,11 @@ public class OrganisationalUnit implements IData{
      * Set the id of the organisational unit to a new value.
      * @param unitId The new value for the organisational unit.
      */
-    public void setId(Integer unitId){
+    public void setId(Integer unitId) throws InvalidArgumentValueException{
+        if(unitId != null && unitId < 0)
+        {
+            throw new InvalidArgumentValueException();
+        }
         this.unitId = unitId;
     }
 
@@ -67,7 +73,9 @@ public class OrganisationalUnit implements IData{
      * Sets the balance of the organisational unit to a new value.
      * @param balance The new balance for the organisational unit.
      */
-    public void setBalance(float balance){
+    public void setBalance(float balance) throws InvalidArgumentValueException {
+        if(balance < 0)
+        {throw new InvalidArgumentValueException();}
         this.balance = balance;
     }
 
@@ -81,7 +89,7 @@ public class OrganisationalUnit implements IData{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrganisationalUnit that = (OrganisationalUnit) o;
-        return unitId == that.unitId && Float.compare(that.balance, balance) == 0 && Objects.equals(unitName, that.unitName);
+        return Objects.equals(unitId, that.unitId) && Float.compare(that.balance, balance) == 0 && Objects.equals(unitName, that.unitName);
     }
 
     /**

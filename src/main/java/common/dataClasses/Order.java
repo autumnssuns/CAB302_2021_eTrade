@@ -1,5 +1,7 @@
 package common.dataClasses;
 
+import common.Exceptions.InvalidArgumentValueException;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -40,8 +42,8 @@ public class Order implements IData {
         return asset;
     }
 
-    public Order(Integer orderId, Type orderType, Integer unitId, Integer assetId, int placedQuantity, int resolvedQuantity, float price, LocalDateTime finishDate, LocalDateTime orderDate, Status status) {
-        this.orderId = orderId;
+    public Order(Integer orderId, Type orderType, Integer unitId, Integer assetId, int placedQuantity, int resolvedQuantity, float price, LocalDateTime finishDate, LocalDateTime orderDate, Status status) throws InvalidArgumentValueException {
+        setOrderId(orderId);
         this.orderType = orderType;
         this.unitId = unitId;
         this.assetId = assetId;
@@ -57,7 +59,11 @@ public class Order implements IData {
      * A method to record how many assets in an order have been successfully purchased
      * @param assetnumber number of the assets in the transaction
      */
-    public  void ResolvedQuantity(int assetnumber) {
+    public  void ResolvedQuantity(int assetnumber) throws Exception {
+        if(assetnumber > placedQuantity + resolvedQuantity)
+        {
+            throw new Exception();
+        }
         resolvedQuantity += assetnumber;
     }
 
@@ -125,7 +131,12 @@ public class Order implements IData {
      * set the order id to given Int
      * @param order_id
      */
-    public void setOrderId(Integer order_id) { this.orderId = order_id;
+    public void setOrderId(Integer order_id) throws InvalidArgumentValueException {
+        if(order_id < 0)
+        {
+            throw new  InvalidArgumentValueException();
+        }
+        this.orderId = order_id;
     }
 
     /**
@@ -207,9 +218,9 @@ public class Order implements IData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return orderId == order.orderId
-                && unitId == order.unitId
-                && assetId == order.assetId
+        return Objects.equals(orderId, order.orderId)
+                && Objects.equals(unitId, order.unitId)
+                && Objects.equals(assetId, order.assetId)
                 && placedQuantity == order.placedQuantity
                 && resolvedQuantity == order.resolvedQuantity
                 && Float.compare(order.price, price) == 0
@@ -234,6 +245,6 @@ public class Order implements IData {
      * @return true if the other order is equal to the current order, false otherwise.
      */
     public boolean isSimilarTo(Order order){
-        return orderType == order.orderType && assetId == order.assetId && Float.compare(order.price, price) == 0 && status == order.status;
+        return orderType == order.orderType && Objects.equals(assetId, order.assetId) && Float.compare(order.price, price) == 0 && status == order.status;
     }
 }

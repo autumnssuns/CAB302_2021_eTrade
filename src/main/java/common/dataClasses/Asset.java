@@ -88,7 +88,7 @@ public class Asset implements IData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Asset asset = (Asset) o;
-        return assetId == asset.assetId && Objects.equals(assetName, asset.assetName) && Objects.equals(description, asset.description);
+        return Objects.equals(assetId, asset.assetId) && Objects.equals(assetName, asset.assetName) && Objects.equals(description, asset.description);
     }
 
     /**

@@ -2,59 +2,57 @@ package server.DataSourceClasses;
 
 import common.dataClasses.DataCollection;
 import common.dataClasses.User;
-import server.DBconnection;
+import org.sonatype.guice.asm.Type;
+import server.DBConnection;
 
 import java.sql.*;
 
 /**
  * Provides needed functions to interact with "users" database for data
  */
-public class UserDataSource {
+public class UserDataSource extends DataSource {
     //Create the environment
     //SQL queries
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS `cab302_eTrade`.`users` (\n" +
-            "  `user_id` INT NOT NULL,\n" +
-            "  `fullname` VARCHAR(50) NOT NULL,\n" +
-            "  `username` VARCHAR(16) NOT NULL,\n" +
-            "  `password` VARCHAR(32) NOT NULL,\n" +
-            "  `user_type` ENUM('user', 'admin') NOT NULL DEFAULT 'user',\n" +
-            "  `organisation_id` INT NULL DEFAULT NULL,\n" +
-            "  PRIMARY KEY (`username`),\n" +
-            "  CONSTRAINT `user_organisaion`\n" +
-            "    FOREIGN KEY (`organisation_id`)\n" +
-            "    REFERENCES `cab302_eTrade`.`organisationalUnits` (`organisation_id`)\n" +
-            "    ON DELETE NO ACTION\n" +
-            "    ON UPDATE NO ACTION)\n" +
-            "ENGINE = InnoDB;\n" +
-            "\n" +
-            "CREATE INDEX `organisaion_idx` ON `cab302_eTrade`.`users` (`organisation_id` ASC) VISIBLE;\n" +
-            "\n" +
-            "\n" +
-            "SET SQL_MODE=@OLD_SQL_MODE;\n" +
-            "SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;\n" +
-            "SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;";
+    private static final String CREATE_TABLE =
+            "CREATE TABLE IF NOT EXISTS users (\n" +
+                    "    user_id         INT          NOT NULL,\n" +
+                    "    fullname        VARCHAR (50) NOT NULL,\n" +
+                    "    username        VARCHAR (20) NOT NULL,\n" +
+                    "    password        VARCHAR (32) NOT NULL,\n" +
+                    "    user_type       VARCHAR (5)  NOT NULL\n" +
+                    "                                 DEFAULT 'user',\n" +
+                    "    organisation_id INT          DEFAULT NULL,\n" +
+                    "    PRIMARY KEY (\n" +
+                    "        username\n" +
+                    "    ),\n" +
+                    "    CONSTRAINT user_organisaion\n" +
+                    ");";
     private static final String ADD_USER = "INSERT INTO users(user_id, fullname, username, password, user_type, organisation_id) VALUES (?, ?, ?, ?, ?, ?);";
-    private static final String DELETE_USER = "DELETE FROM users WHERE user_id=?";
-    private static final String GET_USER = "SELECT * FROM users WHERE username=?";
+    private static final String DELETE_USER = "DELETE FROM users WHERE user_id = ?";
+    private static final String GET_USER = "SELECT * FROM users WHERE username = ?";
     private static final String GET_ALL_USER = "SELECT * FROM users";
     private static final String EDIT_USER =
-            "UPDATE users" +
-                    "SET fullname=?, username=?, password=?, user_type=?, organisation_id=?" +
-                    "WHERE user_id=?";
+            "UPDATE users \n" +
+                    "SET " +
+                    "fullname = ?, username = ?, password = ?," +
+                    " user_type = ?, organisation_id = ? \n" +
+                    "WHERE \n" +
+                    "user_id = ?";
+    private static final  String DELETE_ALL = "DELETE FROM users";
 
     //Prepared statements
-    private Connection connection;
     private PreparedStatement addUser;
     private PreparedStatement deleteUser;
     private PreparedStatement getUser;
     private PreparedStatement editUser;
     private PreparedStatement getAllUser;
+    private PreparedStatement deleteAll;
 
     /**
      * Connect to database then create the table if not exist.
      */
     public UserDataSource() {
-        connection = DBconnection.getInstance();
+        connection = DBConnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);
@@ -63,15 +61,25 @@ public class UserDataSource {
             getUser = connection.prepareStatement(GET_USER);
             editUser = connection.prepareStatement(EDIT_USER);
             getAllUser = connection.prepareStatement(GET_ALL_USER);
+            deleteAll = connection.prepareStatement(DELETE_ALL);
         } catch (SQLException e)
         {e.printStackTrace();}
+    }
+
+
+    public void deleteAll() {
+        try {
+            deleteAll.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Add a new user to the table if not exists
      * @param newuser user object to add
      */
-        public void addUser(User newuser){
+    public void addUser(User newuser){
         try{
             //Set values for the above SQL query
             addUser.setInt(1,newuser.getUserId());
@@ -79,8 +87,14 @@ public class UserDataSource {
             addUser.setString(3, newuser.getUsername());
             addUser.setString(4, newuser.getPassword());
             addUser.setString(5, newuser.getAccountType());
-            addUser.setInt(6, newuser.getUnitId());
-            addUser.executeQuery();
+            if (newuser.getUnitId() == null){
+                addUser.setNull(6, Type.INT);
+            }
+            else{
+                addUser.setInt(6, newuser.getUnitId());
+            }
+
+            addUser.executeUpdate();
         } catch (SQLException e) {e.printStackTrace();}
     }
 
@@ -92,7 +106,7 @@ public class UserDataSource {
         try {
             //Set values for the above SQL query
             deleteUser.setInt(1, userId);
-            deleteUser.executeQuery();
+            deleteUser.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -105,19 +119,24 @@ public class UserDataSource {
      */
     public User getUser(String userName) {
         //Create a dummy to store all information then return the dummy later
-        User dummy = new User(-1,null,null,null,null,-1);
-        ResultSet rs = null;
+        User dummy = null;
+        ResultSet rs;
         try {
             //Set values for the above SQL query
-            getUser.setInt(1, userName);
+            getUser.setString(1, userName);
             rs = getUser.executeQuery();
-            //Stores values into dummy object
-            dummy.setUserId(rs.getInt("user_id"));
-            dummy.setFullName(rs.getString("fullname"));
-            dummy.setUsername(rs.getString("username"));
-            dummy.setPassword(rs.getString("password"));
-            dummy.setAccountType(rs.getString("user_type"));
-            dummy.setOrganisation(rs.getInt("organisation_id"));
+            while (rs.next()) {
+                Integer unitId = (Integer) rs.getObject("organisation_id");
+                dummy = new User(
+                        //Stores values into dummy object
+                        rs.getInt("user_id"),
+                        rs.getString("fullname"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("user_type"),
+                        unitId
+                );
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -130,14 +149,14 @@ public class UserDataSource {
         try {
             ResultSet rs = getAllUser.executeQuery();
             while (rs.next()){
-
+                Integer unitId = (Integer) rs.getObject("organisation_id");
                 users.add(new User(
                         rs.getInt("user_id"),
                         rs.getString("fullname"),
                         rs.getString("username"),
                         rs.getString("password"),
                         rs.getString("user_type"),
-                        rs.getInt("organisation_id")));
+                        unitId));
             }
 
         } catch (SQLException e) {
@@ -145,8 +164,6 @@ public class UserDataSource {
         }
         return users;
     }
-
-
 
     /**
      * A method to update an asset information on  database
@@ -160,13 +177,11 @@ public class UserDataSource {
             editUser.setString(4, userNewInfo.getAccountType());
             editUser.setInt(5, userNewInfo.getUnitId());
             editUser.setInt(6, userNewInfo.getUserId());
-            editUser.executeQuery();
+            editUser.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
         }
     }
-
-
 
     /**
      * Close the connection to database

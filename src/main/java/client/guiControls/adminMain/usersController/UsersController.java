@@ -2,6 +2,7 @@ package client.guiControls.adminMain.usersController;
 
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
 import common.dataClasses.DataCollection;
 import common.dataClasses.OrganisationalUnit;
@@ -40,7 +41,7 @@ public class UsersController extends DisplayController {
     /**
      * Adds a new entry, representing a new user.
      */
-    public void addEntry() {
+    public void addEntry() throws InvalidArgumentValueException {
         int userId = usersDisplayBox.getChildren().size();
         String name = newUserNameTextField.getText();
         String username = newUsernameTextField.getText();
@@ -68,7 +69,7 @@ public class UsersController extends DisplayController {
      * Adds a new entry to the current display.
      * @param user The linked user.
      */
-    private void addUserInfoBox(User user){
+    private void addUserInfoBox(User user) throws InvalidArgumentValueException {
         UserInfoBox userInfoBox = new UserInfoBox(user, this);
         usersDisplayBox.getChildren().add(userInfoBox);
     }
@@ -90,7 +91,7 @@ public class UsersController extends DisplayController {
      * Updates the view with new data
      */
     @Override
-    public void update(){
+    public void update() throws InvalidArgumentValueException {
         usersDisplayBox.getChildren().clear();
         AdminLocalDatabase localDatabase = (AdminLocalDatabase) controller.getDatabase();
         DataCollection<User> users = localDatabase.getUsers();

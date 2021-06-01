@@ -105,7 +105,7 @@ public class AdminMainController extends MainController {
     /**
      * Switches the display to the USERS pane.
      */
-    public void toUsers(){
+    public void toUsers() throws InvalidArgumentValueException {
         usersController.update();
         usersPane.toFront();
         organisationalUnitsButton.setDisable(false);
