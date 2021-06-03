@@ -64,12 +64,12 @@
                   <Font size="30.0" />
                </font>
             </Label>
-            <Button layoutX="872.0" layoutY="5.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="81.0" text="Notification" />
+            <Button fx:id="notificationButton" layoutX="872.0" layoutY="5.0" mnemonicParsing="false" onAction="#showNotifications" prefHeight="40.0" prefWidth="81.0" text="Notification" />
          </children>
          <padding>
             <Insets right="50.0" />
          </padding>
       </Pane>
-      <Pane fx:id="filterPane" opacity="0.5" prefHeight="768.0" prefWidth="1500.0" style="-fx-background-color: black;" visible="false" />
+      <Pane fx:id="filterPane" layoutX="896.0" layoutY="49.0" prefHeight="335.0" prefWidth="236.0" styleClass="whitePane" visible="false" />
    </children>
 </AnchorPane>

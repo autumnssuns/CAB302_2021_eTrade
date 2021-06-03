@@ -49,6 +49,7 @@ public class UserMainController extends MainController {
     @FXML private Label userLabel;
     @FXML private Label creditLabel;
     @FXML private Label organisationalUnitLabel;
+    @FXML private Button notificationButton;
 
     @FXML
     public void initialize() throws IOException {
@@ -101,7 +102,7 @@ public class UserMainController extends MainController {
 
         update();
         displayStack.getChildren().addAll(homePane, sellPane, buyPane, ordersPane, profilePane);
-        switchToHomePage();
+        switchToSellPage();
     }
 
     //Pane switching methods
@@ -131,7 +132,7 @@ public class UserMainController extends MainController {
         sellPageButton.setDisable(true);
         buyPageButton.setDisable(false);
         historyButton.setDisable(false);
-        profilePane.setDisable(false);
+        profileButton.setDisable(false);
     }
 
     /**
@@ -145,7 +146,7 @@ public class UserMainController extends MainController {
         sellPageButton.setDisable(false);
         buyPageButton.setDisable(true);
         historyButton.setDisable(false);
-        profilePane.setDisable(false);
+        profileButton.setDisable(false);
     }
 
     /**
@@ -159,7 +160,7 @@ public class UserMainController extends MainController {
         sellPageButton.setDisable(false);
         buyPageButton.setDisable(false);
         historyButton.setDisable(true);
-        profilePane.setDisable(false);
+        profileButton.setDisable(false);
     }
 
     /**
@@ -214,7 +215,7 @@ public class UserMainController extends MainController {
     }
 
     /**
-     * Updates the view
+     * Updates the view of the main page
      */
     public void update() throws InvalidArgumentValueException {
         fetchDatabase();
@@ -222,5 +223,22 @@ public class UserMainController extends MainController {
         organisationalUnitLabel.setText(unit.getName());
         userLabel.setText(getUser().getFullName());
         creditLabel.setText("Balance: $" + unit.getBalance());
+    }
+
+    /**
+     * Show the notification panel
+     */
+    public void showNotifications(){
+        System.out.println("Showing notification");
+        filterPane.setVisible(true);
+        notificationButton.setOnAction(e -> hideNotifications());
+    }
+
+    /**
+     * Hide the notification panel
+     */
+    public void hideNotifications() {
+        filterPane.setVisible(false);
+        notificationButton.setOnAction(e -> showNotifications());
     }
 }

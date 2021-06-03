@@ -79,11 +79,13 @@ public class CasesToResponse  {
      * @return
      */
     public static Response cleanDatabase(){
+        NotificationDataSource notificationData = new NotificationDataSource();
         AssetsDataSource assetData = new AssetsDataSource();
         UserDataSource userData = new UserDataSource();
         OrderDataSource orderData = new OrderDataSource();
         StockDataSource stockData = new StockDataSource();
         OrganisationsDataSource organisationalUnitData = new OrganisationsDataSource();
+        notificationData.deleteAll();
         stockData.deleteAll();
         orderData.deleteAllOrders();
         userData.deleteAll();

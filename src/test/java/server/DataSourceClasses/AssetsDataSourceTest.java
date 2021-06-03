@@ -1,4 +1,4 @@
-package server.DataSourcesTest;
+package server.DataSourceClasses;
 
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Asset;
