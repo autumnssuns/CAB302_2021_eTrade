@@ -60,4 +60,9 @@ class AssetTest {
         assertTrue(asset.equals(otherAsset) && otherAsset.equals(asset));
         assertEquals(otherAsset.hashCode(), asset.hashCode());
     }
+
+    @Test
+    void testHashCodeWorking() {
+        asset.hashCode();
+    }
 }

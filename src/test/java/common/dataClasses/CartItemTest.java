@@ -46,4 +46,9 @@ class CartItemTest {
         assertTrue(cartItem.equals(otherCartItem) && otherCartItem.equals(cartItem));
         assertTrue(cartItem.hashCode() == otherCartItem.hashCode());
     }
+
+    @Test
+    void testHashCodeWorking() {
+        cartItem.hashCode();
+    }
 }
