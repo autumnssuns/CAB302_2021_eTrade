@@ -18,7 +18,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Button fx:id="homePageButton" mnemonicParsing="false" onAction="#switchToHomePage" prefHeight="100.0" prefWidth="178.0" styleClass="tabButton" text="HOME">
+            <Button fx:id="homePageButton" mnemonicParsing="false" onAction="#switchToHomePage" prefHeight="100.0" prefWidth="178.0" styleClass="tabButton" text="HOME" visible="false">
                <font>
                   <Font size="20.0" />
                </font>
@@ -59,11 +59,12 @@
                <font>
                   <Font size="12.0" />
                </font></Button>
-            <Label fx:id="userLabel" alignment="CENTER_RIGHT" layoutX="565.0" layoutY="2.0" prefHeight="30.0" prefWidth="400.0" textAlignment="RIGHT">
+            <Label fx:id="userLabel" alignment="CENTER_RIGHT" layoutX="460.0" layoutY="2.0" prefHeight="30.0" prefWidth="400.0" textAlignment="RIGHT">
                <font>
                   <Font size="30.0" />
                </font>
             </Label>
+            <Button layoutX="872.0" layoutY="5.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="81.0" text="Notification" />
          </children>
          <padding>
             <Insets right="50.0" />
