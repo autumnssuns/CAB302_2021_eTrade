@@ -13,18 +13,34 @@ public class Stock extends ArrayList<Item> implements IData{
     private int assetId;
     private int assetQuantity;
 
+    /**
+     * Get asset's id
+     * @return
+     */
     public int getAssetId() {
         return assetId;
     }
 
+    /**
+     * Set asset id to a new value
+     * @param assetId
+     */
     public void setAssetId(int assetId) {
         this.assetId = assetId;
     }
 
+    /**
+     * Get asset's quantity
+     * @return
+     */
     public int getAssetQuantity() {
         return assetQuantity;
     }
 
+    /**
+     * Set asset quantity of an asset to a new value
+     * @param assetQuantity
+     */
     public void setAssetQuantity(int assetQuantity) {
         this.assetQuantity = assetQuantity;
     }
