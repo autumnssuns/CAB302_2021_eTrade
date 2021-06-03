@@ -93,4 +93,9 @@ class UserTest {
         assertTrue(user.equals(otherUser) && otherUser.equals(user));
         assertTrue(user.hashCode() == otherUser.hashCode());
     }
+
+    @Test
+    void testHashCodeWorking() {
+        user.hashCode();
+    }
 }
