@@ -363,7 +363,7 @@ public class CasesToResponse  {
      */
     public static Response edit(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.editItemQuantity(attachment);
+        stockDataSource.updateUnitStock(attachment);
         Response response = new Response(true, attachment);
         return response;
     }
