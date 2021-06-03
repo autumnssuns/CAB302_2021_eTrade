@@ -13,8 +13,8 @@ import java.time.format.DateTimeFormatter;
  * Provides needed functions to interact with "orders" database for data
  */
 public class OrderDataSource extends DataSource {
-    //Setting up the environment.
-    //SQL queries
+
+    // SQL queries string
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS orders (\n" +
             "    order_id          INTEGER      NOT NULL\n" +
             "                                   PRIMARY KEY AUTOINCREMENT,\n" +
@@ -46,7 +46,7 @@ public class OrderDataSource extends DataSource {
                     "order_date=?, finished_date=?, status=?\n" +
                     "WHERE order_id=?";
 
-    //Prepare statements.
+    // Prepare statements.
     private PreparedStatement addOrder;
     private PreparedStatement deleteOrder;
     private PreparedStatement deleteAllOrders;
@@ -119,7 +119,7 @@ public class OrderDataSource extends DataSource {
     }
 
     /**
-     * Delete all orders
+     * Delete all orders from the database
      */
     public void deleteAllOrders(){
         try {

@@ -10,8 +10,8 @@ import java.sql.*;
  * Provides needed functions to interact with "assets" database for data
  */
 public class AssetsDataSource extends DataSource {
-    //Setting up the environment.
-    //SQL queries.
+
+    // SQL query strings
     private static final String CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS assets (\n" +
                     "    asset_id          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
@@ -28,7 +28,7 @@ public class AssetsDataSource extends DataSource {
                     "SET asset_name=?, asset_description=?\n" +
                     "WHERE asset_id=?";
 
-    //Prepare statements.
+    // Prepare statements.
     private PreparedStatement addAsset;
     private PreparedStatement deleteAsset;
     private PreparedStatement deleteAllAsset;
@@ -86,7 +86,7 @@ public class AssetsDataSource extends DataSource {
     }
 
     /**
-     * Delete all assets in the database (mostly utilized for testing)
+     * Delete all assets from the database (mostly utilized for testing)
      */
     public void deleteAllAsset() {
         try {

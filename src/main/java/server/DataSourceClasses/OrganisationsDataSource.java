@@ -10,8 +10,8 @@ import java.sql.*;
  * Provides needed functions to interact with "organisationalUnits" database for data
  */
 public class OrganisationsDataSource extends DataSource {
-    //Create environment
-    //SQL queries
+
+    // SQL query strings
     private static final String CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS     organisationalUnits (\n" +
                     "    organisation_id            INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
@@ -54,6 +54,9 @@ public class OrganisationsDataSource extends DataSource {
         }
     }
 
+    /**
+     * Delete all organisations from the database
+     */
     public void deleteAll()
     {
         try {

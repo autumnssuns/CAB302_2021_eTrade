@@ -11,6 +11,7 @@ import java.sql.*;
 
 public class StockDataSource extends DataSource {
 
+    // SQL query strings
     public static final String CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS stock (\n" +
                     "    organisation_id INT NOT NULL,\n" +
@@ -60,6 +61,9 @@ public class StockDataSource extends DataSource {
     }
 
 
+    /**
+     * Delete all stocks from the database
+     */
     public void deleteAll() {
         try {
             deleteAll.executeUpdate();
