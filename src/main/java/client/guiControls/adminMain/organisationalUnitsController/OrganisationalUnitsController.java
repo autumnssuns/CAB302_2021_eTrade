@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
  */
 public class OrganisationalUnitsController extends DisplayController {
     private Stock tempStock;
+    private DataCollection<Asset> assets;
 
     @FXML
     VBox organisationalUnitsDisplayBox;
@@ -57,6 +58,27 @@ public class OrganisationalUnitsController extends DisplayController {
     public void startEditor(){
         organisationalUnitEditPane.setVisible(true);
         tempStock = new Stock(-1);  // Unassigned
+
+        newOrganisationalUnitAssetNameComboBox.getItems().clear();
+        for (Asset asset : assets){
+            // Only allow addition if the unit does not already have the stock
+            boolean isAlreadyInStock = false;
+            try{
+                for (Item item : tempStock){
+                    System.out.println(item.getId());
+                    if (item.getId().equals(asset.getId())){
+                        isAlreadyInStock = true;
+                    }
+                }
+            }
+            catch(NullPointerException ignored){
+                // Ignore if the stock is empty, just add all assets.
+            }
+            if (!isAlreadyInStock){
+                newOrganisationalUnitAssetNameComboBox.getItems().add(asset.getName());
+            }
+        }
+
         confirmOrganisationalUnitButton.setOnAction(e -> {
             try {
                 confirmEditor();
@@ -78,6 +100,26 @@ public class OrganisationalUnitsController extends DisplayController {
         organisationalUnitAssetsBox.getChildren().clear();
         for (Item item : caller.getStock()){
             organisationalUnitAssetsBox.getChildren().add(new UnitAssetInfoBox(item, this));
+        }
+
+        newOrganisationalUnitAssetNameComboBox.getItems().clear();
+        for (Asset asset : assets){
+            // Only allow addition if the unit does not already have the stock
+            boolean isAlreadyInStock = false;
+            try{
+                for (Item item : tempStock){
+                    System.out.println(item.getId());
+                    if (item.getId().equals(asset.getId())){
+                        isAlreadyInStock = true;
+                    }
+                }
+            }
+            catch(NullPointerException ignored){
+                // Ignore if the stock is empty, just add all assets.
+            }
+            if (!isAlreadyInStock){
+                newOrganisationalUnitAssetNameComboBox.getItems().add(asset.getName());
+            }
         }
 
         confirmOrganisationalUnitButton.setOnAction(e -> {
@@ -180,13 +222,7 @@ public class OrganisationalUnitsController extends DisplayController {
         localDatabase = (AdminLocalDatabase) controller.getDatabase();
         DataCollection<OrganisationalUnit> organisationalUnits = localDatabase.getOrganisationalUnits();
         DataCollection<Stock> stocks = localDatabase.getStocks();
-        DataCollection<Asset> assets = localDatabase.getAssets();
-
-        newOrganisationalUnitAssetNameComboBox.getItems().clear();
-        for (Asset asset : assets){
-            newOrganisationalUnitAssetNameComboBox.getItems().add(asset.getName());
-            //TODO: Filter the options
-        }
+        assets = localDatabase.getAssets();
 
         String[] organisationNames = new String[organisationalUnits.size()];
         for (int i = 0; i < organisationalUnits.size(); i++){
@@ -220,6 +256,4 @@ public class OrganisationalUnitsController extends DisplayController {
     public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType) throws InvalidArgumentValueException {
         return controller.sendRequest(action, attachment, attachmentType);
     }
-
-
 }
