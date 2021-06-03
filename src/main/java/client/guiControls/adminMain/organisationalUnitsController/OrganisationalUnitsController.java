@@ -59,25 +59,7 @@ public class OrganisationalUnitsController extends DisplayController {
         organisationalUnitEditPane.setVisible(true);
         tempStock = new Stock(-1);  // Unassigned
 
-        newOrganisationalUnitAssetNameComboBox.getItems().clear();
-        for (Asset asset : assets){
-            // Only allow addition if the unit does not already have the stock
-            boolean isAlreadyInStock = false;
-            try{
-                for (Item item : tempStock){
-                    System.out.println(item.getId());
-                    if (item.getId().equals(asset.getId())){
-                        isAlreadyInStock = true;
-                    }
-                }
-            }
-            catch(NullPointerException ignored){
-                // Ignore if the stock is empty, just add all assets.
-            }
-            if (!isAlreadyInStock){
-                newOrganisationalUnitAssetNameComboBox.getItems().add(asset.getName());
-            }
-        }
+        filterNewAssets();
 
         confirmOrganisationalUnitButton.setOnAction(e -> {
             try {
@@ -102,25 +84,7 @@ public class OrganisationalUnitsController extends DisplayController {
             organisationalUnitAssetsBox.getChildren().add(new UnitAssetInfoBox(item, this));
         }
 
-        newOrganisationalUnitAssetNameComboBox.getItems().clear();
-        for (Asset asset : assets){
-            // Only allow addition if the unit does not already have the stock
-            boolean isAlreadyInStock = false;
-            try{
-                for (Item item : tempStock){
-                    System.out.println(item.getId());
-                    if (item.getId().equals(asset.getId())){
-                        isAlreadyInStock = true;
-                    }
-                }
-            }
-            catch(NullPointerException ignored){
-                // Ignore if the stock is empty, just add all assets.
-            }
-            if (!isAlreadyInStock){
-                newOrganisationalUnitAssetNameComboBox.getItems().add(asset.getName());
-            }
-        }
+        filterNewAssets();
 
         confirmOrganisationalUnitButton.setOnAction(e -> {
             try {
@@ -197,7 +161,7 @@ public class OrganisationalUnitsController extends DisplayController {
         int quantity = Integer.parseInt(newOrganisationalUnitAssetQuantityTextField.getText());
 
         DataCollection<Asset> assets = localDatabase.getAssets();
-        
+
         Asset linkedAsset = null;
         for (Asset asset : assets){
             if (asset.getName().equals(assetName)){
@@ -213,6 +177,7 @@ public class OrganisationalUnitsController extends DisplayController {
         organisationalUnitAssetsBox.getChildren().add(unitAssetInfoBox);
         newOrganisationalUnitAssetNameComboBox.valueProperty().set(null);
         newOrganisationalUnitAssetQuantityTextField.clear();
+        filterNewAssets();
     }
 
     //TODO: Gets data from database
@@ -255,5 +220,30 @@ public class OrganisationalUnitsController extends DisplayController {
      */
     public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType) throws InvalidArgumentValueException {
         return controller.sendRequest(action, attachment, attachmentType);
+    }
+
+    /**
+     * Filter the available selection for new assets
+     */
+    private void filterNewAssets(){
+        newOrganisationalUnitAssetNameComboBox.getItems().clear();
+        for (Asset asset : assets){
+            // Only allow addition if the unit does not already have the stock
+            boolean isAlreadyInStock = false;
+            try{
+                for (Item item : tempStock){
+                    System.out.println(item.getId());
+                    if (item.getId().equals(asset.getId())){
+                        isAlreadyInStock = true;
+                    }
+                }
+            }
+            catch(NullPointerException ignored){
+                // Ignore if the stock is empty, just add all assets.
+            }
+            if (!isAlreadyInStock){
+                newOrganisationalUnitAssetNameComboBox.getItems().add(asset.getName());
+            }
+        }
     }
 }
