@@ -207,7 +207,6 @@ public final class Server implements IServer{
                 serverResponse = CasesToResponse.delete(clientRequest);
                 break;
 
-
             case "clean":
                 serverResponse = CasesToResponse.cleanDatabase();
                 break;

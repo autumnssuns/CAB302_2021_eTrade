@@ -22,10 +22,6 @@ public class StockDataSource extends DataSource {
                     "        asset_id\n" +
                     "    )\n" +
                     ");";
-    private static final String EDIT_ITEM_QUANTITY =
-            "UPDATE stock" +
-                    "   SET asset_quantity = ?" +
-                    "   WHERE organisation_id = ? AND asset_id = ?";
     private static final String GET_STOCK =
             "SELECT * FROM stock WHERE organisation_id = ?";
     private static final String GET_ALL_STOCK = "SELECT * FROM stock";
@@ -35,17 +31,14 @@ public class StockDataSource extends DataSource {
     private static final String DELETE_UNIT_STOCK =
             "DELETE FROM stock WHERE organisation_id = ?";
     private static final  String DELETE_ALL_DATA = "DELETE FROM stock";
-    private static final String DELETE_AN_ITEM =
-            "DELETE FROM stock WHERE organisation_id = ? AND asset_id = ?";
 
 
-    private PreparedStatement editItemQuantity;
+
     private PreparedStatement updateStock;
     private PreparedStatement getStock;
     private PreparedStatement deleteUnitStock;
     private PreparedStatement getAllStock;
     private PreparedStatement deleteAll;
-    private PreparedStatement deleteAnItem;
 
 
     /**
@@ -56,27 +49,16 @@ public class StockDataSource extends DataSource {
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);
-            editItemQuantity = connection.prepareStatement(EDIT_ITEM_QUANTITY);
             getStock = connection.prepareStatement(GET_STOCK);
             updateStock = connection.prepareStatement(UPDATE_STOCK);
             deleteUnitStock = connection.prepareStatement(DELETE_UNIT_STOCK);
             getAllStock = connection.prepareStatement(GET_ALL_STOCK);
             deleteAll = connection.prepareStatement(DELETE_ALL_DATA);
-            deleteAnItem = connection.prepareStatement(DELETE_AN_ITEM);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteAnItem(Stock stock) {
-        try {
-            deleteAnItem.setInt(1,stock.getUnitId());
-            deleteAnItem.setInt(2,stock.getAssetId());
-            deleteAnItem.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void deleteAll() {
         try {
@@ -86,20 +68,6 @@ public class StockDataSource extends DataSource {
         }
     }
 
-    /**
-     * Edit quantity of an asset of an organization
-     * @param attachment a Stock object
-     */
-    public void editItemQuantity(Stock attachment) {
-        try {
-            editItemQuantity.setInt(1, attachment.getAssetQuantity());
-            editItemQuantity.setInt(2, attachment.getUnitId());
-            editItemQuantity.setInt(3, attachment.getAssetId());
-            editItemQuantity.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Update a unit's stock on stock table
@@ -120,21 +88,7 @@ public class StockDataSource extends DataSource {
         }
     }
 
-    /**
-     * add an item to an unit's stock (using setter method: set Stock asset id and set Stock quantity)
-     * @param stock
-     */
-    public void addAnItem(Stock stock)
-    {
-        try {
-            updateStock.setInt(1, stock.getUnitId());
-            updateStock.setInt(2, stock.getAssetId());
-            updateStock.setInt(3, stock.getAssetQuantity());
-            updateStock.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     /**
      * Get stocks list from an organization
