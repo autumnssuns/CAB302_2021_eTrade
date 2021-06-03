@@ -176,9 +176,8 @@ public class CasesToResponse  {
                 if(item.getId() == assetId)
                 {
                     itemInfor = item;
-                    unitStock.setAssetId(itemInfor.getId());
-                    unitStock.setAssetQuantity(itemInfor.getQuantity() - order.getPlacedQuantity());
-                    edit(unitStock);
+                    item.setQuantity(itemInfor.getQuantity() - order.getPlacedQuantity());
+                    stockDataSource.updateUnitStock(unitStock);
                     break;
                 }
             }
@@ -335,9 +334,8 @@ public class CasesToResponse  {
             {
                 if(item.getId() == order.getAssetId())
                 {
-                    unitStock.setAssetId(item.getId());
-                    unitStock.setAssetQuantity(item.getQuantity() + returnQuantity);
-                    edit(unitStock);
+                    item.setQuantity(item.getQuantity() + returnQuantity);
+                    stockDataSource.updateUnitStock(unitStock);
                     break;
                 }
 
