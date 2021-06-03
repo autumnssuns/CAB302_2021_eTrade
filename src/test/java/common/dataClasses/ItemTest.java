@@ -80,4 +80,9 @@ class ItemTest {
         assertFalse(item.equals(otherItem));
         assertFalse(item.equals(anotherItem));
     }
+
+    @Test
+    void testHashCodeWorking() {
+        item.hashCode();
+    }
 }
