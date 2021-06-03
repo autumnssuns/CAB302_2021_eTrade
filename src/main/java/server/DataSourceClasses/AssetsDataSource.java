@@ -85,6 +85,9 @@ public class AssetsDataSource extends DataSource {
         }
     }
 
+    /**
+     * Delete all assets in the database (mostly utilized for testing)
+     */
     public void deleteAllAsset() {
         try {
             deleteAllAsset.executeUpdate();
@@ -120,7 +123,10 @@ public class AssetsDataSource extends DataSource {
 
     }
 
-    //Todo: Get Asset list method
+    /**
+     * Query all the assets in the database
+      * @return A DataCollection<Asset> of all assets
+     */
     public DataCollection<Asset> getAssetList(){
         DataCollection<Asset> assets = new DataCollection<>();
         try {
@@ -138,7 +144,7 @@ public class AssetsDataSource extends DataSource {
     }
 
     /**
-     * A method to update an asset information on  database
+     * A method to update an asset on the database
      * @param assetNewInfo an Asset class object containing new data
      */
     public void editAsset(Asset assetNewInfo)  {
