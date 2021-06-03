@@ -245,12 +245,7 @@ public class CasesToResponse  {
         return new Response(true, null);
     }
 
-    public static Response addAnItem(Stock attachment){
-        StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.addAnItem(attachment);
-        Response response = new Response(true,null);
-        return response;
-    }
+
 
     /**
      * Add a stock to an org unit
@@ -361,7 +356,7 @@ public class CasesToResponse  {
      */
     public static Response edit(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.editItemQuantity(attachment);
+        stockDataSource.updateUnitStock(attachment);
         Response response = new Response(true, attachment);
         return response;
     }
@@ -521,17 +516,6 @@ public class CasesToResponse  {
     }
 
 
-    /**
-     * Delete an asset in stock table
-     * @param attachment
-     * @return
-     */
-    public static Response deleteAnItem(Request attachment){
-        StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.deleteAnItem((Stock) attachment.getAttachment());
-        Response response = new Response(true, null);
-        return  response;
-    }
 
     /**
      * Match two orders on the following conditions:
