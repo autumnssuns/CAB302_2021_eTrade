@@ -51,6 +51,7 @@ class StockTest {
     }
 
     @Test
-    void testHashCode() {
+    void testHashCodeWorking() {
+        stock0.hashCode();
     }
 }
