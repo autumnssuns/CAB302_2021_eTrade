@@ -4,9 +4,7 @@ import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.*;
-import server.DBConnection;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class CasesToResponse  {
@@ -34,7 +32,6 @@ public class CasesToResponse  {
             Stock stock0 = new Stock(0);
             Stock stock1 = new Stock(1);
             Stock stock2 = new Stock(2);
-            Stock stock3 = new Stock(3);
             stock0.add(new Item(assets.get(0), 99));
             stock0.add(new Item(assets.get(1), 99));
             stock0.add(new Item(assets.get(2), 99));
@@ -78,7 +75,7 @@ public class CasesToResponse  {
      * Empties the database
      * @return
      */
-    public static Response cleanDatabase(){
+    public static Response<IData> cleanDatabase(){
         NotificationDataSource notificationData = new NotificationDataSource();
         AssetsDataSource assetData = new AssetsDataSource();
         UserDataSource userData = new UserDataSource();
@@ -91,14 +88,13 @@ public class CasesToResponse  {
         userData.deleteAll();
         assetData.deleteAllAsset();
         organisationalUnitData.deleteAll();
-        return new Response(true, null);
+        return new Response<>(true, null);
     }
 
     //Todo: Add comment / description
-
-    public static Response login(Request request)
+    public static Response<User> login(Request request)
     {
-        Response serverResponse = new Response(false, null);
+        Response<User> serverResponse = new Response<>(false, null);
         User sender = request.getUser();
         UserDataSource userdata = new UserDataSource();
         User userInData = userdata.getUser(sender.getUsername());
@@ -107,18 +103,19 @@ public class CasesToResponse  {
             if(sender.getUsername().equals(userInData.getUsername())
                     && sender.getPassword().equals(userInData.getPassword()))
             {
-                serverResponse = new Response(true,userInData);
+                serverResponse = new Response<>(true,userInData);
             }
         }
 
         return  serverResponse;
     }
+
     //ServerMain type of methods to response to request
     // (each type contains classes: Asset, Organisation, Order,
     // stock, transaction(considering) and UserGUI)
 
     //Todo: Overload Add method
-    public static <T extends IData> Response add(Request<T> request) throws InvalidArgumentValueException {
+    public static <T extends IData> Response<IData> add(Request<T> request) throws InvalidArgumentValueException {
         T attachment = request.getAttachment();
         Class<T> type = request.getAttachmentType();
         if(type.equals(User.class)) {
@@ -140,31 +137,27 @@ public class CasesToResponse  {
     }
 
     //UserGUI type
-    public static Response add(User attachment){
+    public static Response<IData> add(User attachment){
         UserDataSource userDataSource = new UserDataSource();
         userDataSource.addUser(attachment);
-        Response response = new Response(true, null);
-        return response;
+        return new Response<>(true, null);
     }
 
     //Organisational Unit Type
-    public static Response add(OrganisationalUnit attachment){
+    public static Response<IData> add(OrganisationalUnit attachment){
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         organisationsDataSource.addOrganisation(attachment);
-        Response response = new Response(true, null);
-        return response;
+        return new Response<>(true, null);
     }
     //Asset Type
-    public static Response add(Asset attachment) {
+    public static Response<IData> add(Asset attachment) {
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         assetsDataSource.addAsset(attachment);
-        Response response = new Response(true, null);
-        return response;
+        return new Response<>(true, null);
     }
     //Order Type
     //Todo: implement this
     private static void placeOrder(Order order) throws InvalidArgumentValueException {
-        int unitId = order.getUnitId();
         //if order is SELL: reduce seller stock's item quantity
         if (order.getOrderType().equals(Order.Type.SELL)){
             int assetId = order.getAssetId();
@@ -179,7 +172,7 @@ public class CasesToResponse  {
                 {
                     itemInfor = item;
                     item.setQuantity(itemInfor.getQuantity() - order.getPlacedQuantity());
-                    stockDataSource.updateUnitStock(unitStock);
+                    stockDataSource.editStock(unitStock);
                     break;
                 }
             }
@@ -196,6 +189,7 @@ public class CasesToResponse  {
             }
         }
     }
+
     public static Item findItem(int unitId, int assetId)
     {
         StockDataSource stockDataSource = new StockDataSource();
@@ -209,7 +203,7 @@ public class CasesToResponse  {
         return null;
     }
 
-    public static Response add(Order attachment) throws InvalidArgumentValueException {
+    public static Response<IData> add(Order attachment) throws InvalidArgumentValueException {
         OrderDataSource orderDataSource = new OrderDataSource();
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         //If SELLER: check if the asset quantity is enough.
@@ -223,8 +217,9 @@ public class CasesToResponse  {
 
             if(validQuantity >= 0)
             {
+                //add order into database
                 orderDataSource.addOrder(attachment);
-                //Todo: implement this function
+                //Analyse the orders' information with other existed orders on database then update.
                 placeOrder(attachment);
                 reconcileOrder(attachment);
             }
@@ -236,35 +231,33 @@ public class CasesToResponse  {
             OrganisationalUnit unit = organisationsDataSource.getOrganisation(attachment.getUnitId());
             if(unit.getBalance() > attachment.getPlacedQuantity()*attachment.getPrice())
             {
+                //add order into the database
                 orderDataSource.addOrder(attachment);
-                //Todo: implement this function
+                //analyse the orders' information with other existed orders then update
                 placeOrder(attachment);
                 reconcileOrder(attachment);
             }
             else {System.out.println("Insufficient balance.");}
         }
 
-        return new Response(true, null);
+        return new Response<>(true, null);
     }
-
-
 
     /**
      * Add a stock to an org unit
      * @param attachment
      * @return Response object
      */
-    public static Response add(Stock attachment){
+    public static Response<IData> add(Stock attachment){
         StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.updateUnitStock(attachment);
-        Response response = new Response(true, null);
-        return response;
+        stockDataSource.editStock(attachment);
+        return new Response<>(true, null);
     }
 
 
 
     //Todo: Overload Edit method
-    public static <T extends IData> Response edit(Request<T> request) throws InvalidArgumentValueException {
+    public static <T extends IData> Response<IData> edit(Request<T> request) throws InvalidArgumentValueException {
         T attachment = request.getAttachment();
         Class<T> type = request.getAttachmentType();
         if (type.equals(User.class)){
@@ -285,27 +278,45 @@ public class CasesToResponse  {
         return null;
     }
     //UserGUI Type
-    public static Response edit(User attachment){
+    public static Response<IData> edit(User attachment){
         UserDataSource userDataSource = new UserDataSource();
         userDataSource.editUser(attachment);
-        Response response = new Response(true, attachment);
-        return response;
+        return new Response<>(true, attachment);
     }
     //Organisational Unit Type
-    public static Response edit(OrganisationalUnit attachment){
+    public static Response<IData> edit(OrganisationalUnit attachment){
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         organisationsDataSource.editOrganisation(attachment);
-        Response response = new Response(true, attachment);
-        return response;
+        return new Response<>(true, attachment);
     }
     //Asset Type
-    public static Response edit(Asset attachment){
+    public static Response<IData> edit(Asset attachment){
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         assetsDataSource.editAsset(attachment);
-        Response response = new Response(true, attachment);
-        return response;
+        return new Response<>(true, attachment);
     }
 
+    /**
+     * Edit quantity of an item in a stock of an org unit
+     * @param attachment
+     * @return Response object
+     */
+    public static Response<IData> edit(Stock attachment){
+        StockDataSource stockDataSource = new StockDataSource();
+        stockDataSource.editStock(attachment);
+        return new Response<>(true, attachment);
+    }
+
+    //Order Type
+    public static Response<IData> edit(Order attachment) throws InvalidArgumentValueException {
+        //if orders' status is CANCELLED, need to do some refunds to clients
+        if (attachment.getStatus().equals(Order.Status.CANCELLED)){
+            cancelOrder(attachment);
+        }
+        OrderDataSource orderDataSource = new OrderDataSource();
+        orderDataSource.editOrder(attachment);
+        return new Response<>(true, attachment);
+    }
 
     //Todo: implement this to use in database.
     public static void cancelOrder(Order order) throws InvalidArgumentValueException {
@@ -326,45 +337,23 @@ public class CasesToResponse  {
             StockDataSource stockDataSource = new StockDataSource();
             // Update the seller's stock
             Stock unitStock = stockDataSource.getStock(order.getUnitId());
-            Item changedItem;
             for(Item item : unitStock)
             {
-                if(item.getId() == order.getAssetId())
+                if(item.getId().equals(order.getAssetId()))
                 {
                     item.setQuantity(item.getQuantity() + returnQuantity);
-                    stockDataSource.updateUnitStock(unitStock);
+                    stockDataSource.editStock(unitStock);
                     break;
                 }
 
             }
         }
     }
-    //Order Type
-    public static Response edit(Order attachment) throws InvalidArgumentValueException {
-        //Todo: Cancel order condition
-        if (attachment.getStatus().equals(Order.Status.CANCELLED)){
-            cancelOrder(attachment);
-        }
-        OrderDataSource orderDataSource = new OrderDataSource();
-        orderDataSource.editOrder(attachment);
-        Response response = new Response(true, attachment);
-        return response;
-    }
 
-    /**
-     * Edit quantity of an item in a stock of an org unit
-     * @param attachment
-     * @return Response object
-     */
-    public static Response edit(Stock attachment){
-        StockDataSource stockDataSource = new StockDataSource();
-        stockDataSource.updateUnitStock(attachment);
-        Response response = new Response(true, attachment);
-        return response;
-    }
+
 
     //Todo: Overload Query method
-    public static <T extends IData> Response query(Request<T> request) {
+    public static <T extends IData> Response<IData> query(Request<T> request) {
         T attachment = request.getAttachment();
         Class<T> type = request.getAttachmentType();
         if (type.equals(User.class)){
@@ -383,33 +372,29 @@ public class CasesToResponse  {
         return null;
 
     }
-    //UserGUI Type
-    public static Response query(User attachment){
+    //User Type
+    public static Response<IData> query(User attachment){
         UserDataSource userDataSource = new UserDataSource();
         attachment = userDataSource.getUser(attachment.getUsername());
-        Response response = new Response(true, attachment);
-        return response;
+        return new Response<>(true, attachment);
     }
     //Organisational Unit Type
-    public static Response query(OrganisationalUnit attachment){
+    public static Response<IData> query(OrganisationalUnit attachment){
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         attachment = organisationsDataSource.getOrganisation(attachment.getId());
-        Response response = new Response(true, attachment);
-        return response;
+        return new Response<>(true, attachment);
     }
     //Asset Type
-    public static Response query(Asset attachment){
+    public static Response<IData> query(Asset attachment){
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         attachment = assetsDataSource.getAsset(attachment.getId());
-        Response response = new Response(true, attachment);
-        return response;
+        return new Response<>(true, attachment);
     }
     //Order Type
-    public static Response query(Order attachment) {
+    public static Response<IData> query(Order attachment) {
         OrderDataSource orderDataSource = new OrderDataSource();
         attachment = orderDataSource.getOrder(attachment.getOrderId());
-        Response response = new Response(true, attachment);
-        return response;
+        return new Response<>(true, attachment);
     }
 
     /**
@@ -417,54 +402,48 @@ public class CasesToResponse  {
      * @param attachment
      * @return Response object
      */
-    public static Response queryStock(User attachment){
+    public static Response<Stock> queryStock(User attachment){
         StockDataSource stockDataSource = new StockDataSource();
         Stock unitStock = stockDataSource.getStock(attachment.getUnitId());
-        Response response = new Response(true, unitStock);
-        return response;
+        return new Response<>(true, unitStock);
     }
 
 
-    public static Response queryStocks()
+    public static Response<DataCollection<Stock>> queryStocks()
     {
         StockDataSource stockDataSource = new StockDataSource();
         DataCollection<Stock> stocks = stockDataSource.getStockList();
-        Response response = new Response(true, stocks);
-        return response;
+        return new Response<>(true, stocks);
     }
 
-    public static Response queryOrganisations()
+    public static Response<DataCollection<OrganisationalUnit>> queryOrganisations()
     {
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         DataCollection<OrganisationalUnit> attachment = organisationsDataSource.getOrganisationList();
-        Response response = new Response(true, attachment);
-        return response;
+        return new Response<>(true, attachment);
     }
 
-    public static Response queryOrders()
+    public static Response<DataCollection<Order>> queryOrders()
     {
         OrderDataSource orderDataSource = new OrderDataSource();
         DataCollection<Order> attachment = orderDataSource.getOrderList();
-        Response response = new Response(true, attachment);
-        return response;
+        return new Response<>(true, attachment);
     }
 
-    public  static Response queryAssets() {
+    public  static Response<DataCollection<Asset>> queryAssets() {
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         DataCollection<Asset> attachment = assetsDataSource.getAssetList();
-        Response response = new Response(true, attachment);
-        return response;
+        return new Response<>(true, attachment);
     }
 
-    public static Response queryUsers() {
+    public static Response<DataCollection<User>> queryUsers() {
         UserDataSource userDataSource = new UserDataSource();
         DataCollection<User> attachment = userDataSource.getUserList();
-        Response response = new Response(true, attachment);
-        return response;
+        return new Response<>(true, attachment);
     }
 
     //Todo: Overload Delete method
-    public static <T extends IData> Response delete(Request<T> request) {
+    public static <T extends IData> Response<IData> delete(Request<T> request) {
         T attachment = request.getAttachment();
         Class<T> type = request.getAttachmentType();
         if (type.equals(User.class)){
@@ -483,38 +462,34 @@ public class CasesToResponse  {
         return null;
     }
     //UserGUI Type
-    public static Response delete(User attachment){
+    public static Response<IData> delete(User attachment){
         UserDataSource userDataSource = new UserDataSource();
         userDataSource.deleteUser(attachment.getUserId());
-        Response response = new Response(true, null);
-        return response;
+        return new Response<>(true, null);
     }
 
     //Organisational Unit Type
-    public static Response delete(OrganisationalUnit attachment){
+    public static Response<IData> delete(OrganisationalUnit attachment){
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         StockDataSource stockDataSource = new StockDataSource();
         organisationsDataSource.deleteOrganisation(attachment.getId());
         //delete all stock of the organisation if delete the unit
         stockDataSource.deleteStock(stockDataSource.getStock(attachment.getId()));
-        Response response = new Response(true, null);
-        return response;
+        return new Response<>(true, null);
     }
 
     //Asset Type
-    public static Response delete(Asset attachment){
+    public static Response<IData> delete(Asset attachment){
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         assetsDataSource.deleteAsset(attachment.getId());
-        Response response = new Response(true, null);
-        return response;
+        return new Response<>(true, null);
     }
 
     //Order Type
-    public static Response delete(Order attachment){
+    public static Response<IData> delete(Order attachment){
         OrderDataSource orderDataSource = new OrderDataSource();
         orderDataSource.deleteOrder(attachment.getOrderId());
-        Response response = new Response(true, null);
-        return response;
+        return new Response<>(true, null);
     }
 
 
@@ -523,7 +498,7 @@ public class CasesToResponse  {
      * Match two orders on the following conditions:
      * - SELL order with BUY order from different unit
      * - SELL order price less than or equal to BUY order's price
-     * @param order
+     * @param order ORDER needed to compare
      */
     private static Order matchOrder(Order order)
     {
@@ -548,7 +523,7 @@ public class CasesToResponse  {
 
                 // Match condition
                 boolean isMatch =
-                        transType == matchType                 // Condition: Match type
+                        transType == matchType                          // Condition: Match type
                                 && transStatus == Order.Status.PENDING // Condition: Is pending
                                 && transAssetId == order.getAssetId()  // Condition: Same asset
                                 && transUnitId != order.getUnitId()    // Condition: Not from same unit
@@ -580,11 +555,13 @@ public class CasesToResponse  {
      * - Adds assets to buyer
      */
     private static void reconcileOrder(Order order) throws InvalidArgumentValueException {
+        //Prepare data sources
         OrderDataSource orderDataSource = new OrderDataSource();
         AssetsDataSource assetsDataSource = new AssetsDataSource();
-        Order matchOrder = matchOrder(order);
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         StockDataSource stockDataSource = new StockDataSource();
+
+        Order matchOrder = matchOrder(order);
         DataCollection<OrganisationalUnit> organisationalUnits = organisationsDataSource.getOrganisationList();
 
         if (matchOrder != null){
@@ -613,32 +590,32 @@ public class CasesToResponse  {
                     break;
                 }
             }
-            Boolean itemExistence = false; //item exists in the stock
+            boolean itemExistence = false; //item exists in the stock
             // and the buyer's stock
             DataCollection<Stock> stocks = stockDataSource.getStockList();
             for (Stock stock : stocks){
                 for(Item item : stock){
                     //Check if the unit already have this stock.
                     //If existed: increase the quantity of the item
-                    if (stock.getUnitId() == buyerId && item.getId() == order.getAssetId()){
+                    if (stock.getUnitId() == buyerId && item.getId().equals(order.getAssetId())){
                         Asset asset = assetsDataSource.getAsset(item.getId());
                         Item newItem = new Item (asset,reconcileQuantity);
                         stock.add(newItem);
                         itemExistence = true;
-                        stockDataSource.updateUnitStock(stock);
+                        stockDataSource.editStock(stock);
                         break;
                     }
                 }
             }
             //If not create new
-            if(itemExistence == false)
+            if(!itemExistence)
             {
                 for(Stock stock : stocks)
                 {
                     if(stock.getUnitId() == buyerId)
                     {
                         stock.add(new Item(assetsDataSource.getAsset(order.getAssetId()),reconcileQuantity));
-                        stockDataSource.updateUnitStock(stock);
+                        stockDataSource.editStock(stock);
                         break;
                     }
                 }

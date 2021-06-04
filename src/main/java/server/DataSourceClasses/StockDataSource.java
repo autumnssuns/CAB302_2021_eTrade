@@ -12,16 +12,17 @@ import java.sql.*;
 public class StockDataSource extends DataSource {
 
     public static final String CREATE_TABLE =
-            "CREATE TABLE IF NOT EXISTS stock (\n" +
-                    "    organisation_id INT NOT NULL,\n" +
-                    "    asset_id        INT NOT NULL,\n" +
-                    "    asset_quantity  INT NOT NULL\n" +
-                    "                        DEFAULT 0,\n" +
-                    "    PRIMARY KEY (\n" +
-                    "        organisation_id,\n" +
-                    "        asset_id\n" +
-                    "    )\n" +
-                    ");";
+            """
+                    CREATE TABLE IF NOT EXISTS stock (
+                        organisation_id INT NOT NULL,
+                        asset_id        INT NOT NULL,
+                        asset_quantity  INT NOT NULL
+                                            DEFAULT 0,
+                        PRIMARY KEY (
+                            organisation_id,
+                            asset_id
+                        )
+                    );""";
     private static final String GET_STOCK =
             "SELECT * FROM stock WHERE organisation_id = ?";
     private static final String GET_ALL_STOCK = "SELECT * FROM stock";
@@ -73,7 +74,7 @@ public class StockDataSource extends DataSource {
      * Update a unit's stock on stock table
      * @param attachment a Stock object
      */
-    public void updateUnitStock(Stock attachment) {
+    public void editStock(Stock attachment) {
         deleteStock(attachment);
         for(Item item: attachment)
         {
@@ -118,6 +119,10 @@ public class StockDataSource extends DataSource {
         return stock;
     }
 
+    /**
+     * Get a list of stocks of all organisation available in database
+     * @return Datacollection<Stock> </>
+     */
     public DataCollection<Stock> getStockList(){
 
         DataCollection<Stock> stocks = new DataCollection<>();

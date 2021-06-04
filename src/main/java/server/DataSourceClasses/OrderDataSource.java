@@ -15,23 +15,24 @@ import java.time.format.DateTimeFormatter;
 public class OrderDataSource extends DataSource {
     //Setting up the environment.
     //SQL queries
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS orders (\n" +
-            "    order_id          INTEGER      NOT NULL\n" +
-            "                                   PRIMARY KEY AUTOINCREMENT,\n" +
-            "    order_type        VARCHAR (4)  NOT NULL,\n" +
-            "    organisation_id   INT          NOT NULL,\n" +
-            "    asset_id          INT          NOT NULL,\n" +
-            "    placed_quantity   INT          NOT NULL\n" +
-            "                                   DEFAULT 0,\n" +
-            "    resolved_quantity INT          NOT NULL\n" +
-            "                                   DEFAULT 0,\n" +
-            "    price             DECIMAL (10,2)  NOT NULL,\n" +
-            "    order_date        VARCHAR(50)  NOT NULL\n" +
-            "                                   DEFAULT CURRENT_TIMESTAMP,\n" +
-            "    finished_date     VARCHAR(50)  DEFAULT NULL,\n" +
-            "    status            VARCHAR(10)  NOT NULL\n" +
-            "                                   DEFAULT ('placed') \n" +
-            ");";
+    private static final String CREATE_TABLE = """
+            CREATE TABLE IF NOT EXISTS orders (
+                order_id          INTEGER      NOT NULL
+                                               PRIMARY KEY AUTOINCREMENT,
+                order_type        VARCHAR (4)  NOT NULL,
+                organisation_id   INT          NOT NULL,
+                asset_id          INT          NOT NULL,
+                placed_quantity   INT          NOT NULL
+                                               DEFAULT 0,
+                resolved_quantity INT          NOT NULL
+                                               DEFAULT 0,
+                price             DECIMAL (10,2)  NOT NULL,
+                order_date        VARCHAR(50)  NOT NULL
+                                               DEFAULT CURRENT_TIMESTAMP,
+                finished_date     VARCHAR(50)  DEFAULT NULL,
+                status            VARCHAR(10)  NOT NULL
+                                               DEFAULT ('placed')\s
+            );""";
 
     private static final String ADD_ORDER = "INSERT INTO orders(order_id, order_type, organisation_id, " +
             "asset_id, placed_quantity, resolved_quantity, price, order_date, finished_date, status) \n" +
@@ -41,10 +42,10 @@ public class OrderDataSource extends DataSource {
     private static final String GET_ORDER = "SELECT * FROM orders WHERE order_id=?";
     private static final String GET_ALL_ORDER = "SELECT * FROM orders";
     private static final String EDIT_ORDER =
-            "UPDATE orders\n" +
-                    "SET order_type=?, organisation_id=?, asset_id=?, placed_quantity=?, resolved_quantity=?, price=?, " +
-                    "order_date=?, finished_date=?, status=?\n" +
-                    "WHERE order_id=?";
+            """
+                    UPDATE orders
+                    SET order_type=?, organisation_id=?, asset_id=?, placed_quantity=?, resolved_quantity=?, price=?, order_date=?, finished_date=?, status=?
+                    WHERE order_id=?""";
 
     //Prepare statements.
     private PreparedStatement addOrder;
@@ -160,9 +161,7 @@ public class OrderDataSource extends DataSource {
                         finishedDate,
                         LocalDateTime.parse(rs.getString("order_date"), formatter),
                         Order.Status.valueOf(rs.getString("status")));
-            };
-        } catch (SQLException e) {
-            e.printStackTrace();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -198,8 +197,6 @@ public class OrderDataSource extends DataSource {
                         Order.Status.valueOf(rs.getString("status")))
                 );
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
