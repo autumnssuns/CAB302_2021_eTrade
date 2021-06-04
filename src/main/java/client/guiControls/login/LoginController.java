@@ -3,7 +3,9 @@ package client.guiControls.login;
 import client.data.IServerConnection;
 import client.data.ServerConnection;
 import client.guiControls.MainController;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
+import common.dataClasses.IData;
 import common.dataClasses.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -141,5 +143,20 @@ public class LoginController extends MainController {
             stage.close();
             System.out.println("You successfully exit the program");
         }
+    }
+
+    @Override
+    public void fetchDatabase() throws InvalidArgumentValueException {
+
+    }
+
+    @Override
+    public <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException {
+
+    }
+
+    @Override
+    public void update() throws InvalidArgumentValueException {
+
     }
 }

@@ -7,6 +7,7 @@ import common.Request;
 import common.Response;
 import common.dataClasses.IData;
 import common.dataClasses.User;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,7 +22,7 @@ import java.io.IOException;
  * connection class.
  * // TODO: Needs redesign & refactor & documentation.
  */
-public class MainController {
+public abstract class MainController {
     protected ILocalDatabase localDatabase;
 
     /**
@@ -130,14 +131,12 @@ public class MainController {
     /**
      * Fetch the local database from the server.
      */
-    public void fetchDatabase() throws InvalidArgumentValueException {
-
-    }
+    public abstract void fetchDatabase() throws InvalidArgumentValueException;
 
     /**
      * Update the local database with that from the server
      */
-    public <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException {}
+    public abstract <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException;
 
     /**
      * Returns the local database for the current user.
@@ -145,5 +144,37 @@ public class MainController {
      */
     public ILocalDatabase getDatabase(){
         return localDatabase;
+    }
+
+    /**
+     * Updates the GUI with new data from server
+     * @throws InvalidArgumentValueException
+     */
+    public abstract void update() throws InvalidArgumentValueException;
+
+    /**
+     * Starts a background thread to continually updates the GUI
+     */
+    protected void startBackgroundThread(){
+        Thread thread = new Thread(() -> {
+            while (true) {
+                try{
+                    // Updates every 10 seconds
+                    Thread.sleep(1000*10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Platform.runLater(() -> {
+                    try {
+                        System.out.println("Updated");
+                        update();
+                    } catch (InvalidArgumentValueException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
     }
 }
