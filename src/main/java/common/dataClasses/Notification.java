@@ -11,14 +11,16 @@ import java.util.Objects;
 public class Notification implements IData {
     private Integer notificationId;
     // A notification can be linked to many organisational unit
-    private ArrayList<Integer> unitIds;
+    private ArrayList<Integer> receiverIds;
+    private ArrayList<Integer> readerIds;
     private String message;
 
     /**
      * Default constructor that can be built upon
      */
     public Notification(){
-        unitIds = new ArrayList<Integer>();
+        receiverIds = new ArrayList<Integer>();
+        readerIds = new ArrayList<Integer>();
     }
 
     /**
@@ -43,7 +45,20 @@ public class Notification implements IData {
         if (unitId == null || unitId < 0){
             throw new InvalidArgumentValueException();
         }
-        this.unitIds.add(unitId);
+        this.receiverIds.add(unitId);
+        return this;
+    }
+
+    /**
+     * Add an organisational unit to the reader list, marking that they have read the message
+     * @param unitId The ID of the organisational unit reading the message
+     * @return The current instance for building
+     */
+    public Notification addReaderUnit(Integer unitId) throws InvalidArgumentValueException {
+        if (unitId == null || unitId < 0){
+            throw new InvalidArgumentValueException();
+        }
+        this.readerIds.add(unitId);
         return this;
     }
 
@@ -68,10 +83,19 @@ public class Notification implements IData {
     /**
      * Checks if an organisational unit is in the notification's receiver list
      * @param unitId The ID of the organisational unit to check
-     * @return true of the organisational unit is in the receiver list, false otherwise
+     * @return true if the organisational unit is in the receiver list, false otherwise
      */
-    public boolean containsUnit(Integer unitId) {
-        return unitIds.contains(unitId);
+    public boolean containsReceiver(Integer unitId) {
+        return receiverIds.contains(unitId);
+    }
+
+    /**
+     * Checks if an organisational unit has read the notification
+     * @param unitId The ID of the organisational unit to check
+     * @return true if the organisational unit has read the notification, false otherwise
+     */
+    public boolean containsReader(Integer unitId) {
+        return readerIds.contains(unitId);
     }
 
     /**
@@ -80,7 +104,19 @@ public class Notification implements IData {
      */
     public String getReceivers(){
         String receivers = "";
-        for (Integer unitId : unitIds){
+        for (Integer unitId : receiverIds){
+            receivers += unitId + ",";
+        }
+        return receivers;
+    }
+
+    /**
+     * Gets a list of readers for the notification as a string.
+     * @return The string containing a list of receiver, separated by commas (",")
+     */
+    public String getReaders(){
+        String receivers = "";
+        for (Integer unitId : readerIds){
             receivers += unitId + ",";
         }
         return receivers;
@@ -99,11 +135,11 @@ public class Notification implements IData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Notification that = (Notification) o;
-        return Objects.equals(notificationId, that.notificationId) && Objects.equals(unitIds, that.unitIds) && Objects.equals(message, that.message);
+        return Objects.equals(notificationId, that.notificationId) && Objects.equals(receiverIds, that.receiverIds) && Objects.equals(message, that.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(notificationId, unitIds, message);
+        return Objects.hash(notificationId, receiverIds, message);
     }
 }

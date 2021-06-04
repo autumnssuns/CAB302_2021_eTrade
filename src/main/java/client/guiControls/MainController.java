@@ -63,7 +63,7 @@ public class MainController {
      * @param action
      * @param attachment
      */
-    public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType) {
+    public <T extends IData,E extends IData> Response sendRequest(String action, T attachment, Class<E> attachmentType) {
         Request request = new Request(getUser(), action, attachment);
         request.setAttachmentType(attachmentType);
         Response response = new Response(false, null);

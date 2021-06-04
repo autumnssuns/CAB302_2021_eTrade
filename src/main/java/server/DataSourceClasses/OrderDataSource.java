@@ -47,6 +47,7 @@ public class OrderDataSource extends DataSource {
                     UPDATE orders
                     SET order_type=?, organisation_id=?, asset_id=?, placed_quantity=?, resolved_quantity=?, price=?, order_date=?, finished_date=?, status=?
                     WHERE order_id=?""";
+    protected static final String GET_MAX_ID = "SELECT order_id from orders";
 
     //Prepare statements.
     private PreparedStatement addOrder;
@@ -57,11 +58,11 @@ public class OrderDataSource extends DataSource {
     private PreparedStatement getAllOrder;
     static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 
-
     /**
      * Connect to the database and create one if not exists
      */
     public OrderDataSource() {
+        super();
         connection = DBConnection.getInstance();
         try {
             Statement st = connection.createStatement();
@@ -72,6 +73,7 @@ public class OrderDataSource extends DataSource {
             editOrder = connection.prepareStatement(EDIT_ORDER);
             getAllOrder = connection.prepareStatement(GET_ALL_ORDER);
             deleteAllOrders = connection.prepareStatement(DELETE_ALL_ORDERS);
+            getMaxId = connection.prepareStatement(GET_MAX_ID);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -90,8 +92,10 @@ public class OrderDataSource extends DataSource {
 //                addOrder.setInt(1, idSize);
 //            }
 //            else{
-                addOrder.setInt(1, order.getOrderId());
+
 //            }
+            int newOrderInt = order.getOrderId() == null ? getNextId() : order.getOrderId();
+            addOrder.setInt(1, newOrderInt);
             addOrder.setString(2, order.getOrderType().name());
             addOrder.setFloat(3, order.getUnitId());
             addOrder.setInt(4, order.getAssetId());

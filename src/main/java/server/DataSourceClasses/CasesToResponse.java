@@ -8,7 +8,6 @@ import common.dataClasses.*;
 import java.time.LocalDateTime;
 
 public class CasesToResponse  {
-
     public static void initiate() throws InvalidArgumentValueException {
         try {
             add(new User(0, "Admin", "admin", "root", "admin", null).hashPassword());
@@ -205,6 +204,7 @@ public class CasesToResponse  {
 
     public static Response<IData> add(Order attachment) throws InvalidArgumentValueException {
         OrderDataSource orderDataSource = new OrderDataSource();
+        attachment.setOrderId(orderDataSource.getNextId());
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         //If SELLER: check if the asset quantity is enough.
         if(attachment.getOrderType() == Order.Type.SELL)
@@ -275,6 +275,9 @@ public class CasesToResponse  {
         else if (type.equals(Stock.class)){
             return edit((Stock) attachment);
         }
+        else if (type.equals(Notification.class)){
+            return edit((DataCollection<Notification>) attachment, request.getUser());
+        }
         return null;
     }
     //UserGUI Type
@@ -316,6 +319,20 @@ public class CasesToResponse  {
         OrderDataSource orderDataSource = new OrderDataSource();
         orderDataSource.editOrder(attachment);
         return new Response<>(true, attachment);
+    }
+
+    /**
+     * Edit multiple notifications in the database
+     * @param notifications The overriding notification
+     * @return The response containing the state if the request was fulfilled, as well as an attachment (after change)
+     */
+    public static Response edit(DataCollection<Notification> notifications, User sender){
+        NotificationDataSource notificationDataSource = new NotificationDataSource();
+        for (Notification notification : notifications){
+            notificationDataSource.edit(notification);
+        }
+        DataCollection<Notification> returningNotifications = notificationDataSource.getFromUnitId(sender.getUnitId());
+        return new Response<>(true, returningNotifications);
     }
 
     //Todo: implement this to use in database.
@@ -440,6 +457,17 @@ public class CasesToResponse  {
         UserDataSource userDataSource = new UserDataSource();
         DataCollection<User> attachment = userDataSource.getUserList();
         return new Response<>(true, attachment);
+    }
+
+    /**
+     * Creates a response for a request querying the notifications for a unit
+     * @return A response containing the notifications for an organisational unit
+     */
+    public static Response<DataCollection<Notification>> queryNotifications(Request request){
+        Integer unitId = request.getUser().getUnitId();
+        NotificationDataSource notificationDataSource = new NotificationDataSource();
+        DataCollection<Notification> attachment = notificationDataSource.getFromUnitId(unitId);
+        return new Response(true, attachment);
     }
 
     //Todo: Overload Delete method
@@ -621,8 +649,40 @@ public class CasesToResponse  {
                 }
             }
 
+            // Push the notifications to the associated organisational units
+            // based off the orders
+            pushNotification(order);
+            pushNotification(matchOrder);
+
             // make another attempt to reconcile
             reconcileOrder(order);
+        }
+    }
+
+    /**
+     * Pushes a notification for an organisational unit,
+     * based on the order triggering the notification
+     */
+    private static void pushNotification(Order order){
+        // Link the order with an asset
+        NotificationDataSource notificationDataSource = new NotificationDataSource();
+        AssetsDataSource assetsDataSource = new AssetsDataSource();
+        Asset linkedAsset = assetsDataSource.getAsset(order.getAssetId());
+        // Only push when the order is reconciled
+        if (order.getStatus().equals(Order.Status.COMPLETED)){
+            String message = "Your order #" + order.getOrderId()
+                    + " to " + order.getOrderType()
+                    + " " + order.getPlacedQuantity()
+                    + " " + linkedAsset.getName()
+                    + " has been resolved.";
+            try {
+                Notification notification = new Notification()
+                        .setMessage(message)
+                        .addReceiverUnit(order.getUnitId());
+                notificationDataSource.add(notification);
+            } catch (InvalidArgumentValueException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
