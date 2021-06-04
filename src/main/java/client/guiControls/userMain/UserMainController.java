@@ -68,6 +68,7 @@ public class UserMainController extends MainController {
             } catch (IOException | InvalidArgumentValueException e) {
                 e.printStackTrace();
             }
+            startBackgroundThread();
         });
     }
 
@@ -227,6 +228,7 @@ public class UserMainController extends MainController {
     /**
      * Updates the view of the main page
      */
+    @Override
     public void update() throws InvalidArgumentValueException {
         fetchDatabase();
         pushNotifications();
@@ -234,6 +236,11 @@ public class UserMainController extends MainController {
         organisationalUnitLabel.setText(unit.getName());
         userLabel.setText(getUser().getFullName());
         creditLabel.setText("Balance: $" + unit.getBalance());
+        profileController.update();
+        homeController.update();
+        saleController.update();
+        buyController.update();
+        ordersController.update();
     }
 
     /**
