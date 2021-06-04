@@ -1,11 +1,8 @@
 package client.guiControls.login;
 
 import client.data.IServerConnection;
-import client.data.MockServerConnection;
 import client.data.ServerConnection;
 import client.guiControls.MainController;
-import common.Exceptions.InvalidArgumentValueException;
-import common.Request;
 import common.Response;
 import common.dataClasses.User;
 import javafx.application.Platform;
@@ -94,11 +91,11 @@ public class LoginController extends MainController {
         String resourcePath = "";
         switch(this.getUser().getAccountType()){
             case "user":
-                resourcePath = "UserMain.fxml";
+                resourcePath = "UserGUI/UserMain.fxml";
                 break;
 
             case "admin":
-                resourcePath = "AdminMain.fxml";
+                resourcePath = "AdminGUI/AdminMain.fxml";
         }
 
         // Gets the loader

@@ -115,7 +115,7 @@ public class UserDataSource extends DataSource {
     /**
      * Return a user in the database
      * @param userName Name of user wanted to return
-     * @return all details of an User object
+     * @return all details of an UserGUI object
      */
     public User getUser(String userName) {
         //Create a dummy to store all information then return the dummy later
@@ -143,7 +143,7 @@ public class UserDataSource extends DataSource {
         return dummy;
     }
 
-    //Todo: Get User list method
+    //Todo: Get UserGUI list method
     public DataCollection<User> getUserList(){
         DataCollection<User> users = new DataCollection<>();
         try {

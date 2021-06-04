@@ -1,4 +1,4 @@
-package server.DataSourcesTest;
+package server.DataSourceClasses;
 
 import common.dataClasses.OrganisationalUnit;
 import org.junit.jupiter.api.*;

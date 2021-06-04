@@ -2,9 +2,11 @@ package client.guiControls.userMain;
 
 import client.guiControls.MainController;
 import client.guiControls.userMain.buyController.BuyController;
+import client.guiControls.userMain.homeController.HomeController;
 import client.guiControls.userMain.ordersController.OrdersController;
 import client.guiControls.userMain.profileController.ProfileController;
 import client.guiControls.userMain.saleController.SaleController;
+import com.sun.javafx.menu.MenuItemBase;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
 import common.dataClasses.*;
@@ -22,29 +24,32 @@ import java.io.IOException;
 
 public class UserMainController extends MainController {
     // Display controllers
+    private HomeController homeController;
     private SaleController saleController;
     private BuyController buyController;
     private OrdersController ordersController;
     private ProfileController profileController;
 
     //Reusable elements that can be updated
-    Label cartTotalLabel;
-    Pane sellPane;
-    Pane buyPane;
-    Pane ordersPane;
-    Pane profilePane;
+    private Pane homePane;
+    private Pane sellPane;
+    private Pane buyPane;
+    private Pane ordersPane;
+    private Pane profilePane;
 
     //Preset components
-    @FXML StackPane displayStack;
-    @FXML Pane filterPane;
-    @FXML Button marketButton;
-    @FXML Button ordersButton;
-    @FXML Button homeButton;
-    @FXML Button profileButton;
-    @FXML AnchorPane anchorPane;
-    @FXML Label userLabel;
-    @FXML Label creditLabel;
-    @FXML Label organisationalUnitLabel;
+    @FXML private StackPane displayStack;
+    @FXML private Pane filterPane;
+    @FXML private Button homePageButton;
+    @FXML private Button buyPageButton;
+    @FXML private Button historyButton;
+    @FXML private Button sellPageButton;
+    @FXML private Button profileButton;
+    @FXML private AnchorPane anchorPane;
+    @FXML private Label userLabel;
+    @FXML private Label creditLabel;
+    @FXML private Label organisationalUnitLabel;
+    @FXML private Button notificationButton;
 
     @FXML
     public void initialize() throws IOException {
@@ -65,86 +70,110 @@ public class UserMainController extends MainController {
     private void setupController() throws IOException, InvalidArgumentValueException {
         fetchDatabase();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("SellPage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UserGUI/HomePage.fxml"));
+        homePane = fxmlLoader.load();
+        homeController = fxmlLoader.getController();
+        homeController.setController(this);
+        homeController.update();
+
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UserGUI/SellPage.fxml"));
         sellPane = fxmlLoader.load();
         saleController = fxmlLoader.getController();
         saleController.setController(this);
         saleController.update();
 
-        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("BuyPage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UserGUI/BuyPage.fxml"));
         buyPane = fxmlLoader.load();
         buyController = fxmlLoader.getController();
         buyController.setController(this);
         buyController.update();
 
-        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("OrdersPage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UserGUI/OrdersPage.fxml"));
         ordersPane = fxmlLoader.load();
         ordersController = fxmlLoader.getController();
         ordersController.setController(this);
         ordersController.update();
 
-        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("ProfilePage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UserGUI/ProfilePage.fxml"));
         profilePane = fxmlLoader.load();
         profileController = fxmlLoader.getController();
         profileController.setController(this);
         profileController.update();
 
         update();
-        displayStack.getChildren().addAll(sellPane, buyPane, ordersPane, profilePane);
-        toHome();
+        displayStack.getChildren().addAll(homePane, sellPane, buyPane, ordersPane, profilePane);
+        switchToSellPage();
     }
 
     //Pane switching methods
 
     /**
+     * Switches the display to the ORDERS tab.
+     * @throws IOException
+     */
+    public void switchToHomePage() throws InvalidArgumentValueException {
+        homeController.update();
+        homePane.toFront();
+        homePageButton.setDisable(true);
+        sellPageButton.setDisable(false);
+        buyPageButton.setDisable(false);
+        historyButton.setDisable(false);
+        profileButton.setDisable(false);
+    }
+
+    /**
      * Switches the display to the SELL tab.
      * @throws IOException
      */
-    public void toHome() throws IOException {
+    public void switchToSellPage() throws IOException {
         saleController.update();
         sellPane.toFront();
-        homeButton.setDisable(true);
-        marketButton.setDisable(false);
-        ordersButton.setDisable(false);
-        profilePane.setDisable(false);
+        homePageButton.setDisable(false);
+        sellPageButton.setDisable(true);
+        buyPageButton.setDisable(false);
+        historyButton.setDisable(false);
+        profileButton.setDisable(false);
     }
 
     /**
      * Switches the display to the BUY tab.
      * @throws IOException
      */
-    public void toMarket() throws InvalidArgumentValueException {
+    public void switchToBuyPage() throws InvalidArgumentValueException {
         buyController.update();
         buyPane.toFront();
-        homeButton.setDisable(false);
-        marketButton.setDisable(true);
-        ordersButton.setDisable(false);
-        profilePane.setDisable(false);
+        homePageButton.setDisable(false);
+        sellPageButton.setDisable(false);
+        buyPageButton.setDisable(true);
+        historyButton.setDisable(false);
+        profileButton.setDisable(false);
     }
 
     /**
      * Switches the display to the ORDERS tab.
      * @throws IOException
      */
-    public void toOrders() throws InvalidArgumentValueException {
+    public void switchToHistoryPage() throws InvalidArgumentValueException {
         ordersController.update();
         ordersPane.toFront();
-        homeButton.setDisable(false);
-        marketButton.setDisable(false);
-        ordersButton.setDisable(true);
-        profilePane.setDisable(false);
+        homePageButton.setDisable(false);
+        sellPageButton.setDisable(false);
+        buyPageButton.setDisable(false);
+        historyButton.setDisable(true);
+        profileButton.setDisable(false);
     }
 
     /**
      * Switches the display to the ORDERS tab.
      * @throws IOException
      */
-    public void toProfile() throws InvalidArgumentValueException {
+    public void switchToProfilePage() throws InvalidArgumentValueException {
         profileController.update();
         profilePane.toFront();
-        homeButton.setDisable(false);
-        marketButton.setDisable(false);
-        ordersButton.setDisable(false);
+        homePageButton.setDisable(false);
+        sellPageButton.setDisable(false);
+        buyPageButton.setDisable(false);
+        historyButton.setDisable(false);
         profileButton.setDisable(true);
     }
 
@@ -169,6 +198,7 @@ public class UserMainController extends MainController {
         localDatabase = new UserLocalDatabase(organisationalUnit, stock, orders, assets);
     }
 
+
     @Override
     public UserLocalDatabase getDatabase(){
         return (UserLocalDatabase) localDatabase;
@@ -185,7 +215,7 @@ public class UserMainController extends MainController {
     }
 
     /**
-     * Updates the view
+     * Updates the view of the main page
      */
     public void update() throws InvalidArgumentValueException {
         fetchDatabase();
@@ -193,5 +223,22 @@ public class UserMainController extends MainController {
         organisationalUnitLabel.setText(unit.getName());
         userLabel.setText(getUser().getFullName());
         creditLabel.setText("Balance: $" + unit.getBalance());
+    }
+
+    /**
+     * Show the notification panel
+     */
+    public void showNotifications(){
+        System.out.println("Showing notification");
+        filterPane.setVisible(true);
+        notificationButton.setOnAction(e -> hideNotifications());
+    }
+
+    /**
+     * Hide the notification panel
+     */
+    public void hideNotifications() {
+        filterPane.setVisible(false);
+        notificationButton.setOnAction(e -> showNotifications());
     }
 }

@@ -79,11 +79,13 @@ public class CasesToResponse  {
      * @return
      */
     public static Response cleanDatabase(){
+        NotificationDataSource notificationData = new NotificationDataSource();
         AssetsDataSource assetData = new AssetsDataSource();
         UserDataSource userData = new UserDataSource();
         OrderDataSource orderData = new OrderDataSource();
         StockDataSource stockData = new StockDataSource();
         OrganisationsDataSource organisationalUnitData = new OrganisationsDataSource();
+        notificationData.deleteAll();
         stockData.deleteAll();
         orderData.deleteAllOrders();
         userData.deleteAll();
@@ -113,7 +115,7 @@ public class CasesToResponse  {
     }
     //ServerMain type of methods to response to request
     // (each type contains classes: Asset, Organisation, Order,
-    // stock, transaction(considering) and User)
+    // stock, transaction(considering) and UserGUI)
 
     //Todo: Overload Add method
     public static <T extends IData> Response add(Request<T> request) throws InvalidArgumentValueException {
@@ -137,7 +139,7 @@ public class CasesToResponse  {
         return null;
     }
 
-    //User type
+    //UserGUI type
     public static Response add(User attachment){
         UserDataSource userDataSource = new UserDataSource();
         userDataSource.addUser(attachment);
@@ -282,7 +284,7 @@ public class CasesToResponse  {
         }
         return null;
     }
-    //User Type
+    //UserGUI Type
     public static Response edit(User attachment){
         UserDataSource userDataSource = new UserDataSource();
         userDataSource.editUser(attachment);
@@ -381,7 +383,7 @@ public class CasesToResponse  {
         return null;
 
     }
-    //User Type
+    //UserGUI Type
     public static Response query(User attachment){
         UserDataSource userDataSource = new UserDataSource();
         attachment = userDataSource.getUser(attachment.getUsername());
@@ -480,7 +482,7 @@ public class CasesToResponse  {
 
         return null;
     }
-    //User Type
+    //UserGUI Type
     public static Response delete(User attachment){
         UserDataSource userDataSource = new UserDataSource();
         userDataSource.deleteUser(attachment.getUserId());

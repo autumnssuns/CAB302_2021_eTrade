@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * The main controller acts as the local storage of data, containing the current User and is able to connect to a server
+ * The main controller acts as the local storage of data, containing the current UserGUI and is able to connect to a server
  * connection class.
  * // TODO: Needs redesign & refactor & documentation.
  */
@@ -140,8 +140,8 @@ public class MainController {
     public <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException {}
 
     /**
-     * Returns the local database for the admin.
-     * @return The local database for the admin.
+     * Returns the local database for the current user.
+     * @return The local database for the current user.
      */
     public ILocalDatabase getDatabase(){
         return localDatabase;

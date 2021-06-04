@@ -9,7 +9,6 @@ import common.dataClasses.User;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -207,7 +206,7 @@ class ServerTest {
 
             @Test
             void userCreationTest() {
-                User newUser = new User(0, "New User", "newuser", "012345", "user", 0);
+                User newUser = new User(0, "New UserGUI", "newuser", "012345", "user", 0);
 
                 request = new Request<>(admin, "add", newUser);
                 request.setAttachmentType(User.class);
@@ -274,7 +273,7 @@ class ServerTest {
             @RepeatedTest(5)
              void userUpdatingTest(RepetitionInfo repetitionInfo){
                 User overrideUser = new User(repetitionInfo.getCurrentRepetition() - 1,
-                        "User " + (repetitionInfo.getCurrentRepetition() - 1),
+                        "UserGUI " + (repetitionInfo.getCurrentRepetition() - 1),
                         "user" + (repetitionInfo.getCurrentRepetition() - 1),
                         "p@ssw" + (repetitionInfo.getCurrentRepetition() - 1) + "rd",
                         "user",
