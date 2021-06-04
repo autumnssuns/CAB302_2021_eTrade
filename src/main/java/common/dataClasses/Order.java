@@ -131,10 +131,10 @@ public class Order implements IData {
      * set the order id to given Int
      * @param order_id
      */
-    public void setOrderId(Integer order_id) throws InvalidArgumentValueException {
+    public void setOrderId(Integer order_id) throws InvalidArgumentValueException{
         if(order_id < 0)
         {
-            throw new  InvalidArgumentValueException();
+            throw new InvalidArgumentValueException();
         }
         this.orderId = order_id;
     }
@@ -157,7 +157,8 @@ public class Order implements IData {
      * Set new asset ID
      * @param asset_id
      */
-    public void setAssetID(Integer asset_id) { this.assetId = asset_id;
+    public void setAssetID(Integer asset_id) {
+        this.assetId = asset_id;
     }
 
     /**

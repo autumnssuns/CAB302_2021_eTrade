@@ -1,5 +1,6 @@
 package server.DataSourceClasses;
 
+import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.DataCollection;
 import common.dataClasses.Order;
 import common.dataClasses.Order.Type;
@@ -82,8 +83,15 @@ public class OrderDataSource extends DataSource {
      */
     public void addOrder(Order order){
         try {
-            //input values into the query string above
-            addOrder.setInt(1, order.getOrderId());
+//            int idSize = getOrderList().size();
+//            //input values into the query string above
+//            if(order.getOrderId() == null) {
+//                order.setOrderId(idSize);
+//                addOrder.setInt(1, idSize);
+//            }
+//            else{
+                addOrder.setInt(1, order.getOrderId());
+//            }
             addOrder.setString(2, order.getOrderType().name());
             addOrder.setFloat(3, order.getUnitId());
             addOrder.setInt(4, order.getAssetId());
@@ -229,6 +237,7 @@ public class OrderDataSource extends DataSource {
                 editOrder.setString(8, orderNewInfo.getFinishDate().format(formatter));
             }
             editOrder.setString(9, orderNewInfo.getStatus().name());
+
             editOrder.setInt(10, orderNewInfo.getOrderId());
             editOrder.executeUpdate();
 
