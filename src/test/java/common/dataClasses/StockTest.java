@@ -26,18 +26,6 @@ class StockTest {
     }
 
     @Test
-    void setAndGetAssetId() {
-        stock0.setAssetId(99);
-        assertEquals(99, stock0.getAssetId());
-    }
-
-    @Test
-    void setAndGetAssetQuantity() {
-        stock0.setAssetQuantity(100);
-        assertEquals(100, stock0.getAssetQuantity());
-    }
-
-    @Test
     void add() throws InvalidArgumentValueException {
         assertTrue(stock0.add(new Item(asset0, 100)));
     }

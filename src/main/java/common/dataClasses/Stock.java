@@ -10,24 +10,6 @@ import java.util.Objects;
  */
 public class Stock extends ArrayList<Item> implements IData{
     private Integer unitId;
-    private int assetId;
-    private int assetQuantity;
-
-    public int getAssetId() {
-        return assetId;
-    }
-
-    public void setAssetId(int assetId) {
-        this.assetId = assetId;
-    }
-
-    public int getAssetQuantity() {
-        return assetQuantity;
-    }
-
-    public void setAssetQuantity(int assetQuantity) {
-        this.assetQuantity = assetQuantity;
-    }
 
     /**
      * Initiates the stock by declaring the organisational unit owning it.

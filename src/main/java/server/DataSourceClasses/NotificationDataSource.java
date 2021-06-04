@@ -1,31 +1,30 @@
 package server.DataSourceClasses;
 
 import common.Exceptions.InvalidArgumentValueException;
-import common.dataClasses.Asset;
 import common.dataClasses.DataCollection;
 import common.dataClasses.Notification;
 import server.DBConnection;
-
-import javax.xml.transform.Result;
 import java.sql.*;
 
 public class NotificationDataSource extends DataSource{
     //Setting up the environment.
     //SQL queries.
     private static final String CREATE_TABLE =
-            "CREATE TABLE IF NOT EXISTS notifications (\n" +
-                    "    notification_id        INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                    "    unit_ids               VARCHAR (256) DEFAULT '',\n" +
-                    "    message                VARCHAR (256) DEFAULT ''\n" +
-                    ");";
+            """
+                    CREATE TABLE IF NOT EXISTS notifications (
+                        notification_id        INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                        unit_ids               VARCHAR (256) DEFAULT '',
+                        message                VARCHAR (256) DEFAULT ''
+                    );""";
     private static final String ADD_NOTIFICATION = "INSERT INTO notifications (notification_id, unit_ids, message) \nVALUES (?, ?, ?);";
     private static final String DELETE_NOTIFICATION = "DELETE FROM notifications WHERE notification_id=?";
     private static final String DELETE_ALL_NOTIFICATION = "DELETE FROM notifications";
     private static final String GET_NOTIFICATION = "SELECT * FROM notifications WHERE notification_id=?";
     private static final String GET_ALL_NOTIFICATION = "SELECT * FROM notifications";
-    private static final String UPDATE_NOTIFICATION = "UPDATE notifications \n"
-                                                    + "SET unit_ids=?, message=?\n"
-                                                    + "WHERE notification_id=?";
+    private static final String UPDATE_NOTIFICATION = """
+            UPDATE notifications\s
+            SET unit_ids=?, message=?
+            WHERE notification_id=?""";
     private static final String GET_MAX_ID = "SELECT notification_id FROM notifications";
 
     //Prepare statements.

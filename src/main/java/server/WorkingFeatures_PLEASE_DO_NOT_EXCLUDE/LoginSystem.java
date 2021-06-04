@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.sql.*;
 
+//OLD LOGIN SYSTEM NO LONGER USER (ONLY FOR REFERENCE)
 
 public class LoginSystem {
 

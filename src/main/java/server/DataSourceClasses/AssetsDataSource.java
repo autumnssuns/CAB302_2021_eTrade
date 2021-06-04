@@ -13,20 +13,22 @@ public class AssetsDataSource extends DataSource {
     //Setting up the environment.
     //SQL queries.
     private static final String CREATE_TABLE =
-            "CREATE TABLE IF NOT EXISTS assets (\n" +
-                    "    asset_id          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                    "    asset_name        VARCHAR (16)  NOT NULL,\n" +
-                    "    asset_description VARCHAR (256) DEFAULT NULL\n" +
-                    ");";
+            """
+                    CREATE TABLE IF NOT EXISTS assets (
+                        asset_id          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                        asset_name        VARCHAR (16)  NOT NULL,
+                        asset_description VARCHAR (256) DEFAULT NULL
+                    );""";
     private static final String ADD_ASSET = "INSERT INTO assets (asset_id, asset_name, asset_description) \nVALUES (?, ?, ?);";
     private static final String DELETE_ASSET = "DELETE FROM assets WHERE asset_id=?";
     private static final String DELETE_ALL_ASSET = "DELETE FROM assets";
     private static final String GET_ASSET = "SELECT * FROM assets WHERE asset_id=?";
     private static final String GET_ALL_ASSET = "SELECT * FROM assets";
     private static final String EDIT_ASSET =
-            "UPDATE assets\n" +
-                    "SET asset_name=?, asset_description=?\n" +
-                    "WHERE asset_id=?";
+            """
+                    UPDATE assets
+                    SET asset_name=?, asset_description=?
+                    WHERE asset_id=?""";
 
     //Prepare statements.
     private PreparedStatement addAsset;
