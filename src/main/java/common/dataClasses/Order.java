@@ -132,7 +132,7 @@ public class Order implements IData {
      * @param order_id
      */
     public void setOrderId(Integer order_id) throws InvalidArgumentValueException{
-        if(order_id < 0)
+        if(order_id != null && order_id < 0)
         {
             throw new InvalidArgumentValueException();
         }
@@ -226,7 +226,6 @@ public class Order implements IData {
                 && resolvedQuantity == order.resolvedQuantity
                 && Float.compare(order.price, price) == 0
                 && orderType == order.orderType
-                && Objects.equals(finishDate, order.finishDate)
                 && Objects.equals(orderDate, order.orderDate)
                 && status == order.status;
     }
@@ -237,7 +236,7 @@ public class Order implements IData {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, orderType, unitId, assetId, placedQuantity, resolvedQuantity, price, finishDate, orderDate, status);
+        return Objects.hash(orderId, orderType, unitId, assetId, placedQuantity, resolvedQuantity, price, orderDate, status);
     }
 
     /**

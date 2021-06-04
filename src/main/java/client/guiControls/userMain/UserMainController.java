@@ -3,10 +3,10 @@ package client.guiControls.userMain;
 import client.guiControls.MainController;
 import client.guiControls.userMain.buyController.BuyController;
 import client.guiControls.userMain.homeController.HomeController;
+import client.guiControls.userMain.notificationController.NotificationFactory;
 import client.guiControls.userMain.ordersController.OrdersController;
 import client.guiControls.userMain.profileController.ProfileController;
 import client.guiControls.userMain.saleController.SaleController;
-import com.sun.javafx.menu.MenuItemBase;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
 import common.dataClasses.*;
@@ -15,9 +15,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
+import java.util.Collections;
 
 //TODO: Refactor magic numbers & Node creation
 //TODO: Commenting & Documenting
@@ -39,7 +41,7 @@ public class UserMainController extends MainController {
 
     //Preset components
     @FXML private StackPane displayStack;
-    @FXML private Pane filterPane;
+    @FXML private ScrollPane notificationPane;
     @FXML private Button homePageButton;
     @FXML private Button buyPageButton;
     @FXML private Button historyButton;
@@ -50,7 +52,13 @@ public class UserMainController extends MainController {
     @FXML private Label creditLabel;
     @FXML private Label organisationalUnitLabel;
     @FXML private Button notificationButton;
+    @FXML private VBox notificationBox;
+    @FXML private Label notificationNumberLabel;
 
+    /**
+     * Initialise the controller
+     * @throws IOException
+     */
     @FXML
     public void initialize() throws IOException {
         // Run later to wait for non-GUI thread to finish before loading GUI thread
@@ -123,9 +131,8 @@ public class UserMainController extends MainController {
 
     /**
      * Switches the display to the SELL tab.
-     * @throws IOException
      */
-    public void switchToSellPage() throws IOException {
+    public void switchToSellPage() {
         saleController.update();
         sellPane.toFront();
         homePageButton.setDisable(false);
@@ -181,7 +188,7 @@ public class UserMainController extends MainController {
      * Fetch the database from server.
      */
     @Override
-    public void fetchDatabase() throws InvalidArgumentValueException {
+    public void fetchDatabase() {
         Response response = this.sendRequest("query organisational unit");
         OrganisationalUnit organisationalUnit = (OrganisationalUnit) response.getAttachment();
         System.out.println(organisationalUnit.getId() +" "+ organisationalUnit.getName() + " " + getDatabase());
@@ -195,7 +202,10 @@ public class UserMainController extends MainController {
         response = this.sendRequest("query assets");
         DataCollection<Asset> assets = (DataCollection) response.getAttachment();
 
-        localDatabase = new UserLocalDatabase(organisationalUnit, stock, orders, assets);
+        response = this.sendRequest("query notifications");
+        DataCollection<Notification> notifications = (DataCollection) response.getAttachment();
+
+        localDatabase = new UserLocalDatabase(organisationalUnit, stock, orders, assets, notifications);
     }
 
 
@@ -219,6 +229,7 @@ public class UserMainController extends MainController {
      */
     public void update() throws InvalidArgumentValueException {
         fetchDatabase();
+        pushNotifications();
         OrganisationalUnit unit = ((UserLocalDatabase) localDatabase).getOrganisationalUnit();
         organisationalUnitLabel.setText(unit.getName());
         userLabel.setText(getUser().getFullName());
@@ -226,11 +237,23 @@ public class UserMainController extends MainController {
     }
 
     /**
-     * Show the notification panel
+     * Show the notification panel. Also marks the current unit as having read the message.
      */
-    public void showNotifications(){
+    public void showNotifications() throws InvalidArgumentValueException {
         System.out.println("Showing notification");
-        filterPane.setVisible(true);
+        notificationPane.setVisible(true);
+        DataCollection<Notification> notifications = ((UserLocalDatabase) localDatabase).getNotifications();
+        DataCollection<Notification> overridingNotifications = new DataCollection<>();
+        Integer unitId = getUser().getUnitId();
+        // Loops through the notifications, if the current unit is not already a reader, add it
+        for (Notification notification : notifications){
+            if (!notification.containsReader(unitId)){
+                notification.addReaderUnit(unitId);
+                overridingNotifications.add(notification);
+            }
+        }
+
+        sendRequest("edit", overridingNotifications, Notification.class);
         notificationButton.setOnAction(e -> hideNotifications());
     }
 
@@ -238,7 +261,38 @@ public class UserMainController extends MainController {
      * Hide the notification panel
      */
     public void hideNotifications() {
-        filterPane.setVisible(false);
-        notificationButton.setOnAction(e -> showNotifications());
+        notificationPane.setVisible(false);
+        notificationButton.setOnAction(e -> {
+            try {
+                showNotifications();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
+        try {
+            update();
+        } catch (InvalidArgumentValueException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Pushes the notifications to the notification box, awaiting
+     * to be shown
+     */
+    private void pushNotifications(){
+        DataCollection<Notification> notifications = ((UserLocalDatabase) localDatabase).getNotifications();
+        notificationBox.getChildren().clear();
+        int unreadCount = 0;
+        boolean hasRead;
+        for (int i = 0; i < notifications.size(); i++){
+            Notification notification = notifications.get(notifications.size() - i - 1);
+            hasRead = notification.containsReader(getUser().getUnitId());
+            if (!hasRead){
+                unreadCount++;
+            }
+            this.notificationBox.getChildren().add(NotificationFactory.createNotification(notification, hasRead));
+        }
+        notificationNumberLabel.setText(String.valueOf(unreadCount));
     }
 }
