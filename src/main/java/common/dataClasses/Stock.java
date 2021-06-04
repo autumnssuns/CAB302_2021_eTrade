@@ -46,7 +46,7 @@ public class Stock extends ArrayList<Item> implements IData{
         // Checks if the item has already exist. If yes, add the new item on top.
         for(int i = 0; i < this.size(); i++){
             Item currentItem = this.get(i);
-            if (currentItem.getName() == newItem.getName()){
+            if (currentItem.getId().equals(newItem.getId())){
                 try {
                     this.get(i).add(newItem.getQuantity());
                 } catch (InvalidArgumentValueException e) {

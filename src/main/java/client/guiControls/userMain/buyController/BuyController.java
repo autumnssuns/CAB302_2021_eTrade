@@ -124,7 +124,7 @@ public class BuyController extends DisplayController {
     public void checkOut() throws InvalidArgumentValueException {
         int unitId = ((UserLocalDatabase)controller.getDatabase()).getOrganisationalUnit().getId();
         for (CartItem cartItem : buyCart){
-            Order newOrder = new Order(-1, Order.Type.BUY, unitId, cartItem.getId(), cartItem.getQuantity(), 0, cartItem.getPrice(),
+            Order newOrder = new Order(null, Order.Type.BUY, unitId, cartItem.getId(), cartItem.getQuantity(), 0, cartItem.getPrice(),
                     null, LocalDateTime.now(), Order.Status.PENDING);
             controller.sendRequest("add", newOrder, Order.class);
         }

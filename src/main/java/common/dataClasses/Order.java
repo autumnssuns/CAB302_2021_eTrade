@@ -131,11 +131,7 @@ public class Order implements IData {
      * set the order id to given Int
      * @param order_id
      */
-    public void setOrderId(Integer order_id) throws InvalidArgumentValueException {
-        if(order_id < 0)
-        {
-            throw new  InvalidArgumentValueException();
-        }
+    public void setOrderId(Integer order_id){
         this.orderId = order_id;
     }
 
