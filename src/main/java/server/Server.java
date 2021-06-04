@@ -207,11 +207,6 @@ public final class Server implements IServer{
                 serverResponse = CasesToResponse.delete(clientRequest);
                 break;
 
-                // Make sure to set Stock object's asset id and asset quantity to use this function.
-            case "add item":
-                serverResponse = CasesToResponse.addAnItem((Stock) attachment);
-                break;
-
             case "clean":
                 serverResponse = CasesToResponse.cleanDatabase();
                 break;

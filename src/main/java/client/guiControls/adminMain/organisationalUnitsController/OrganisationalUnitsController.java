@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
  */
 public class OrganisationalUnitsController extends DisplayController {
     private Stock tempStock;
+    private DataCollection<Asset> assets;
 
     @FXML
     VBox organisationalUnitsDisplayBox;
@@ -57,6 +58,9 @@ public class OrganisationalUnitsController extends DisplayController {
     public void startEditor(){
         organisationalUnitEditPane.setVisible(true);
         tempStock = new Stock(-1);  // Unassigned
+
+        filterNewAssets();
+
         confirmOrganisationalUnitButton.setOnAction(e -> {
             try {
                 confirmEditor();
@@ -79,6 +83,8 @@ public class OrganisationalUnitsController extends DisplayController {
         for (Item item : caller.getStock()){
             organisationalUnitAssetsBox.getChildren().add(new UnitAssetInfoBox(item, this));
         }
+
+        filterNewAssets();
 
         confirmOrganisationalUnitButton.setOnAction(e -> {
             try {
@@ -155,7 +161,7 @@ public class OrganisationalUnitsController extends DisplayController {
         int quantity = Integer.parseInt(newOrganisationalUnitAssetQuantityTextField.getText());
 
         DataCollection<Asset> assets = localDatabase.getAssets();
-        
+
         Asset linkedAsset = null;
         for (Asset asset : assets){
             if (asset.getName().equals(assetName)){
@@ -171,6 +177,7 @@ public class OrganisationalUnitsController extends DisplayController {
         organisationalUnitAssetsBox.getChildren().add(unitAssetInfoBox);
         newOrganisationalUnitAssetNameComboBox.valueProperty().set(null);
         newOrganisationalUnitAssetQuantityTextField.clear();
+        filterNewAssets();
     }
 
     //TODO: Gets data from database
@@ -180,13 +187,7 @@ public class OrganisationalUnitsController extends DisplayController {
         localDatabase = (AdminLocalDatabase) controller.getDatabase();
         DataCollection<OrganisationalUnit> organisationalUnits = localDatabase.getOrganisationalUnits();
         DataCollection<Stock> stocks = localDatabase.getStocks();
-        DataCollection<Asset> assets = localDatabase.getAssets();
-
-        newOrganisationalUnitAssetNameComboBox.getItems().clear();
-        for (Asset asset : assets){
-            newOrganisationalUnitAssetNameComboBox.getItems().add(asset.getName());
-            //TODO: Filter the options
-        }
+        assets = localDatabase.getAssets();
 
         String[] organisationNames = new String[organisationalUnits.size()];
         for (int i = 0; i < organisationalUnits.size(); i++){
@@ -221,5 +222,28 @@ public class OrganisationalUnitsController extends DisplayController {
         return controller.sendRequest(action, attachment, attachmentType);
     }
 
-
+    /**
+     * Filter the available selection for new assets
+     */
+    private void filterNewAssets(){
+        newOrganisationalUnitAssetNameComboBox.getItems().clear();
+        for (Asset asset : assets){
+            // Only allow addition if the unit does not already have the stock
+            boolean isAlreadyInStock = false;
+            try{
+                for (Item item : tempStock){
+                    System.out.println(item.getId());
+                    if (item.getId().equals(asset.getId())){
+                        isAlreadyInStock = true;
+                    }
+                }
+            }
+            catch(NullPointerException ignored){
+                // Ignore if the stock is empty, just add all assets.
+            }
+            if (!isAlreadyInStock){
+                newOrganisationalUnitAssetNameComboBox.getItems().add(asset.getName());
+            }
+        }
+    }
 }

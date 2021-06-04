@@ -33,34 +33,7 @@ class StockDataSourceTest {
         CasesToResponse.cleanDatabase();
     }
 
-    @Test
-    void EditItemQuantity() {
-        User testuser = new User(1, "DuyPham",
-                "new", "123", "user", 1);
-        Stock stock1 = new Stock(testuser.getUnitId());
-        //admin choice on GUI
-        int assetIdOption = 1;
-        int newQuantity = 100;
-        try {
-            Asset asset1 = new Asset(1,"Test asset 1", "Testing");
-            assetsDataSource.addAsset(asset1);
-            stock1.add(new Item(asset1, 10));
-            //input new value (but still keep the same asset id)
-            stock1.setAssetId(assetIdOption);
-            stock1.setAssetQuantity(newQuantity);
-            //update stock table with unit's stock
-            stockDataSource.updateUnitStock(stock1);
-            stockDataSource.editItemQuantity(stock1);
-            //return stock from database to check value
-            stock1 = stockDataSource.getStock(testuser.getUnitId());
-            //checking
-            assertEquals(1, stock1.get(0).getId());
-            assertEquals(100 ,stock1.get(0).getQuantity());
-        } catch (InvalidArgumentValueException e) {
-            e.printStackTrace();
-        }
 
-    }
 
     @Test
     void updateStock_and_queryUnitStock() {
@@ -155,76 +128,6 @@ class StockDataSourceTest {
         assertEquals(stock1.get(1).getId(), stocks.get(1).get(1).getId());
         assertEquals(stock1.get(1).getQuantity(), stocks.get(1).get(1).getQuantity());
         } catch (InvalidArgumentValueException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    void deleteAnItem() {
-        User testuser = new User(1, "DuyPham",
-                "new", "123", "user", 1);
-        Stock stock1 = new Stock(testuser.getUnitId());
-        AssetsDataSource assetsDataSource = new AssetsDataSource();
-        try {
-            Asset asset1 = new Asset(1, "Test asset 1", "Testing");
-            Asset asset2 = new Asset(2, "Test Asset 2", "Testing");
-            assetsDataSource.addAsset(asset1);
-            assetsDataSource.addAsset(asset2);
-            stock1.add(new Item(asset1, 10));
-            stock1.add(new Item(asset1, 10));
-            stock1.add(new Item(asset2, 10));
-            stock1.add(new Item(asset2, 10));
-            stockDataSource.updateUnitStock(stock1);
-            //delete item with id: "1" of above stock
-            int choiceOfItem = 1;
-            stock1.setAssetId(choiceOfItem);
-            stockDataSource.deleteAnItem(stock1);
-            stock1 = stockDataSource.getStock(testuser.getUnitId());
-            assertEquals(1,stock1.size());
-            assertEquals(2,stock1.get(0).getId());
-        }
-        catch (InvalidArgumentValueException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    void AddAnItem() {
-        User testuser = new User(1, "DuyPham",
-                "new", "123", "user", 1);
-        Stock stock1 = new Stock(testuser.getUnitId());
-        try {
-            Asset asset3 = new Asset(3,"test item 3", "testing");
-            Asset asset1 = new Asset(1, "Test asset 1", "Testing");
-            Asset asset2 = new Asset(2, "Test Asset 2", "Testing");
-            assetsDataSource.addAsset(asset1);
-            assetsDataSource.addAsset(asset2);
-            assetsDataSource.addAsset(asset3);
-            stock1.add(new Item(asset1, 10));
-            stock1.add(new Item(asset1, 10));
-            stock1.add(new Item(asset2, 10));
-            stock1.add(new Item(asset2, 10));
-            stockDataSource.updateUnitStock(stock1);
-            //add item with id: "1" of above stock
-            int newItemId = 3;
-            //choice of quantity
-            int quantity = 100;
-            stock1.setAssetId(newItemId);
-            stock1.setAssetQuantity(quantity);
-            stockDataSource.addAnItem(stock1);
-            stock1 = stockDataSource.getStock(testuser.getUnitId());
-            //check size
-            assertEquals(3,stock1.size());
-            //check id
-            assertEquals(1,stock1.get(0).getId());
-            assertEquals(2,stock1.get(1).getId());
-            assertEquals(3,stock1.get(2).getId());
-            //check match quantity
-            assertEquals(20,stock1.get(0).getQuantity());
-            assertEquals(20,stock1.get(1).getQuantity());
-            assertEquals(100,stock1.get(2).getQuantity());
-        }
-        catch (InvalidArgumentValueException e) {
             e.printStackTrace();
         }
     }

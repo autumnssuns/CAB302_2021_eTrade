@@ -74,8 +74,7 @@ public class OrganisationalUnit implements IData{
      * @param balance The new balance for the organisational unit.
      */
     public void setBalance(float balance) throws InvalidArgumentValueException {
-        if(balance < 0)
-        {throw new InvalidArgumentValueException();}
+        if(balance < 0) {throw new InvalidArgumentValueException();}
         this.balance = balance;
     }
 
