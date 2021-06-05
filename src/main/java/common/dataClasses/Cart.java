@@ -21,8 +21,8 @@ public class Cart extends ArrayList<CartItem> implements IData {
     }
 
     /**
-     * Adds a new item into the cart. If the item has already existed in the cart with the same price, they are
-     * stacked up.
+     * Adds a new item into the cart. If the item has already existed in the cart
+     * with the same price, they are stacked up.
      * @param item The new item.
      * @return true if the item is added successfully, false otherwise.
      */

@@ -203,68 +203,6 @@ public final class Server implements IServer{
                 response = CasesToResponse.delete(request);
                 break;
         }
-//            case Request.ActionType.TEST:
-//                if (firstRun){
-//                    CasesToResponse.initiate();
-//                    firstRun = false;
-//                    response = new Response(true, null);
-//                }
-//                break;
-//
-//            case Request.ActionType.LOGIN:
-//                response = CasesToResponse.login(request);
-//                break;
-//
-//            case Request.ActionType.READ_ALL).setAttachmentType(Request.ObjectType.USER:
-//                response = CasesToResponse.queryUsers();
-//                break;
-//
-//            case Request.ActionType.READ_ALL).setAttachmentType(Request.ObjectType.ASSET:
-//                response = CasesToResponse.queryAssets();
-//                break;
-//
-//            case Request.ActionType.READ_ALL).setAttachmentType(Request.ObjectType.ORGANISATIONAL_UNIT:
-//                response = CasesToResponse.queryOrganisations();
-//                break;
-//
-//            case Request.ActionType.READ_ALL).setAttachmentType(Request.ObjectType.STOCK:
-//                response = CasesToResponse.queryStocks();
-//                break;
-//
-//            case Request.ActionType.READ).setAttachmentType(Request.ObjectType.ORGANISATIONAL_UNIT:
-//                OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
-//                OrganisationalUnit unit = organisationsDataSource.getOrganisation(sender.getUnitId());
-//                response = CasesToResponse.query(unit);
-//                break;
-//
-//            case Request.ActionType.READ).setAttachmentType(Request.ObjectType.STOCK:
-//                response = CasesToResponse.queryStock(sender);
-//                break;
-//
-//            case Request.ActionType.READ_ALL).setAttachmentType(Request.ObjectType.ORDER:
-//                response = CasesToResponse.queryOrders();
-//                break;
-//
-//            case Request.ActionType.READ).setAttachmentType(Request.ObjectType.NOTIFICATION:
-//                response = CasesToResponse.queryNotifications(request);
-//                break;
-//
-//            case Request.ActionType.CREATE:
-//                response = CasesToResponse.add(request);
-//                break;
-//
-//            case Request.ActionType.UPDATE:
-//                response = CasesToResponse.edit(request);
-//                break;
-//
-//            case Request.ActionType.DELETE:
-//                response = CasesToResponse.delete(request);
-//                break;
-//
-//            case Request.ActionType.CLEAN:
-//                response = CasesToResponse.cleanDatabase();
-//                break;
-//        }
         return response;
     }
 }
