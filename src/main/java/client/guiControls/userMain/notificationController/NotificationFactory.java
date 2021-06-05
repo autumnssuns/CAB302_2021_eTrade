@@ -5,7 +5,6 @@ import common.dataClasses.Notification;
 
 /**
  * A class to control the creation of GUI components displaying the notifications
- * Unlike other view controller
  */
 public class NotificationFactory {
     /**

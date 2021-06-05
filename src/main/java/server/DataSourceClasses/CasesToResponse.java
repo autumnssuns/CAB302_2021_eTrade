@@ -447,7 +447,7 @@ public class CasesToResponse  {
             case ASSET:
                 return query((Asset) attachment);
             case ORGANISATIONAL_UNIT:
-                return query((OrganisationalUnit) attachment);
+                return queryOrganisationalUnit(request.getUser());
             case ORDER:
                 return query((Order) attachment);
             case STOCK:
@@ -470,13 +470,13 @@ public class CasesToResponse  {
     }
 
     /**
-     * Query an organisation unit row
-     * @param attachment an Organisation object
+     * Query an organisation unit row based on the current user
+     * @param sender an Organisation object
      * @return a Response object
      */
-    public static Response<IData> query(OrganisationalUnit attachment){
+    public static Response<IData> queryOrganisationalUnit(User sender){
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
-        attachment = organisationsDataSource.getOrganisation(attachment.getId());
+        OrganisationalUnit attachment = organisationsDataSource.getOrganisation(sender.getUnitId());
         return new Response<>(true, attachment);
     }
 
