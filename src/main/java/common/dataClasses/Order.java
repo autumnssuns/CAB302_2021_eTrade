@@ -79,7 +79,7 @@ public class Order implements IData {
      * Record how many assets in an order have been successfully purchased
      * @param assetnumber number of the assets in the transaction
      */
-    public  void ResolvedQuantity(int assetnumber) throws Exception {
+    public void ResolvedQuantity(int assetnumber) throws Exception {
         if(assetnumber > placedQuantity + resolvedQuantity) {
             throw new Exception();
         }

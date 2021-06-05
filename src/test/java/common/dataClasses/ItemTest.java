@@ -36,11 +36,19 @@ class ItemTest {
     }
 
     @Test
-    void add() throws InvalidArgumentValueException {
+    void add() {
         item.add(10);
         assertEquals(item.getQuantity(), 10);
         item.add(5);
         assertEquals(item.getQuantity(), 15);
+    }
+
+    @Test
+    void addInvalid() {
+        item.add(10);
+        item.add(-15);
+        // Invalid addition is not executed
+        assertEquals(item.getQuantity(), 10);
     }
 
     @Test

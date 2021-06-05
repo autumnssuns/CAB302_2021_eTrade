@@ -34,23 +34,22 @@ public class Item extends Asset {
      * @param quantity The new quantity.
      */
     public void setQuantity(int quantity) throws InvalidArgumentValueException {
-        try{
-            if (quantity < 0){
-                throw new InvalidArgumentValueException();
-            }
-            this.quantity = quantity;
+        if (quantity < 0){
+            throw new InvalidArgumentValueException();
         }
-        catch (NullPointerException e){
-            throw new NullArgumentException();
-        }
+        this.quantity = quantity;
     }
 
     /**
      * Increases the quantity of the related asset in the organisational unit's stock.
      * @param amount The amount to be added.
      */
-    public void add(int amount) throws InvalidArgumentValueException {
-        setQuantity(quantity + amount);
+    public void add(int amount) {
+        try {
+            setQuantity(quantity + amount);
+        } catch (InvalidArgumentValueException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

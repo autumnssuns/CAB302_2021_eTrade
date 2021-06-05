@@ -31,6 +31,15 @@ class StockTest {
     }
 
     @Test
+    void addMultipleOfTheSame() throws InvalidArgumentValueException {
+        Item first = new Item(asset0, 100);
+        Item second = new Item(asset0, 50);
+        stock0.add(first);
+        stock0.add(second);
+        assertEquals(stock0.get(0).getQuantity(), 150);
+    }
+
+    @Test
     void testEquals() {
         Object stock1 = (Object) new Stock(1);
         Object stock00 = (Object) new Stock(0);

@@ -35,11 +35,7 @@ public class Cart extends ArrayList<CartItem> implements IData {
             CartItem currentItem = this.get(i);
             //Todo: change the condition the itemID
             if (Objects.equals(currentItem.getName(), item.getName()) && currentItem.getPrice() == item.getPrice()){
-                try {
-                    this.get(i).add(item.getQuantity());
-                } catch (InvalidArgumentValueException e) {
-                    e.printStackTrace();
-                }
+                this.get(i).add(item.getQuantity());
                 result = true;
                 break;
             }
