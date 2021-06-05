@@ -94,7 +94,6 @@ public class UsersController extends DisplayController {
      */
     @Override
     public void update() throws InvalidArgumentValueException {
-        usersDisplayBox.getChildren().clear();
         AdminLocalDatabase localDatabase = (AdminLocalDatabase) controller.getDatabase();
         DataCollection<User> users = localDatabase.getUsers();
         DataCollection<OrganisationalUnit> organisationalUnits = localDatabase.getOrganisationalUnits();
@@ -105,6 +104,7 @@ public class UsersController extends DisplayController {
                     .add(organisationalUnits.get(i).getName());
         }
 
+        usersDisplayBox.getChildren().clear();
         for (User user : users){
             addUserInfoBox(user);
         }

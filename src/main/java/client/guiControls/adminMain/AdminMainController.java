@@ -127,7 +127,7 @@ public class AdminMainController extends MainController {
     }
 
     /**
-     * Initialise the database.
+     * Update the whole local database with data from server
      */
     @Override
     public void fetchDatabase() throws InvalidArgumentValueException {
