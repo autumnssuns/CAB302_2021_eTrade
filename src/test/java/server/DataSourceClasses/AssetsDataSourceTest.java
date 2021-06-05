@@ -56,7 +56,7 @@ class AssetsDataSourceTest {
         assetsDataSource.addAsset(new Asset(3, "Ethereum", "Crypto currency"));
         assetsDataSource.addAsset(new Asset(1, "GPU 100x", "GPU cal power"));
         assetsDataSource.addAsset(new Asset(2, "GPU 500x", "GPU cal power"));
-        assetsDataSource.deleteAllAsset();
+        assetsDataSource.deleteAll();
         assertEquals(0, assetsDataSource.getAssetList().size()) ;
     }
 

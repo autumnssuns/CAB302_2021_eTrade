@@ -85,15 +85,6 @@ public class OrderDataSource extends DataSource {
      */
     public void addOrder(Order order){
         try {
-//            int idSize = getOrderList().size();
-//            //input values into the query string above
-//            if(order.getOrderId() == null) {
-//                order.setOrderId(idSize);
-//                addOrder.setInt(1, idSize);
-//            }
-//            else{
-
-//            }
             int newOrderInt = order.getOrderId() == null ? getNextId() : order.getOrderId();
             addOrder.setInt(1, newOrderInt);
             addOrder.setString(2, order.getOrderType().name());
@@ -144,15 +135,15 @@ public class OrderDataSource extends DataSource {
 
     /**
      * Return existed order
-     * @param OrderId ID of the order wanted to return (Int value)
+     * @param orderId ID of the order wanted to return (Int value)
      * @return Order Object
      */
-    public Order getOrder(int OrderId){
+    public Order getOrder(int orderId){
         //create a dummy Order Object to store values
         Order dummy = null;
         try {
             //set value
-            getOrder.setInt(1, OrderId);
+            getOrder.setInt(1, orderId);
             ResultSet rs = getOrder.executeQuery();
             while( rs.next() ) {
                 LocalDateTime finishedDate;
@@ -182,41 +173,21 @@ public class OrderDataSource extends DataSource {
 
     /**
      * Method to return all orders in the database
-     * @return an Order data collection of Buy Order
+     * @return an Order DataCollection
      */
     public DataCollection<Order> getOrderList(){
         DataCollection<Order> orders = new DataCollection<>();
         try {
-            ResultSet rs = getAllOrder.executeQuery();
-            while (rs.next()){
-//                LocalDateTime finishedDate;
-//                try{
-//                    finishedDate = LocalDateTime.parse(rs.getString("finished_date"), formatter);
-//                }
-//                catch (NullPointerException e){
-//                    finishedDate = null;
-//                }
-                Integer nextId = rs.getInt(1);
-                orders.add(getOrder(nextId));
-//                orders.add(new Order(
-//                        rs.getInt("order_id"),
-//                        Type.valueOf(rs.getString("order_type")),
-//                        rs.getInt("organisation_id"),
-//                        rs.getInt("asset_id"),
-//                        rs.getInt("placed_quantity"),
-//                        rs.getInt("resolved_quantity"),
-//                        rs.getFloat("price"),
-//                        finishedDate,
-//                        LocalDateTime.parse(rs.getString("order_date"), formatter),
-//                        Order.Status.valueOf(rs.getString("status")))
-//                );
+                ResultSet rs = getAllOrder.executeQuery();
+                while (rs.next()){
+                    Integer nextId = rs.getInt(1);
+                    orders.add(getOrder(nextId));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            return orders;
         }
-        return orders;
-    }
-
 
     /**
      * A method to update an Order information on  database

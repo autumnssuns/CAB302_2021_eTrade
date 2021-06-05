@@ -85,7 +85,7 @@ public class CasesToResponse  {
         stockData.deleteAll();
         orderData.deleteAllOrders();
         userData.deleteAll();
-        assetData.deleteAllAsset();
+        assetData.deleteAll();
         organisationalUnitData.deleteAll();
         return new Response<>(true, null);
     }

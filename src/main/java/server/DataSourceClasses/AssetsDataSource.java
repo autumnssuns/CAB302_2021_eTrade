@@ -87,7 +87,10 @@ public class AssetsDataSource extends DataSource {
         }
     }
 
-    public void deleteAllAsset() {
+    /**
+     * Delete all assets from the database
+     */
+    public void deleteAll() {
         try {
             deleteAllAsset.executeUpdate();
         } catch (SQLException e) {
@@ -122,18 +125,15 @@ public class AssetsDataSource extends DataSource {
 
     }
 
-    //Todo: Get Asset list method
     public DataCollection<Asset> getAssetList(){
         DataCollection<Asset> assets = new DataCollection<>();
         try {
             ResultSet rs = getAllAsset.executeQuery();
             while (rs.next()){
-                assets.add(new Asset(rs.getInt("asset_id"),
-                        rs.getString("asset_name"),
-                        rs.getString("asset_description")));
+                Integer nextID = rs.getInt(1);
+                assets.add(getAsset(1));
             }
-
-        } catch (SQLException | InvalidArgumentValueException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return assets;

@@ -116,23 +116,22 @@ public class OrganisationsDataSource extends DataSource {
         return dummy;
     }
 
-    //Todo: Get Organisation list method
+    /**
+     * Get all organisations from the database
+     * @return an Organisation DataCollection
+     */
     public DataCollection<OrganisationalUnit> getOrganisationList(){
-        DataCollection<OrganisationalUnit> Organisations = new DataCollection<>();
+        DataCollection<OrganisationalUnit> organisations = new DataCollection<>();
         try {
             ResultSet rs = getAllOrganisation.executeQuery();
             while (rs.next()){
-                Organisations.add(new OrganisationalUnit(
-                                rs.getInt("organisation_id"),
-                                rs.getString("organisation_name"),
-                                rs.getFloat("credits")
-                        )
-                );
+                Integer nextId = rs.getInt(1);
+                organisations.add(getOrganisation(nextId));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Organisations;
+        return organisations;
     }
     /**
      * A method to update an Organisational Unit information on  database

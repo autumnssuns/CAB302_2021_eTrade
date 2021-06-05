@@ -33,8 +33,6 @@ public class StockDataSource extends DataSource {
             "DELETE FROM stock WHERE organisation_id = ?";
     private static final  String DELETE_ALL_DATA = "DELETE FROM stock";
 
-
-
     private PreparedStatement updateStock;
     private PreparedStatement getStock;
     private PreparedStatement deleteUnitStock;
@@ -88,8 +86,6 @@ public class StockDataSource extends DataSource {
             }
         }
     }
-
-
 
     /**
      * Get stocks list from an organization
