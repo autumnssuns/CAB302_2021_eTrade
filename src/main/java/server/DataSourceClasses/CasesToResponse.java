@@ -5,6 +5,7 @@ import common.Request;
 import common.Response;
 import common.dataClasses.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class CasesToResponse  {
 
@@ -446,7 +447,7 @@ public class CasesToResponse  {
      */
     public static <T extends IData> boolean isValid(Request<T> request){
         T serverCurrentState = (T) query(request).getAttachment();
-        return request.getPreviousObjectState().equals(serverCurrentState);
+        return request.getPreviousObjectState() == null || request.getPreviousObjectState().equals(serverCurrentState);
     }
 
     //Todo: Overload Query method

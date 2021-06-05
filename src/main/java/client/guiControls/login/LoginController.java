@@ -2,12 +2,13 @@ package client.guiControls.login;
 
 import client.data.IServerConnection;
 import client.data.ServerConnection;
-import client.guiControls.ILocalDatabase;
+import client.guiControls.LocalDatabase;
 import client.guiControls.MainController;
 import client.guiControls.MessageFactory;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
+import common.dataClasses.IData;
 import common.dataClasses.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -152,7 +153,7 @@ public class LoginController extends MainController {
     }
 
     @Override
-    public ILocalDatabase getDatabase() {
+    public LocalDatabase getDatabase() {
         return null;
     }
 

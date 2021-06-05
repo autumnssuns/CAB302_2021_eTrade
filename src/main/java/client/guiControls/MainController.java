@@ -148,12 +148,6 @@ public abstract class MainController {
     public abstract void fetchDatabase() throws InvalidArgumentValueException;
 
     /**
-     * Update the local database with that from the server
-     * @param type
-     */
-    public abstract void updateLocalDatabase(Request.ObjectType type) throws InvalidArgumentValueException;
-
-    /**
      * Finds the version of an object attached in a request that is stored in the local database.
      * Before any update, the local database contains the previous state of the object in request.
      * @param request The request whose attachment is to be found.

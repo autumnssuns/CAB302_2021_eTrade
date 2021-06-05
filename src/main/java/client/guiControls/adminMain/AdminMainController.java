@@ -1,6 +1,5 @@
 package client.guiControls.adminMain;
 
-import client.guiControls.ILocalDatabase;
 import client.guiControls.MainController;
 import client.guiControls.MessageFactory;
 import client.guiControls.MessageViewUnit;
@@ -194,7 +193,7 @@ public class AdminMainController extends MainController {
                 table = localDatabase.getUsers();
                 User newUser = (User) request.getAttachment();
                 for (User previous : (DataCollection<User>) table){
-                    if (previous.getUserId().equals(newUser.getUserId())){
+                    if (previous.getId().equals(newUser.getId())){
                         return (T) previous;
                     }
                 }
