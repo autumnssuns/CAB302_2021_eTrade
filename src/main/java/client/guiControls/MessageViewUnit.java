@@ -37,7 +37,7 @@ public class MessageViewUnit extends Button implements IViewUnit {
     @Override
     public void initialize() {
         this.getStyleClass().remove("button");
-        this.getStyleClass().addAll("blackLabel");
+        this.getStyleClass().addAll("message","blackLabel");
         this.setAlignment(Pos.CENTER_LEFT);
         this.setPrefWidth(236);
         this.setPrefHeight(60);
