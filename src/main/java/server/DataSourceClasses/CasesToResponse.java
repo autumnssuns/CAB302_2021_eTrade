@@ -72,7 +72,7 @@ public class CasesToResponse  {
 
     /**
      * Empties the database
-     * @return
+     * @return a Response object
      */
     public static Response<IData> cleanDatabase(){
         NotificationDataSource notificationData = new NotificationDataSource();
@@ -304,7 +304,7 @@ public class CasesToResponse  {
 
     /**
      * Edit quantity of an item in a stock of an org unit
-     * @param attachment
+     * @param attachment a Stock object
      * @return Response object
      */
     public static Response<IData> edit(Stock attachment){
@@ -419,7 +419,7 @@ public class CasesToResponse  {
 
     /**
      * Query all stock from an org unit
-     * @param attachment
+     * @param attachment a User object
      * @return Response object
      */
     public static Response<Stock> queryStock(User attachment){
