@@ -147,6 +147,7 @@ public final class Server implements IServer{
      */
     @Override
     public Response createResponse(Request clientRequest) throws InvalidArgumentValueException {
+
         // Unidentified requests are denied by default
         //Get senders' information
         User sender = clientRequest.getUser();
