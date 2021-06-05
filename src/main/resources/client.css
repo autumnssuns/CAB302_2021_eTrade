@@ -6,7 +6,7 @@
     -fx-background-radius: 10px;
     -fx-background-color: "#51B765";
     -fx-text-fill: "#F3F1F1";
-    -fx-font-size: 20px;
+    -fx-font-size: 12px;
 }
 
 .button:hover{
@@ -14,7 +14,7 @@
 }
 
 .displayPane{
-    -fx-background-color: "#2B4358";
+    -fx-background-color: "#f2f2f3";
 }
 
 .buttonPane{
@@ -22,11 +22,11 @@
 }
 
 .menuPane{
-    -fx-background-color: "#78999F";
+    -fx-background-color: "#2e323e";
 }
 
 .bodyPane{
-    -fx-background-color: "#8792A5";
+    -fx-background-color: "#e3e3e3";
 }
 
 .whitePane{
@@ -62,7 +62,7 @@
 
 .itemTotalLabel{
     -fx-background-color: "#FEDB41";
-    -fx-font-size: 14px;
+    -fx-font-size: 12px;
 }
 
 .cartTotalLabel{
