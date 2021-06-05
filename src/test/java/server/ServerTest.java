@@ -31,7 +31,7 @@ class ServerTest {
 
     @BeforeAll
     void setUp() throws Exception {
-        server = new Server();
+        server = new MockServer();
         DBConnection.setTestMode(true);
         server.createResponse(new Request(null, Request.ActionType.TEST));
     }
@@ -222,7 +222,6 @@ class ServerTest {
                     filteredNotifications.add(notification);
                 }
             }
-
             request = new Request<User>(testUser, Request.ActionType.READ).setObjectType(Request.ObjectType.NOTIFICATION);
             expectedResponse = new Response<>(true, filteredNotifications);
         }
