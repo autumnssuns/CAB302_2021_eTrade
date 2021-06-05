@@ -39,6 +39,7 @@ public class UserDataSource extends DataSource {
                     WHERE\s
                     user_id = ?""";
     private static final  String DELETE_ALL = "DELETE FROM users";
+    protected static final String GET_MAX_ID = "SELECT user_id FROM users";
 
     //Prepared statements
     private PreparedStatement addUser;
@@ -62,6 +63,7 @@ public class UserDataSource extends DataSource {
             editUser = connection.prepareStatement(EDIT_USER);
             getAllUser = connection.prepareStatement(GET_ALL_USER);
             deleteAll = connection.prepareStatement(DELETE_ALL);
+            getMaxId = connection.prepareStatement(GET_MAX_ID);
         } catch (SQLException e)
         {e.printStackTrace();}
     }
@@ -77,21 +79,22 @@ public class UserDataSource extends DataSource {
 
     /**
      * Add a new user to the table if not exists
-     * @param newuser user object to add
+     * @param newUser user object to add
      */
-    public void addUser(User newuser){
+    public void addUser(User newUser){
         try{
             //Set values for the above SQL query
-            addUser.setInt(1,newuser.getUserId());
-            addUser.setString(2, newuser.getFullName());
-            addUser.setString(3, newuser.getUsername());
-            addUser.setString(4, newuser.getPassword());
-            addUser.setString(5, newuser.getAccountType());
-            if (newuser.getUnitId() == null){
+            int newUserId = newUser.getId() == null ? getNextId() : newUser.getId();
+            addUser.setInt(1,newUserId);
+            addUser.setString(2, newUser.getFullName());
+            addUser.setString(3, newUser.getUsername());
+            addUser.setString(4, newUser.getPassword());
+            addUser.setString(5, newUser.getAccountType());
+            if (newUser.getUnitId() == null){
                 addUser.setNull(6, Type.INT);
             }
             else{
-                addUser.setInt(6, newuser.getUnitId());
+                addUser.setInt(6, newUser.getUnitId());
             }
 
             addUser.executeUpdate();
@@ -176,7 +179,7 @@ public class UserDataSource extends DataSource {
             editUser.setString(3, userNewInfo.getPassword());
             editUser.setString(4, userNewInfo.getAccountType());
             editUser.setInt(5, userNewInfo.getUnitId());
-            editUser.setInt(6, userNewInfo.getUserId());
+            editUser.setInt(6, userNewInfo.getId());
             editUser.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();

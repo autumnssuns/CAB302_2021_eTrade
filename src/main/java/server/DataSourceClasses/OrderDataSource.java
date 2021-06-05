@@ -47,7 +47,7 @@ public class OrderDataSource extends DataSource {
                     UPDATE orders
                     SET order_type=?, organisation_id=?, asset_id=?, placed_quantity=?, resolved_quantity=?, price=?, order_date=?, finished_date=?, status=?
                     WHERE order_id=?""";
-    protected static final String GET_MAX_ID = "SELECT order_id from orders";
+    protected static final String GET_MAX_ID = "SELECT order_id FROM orders";
 
     //Prepare statements.
     private PreparedStatement addOrder;
@@ -85,6 +85,8 @@ public class OrderDataSource extends DataSource {
      */
     public void addOrder(Order order){
         try {
+            int newOrderId = order.getOrderId() == null ? getNextId() : order.getOrderId();
+            addOrder.setInt(1, newOrderId);
             int newOrderInt = order.getOrderId() == null ? getNextId() : order.getOrderId();
             addOrder.setInt(1, newOrderInt);
             addOrder.setString(2, order.getOrderType().name());

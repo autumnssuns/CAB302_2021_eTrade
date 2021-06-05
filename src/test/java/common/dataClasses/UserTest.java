@@ -17,7 +17,7 @@ class UserTest {
     @Test
     void setUserId() {
         user.setUserId(1);
-        assertEquals(1, user.getUserId());
+        assertEquals(1, user.getId());
     }
 
     @Test
@@ -67,7 +67,7 @@ class UserTest {
 
     @Test
     void getUserId() {
-        assertEquals(0, user.getUserId());
+        assertEquals(0, user.getId());
     }
 
     @Test

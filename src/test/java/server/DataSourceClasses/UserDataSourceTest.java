@@ -6,8 +6,6 @@ import common.dataClasses.DataCollection;
 import common.dataClasses.User;
 import org.junit.jupiter.api.*;
 import server.DBConnection;
-import server.DataSourceClasses.CasesToResponse;
-import server.DataSourceClasses.UserDataSource;
 
 public class UserDataSourceTest {
 
@@ -39,7 +37,7 @@ public class UserDataSourceTest {
         User testuser = new User(1, "DuyPham", "new", "123", "user", 1).hashPassword();
         userDataSource.addUser(testuser);
         User userData = userDataSource.getUser(testuser.getUsername());
-        assertEquals(testuser.getUserId(),userData.getUserId());
+        assertEquals(testuser.getId(),userData.getId());
         assertEquals(testuser.getUsername(), userData.getUsername());
         assertEquals(testuser.getPassword(),
                 userData.getPassword());
@@ -60,7 +58,7 @@ public class UserDataSourceTest {
     void deleteUser() {
         User testuser = new User(1, "DuyPham", "new", "123", "user", 1);
         userDataSource.addUser(testuser);
-        userDataSource.deleteUser(testuser.getUserId());
+        userDataSource.deleteUser(testuser.getId());
         User userData = userDataSource.getUser(testuser.getUsername());
         assertEquals(userData, null);
 
@@ -77,9 +75,9 @@ public class UserDataSourceTest {
         userDataSource.addUser(testuser2);
         userDataSource.addUser(testuser3);
         DataCollection<User> users = userDataSource.getUserList();
-        assertEquals(users.get(0).getUserId(), testuser1.getUserId());
-        assertEquals(users.get(1).getUserId(), testuser2.getUserId());
-        assertEquals(users.get(2).getUserId(), testuser3.getUserId());
+        assertEquals(users.get(0).getId(), testuser1.getId());
+        assertEquals(users.get(1).getId(), testuser2.getId());
+        assertEquals(users.get(2).getId(), testuser3.getId());
     }
 
     @Test
@@ -90,7 +88,7 @@ public class UserDataSourceTest {
         userDataSource.editUser(testuser1_New);
         User newData = userDataSource.getUser(testuser1_New.getUsername());
         assertEquals(newData.getUsername(),testuser1_New.getUsername());
-        assertEquals(newData.getUserId(),testuser1_New.getUserId());
+        assertEquals(newData.getId(),testuser1_New.getId());
         assertEquals(newData.getFullName(),testuser1_New.getFullName());
         assertEquals(newData.getAccountType(), testuser1_New.getAccountType());
         assertEquals(newData.getUnitId(), testuser1_New.getUnitId());

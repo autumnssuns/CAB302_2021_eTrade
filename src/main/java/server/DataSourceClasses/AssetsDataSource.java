@@ -24,6 +24,7 @@ public class AssetsDataSource extends DataSource {
     private static final String DELETE_ALL_ASSET = "DELETE FROM assets";
     private static final String GET_ASSET = "SELECT * FROM assets WHERE asset_id=?";
     private static final String GET_ALL_ASSET = "SELECT * FROM assets";
+    protected static final String GET_MAX_ID = "SELECT asset_id FROM assets";
     private static final String EDIT_ASSET =
             """
                     UPDATE assets
@@ -52,6 +53,7 @@ public class AssetsDataSource extends DataSource {
             getAsset = connection.prepareStatement(GET_ASSET);
             editAsset = connection.prepareStatement(EDIT_ASSET);
             getAllAsset = connection.prepareStatement(GET_ALL_ASSET);
+            getMaxId = connection.prepareStatement(GET_MAX_ID);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,14 +61,15 @@ public class AssetsDataSource extends DataSource {
 
     /**
      * Add new asset into the database.
-     * @param newasset Asset Object wanted to add
+     * @param newAsset Asset Object wanted to add
      */
-    public void addAsset(Asset newasset){
+    public void addAsset(Asset newAsset){
         try {
             //Insert values into above query string
-            addAsset.setInt(1, newasset.getId());
-            addAsset.setString(2, newasset.getName());
-            addAsset.setString(3, newasset.getDescription());
+            int newAssetId = newAsset.getId() == null ? getNextId() : newAsset.getId();
+            addAsset.setInt(1, newAssetId);
+            addAsset.setString(2, newAsset.getName());
+            addAsset.setString(3, newAsset.getDescription());
             //execute the query
             addAsset.executeUpdate();
         } catch (SQLException e) {

@@ -495,7 +495,7 @@ public class CasesToResponse  {
     //UserGUI Type
     public static Response<IData> delete(User attachment){
         UserDataSource userDataSource = new UserDataSource();
-        userDataSource.deleteUser(attachment.getUserId());
+        userDataSource.deleteUser(attachment.getId());
         return new Response<>(true, null);
     }
 

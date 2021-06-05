@@ -28,7 +28,10 @@ public class OrganisationsDataSource extends DataSource {
                     "SET organisation_name=?, credits=?" +
                     "WHERE organisation_id=?";
     private static final String DELETE_ALL = "DELETE FROM organisationalUnits";
-    //Prepared statements
+    protected static final String GET_MAX_ID = "SELECT organisation_id FROM organisationalUnits";
+
+
+    // Prepared statements
     private PreparedStatement addOrganisation;
     private PreparedStatement deleteOrganisation;
     private PreparedStatement getOrganisation;
@@ -50,6 +53,7 @@ public class OrganisationsDataSource extends DataSource {
             editOrganisation = connection.prepareStatement(EDIT_ORGANISATION);
             getAllOrganisation = connection.prepareStatement(GET_ALL_ORGANISATION);
             deleteAll = connection.prepareStatement(DELETE_ALL);
+            getMaxId = connection.prepareStatement(GET_MAX_ID);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +75,8 @@ public class OrganisationsDataSource extends DataSource {
     public void addOrganisation(OrganisationalUnit newOrganisationalUnit){
         try {
             //set values into the above query
-            addOrganisation.setInt(1, newOrganisationalUnit.getId());
+            int newOrgId = newOrganisationalUnit.getId() == null ? getNextId() : newOrganisationalUnit.getId();
+            addOrganisation.setInt(1, newOrgId);
             addOrganisation.setString(2, newOrganisationalUnit.getName());
             addOrganisation.setFloat(3, newOrganisationalUnit.getBalance());
             addOrganisation.executeUpdate();
