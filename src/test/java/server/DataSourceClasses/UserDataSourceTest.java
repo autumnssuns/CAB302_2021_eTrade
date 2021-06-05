@@ -77,7 +77,7 @@ public class UserDataSourceTest {
         DataCollection<User> users = userDataSource.getUserList();
         assertEquals(users.get(0).getId(), testuser1.getId());
         assertEquals(users.get(1).getId(), testuser2.getId());
-        assertEquals(users.get(2).getId(), testuser3.getId());
+        assertEquals(users.get(2).getUsername(), testuser3.getUsername());
     }
 
     @Test

@@ -87,8 +87,6 @@ public class OrderDataSource extends DataSource {
         try {
             int newOrderId = order.getOrderId() == null ? getNextId() : order.getOrderId();
             addOrder.setInt(1, newOrderId);
-            int newOrderInt = order.getOrderId() == null ? getNextId() : order.getOrderId();
-            addOrder.setInt(1, newOrderInt);
             addOrder.setString(2, order.getOrderType().name());
             addOrder.setFloat(3, order.getUnitId());
             addOrder.setInt(4, order.getAssetId());
@@ -174,7 +172,7 @@ public class OrderDataSource extends DataSource {
     }
 
     /**
-     * Method to return all orders in the database
+     * Get all orders in the database
      * @return an Order DataCollection
      */
     public DataCollection<Order> getOrderList(){

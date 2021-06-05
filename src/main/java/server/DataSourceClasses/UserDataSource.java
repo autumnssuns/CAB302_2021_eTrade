@@ -146,20 +146,24 @@ public class UserDataSource extends DataSource {
         return dummy;
     }
 
-    //Todo: Get UserGUI list method
+    /**
+     * Get all users from the database
+     * @return
+     */
     public DataCollection<User> getUserList(){
         DataCollection<User> users = new DataCollection<>();
         try {
             ResultSet rs = getAllUser.executeQuery();
             while (rs.next()){
-                Integer unitId = (Integer) rs.getObject("organisation_id");
-                users.add(new User(
-                        rs.getInt("user_id"),
-                        rs.getString("fullname"),
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("user_type"),
-                        unitId));
+                users.add(getUser(rs.getString("username")));
+
+//                        new User(
+//                        rs.getInt("user_id"),
+//                        rs.getString("fullname"),
+//                        rs.getString("username"),
+//                        rs.getString("password"),
+//                        rs.getString("user_type"),
+//                        (Integer) rs.getObject("organisation_id")));
             }
 
         } catch (SQLException e) {
