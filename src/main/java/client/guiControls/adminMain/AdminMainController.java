@@ -4,8 +4,8 @@ import client.guiControls.MainController;
 import client.guiControls.adminMain.assetsController.AssetsController;
 import client.guiControls.adminMain.organisationalUnitsController.OrganisationalUnitsController;
 import client.guiControls.adminMain.usersController.UsersController;
-import client.guiControls.userMain.UserLocalDatabase;
 import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
 import common.Response;
 import common.dataClasses.DataCollection;
 import common.dataClasses.IData;
@@ -131,16 +131,16 @@ public class AdminMainController extends MainController {
      */
     @Override
     public void fetchDatabase() throws InvalidArgumentValueException {
-        Response response = this.sendRequest("query users");
+        Response response = this.sendRequest(Request.ActionType.READ_ALL, Request.ObjectType.USER);
         DataCollection users = (DataCollection) response.getAttachment();
 
-        response = this.sendRequest("query assets");
+        response = this.sendRequest(Request.ActionType.READ_ALL, Request.ObjectType.ASSET);
         DataCollection assets = (DataCollection) response.getAttachment();
 
-        response = this.sendRequest("query organisationalUnits");
+        response = this.sendRequest(Request.ActionType.READ_ALL, Request.ObjectType.ORGANISATIONAL_UNIT);
         DataCollection organisationalUnits = (DataCollection) response.getAttachment();
 
-        response = this.sendRequest("query stocks");
+        response = this.sendRequest(Request.ActionType.READ_ALL, Request.ObjectType.STOCK);
         DataCollection stocks = (DataCollection) response.getAttachment();
 
         localDatabase = new AdminLocalDatabase(users, assets, organisationalUnits, stocks);
@@ -149,29 +149,25 @@ public class AdminMainController extends MainController {
 
     /**
      * Updates the local database, depending on what type of IData is being updated
+     * @param type
      */
     @Override
-    public <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException {
-        Response response;
-        if (type.equals(Asset.class)){
-            response = this.sendRequest("query assets");
-            DataCollection assets = (DataCollection) response.getAttachment();
-            ((AdminLocalDatabase) localDatabase).setAssets(assets);
-        }
-        else if (type.equals(User.class)){
-            response = this.sendRequest("query users");
-            DataCollection users = (DataCollection) response.getAttachment();
-            ((AdminLocalDatabase) localDatabase).setUsers(users);
-        }
-        else if (type.equals(OrganisationalUnit.class)){
-            response = this.sendRequest("query organisationalUnits");
-            DataCollection organisationalUnits = (DataCollection) response.getAttachment();
-            ((AdminLocalDatabase) localDatabase).setOrganisationalUnits(organisationalUnits);
-        }
-        else if (type.equals(Stock.class)){
-            response = this.sendRequest("query stocks");
-            DataCollection stocks = (DataCollection) response.getAttachment();
-            ((AdminLocalDatabase) localDatabase).setStocks(stocks);
+    public void updateLocalDatabase(Request.ObjectType type) throws InvalidArgumentValueException {
+        Response response = this.sendRequest(Request.ActionType.READ_ALL, type);
+        DataCollection attachment = (DataCollection) response.getAttachment();
+        switch (type){
+            case ASSET:
+                ((AdminLocalDatabase) localDatabase).setAssets(attachment);
+                break;
+            case USER:
+                ((AdminLocalDatabase) localDatabase).setUsers(attachment);
+                break;
+            case ORGANISATIONAL_UNIT:
+                ((AdminLocalDatabase) localDatabase).setOrganisationalUnits(attachment);
+                break;
+            case STOCK:
+                ((AdminLocalDatabase) localDatabase).setStocks(attachment);
+                break;
         }
     }
 

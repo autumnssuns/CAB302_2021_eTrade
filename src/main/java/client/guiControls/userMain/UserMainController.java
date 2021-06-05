@@ -8,6 +8,7 @@ import client.guiControls.userMain.ordersController.OrdersController;
 import client.guiControls.userMain.profileController.ProfileController;
 import client.guiControls.userMain.saleController.SaleController;
 import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
 import common.Response;
 import common.dataClasses.*;
 import javafx.application.Platform;
@@ -19,7 +20,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
-import java.util.Collections;
 
 //TODO: Refactor magic numbers & Node creation
 //TODO: Commenting & Documenting
@@ -190,20 +190,20 @@ public class UserMainController extends MainController {
      */
     @Override
     public void fetchDatabase() {
-        Response response = this.sendRequest("query organisational unit");
+        Response response = this.sendRequest(Request.ActionType.READ, Request.ObjectType.ORGANISATIONAL_UNIT);
         OrganisationalUnit organisationalUnit = (OrganisationalUnit) response.getAttachment();
         System.out.println(organisationalUnit.getId() +" "+ organisationalUnit.getName() + " " + getDatabase());
 
-        response = this.sendRequest("query stock");
+        response = this.sendRequest(Request.ActionType.READ, Request.ObjectType.STOCK);
         Stock stock = (Stock) response.getAttachment();
 
-        response = this.sendRequest("query orders");
+        response = this.sendRequest(Request.ActionType.READ_ALL, Request.ObjectType.ORDER);
         DataCollection<Order> orders = (DataCollection) response.getAttachment();
 
-        response = this.sendRequest("query assets");
+        response = this.sendRequest(Request.ActionType.READ_ALL, Request.ObjectType.ASSET);
         DataCollection<Asset> assets = (DataCollection) response.getAttachment();
 
-        response = this.sendRequest("query notifications");
+        response = this.sendRequest(Request.ActionType.READ, Request.ObjectType.NOTIFICATION);
         DataCollection<Notification> notifications = (DataCollection) response.getAttachment();
 
         localDatabase = new UserLocalDatabase(organisationalUnit, stock, orders, assets, notifications);
@@ -216,10 +216,10 @@ public class UserMainController extends MainController {
     }
 
     @Override
-    public <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException {
+    public void updateLocalDatabase(Request.ObjectType type) throws InvalidArgumentValueException {
         Response response;
-        if (type.equals(Order.class)){
-            response = this.sendRequest("query orders");
+        if (type.equals(Request.ObjectType.ORDER)){
+            response = this.sendRequest(Request.ActionType.READ_ALL, Request.ObjectType.ORDER);
             DataCollection orders = (DataCollection) response.getAttachment();
             ((UserLocalDatabase) localDatabase).setOrders(orders);
         }
@@ -260,7 +260,7 @@ public class UserMainController extends MainController {
             }
         }
 
-        sendRequest("edit", overridingNotifications, Notification.class);
+        sendRequest(Request.ActionType.UPDATE, overridingNotifications, Request.ObjectType.NOTIFICATION);
         notificationButton.setOnAction(e -> hideNotifications());
     }
 

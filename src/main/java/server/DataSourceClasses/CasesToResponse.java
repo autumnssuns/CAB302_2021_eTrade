@@ -130,20 +130,20 @@ public class CasesToResponse  {
      */
     public static <T extends IData> Response<IData> add(Request<T> request) throws InvalidArgumentValueException {
         T attachment = request.getAttachment();
-        Class<T> type = request.getAttachmentType();
-        if(type.equals(User.class)) {
+        Request.ObjectType type = request.getObjectType();
+        if(type.equals(Request.ObjectType.USER)) {
             return add((User) attachment);
         }
-        else if(type.equals(OrganisationalUnit.class)){
+        else if(type.equals(Request.ObjectType.ORGANISATIONAL_UNIT)){
             return add((OrganisationalUnit) attachment);
         }
-        else if (type.equals(Asset.class)){
+        else if (type.equals(Request.ObjectType.ASSET)){
             return  add((Asset) attachment);
         }
-        else if (type.equals(Order.class)){
+        else if (type.equals(Request.ObjectType.ORDER)){
             return add((Order) attachment);
         }
-        else if (type.equals(Stock.class)){
+        else if (type.equals(Request.ObjectType.STOCK)){
             return add((Stock) attachment);
         }
         return null;
@@ -302,23 +302,23 @@ public class CasesToResponse  {
      */
     public static <T extends IData> Response<IData> edit(Request<T> request) throws InvalidArgumentValueException {
         T attachment = request.getAttachment();
-        Class<T> type = request.getAttachmentType();
-        if (type.equals(User.class)){
+        Request.ObjectType type = request.getObjectType();
+        if (type.equals(Request.ObjectType.USER)){
             return edit((User) attachment);
         }
-        else if (type.equals(Asset.class)){
+        else if (type.equals(Request.ObjectType.ASSET)){
             return edit((Asset) attachment);
         }
-        else if (type.equals(OrganisationalUnit.class)){
+        else if (type.equals(Request.ObjectType.ORGANISATIONAL_UNIT)){
             return edit((OrganisationalUnit) attachment);
         }
-        else if (type.equals(Order.class)){
+        else if (type.equals(Request.ObjectType.ORDER)){
             return edit((Order) attachment);
         }
-        else if (type.equals(Stock.class)){
+        else if (type.equals(Request.ObjectType.STOCK)){
             return edit((Stock) attachment);
         }
-        else if (type.equals(Notification.class)){
+        else if (type.equals(Request.ObjectType.NOTIFICATION)){
             return edit((DataCollection<Notification>) attachment, request.getUser());
         }
         return null;
@@ -440,18 +440,20 @@ public class CasesToResponse  {
      */
     public static <T extends IData> Response<IData> query(Request<T> request) {
         T attachment = request.getAttachment();
-        Class<T> type = request.getAttachmentType();
-        if (type.equals(User.class)){
-            return query((User) attachment);
-        }
-        else if (type.equals(Asset.class)){
-            return query((Asset) attachment);
-        }
-        else if (type.equals(OrganisationalUnit.class)){
-            return query((OrganisationalUnit) attachment);
-        }
-        else if (type.equals(Order.class)) {
-            return query((Order) attachment);
+        Request.ObjectType type = request.getObjectType();
+        switch (type){
+            case USER:
+                return query((User) attachment);
+            case ASSET:
+                return query((Asset) attachment);
+            case ORGANISATIONAL_UNIT:
+                return query((OrganisationalUnit) attachment);
+            case ORDER:
+                return query((Order) attachment);
+            case STOCK:
+                return queryStock(request.getUser());
+            case NOTIFICATION:
+                return queryNotifications(request);
         }
         return null;
     }
@@ -505,9 +507,10 @@ public class CasesToResponse  {
      * @param attachment a User object
      * @return a Response object
      */
-    public static Response<Stock> queryStock(User attachment){
+    public static Response<IData> queryStock(User attachment){
+        Integer unitId = attachment.getUnitId();
         StockDataSource stockDataSource = new StockDataSource();
-        Stock unitStock = stockDataSource.getStock(attachment.getUnitId());
+        Stock unitStock = stockDataSource.getStock(unitId);
         return new Response<>(true, unitStock);
     }
 
@@ -568,7 +571,7 @@ public class CasesToResponse  {
      * Creates a response for a request querying the notifications for a unit
      * @return A response containing the notifications for an organisational unit
      */
-    public static Response<DataCollection<Notification>> queryNotifications(Request request){
+    public static Response<IData> queryNotifications(Request request){
         Integer unitId = request.getUser().getUnitId();
         NotificationDataSource notificationDataSource = new NotificationDataSource();
         DataCollection<Notification> attachment = notificationDataSource.getFromUnitId(unitId);
@@ -583,17 +586,17 @@ public class CasesToResponse  {
      */
     public static <T extends IData> Response<IData> delete(Request<T> request) {
         T attachment = request.getAttachment();
-        Class<T> type = request.getAttachmentType();
-        if (type.equals(User.class)){
+        Request.ObjectType type = request.getObjectType();
+        if (type.equals(Request.ObjectType.USER)){
             return delete((User) attachment);
         }
-        else if (type.equals(Asset.class)){
+        else if (type.equals(Request.ObjectType.ASSET)){
             return delete((Asset) attachment);
         }
-        else if (type.equals(OrganisationalUnit.class)){
+        else if (type.equals(Request.ObjectType.ORGANISATIONAL_UNIT)){
             return delete((OrganisationalUnit) attachment);
         }
-        else if (type.equals(Order.class)){
+        else if (type.equals(Request.ObjectType.ORDER)){
             return delete((Order) attachment);
         }
 

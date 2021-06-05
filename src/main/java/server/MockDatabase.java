@@ -341,20 +341,20 @@ public class MockDatabase {
      */
     public static <T extends IData> Response edit(Request<T> request){
         T attachment = request.getAttachment();
-        Class<T> type = request.getAttachmentType();
-        if (type.equals(User.class)){
+        Request.ObjectType type = request.getObjectType();
+        if (type.equals(Request.ObjectType.USER)){
             return edit((User) attachment);
         }
-        else if (type.equals(Asset.class)){
+        else if (type.equals(Request.ObjectType.ASSET)){
             return edit((Asset) attachment);
         }
-        else if (type.equals(OrganisationalUnit.class)){
+        else if (type.equals(Request.ObjectType.ORGANISATIONAL_UNIT)){
             return edit((OrganisationalUnit) attachment);
         }
-        else if (type.equals(Stock.class)){
+        else if (type.equals(Request.ObjectType.STOCK)){
             return edit((Stock) attachment);
         }
-        else if (type.equals(Order.class)){
+        else if (type.equals(Request.ObjectType.ORDER)){
             return edit((Order) attachment);
         }
         return null;
@@ -490,17 +490,17 @@ public class MockDatabase {
      */
     public static <T extends IData> Response add(Request<T> request) throws InvalidArgumentValueException {
         T attachment = request.getAttachment();
-        Class<T> type = request.getAttachmentType();
-        if (type.equals(User.class)){
+        Request.ObjectType type = request.getObjectType();
+        if (type.equals(Request.ObjectType.USER)){
             return add((User) attachment);
         }
-        else if (type.equals(Asset.class)){
+        else if (type.equals(Request.ObjectType.ASSET)){
             return add((Asset) attachment);
         }
-        else if (type.equals(OrganisationalUnit.class)){
+        else if (type.equals(Request.ObjectType.ORGANISATIONAL_UNIT)){
             return add((OrganisationalUnit) attachment);
         }
-        else if (type.equals(Order.class)){
+        else if (type.equals(Request.ObjectType.ORDER)){
             return add((Order) attachment);
         }
         return null;
@@ -593,14 +593,14 @@ public class MockDatabase {
      */
     public static <T extends IData> Response delete(Request<T> request){
         T attachment = request.getAttachment();
-        Class<T> type = request.getAttachmentType();
-        if (type.equals(User.class)){
+        Request.ObjectType type = request.getObjectType();
+        if (type.equals(Request.ObjectType.USER)){
             return delete((User) attachment);
         }
-        else if (type.equals(Asset.class)){
+        else if (type.equals(Request.ObjectType.ASSET)){
             return delete((Asset) attachment);
         }
-        else if (type.equals(OrganisationalUnit.class)){
+        else if (type.equals(Request.ObjectType.ORGANISATIONAL_UNIT)){
             return delete((OrganisationalUnit) attachment);
         }
         return null;

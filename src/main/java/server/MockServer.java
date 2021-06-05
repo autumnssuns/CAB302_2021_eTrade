@@ -3,8 +3,6 @@ package server;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
-import common.dataClasses.OrganisationalUnit;
-import common.dataClasses.Stock;
 
 public final class MockServer implements IServer{
 
@@ -18,8 +16,8 @@ public final class MockServer implements IServer{
     public Response createResponse(Request request) throws InvalidArgumentValueException {
         // Unidentified requests are denied by default
         Response response = new Response(false, null);
-        switch (request.getAction()){
-            case "init":
+        switch (request.getActionType()){
+            case TEST:
                 if (firstRun){
                     MockDatabase.initiate();
                     firstRun = false;
@@ -27,47 +25,56 @@ public final class MockServer implements IServer{
                 }
                 break;
 
-            case "login":
+            case LOGIN:
                 response = MockDatabase.login(request);
                 break;
 
-            case "query users":
-                response = MockDatabase.queryUsers(request);
+            case READ_ALL:
+                switch (request.getObjectType()){
+                    case USER:
+                        response = MockDatabase.queryUsers(request);
+                        break;
+
+                    case ASSET:
+                        response = MockDatabase.queryAssets(request);
+                        break;
+
+                    case ORGANISATIONAL_UNIT:
+                        response = MockDatabase.queryOrganisations(request);
+                        break;
+
+                    case STOCK:
+                        response = MockDatabase.queryStocks(request);
+                        break;
+
+                    case ORDER:
+                        response = MockDatabase.queryOrders(request);
+                        break;
+                }
                 break;
 
-            case "query assets":
-                response = MockDatabase.queryAssets(request);
+            case READ:
+                switch (request.getObjectType()){
+                    case ORGANISATIONAL_UNIT:
+                        response = MockDatabase.queryOrganisationalUnit(request);
+                        break;
+
+                    case STOCK:
+                        response = MockDatabase.queryStock(request);
+                        break;
+                }
                 break;
 
-            case "query organisationalUnits":
-                response = MockDatabase.queryOrganisations(request);
-                break;
 
-            case "query stocks":
-                response = MockDatabase.queryStocks(request);
-                break;
-
-            case "query organisational unit":
-                response = MockDatabase.queryOrganisationalUnit(request);
-                break;
-
-            case "query stock":
-                response = MockDatabase.queryStock(request);
-                break;
-
-            case "query orders":
-                response = MockDatabase.queryOrders(request);
-                break;
-
-            case "add":
+            case CREATE:
                 response = MockDatabase.add(request);
                 break;
 
-            case "edit":
+            case UPDATE:
                 response = MockDatabase.edit(request);
                 break;
 
-            case "delete":
+            case DELETE:
                 response = MockDatabase.delete(request);
                 break;
         }
