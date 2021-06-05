@@ -64,9 +64,9 @@ public abstract class MainController {
      * @param action
      * @param attachment
      */
-    public <T extends IData,E extends IData> Response sendRequest(String action, T attachment, Class<E> attachmentType) {
+    public <T extends IData> Response sendRequest(Request.ActionType action, T attachment, Request.ObjectType attachmentType) {
         Request request = new Request(getUser(), action, attachment);
-        request.setAttachmentType(attachmentType);
+        request.setObjectType(attachmentType);
         Response response = new Response(false, null);
         try{
             serverConnection.Start();
@@ -81,11 +81,11 @@ public abstract class MainController {
         return response;
     }
 
-    public Response sendRequest(String action) {
+    public Response sendRequest(Request.ActionType action, Request.ObjectType objectType) {
         Response response = new Response(false, null);
         try{
             serverConnection.Start();
-            response = serverConnection.sendRequest(new Request(getUser(), action));
+            response = serverConnection.sendRequest(new Request(getUser(), action).setObjectType(objectType));
             serverConnection.Close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -135,8 +135,9 @@ public abstract class MainController {
 
     /**
      * Update the local database with that from the server
+     * @param type
      */
-    public abstract <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException;
+    public abstract void updateLocalDatabase(Request.ObjectType type) throws InvalidArgumentValueException;
 
     /**
      * Returns the local database for the current user.

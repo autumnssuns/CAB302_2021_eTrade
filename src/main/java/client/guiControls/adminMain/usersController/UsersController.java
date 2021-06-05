@@ -3,6 +3,7 @@ package client.guiControls.adminMain.usersController;
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
 import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
 import common.Response;
 import common.dataClasses.DataCollection;
 import common.dataClasses.OrganisationalUnit;
@@ -58,7 +59,7 @@ public class UsersController extends DisplayController {
             }
         }
         User newUser = new User(userId, name, username, password, role, unitId);
-        Response response = controller.sendRequest("add", newUser, User.class);
+        Response response = controller.sendRequest(Request.ActionType.CREATE, newUser, Request.ObjectType.USER);
         update();
         if (response.isFulfilled()){
             addUserInfoBox(newUser);
@@ -93,7 +94,6 @@ public class UsersController extends DisplayController {
      */
     @Override
     public void update() throws InvalidArgumentValueException {
-        usersDisplayBox.getChildren().clear();
         AdminLocalDatabase localDatabase = (AdminLocalDatabase) controller.getDatabase();
         DataCollection<User> users = localDatabase.getUsers();
         DataCollection<OrganisationalUnit> organisationalUnits = localDatabase.getOrganisationalUnits();
@@ -104,6 +104,7 @@ public class UsersController extends DisplayController {
                     .add(organisationalUnits.get(i).getName());
         }
 
+        usersDisplayBox.getChildren().clear();
         for (User user : users){
             addUserInfoBox(user);
         }

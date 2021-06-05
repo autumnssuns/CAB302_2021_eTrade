@@ -49,7 +49,7 @@ public class OrderDataSource extends DataSource {
                     WHERE order_id=?""";
     protected static final String GET_MAX_ID = "SELECT order_id from orders";
 
-    //Prepare statements.
+    // Prepare statements.
     private PreparedStatement addOrder;
     private PreparedStatement deleteOrder;
     private PreparedStatement deleteAllOrders;
@@ -85,15 +85,6 @@ public class OrderDataSource extends DataSource {
      */
     public void addOrder(Order order){
         try {
-//            int idSize = getOrderList().size();
-//            //input values into the query string above
-//            if(order.getOrderId() == null) {
-//                order.setOrderId(idSize);
-//                addOrder.setInt(1, idSize);
-//            }
-//            else{
-
-//            }
             int newOrderInt = order.getOrderId() == null ? getNextId() : order.getOrderId();
             addOrder.setInt(1, newOrderInt);
             addOrder.setString(2, order.getOrderType().name());
@@ -132,7 +123,7 @@ public class OrderDataSource extends DataSource {
     }
 
     /**
-     * Delete all orders
+     * Delete all orders from the database
      */
     public void deleteAllOrders(){
         try {
@@ -241,7 +232,6 @@ public class OrderDataSource extends DataSource {
                 editOrder.setString(8, orderNewInfo.getFinishDate().format(formatter));
             }
             editOrder.setString(9, orderNewInfo.getStatus().name());
-
             editOrder.setInt(10, orderNewInfo.getOrderId());
             editOrder.executeUpdate();
 

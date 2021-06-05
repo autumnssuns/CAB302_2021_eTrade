@@ -13,6 +13,11 @@ public class DataCollection<T extends IData> extends ArrayList<T> implements IDa
         }
     }
 
+    /**
+     * Indicates if some object is equal to this instance.
+     * @param o The object to compare.
+     * @return true if the object is equal to the instance, false otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         return super.equals(o);
