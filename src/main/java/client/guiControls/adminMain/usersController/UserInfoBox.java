@@ -1,7 +1,14 @@
 package client.guiControls.adminMain.usersController;
 
 import client.IViewUnit;
+import client.guiControls.DisplayController;
+import client.guiControls.adminMain.AdminLocalDatabase;
+import client.guiControls.adminMain.AdminMainController;
 import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
+import common.Response;
+import common.dataClasses.Asset;
+import common.dataClasses.DataCollection;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.User;
 import javafx.geometry.Pos;
@@ -232,7 +239,7 @@ public class UserInfoBox extends HBox implements IViewUnit {
     private void confirmEdit() throws InvalidArgumentValueException {
         disable();
         updateValues();
-        controller.sendRequest("edit", user, User.class);
+        controller.sendRequest(Request.ActionType.UPDATE, user, Request.ObjectType.USER);
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
@@ -267,6 +274,6 @@ public class UserInfoBox extends HBox implements IViewUnit {
      * Removes the current entry.
      */
     private void removeEntry() throws InvalidArgumentValueException {
-        controller.sendRequest("delete", user, User.class);
+        controller.sendRequest(Request.ActionType.DELETE, user, Request.ObjectType.USER);
     }
 }

@@ -1,6 +1,7 @@
 package client.guiControls;
 
 import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
 import common.Response;
 import common.dataClasses.IData;
 
@@ -22,13 +23,13 @@ public class DisplayController {
 
     /**
      * Pass the request to the mainController and in turns, be sent to the database.
-     * @param action The request action "query", "add", "edit", "delete"
+     * @param action The request action "query", Request.ActionType.CREATE, Request.ActionType.UPDATE, Request.ActionType.DELETE
      * @param attachment The attachment related to the request.
      * @param attachmentType The type of the attachment that can be read.
      * @param <T> The type of the attachment.
      * @return
      */
-    public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType) throws InvalidArgumentValueException {
+    public <T extends IData> Response sendRequest(Request.ActionType action, T attachment, Request.ObjectType attachmentType) throws InvalidArgumentValueException {
         return controller.sendRequest(action, attachment, attachmentType);
     }
 }

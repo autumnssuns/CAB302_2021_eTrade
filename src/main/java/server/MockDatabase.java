@@ -24,6 +24,10 @@ public class MockDatabase {
         add(new User(0, "Admin", "admin", "root", "admin", 0).hashPassword());
     }
 
+    /**
+     * Create some mockup database
+     * @throws InvalidArgumentValueException
+     */
     public static void initiate() throws InvalidArgumentValueException {
         add(new User(1, "Dan Tran", "dan", "123", "user", 0).hashPassword());
         add(new User(2, "Daniel Pham", "duy", "abcd", "user", 1).hashPassword());
@@ -80,6 +84,11 @@ public class MockDatabase {
         add(new Order(15, Order.Type.BUY, 3, 3, 50, 0, 15.5f, null, LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
     }
 
+    /**
+     * Process login request
+     * @param request
+     * @return a Response object
+     */
     public static Response login(Request request){
         User sender = request.getUser();
         for (Object[] user : users){
@@ -90,6 +99,11 @@ public class MockDatabase {
         return new Response(false, null);
     }
 
+    /**
+     * Query a number of user rows
+     * @param request
+     * @return a Response object
+     */
     public static Response queryUsers(Request request) {
         DataCollection<User> attachedUsers = new DataCollection<>();
         for (Object[] user : users){
@@ -98,6 +112,12 @@ public class MockDatabase {
         return new Response(true, attachedUsers);
     }
 
+    /**
+     * Query a number of asset rows
+     * @param request
+     * @return a Response object
+     * @throws InvalidArgumentValueException
+     */
     public static Response queryAssets(Request request) throws InvalidArgumentValueException {
         DataCollection<Asset> attachedAssets = new DataCollection<>();
         for (int i = 0; i < assets.size(); i++){
@@ -107,6 +127,12 @@ public class MockDatabase {
         return new Response(true, attachedAssets);
     }
 
+    /**
+     * Query a number of organisation rows
+     * @param request
+     * @return a Response object
+     * @throws InvalidArgumentValueException
+     */
     public static Response queryOrganisations(Request request) throws InvalidArgumentValueException {
         DataCollection<OrganisationalUnit> attachedOrganisationalUnit = new DataCollection<>();
         for (Object[] organisationalUnit : organisationalUnits){
@@ -115,6 +141,12 @@ public class MockDatabase {
         return new Response(true, attachedOrganisationalUnit);
     }
 
+    /**
+     * Query a number of stock rows
+     * @param request
+     * @return a Response object
+     * @throws InvalidArgumentValueException
+     */
     public static Response queryStocks(Request request) throws InvalidArgumentValueException {
         DataCollection<Stock> attachedStocks = new DataCollection<>();
         for (Object[] organisationalUnit : organisationalUnits){
@@ -128,6 +160,12 @@ public class MockDatabase {
         return new Response(true, attachedStocks);
     }
 
+    /**
+     * Query an organisation row
+     * @param request
+     * @return a Response object
+     * @throws InvalidArgumentValueException
+     */
     public static Response queryOrganisationalUnit(Request request) throws InvalidArgumentValueException {
         int unitId = request.getUser().getUnitId();
         Object[] matchedUnit = organisationalUnits.get(unitId);
@@ -135,6 +173,12 @@ public class MockDatabase {
         return new Response(true, attachedUnit);
     }
 
+    /**
+     * Query a stock row
+     * @param request
+     * @return a Response object
+     * @throws InvalidArgumentValueException
+     */
     public static Response queryStock(Request request) throws InvalidArgumentValueException {
         int unitId = request.getUser().getUnitId();
         Stock returnStock = new Stock(unitId);
@@ -153,6 +197,12 @@ public class MockDatabase {
         return new Response(true, returnStock);
     }
 
+    /**
+     * Query a number of order rows
+     * @param request
+     * @return a Response object
+     * @throws InvalidArgumentValueException
+     */
     public static Response queryOrders(Request request) throws InvalidArgumentValueException {
         DataCollection<Order> returnOrders = new DataCollection<>();
         for (Object[] row : orders){
@@ -291,20 +341,20 @@ public class MockDatabase {
      */
     public static <T extends IData> Response edit(Request<T> request){
         T attachment = request.getAttachment();
-        Class<T> type = request.getAttachmentType();
-        if (type.equals(User.class)){
+        Request.ObjectType type = request.getObjectType();
+        if (type.equals(Request.ObjectType.USER)){
             return edit((User) attachment);
         }
-        else if (type.equals(Asset.class)){
+        else if (type.equals(Request.ObjectType.ASSET)){
             return edit((Asset) attachment);
         }
-        else if (type.equals(OrganisationalUnit.class)){
+        else if (type.equals(Request.ObjectType.ORGANISATIONAL_UNIT)){
             return edit((OrganisationalUnit) attachment);
         }
-        else if (type.equals(Stock.class)){
+        else if (type.equals(Request.ObjectType.STOCK)){
             return edit((Stock) attachment);
         }
-        else if (type.equals(Order.class)){
+        else if (type.equals(Request.ObjectType.ORDER)){
             return edit((Order) attachment);
         }
         return null;
@@ -384,6 +434,11 @@ public class MockDatabase {
         return response;
     }
 
+    /**
+     * Process edit request
+     * @param order
+     * @return a Response object
+     */
     public static Response edit(Order order){
         if (order.getStatus().equals(Order.Status.CANCELLED)){
             cancelOrder(order);
@@ -435,22 +490,28 @@ public class MockDatabase {
      */
     public static <T extends IData> Response add(Request<T> request) throws InvalidArgumentValueException {
         T attachment = request.getAttachment();
-        Class<T> type = request.getAttachmentType();
-        if (type.equals(User.class)){
+        Request.ObjectType type = request.getObjectType();
+        if (type.equals(Request.ObjectType.USER)){
             return add((User) attachment);
         }
-        else if (type.equals(Asset.class)){
+        else if (type.equals(Request.ObjectType.ASSET)){
             return add((Asset) attachment);
         }
-        else if (type.equals(OrganisationalUnit.class)){
+        else if (type.equals(Request.ObjectType.ORGANISATIONAL_UNIT)){
             return add((OrganisationalUnit) attachment);
         }
-        else if (type.equals(Order.class)){
+        else if (type.equals(Request.ObjectType.ORDER)){
             return add((Order) attachment);
         }
         return null;
     }
 
+
+    /**
+     *
+     * @param attachment
+     * @return a Response object
+     */
     private static Response add(User attachment) {
         Object[] newRow = new Object[]{users.size(), attachment.getFullName(),
                 attachment.getUsername(), attachment.getPassword(),
@@ -460,6 +521,11 @@ public class MockDatabase {
         return response;
     }
 
+    /**
+     *
+     * @param attachment
+     * @return a Response object
+     */
     private static Response add(Asset attachment) {
         Object[] newRow = new Object[]{assets.size(), attachment.getName(), attachment.getDescription()};
         assets.add(newRow);
@@ -467,6 +533,11 @@ public class MockDatabase {
         return response;
     }
 
+    /**
+     *
+     * @param attachment
+     * @return a Response object
+     */
     private static Response add(OrganisationalUnit attachment) {
         Object[] newRow = new Object[]{organisationalUnits.size(), attachment.getName(), attachment.getBalance()};
         organisationalUnits.add(newRow);
@@ -474,6 +545,12 @@ public class MockDatabase {
         return response;
     }
 
+    /**
+     *
+     * @param attachment
+     * @return a Response object
+     * @throws InvalidArgumentValueException
+     */
     private static Response add(Order attachment) throws InvalidArgumentValueException {
         Object[] newRow = new Object[]{orders.size(), attachment.getOrderType(), attachment.getUnitId(), attachment.getAssetId(),
                 attachment.getPlacedQuantity(), attachment.getResolvedQuantity(), attachment.getPrice(),
@@ -487,6 +564,10 @@ public class MockDatabase {
         return response;
     }
 
+    /**
+     *
+     * @param order
+     */
     private static void placeOrder(Order order){
         int unitId = order.getUnitId();
         if (order.getOrderType().equals(Order.Type.SELL)){
@@ -508,23 +589,28 @@ public class MockDatabase {
      * Switches to specific overload of deletion, based on the attachment's type.
      * @param <T> The type of the attachment
      * @param request The request
-     * @return
+     * @return a Response object
      */
     public static <T extends IData> Response delete(Request<T> request){
         T attachment = request.getAttachment();
-        Class<T> type = request.getAttachmentType();
-        if (type.equals(User.class)){
+        Request.ObjectType type = request.getObjectType();
+        if (type.equals(Request.ObjectType.USER)){
             return delete((User) attachment);
         }
-        else if (type.equals(Asset.class)){
+        else if (type.equals(Request.ObjectType.ASSET)){
             return delete((Asset) attachment);
         }
-        else if (type.equals(OrganisationalUnit.class)){
+        else if (type.equals(Request.ObjectType.ORGANISATIONAL_UNIT)){
             return delete((OrganisationalUnit) attachment);
         }
         return null;
     }
 
+    /**
+     *
+     * @param attachment
+     * @return a Response object
+     */
     private static Response delete(User attachment) {
         int rowToDelete = find(attachment);
         users.remove(rowToDelete);
@@ -532,6 +618,11 @@ public class MockDatabase {
         return response;
     }
 
+    /**
+     *
+     * @param attachment
+     * @return a Response object
+     */
     private static Response delete(Asset attachment) {
         int rowToDelete = find(attachment);
         assets.remove(rowToDelete);
@@ -546,6 +637,11 @@ public class MockDatabase {
         return response;
     }
 
+    /**
+     *
+     * @param attachment
+     * @return a Response object
+     */
     private static Response delete(OrganisationalUnit attachment) {
         int rowToDelete = find(attachment);
         organisationalUnits.remove(rowToDelete);

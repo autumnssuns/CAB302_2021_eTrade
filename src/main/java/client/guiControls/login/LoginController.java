@@ -4,6 +4,7 @@ import client.data.IServerConnection;
 import client.data.ServerConnection;
 import client.guiControls.MainController;
 import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
 import common.Response;
 import common.dataClasses.IData;
 import common.dataClasses.User;
@@ -52,7 +53,7 @@ public class LoginController extends MainController {
         alert.getButtonTypes().setAll(yesButton, noButton);
         alert.showAndWait().ifPresent(type -> {
             if (type == yesButton) {
-                this.sendRequest("init");
+                this.sendRequest(Request.ActionType.TEST, null);
             }
         });
     }
@@ -70,7 +71,7 @@ public class LoginController extends MainController {
         tempUser.hashPassword();
         this.setUser(tempUser);
         System.out.println(this.getUser().getPassword());
-        Response response = this.sendRequest("login");
+        Response response = this.sendRequest(Request.ActionType.LOGIN, null);
         boolean loginSuccess = response.isFulfilled();
 
         //TODO: Wait for response from server
@@ -151,7 +152,7 @@ public class LoginController extends MainController {
     }
 
     @Override
-    public <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException {
+    public void updateLocalDatabase(Request.ObjectType type) throws InvalidArgumentValueException {
 
     }
 

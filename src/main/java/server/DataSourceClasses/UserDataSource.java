@@ -11,8 +11,8 @@ import java.sql.*;
  * Provides needed functions to interact with "users" database for data
  */
 public class UserDataSource extends DataSource {
-    //Create the environment
-    //SQL queries
+
+    // SQL query strings
     private static final String CREATE_TABLE =
             """
                     CREATE TABLE IF NOT EXISTS users (
@@ -68,7 +68,9 @@ public class UserDataSource extends DataSource {
         {e.printStackTrace();}
     }
 
-
+    /**
+     * Delete all users from the database
+     */
     public void deleteAll() {
         try {
             deleteAll.executeUpdate();

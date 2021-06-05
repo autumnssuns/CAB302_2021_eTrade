@@ -41,7 +41,7 @@ public class CasesToResponseTest {
     public void LoginTest() {
         // Register for user???
         User test = new User("duy","abcd").hashPassword();
-        Request loginRequest = new Request(test,"");
+        Request loginRequest = new Request(test,Request.ActionType.PING);
         Response response = CasesToResponse.login(loginRequest);
         test = (User) response.getAttachment();
         assertEquals(2, test.getId());

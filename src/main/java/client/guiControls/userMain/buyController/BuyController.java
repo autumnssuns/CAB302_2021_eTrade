@@ -5,6 +5,7 @@ import client.guiControls.userMain.CurrentOrdersInfoBox;
 import client.guiControls.userMain.UserLocalDatabase;
 import client.guiControls.userMain.UserMainController;
 import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
 import common.dataClasses.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -128,7 +129,7 @@ public class BuyController extends DisplayController {
         for (CartItem cartItem : buyCart){
             Order newOrder = new Order(orderDataSource.getOrderList().size(), Order.Type.BUY, unitId, cartItem.getId(), cartItem.getQuantity(), 0, cartItem.getPrice(),
                     null, LocalDateTime.now(), Order.Status.PENDING);
-            controller.sendRequest("add", newOrder, Order.class);
+            controller.sendRequest(Request.ActionType.CREATE, newOrder, Request.ObjectType.ORDER);
         }
         buyCart.clear();
         ((UserMainController) controller).update();

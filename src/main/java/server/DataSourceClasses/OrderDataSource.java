@@ -48,7 +48,7 @@ public class OrderDataSource extends DataSource {
                     WHERE order_id=?""";
     protected static final String GET_MAX_ID = "SELECT order_id FROM orders";
 
-    //Prepare statements.
+    // Prepare statements.
     private PreparedStatement addOrder;
     private PreparedStatement deleteOrder;
     private PreparedStatement deleteAllOrders;
@@ -213,7 +213,6 @@ public class OrderDataSource extends DataSource {
                 editOrder.setString(8, orderNewInfo.getFinishDate().format(formatter));
             }
             editOrder.setString(9, orderNewInfo.getStatus().name());
-
             editOrder.setInt(10, orderNewInfo.getOrderId());
             editOrder.executeUpdate();
 

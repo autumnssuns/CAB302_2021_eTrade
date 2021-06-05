@@ -18,18 +18,18 @@ class RequestTest {
         String username = "dan";
         String password = "123";
         User tempUser = new User(username, password);
-        loginRequest = new Request<>(tempUser, "login");
+        loginRequest = new Request<>(tempUser, Request.ActionType.LOGIN);
 
         User user = new User(0, username, username, password, "user", 0);
-        queryRequest = new Request<>(user, "query stock");
+        queryRequest = new Request<>(user, Request.ActionType.READ).setObjectType(Request.ObjectType.STOCK);
 
         User userAsAttachment = new User(1, "Dan Tran ", "dan", "123", "user", 0);
-        updateRequest = new Request<>(user, "update", userAsAttachment);
-        updateRequest.setAttachmentType(User.class);
+        updateRequest = new Request<>(user, Request.ActionType.UPDATE, userAsAttachment);
+        updateRequest.setObjectType(Request.ObjectType.USER);
 
         User userAsAttachment2 = new User(2, "Rodo Nguyen","rodo", "rodo", "user", 0);
-        deleteRequest = new Request<>(user, "delete", userAsAttachment2);
-        deleteRequest.setAttachmentType(User.class);
+        deleteRequest = new Request<>(user, Request.ActionType.DELETE, userAsAttachment2);
+        deleteRequest.setObjectType(Request.ObjectType.USER);
     }
 
     @Test
@@ -40,10 +40,10 @@ class RequestTest {
 
     @Test
     void getAction() {
-        assertEquals("login", loginRequest.getAction());
-        assertEquals("query stock", queryRequest.getAction());
-        assertEquals("update", updateRequest.getAction());
-        assertEquals("delete", deleteRequest.getAction());
+        assertEquals(Request.ActionType.LOGIN, loginRequest.getActionType());
+        assertEquals(Request.ActionType.READ, queryRequest.getActionType());
+        assertEquals(Request.ActionType.UPDATE, updateRequest.getActionType());
+        assertEquals(Request.ActionType.DELETE, deleteRequest.getActionType());
     }
 
     @Test
@@ -56,9 +56,9 @@ class RequestTest {
 
     @Test
     void getAttachmentType(){
-        assertNull(loginRequest.getAttachmentType());
-        assertNull(queryRequest.getAttachmentType());
-        assertEquals(User.class, updateRequest.getAttachmentType());
-        assertEquals(User.class, deleteRequest.getAttachmentType());
+        assertNull(loginRequest.getObjectType());
+        assertEquals(Request.ObjectType.STOCK,queryRequest.getObjectType());
+        assertEquals(Request.ObjectType.USER, updateRequest.getObjectType());
+        assertEquals(Request.ObjectType.USER, deleteRequest.getObjectType());
     }
 }

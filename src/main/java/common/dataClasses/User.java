@@ -50,6 +50,7 @@ public class User implements IData {
     }
 
     /**
+     * Get username of the instance
      * @return The username of the user.
      */
     public String getUsername(){
