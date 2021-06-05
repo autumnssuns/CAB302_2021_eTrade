@@ -127,7 +127,7 @@ public class OrderDataSource extends DataSource {
     /**
      * Delete all orders
      */
-    public void deleteAllOrders(){
+    public void deleteAll(){
         try {
             deleteAllOrders.executeUpdate();
         } catch (SQLException e) {

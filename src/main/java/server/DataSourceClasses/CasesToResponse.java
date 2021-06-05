@@ -83,7 +83,7 @@ public class CasesToResponse  {
         OrganisationsDataSource organisationalUnitData = new OrganisationsDataSource();
         notificationData.deleteAll();
         stockData.deleteAll();
-        orderData.deleteAllOrders();
+        orderData.deleteAll();
         userData.deleteAll();
         assetData.deleteAll();
         organisationalUnitData.deleteAll();
