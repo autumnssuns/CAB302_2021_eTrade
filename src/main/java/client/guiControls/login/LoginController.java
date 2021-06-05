@@ -2,6 +2,7 @@ package client.guiControls.login;
 
 import client.data.IServerConnection;
 import client.data.ServerConnection;
+import client.guiControls.Controller;
 import client.guiControls.LocalDatabase;
 import client.guiControls.MainController;
 import client.guiControls.MessageFactory;
@@ -25,24 +26,30 @@ import java.io.IOException;
 /**
  * A controller for the login screen that authenticate the user and redirect to another main scene.
  */
-public class LoginController extends MainController {
+public class LoginController extends Controller {
     @FXML TextField nameTextField;
     @FXML PasswordField passwordField;
     @FXML Label statusLabel;
     @FXML Button exitButton;
+    @FXML Button loginButton;
 
     /**
      * Initialise the session by creating a server connection.
      */
     @FXML
     public void initialize(){
+        setUser(null);
         Platform.runLater(() -> {
             if (getServerConnection() == null){
-                IServerConnection serverConnection;
                 serverConnection = new ServerConnection();
-                this.setServerConnection(serverConnection);
                 createInitiationRequest();
             }
+            try {
+                update();
+            } catch (InvalidArgumentValueException e) {
+                e.printStackTrace();
+            }
+            startBackgroundThread();
         });
     }
 
@@ -148,27 +155,14 @@ public class LoginController extends MainController {
     }
 
     @Override
-    public void fetchDatabase() throws InvalidArgumentValueException {
-
-    }
-
-    @Override
-    public LocalDatabase getDatabase() {
-        return null;
-    }
-
-    @Override
-    protected <T extends IData> T findPreviousState(Request request) {
-        return null;
-    }
-
-    @Override
     public void update() throws InvalidArgumentValueException {
-
-    }
-
-    @Override
-    public void pushMessage(String message, MessageFactory.MessageType type) {
-
+        boolean isActive = serverConnection.pingServer();
+        if (isActive){
+            loginButton.setDisable(false);
+        }
+        else{
+            statusLabel.setText("Cannot connect to server...");
+            loginButton.setDisable(true);
+        }
     }
 }

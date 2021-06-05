@@ -30,4 +30,9 @@ public final class MockServerConnection implements IServerConnection{
     public void Close() {
 
     }
+
+    @Override
+    public boolean pingServer() {
+        return true;
+    }
 }

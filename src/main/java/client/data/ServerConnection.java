@@ -23,7 +23,7 @@ public final class ServerConnection implements IServerConnection{
      */
     public ServerConnection() {
         Properties props = new Properties();
-        InputStream in = null;
+        InputStream in;
         try{
             in = this.getClass().getClassLoader().getResourceAsStream("client-config.properties");
             props.load(in);
@@ -33,11 +33,7 @@ public final class ServerConnection implements IServerConnection{
             address = props.getProperty("host");
             port = Integer.parseInt(props.getProperty("port"));
 
-            Start();
-            sendRequest(new Request(null, Request.ActionType.PING));
-            Close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            pingServer();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,13 +44,23 @@ public final class ServerConnection implements IServerConnection{
      * @throws IOException
      */
     public void Start() throws IOException {
-        try {
-            socket = new Socket(address, port);
-            // Temporary prompt message
-            out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
+        socket = new Socket(address, port);
+        // Temporary prompt message
+        out = new ObjectOutputStream(socket.getOutputStream());
+        in = new ObjectInputStream(socket.getInputStream());
+    }
+
+    /**
+     * Checks if the server is active
+     * @return true if a connection can be established, false otherwise
+     */
+    public boolean pingServer() {
+        try{
+            Start();
+            Close();
+            return true;
+        } catch (IOException e) {
+            return false;
         }
     }
 

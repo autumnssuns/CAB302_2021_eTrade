@@ -18,46 +18,20 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * The main controller acts as the local storage of data, containing the current UserGUI and is able to connect to a server
- * connection class.
+ * The main controller acts as the local storage of data, containing the current UserGUI
+ * and is able to connect to a server connection class.
  * // TODO: Needs redesign & refactor & documentation.
  */
-public abstract class MainController {
+public abstract class MainController extends Controller{
     protected LocalDatabase localDatabase;
 
     /**
-     * The server connection
+     * Finds the version of an object attached in a request that is stored in the local database.
+     * Before any update, the local database contains the previous state of the object in request.
+     * @param request The request whose attachment is to be found.
+     * @return The previous state of the object in request.
      */
-    private IServerConnection serverConnection;
-
-    /**
-     * The current user
-     */
-    private User user;
-
-    /**
-     * Sets the user that is currently using the application.
-     * @param user The current user.
-     */
-    public void setUser(User user){
-        this.user = user;
-    }
-
-    /**
-     * Sets the server connection that connects the controller to the server.
-     * @param serverConnection The server connection.
-     */
-    public void setServerConnection(IServerConnection serverConnection){
-        this.serverConnection = serverConnection;
-    }
-
-    /**
-     * Returns the current server connection.
-     * @return The current server connection.
-     */
-    public IServerConnection getServerConnection(){
-        return serverConnection;
-    }
+    protected abstract <T extends IData> T findPreviousState(Request request);
 
     /**
      * Sends a request to the server with an attachment
@@ -87,34 +61,6 @@ public abstract class MainController {
             e.printStackTrace();
         }
         return response;
-    }
-
-    /**
-     * Send an attachment-less request
-     * @param action he action to be performed
-     * @param objectType The type of data the request targets
-     * @return The server's response for the given request
-     */
-    public Response sendRequest(Request.ActionType action, Request.ObjectType objectType) {
-        Response response = new Response(false, null);
-        try{
-            serverConnection.Start();
-            response = serverConnection.sendRequest(new Request(getUser(), action).setObjectType(objectType));
-            serverConnection.Close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidArgumentValueException e) {
-            e.printStackTrace();
-        }
-        return response;
-    }
-
-    /**
-     * Returns the current user.
-     * @return The current user.
-     */
-    public User getUser(){
-        return user;
     }
 
     /**
@@ -148,24 +94,10 @@ public abstract class MainController {
     public abstract void fetchDatabase() throws InvalidArgumentValueException;
 
     /**
-     * Finds the version of an object attached in a request that is stored in the local database.
-     * Before any update, the local database contains the previous state of the object in request.
-     * @param request The request whose attachment is to be found.
-     * @return The previous state of the object in request.
-     */
-    protected abstract <T extends IData> T findPreviousState(Request request);
-
-    /**
      * Returns the local database for the current user.
      * @return The local database for the current user.
      */
     public abstract LocalDatabase getDatabase();
-
-    /**
-     * Updates the GUI with new data from server
-     * @throws InvalidArgumentValueException
-     */
-    public abstract void update() throws InvalidArgumentValueException;
 
     /**
      * Push a message for the user
@@ -175,27 +107,24 @@ public abstract class MainController {
     public abstract void pushMessage(String message, MessageFactory.MessageType type);
 
     /**
-     * Starts a background thread to continually updates the GUI
+     * Sets up the view & the controllers by initialising the sub-panes
+     * @throws IOException
      */
-    protected void startBackgroundThread(){
-        Thread thread = new Thread(() -> {
-            while (true) {
-                try{
-                    // Updates every 10 seconds
-                    Thread.sleep(1000*10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Platform.runLater(() -> {
-                    try {
-                        update();
-                    } catch (InvalidArgumentValueException e) {
-                        e.printStackTrace();
-                    }
-                });
+    protected abstract void setupController() throws IOException, InvalidArgumentValueException;
+
+    /**
+     * Starts the controller & scene after setting up and initiating background thread
+     */
+    protected void start(){
+        // https://stackoverflow.com/questions/14370183/passing-parameters-to-a-controller-when-loading-an-fxml
+        // Used to wait until the non-GUI component (controller) is finished, making sure getUser() is not null.
+        Platform.runLater(() -> {
+            try {
+                setupController();
+            } catch (IOException | InvalidArgumentValueException e) {
+                e.printStackTrace();
             }
+            startBackgroundThread();
         });
-        thread.setDaemon(true);
-        thread.start();
     }
 }
