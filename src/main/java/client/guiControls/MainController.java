@@ -7,6 +7,7 @@ import common.Request;
 import common.Response;
 import common.dataClasses.IData;
 import common.dataClasses.User;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -17,11 +18,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * The main controller acts as the local storage of data, containing the current User and is able to connect to a server
+ * The main controller acts as the local storage of data, containing the current UserGUI and is able to connect to a server
  * connection class.
  * // TODO: Needs redesign & refactor & documentation.
  */
-public class MainController {
+public abstract class MainController {
     protected ILocalDatabase localDatabase;
 
     /**
@@ -63,7 +64,7 @@ public class MainController {
      * @param action
      * @param attachment
      */
-    public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType) {
+    public <T extends IData,E extends IData> Response sendRequest(String action, T attachment, Class<E> attachmentType) {
         Request request = new Request(getUser(), action, attachment);
         request.setAttachmentType(attachmentType);
         Response response = new Response(false, null);
@@ -130,20 +131,50 @@ public class MainController {
     /**
      * Fetch the local database from the server.
      */
-    public void fetchDatabase() throws InvalidArgumentValueException {
-
-    }
+    public abstract void fetchDatabase() throws InvalidArgumentValueException;
 
     /**
      * Update the local database with that from the server
      */
-    public <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException {}
+    public abstract <T extends IData> void updateLocalDatabase(Class<T> type) throws InvalidArgumentValueException;
 
     /**
-     * Returns the local database for the admin.
-     * @return The local database for the admin.
+     * Returns the local database for the current user.
+     * @return The local database for the current user.
      */
     public ILocalDatabase getDatabase(){
         return localDatabase;
+    }
+
+    /**
+     * Updates the GUI with new data from server
+     * @throws InvalidArgumentValueException
+     */
+    public abstract void update() throws InvalidArgumentValueException;
+
+    /**
+     * Starts a background thread to continually updates the GUI
+     */
+    protected void startBackgroundThread(){
+        Thread thread = new Thread(() -> {
+            while (true) {
+                try{
+                    // Updates every 10 seconds
+                    Thread.sleep(1000*10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Platform.runLater(() -> {
+                    try {
+                        System.out.println("Updated");
+                        update();
+                    } catch (InvalidArgumentValueException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
     }
 }

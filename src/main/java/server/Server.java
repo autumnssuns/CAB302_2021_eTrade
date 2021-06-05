@@ -196,6 +196,10 @@ public final class Server implements IServer{
                 serverResponse = CasesToResponse.queryOrders();
                 break;
 
+            case "query notifications":
+                serverResponse = CasesToResponse.queryNotifications(clientRequest);
+                break;
+
             case "add":
                 serverResponse = CasesToResponse.add(clientRequest);
                 break;

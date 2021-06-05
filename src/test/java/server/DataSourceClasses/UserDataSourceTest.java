@@ -1,4 +1,4 @@
-package server.DataSourcesTest;
+package server.DataSourceClasses;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,7 +47,7 @@ public class UserDataSourceTest {
 
 //    @Test
 //    void tooLongUserName() {
-//        User testuser = new User(1, "DuyPham",
+//        UserGUI testuser = new UserGUI(1, "DuyPham",
 //                "loooooooooooooooooooooooooo0000000000000000000000000oong",
 //                "123",
 //                "user", 1);

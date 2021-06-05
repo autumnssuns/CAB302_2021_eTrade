@@ -52,7 +52,6 @@ public class OrdersController extends DisplayController {
      */
     @Override
     public void update() throws InvalidArgumentValueException {
-        ((UserMainController) controller).update();
         UserLocalDatabase localDatabase = (UserLocalDatabase) controller.getDatabase();
         orders = new DataCollection<>();
         for (Order order : localDatabase.getOrders()){

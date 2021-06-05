@@ -14,30 +14,30 @@ public class UserDataSource extends DataSource {
 
     // SQL query strings
     private static final String CREATE_TABLE =
-            "CREATE TABLE IF NOT EXISTS users (\n" +
-                    "    user_id         INT          NOT NULL,\n" +
-                    "    fullname        VARCHAR (50) NOT NULL,\n" +
-                    "    username        VARCHAR (20) NOT NULL,\n" +
-                    "    password        VARCHAR (32) NOT NULL,\n" +
-                    "    user_type       VARCHAR (5)  NOT NULL\n" +
-                    "                                 DEFAULT 'user',\n" +
-                    "    organisation_id INT          DEFAULT NULL,\n" +
-                    "    PRIMARY KEY (\n" +
-                    "        username\n" +
-                    "    ),\n" +
-                    "    CONSTRAINT user_organisaion\n" +
-                    ");";
+            """
+                    CREATE TABLE IF NOT EXISTS users (
+                        user_id         INT          NOT NULL,
+                        fullname        VARCHAR (50) NOT NULL,
+                        username        VARCHAR (20) NOT NULL,
+                        password        VARCHAR (32) NOT NULL,
+                        user_type       VARCHAR (5)  NOT NULL
+                                                     DEFAULT 'user',
+                        organisation_id INT          DEFAULT NULL,
+                        PRIMARY KEY (
+                            username
+                        ),
+                        CONSTRAINT user_organisaion
+                    );""";
     private static final String ADD_USER = "INSERT INTO users(user_id, fullname, username, password, user_type, organisation_id) VALUES (?, ?, ?, ?, ?, ?);";
     private static final String DELETE_USER = "DELETE FROM users WHERE user_id = ?";
     private static final String GET_USER = "SELECT * FROM users WHERE username = ?";
     private static final String GET_ALL_USER = "SELECT * FROM users";
     private static final String EDIT_USER =
-            "UPDATE users \n" +
-                    "SET " +
-                    "fullname = ?, username = ?, password = ?," +
-                    " user_type = ?, organisation_id = ? \n" +
-                    "WHERE \n" +
-                    "user_id = ?";
+            """
+                    UPDATE users\s
+                    SET fullname = ?, username = ?, password = ?, user_type = ?, organisation_id = ?\s
+                    WHERE\s
+                    user_id = ?""";
     private static final  String DELETE_ALL = "DELETE FROM users";
 
     //Prepared statements
@@ -102,7 +102,7 @@ public class UserDataSource extends DataSource {
 
     /**
      * Delete a user from the table if exists
-     * @param userId
+     * @param userId id of user
      */
     public void deleteUser(int userId){
         try {
@@ -117,7 +117,7 @@ public class UserDataSource extends DataSource {
     /**
      * Return a user in the database
      * @param userName Name of user wanted to return
-     * @return all details of an User object
+     * @return all details of an UserGUI object
      */
     public User getUser(String userName) {
         //Create a dummy to store all information then return the dummy later
@@ -145,7 +145,7 @@ public class UserDataSource extends DataSource {
         return dummy;
     }
 
-    //Todo: Get User list method
+    //Todo: Get UserGUI list method
     public DataCollection<User> getUserList(){
         DataCollection<User> users = new DataCollection<>();
         try {

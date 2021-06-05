@@ -115,7 +115,7 @@ class OrderTest {
     }
 
     @Test
-    void setAssetId() {
+    void setAssetId() throws InvalidArgumentValueException {
         buy.setAssetID(1);
         assertEquals(buy.getAssetId(), 1);
     }

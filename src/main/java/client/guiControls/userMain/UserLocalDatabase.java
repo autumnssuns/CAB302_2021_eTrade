@@ -21,6 +21,7 @@ public class UserLocalDatabase extends ILocalDatabase {
     private Stock stock;
     private DataCollection<Order> orders;
     private DataCollection<Asset> assets;
+    private DataCollection<Notification> notifications;
 
     /**
      * Initialises the database with initial data (fetched from server)
@@ -29,11 +30,16 @@ public class UserLocalDatabase extends ILocalDatabase {
      * @param orders The current orders in the system.
      * @param assets The current assets in the system.
      */
-    public UserLocalDatabase(OrganisationalUnit organisationalUnit, Stock stock, DataCollection<Order> orders, DataCollection<Asset> assets) {
+    public UserLocalDatabase(OrganisationalUnit organisationalUnit,
+                             Stock stock,
+                             DataCollection<Order> orders,
+                             DataCollection<Asset> assets,
+                             DataCollection<Notification> notifications) {
         setAssets(assets);
         setOrganisationalUnit(organisationalUnit);
         setStock(stock);
         setOrders(orders);
+        setNotifications(notifications);
     }
 
     /**
@@ -102,6 +108,22 @@ public class UserLocalDatabase extends ILocalDatabase {
      */
     public void setAssets(DataCollection<Asset> assets) {
         this.assets = assets;
+    }
+
+    /**
+     * Gets the notifications for the current organisational unit
+     * @return The notifications for the current organisational unit
+     */
+    public DataCollection<Notification> getNotifications() {
+        return notifications;
+    }
+
+    /**
+     * Sets the notifications for the current organisational unit
+     * @param notifications The new notifications for the current organisational unit
+     */
+    public void setNotifications(DataCollection<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     /**

@@ -2,6 +2,8 @@ package client.guiControls.userMain;
 
 import client.guiControls.MainController;
 import client.guiControls.userMain.buyController.BuyController;
+import client.guiControls.userMain.homeController.HomeController;
+import client.guiControls.userMain.notificationController.NotificationFactory;
 import client.guiControls.userMain.ordersController.OrdersController;
 import client.guiControls.userMain.profileController.ProfileController;
 import client.guiControls.userMain.saleController.SaleController;
@@ -13,39 +15,50 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
+import java.util.Collections;
 
 //TODO: Refactor magic numbers & Node creation
 //TODO: Commenting & Documenting
 
 public class UserMainController extends MainController {
     // Display controllers
+    private HomeController homeController;
     private SaleController saleController;
     private BuyController buyController;
     private OrdersController ordersController;
     private ProfileController profileController;
 
     //Reusable elements that can be updated
-    Label cartTotalLabel;
-    Pane sellPane;
-    Pane buyPane;
-    Pane ordersPane;
-    Pane profilePane;
+    private Pane homePane;
+    private Pane sellPane;
+    private Pane buyPane;
+    private Pane ordersPane;
+    private Pane profilePane;
 
     //Preset components
-    @FXML StackPane displayStack;
-    @FXML Pane filterPane;
-    @FXML Button marketButton;
-    @FXML Button ordersButton;
-    @FXML Button homeButton;
-    @FXML Button profileButton;
-    @FXML AnchorPane anchorPane;
-    @FXML Label userLabel;
-    @FXML Label creditLabel;
-    @FXML Label organisationalUnitLabel;
+    @FXML private StackPane displayStack;
+    @FXML private ScrollPane notificationPane;
+    @FXML private Button homePageButton;
+    @FXML private Button buyPageButton;
+    @FXML private Button historyButton;
+    @FXML private Button sellPageButton;
+    @FXML private Button profileButton;
+    @FXML private AnchorPane anchorPane;
+    @FXML private Label userLabel;
+    @FXML private Label creditLabel;
+    @FXML private Label organisationalUnitLabel;
+    @FXML private Button notificationButton;
+    @FXML private VBox notificationBox;
+    @FXML private Label notificationNumberLabel;
 
+    /**
+     * Initialise the controller
+     * @throws IOException
+     */
     @FXML
     public void initialize() throws IOException {
         // Run later to wait for non-GUI thread to finish before loading GUI thread
@@ -55,6 +68,7 @@ public class UserMainController extends MainController {
             } catch (IOException | InvalidArgumentValueException e) {
                 e.printStackTrace();
             }
+            startBackgroundThread();
         });
     }
 
@@ -65,86 +79,109 @@ public class UserMainController extends MainController {
     private void setupController() throws IOException, InvalidArgumentValueException {
         fetchDatabase();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("SellPage.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UserGUI/HomePage.fxml"));
+        homePane = fxmlLoader.load();
+        homeController = fxmlLoader.getController();
+        homeController.setController(this);
+        homeController.update();
+
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UserGUI/SellPage.fxml"));
         sellPane = fxmlLoader.load();
         saleController = fxmlLoader.getController();
         saleController.setController(this);
         saleController.update();
 
-        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("BuyPage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UserGUI/BuyPage.fxml"));
         buyPane = fxmlLoader.load();
         buyController = fxmlLoader.getController();
         buyController.setController(this);
         buyController.update();
 
-        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("OrdersPage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UserGUI/OrdersPage.fxml"));
         ordersPane = fxmlLoader.load();
         ordersController = fxmlLoader.getController();
         ordersController.setController(this);
         ordersController.update();
 
-        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("ProfilePage.fxml"));
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UserGUI/ProfilePage.fxml"));
         profilePane = fxmlLoader.load();
         profileController = fxmlLoader.getController();
         profileController.setController(this);
         profileController.update();
 
         update();
-        displayStack.getChildren().addAll(sellPane, buyPane, ordersPane, profilePane);
-        toHome();
+        displayStack.getChildren().addAll(homePane, sellPane, buyPane, ordersPane, profilePane);
+        switchToSellPage();
     }
 
     //Pane switching methods
 
     /**
-     * Switches the display to the SELL tab.
+     * Switches the display to the ORDERS tab.
      * @throws IOException
      */
-    public void toHome() throws IOException {
+    public void switchToHomePage() throws InvalidArgumentValueException {
+        homeController.update();
+        homePane.toFront();
+        homePageButton.setDisable(true);
+        sellPageButton.setDisable(false);
+        buyPageButton.setDisable(false);
+        historyButton.setDisable(false);
+        profileButton.setDisable(false);
+    }
+
+    /**
+     * Switches the display to the SELL tab.
+     */
+    public void switchToSellPage() {
         saleController.update();
         sellPane.toFront();
-        homeButton.setDisable(true);
-        marketButton.setDisable(false);
-        ordersButton.setDisable(false);
-        profilePane.setDisable(false);
+        homePageButton.setDisable(false);
+        sellPageButton.setDisable(true);
+        buyPageButton.setDisable(false);
+        historyButton.setDisable(false);
+        profileButton.setDisable(false);
     }
 
     /**
      * Switches the display to the BUY tab.
      * @throws IOException
      */
-    public void toMarket() throws InvalidArgumentValueException {
+    public void switchToBuyPage() throws InvalidArgumentValueException {
         buyController.update();
         buyPane.toFront();
-        homeButton.setDisable(false);
-        marketButton.setDisable(true);
-        ordersButton.setDisable(false);
-        profilePane.setDisable(false);
+        homePageButton.setDisable(false);
+        sellPageButton.setDisable(false);
+        buyPageButton.setDisable(true);
+        historyButton.setDisable(false);
+        profileButton.setDisable(false);
     }
 
     /**
      * Switches the display to the ORDERS tab.
      * @throws IOException
      */
-    public void toOrders() throws InvalidArgumentValueException {
+    public void switchToHistoryPage() throws InvalidArgumentValueException {
         ordersController.update();
         ordersPane.toFront();
-        homeButton.setDisable(false);
-        marketButton.setDisable(false);
-        ordersButton.setDisable(true);
-        profilePane.setDisable(false);
+        homePageButton.setDisable(false);
+        sellPageButton.setDisable(false);
+        buyPageButton.setDisable(false);
+        historyButton.setDisable(true);
+        profileButton.setDisable(false);
     }
 
     /**
      * Switches the display to the ORDERS tab.
      * @throws IOException
      */
-    public void toProfile() throws InvalidArgumentValueException {
+    public void switchToProfilePage() throws InvalidArgumentValueException {
         profileController.update();
         profilePane.toFront();
-        homeButton.setDisable(false);
-        marketButton.setDisable(false);
-        ordersButton.setDisable(false);
+        homePageButton.setDisable(false);
+        sellPageButton.setDisable(false);
+        buyPageButton.setDisable(false);
+        historyButton.setDisable(false);
         profileButton.setDisable(true);
     }
 
@@ -152,7 +189,7 @@ public class UserMainController extends MainController {
      * Fetch the database from server.
      */
     @Override
-    public void fetchDatabase() throws InvalidArgumentValueException {
+    public void fetchDatabase() {
         Response response = this.sendRequest("query organisational unit");
         OrganisationalUnit organisationalUnit = (OrganisationalUnit) response.getAttachment();
         System.out.println(organisationalUnit.getId() +" "+ organisationalUnit.getName() + " " + getDatabase());
@@ -166,8 +203,12 @@ public class UserMainController extends MainController {
         response = this.sendRequest("query assets");
         DataCollection<Asset> assets = (DataCollection) response.getAttachment();
 
-        localDatabase = new UserLocalDatabase(organisationalUnit, stock, orders, assets);
+        response = this.sendRequest("query notifications");
+        DataCollection<Notification> notifications = (DataCollection) response.getAttachment();
+
+        localDatabase = new UserLocalDatabase(organisationalUnit, stock, orders, assets, notifications);
     }
+
 
     @Override
     public UserLocalDatabase getDatabase(){
@@ -185,13 +226,80 @@ public class UserMainController extends MainController {
     }
 
     /**
-     * Updates the view
+     * Updates the view of the main page
      */
+    @Override
     public void update() throws InvalidArgumentValueException {
         fetchDatabase();
+        pushNotifications();
         OrganisationalUnit unit = ((UserLocalDatabase) localDatabase).getOrganisationalUnit();
         organisationalUnitLabel.setText(unit.getName());
         userLabel.setText(getUser().getFullName());
         creditLabel.setText("Balance: $" + unit.getBalance());
+        profileController.update();
+        homeController.update();
+        saleController.update();
+        buyController.update();
+        ordersController.update();
+    }
+
+    /**
+     * Show the notification panel. Also marks the current unit as having read the message.
+     */
+    public void showNotifications() throws InvalidArgumentValueException {
+        System.out.println("Showing notification");
+        notificationPane.setVisible(true);
+        DataCollection<Notification> notifications = ((UserLocalDatabase) localDatabase).getNotifications();
+        DataCollection<Notification> overridingNotifications = new DataCollection<>();
+        Integer unitId = getUser().getUnitId();
+        // Loops through the notifications, if the current unit is not already a reader, add it
+        for (Notification notification : notifications){
+            if (!notification.containsReader(unitId)){
+                notification.addReaderUnit(unitId);
+                overridingNotifications.add(notification);
+            }
+        }
+
+        sendRequest("edit", overridingNotifications, Notification.class);
+        notificationButton.setOnAction(e -> hideNotifications());
+    }
+
+    /**
+     * Hide the notification panel
+     */
+    public void hideNotifications() {
+        notificationPane.setVisible(false);
+        notificationButton.setOnAction(e -> {
+            try {
+                showNotifications();
+            } catch (InvalidArgumentValueException invalidArgumentValueException) {
+                invalidArgumentValueException.printStackTrace();
+            }
+        });
+        try {
+            update();
+        } catch (InvalidArgumentValueException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Pushes the notifications to the notification box, awaiting
+     * to be shown
+     */
+    private void pushNotifications(){
+        DataCollection<Notification> notifications = ((UserLocalDatabase) localDatabase).getNotifications();
+        notificationBox.getChildren().clear();
+        int unreadCount = 0;
+        boolean hasRead;
+        for (int i = 0; i < notifications.size(); i++){
+            Notification notification = notifications.get(notifications.size() - i - 1);
+            hasRead = notification.containsReader(getUser().getUnitId());
+            if (!hasRead){
+                unreadCount++;
+            }
+            this.notificationBox.getChildren().add(NotificationFactory.createNotification(notification, hasRead));
+        }
+        notificationNumberLabel.setText(String.valueOf(unreadCount));
     }
 }
