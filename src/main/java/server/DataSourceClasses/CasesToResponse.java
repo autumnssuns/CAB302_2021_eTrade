@@ -426,7 +426,6 @@ public class CasesToResponse  {
                     stockDataSource.editStock(unitStock);
                     break;
                 }
-
             }
         }
     }
