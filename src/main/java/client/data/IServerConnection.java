@@ -26,4 +26,10 @@ public interface IServerConnection {
      * Close the connection to the server.
      */
     void Close();
+
+    /**
+     * Checks if the server is active
+     * @return true if a connection can be established, false otherwise
+     */
+    boolean pingServer();
 }

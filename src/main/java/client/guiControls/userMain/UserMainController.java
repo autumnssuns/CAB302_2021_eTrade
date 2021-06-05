@@ -69,27 +69,15 @@ public class UserMainController extends MainController {
      */
     @FXML
     public void initialize() throws IOException {
-       /* Image img = new Image("notification.png");
-        ImageView view = new ImageView(img);
-        notificationButton.setGraphic(view);*/
-        // Run later to wait for non-GUI thread to finish before loading GUI thread
-        Platform.runLater(() -> {
-            try {
-                setupController();
-            } catch (IOException | InvalidArgumentValueException e) {
-                e.printStackTrace();
-            }
-            startBackgroundThread();
-        });
-
-
+        start();
     }
 
     /**
      * Sets up the view & the controllers
      * @throws IOException
      */
-    private void setupController() throws IOException, InvalidArgumentValueException {
+    @Override
+    protected void setupController() throws IOException, InvalidArgumentValueException {
         localDatabase = new UserLocalDatabase();
         fetchDatabase();
 

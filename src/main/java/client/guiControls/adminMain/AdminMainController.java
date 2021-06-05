@@ -57,23 +57,15 @@ public class AdminMainController extends MainController {
      */
     @FXML
     public void initialize() throws IOException {
-        // https://stackoverflow.com/questions/14370183/passing-parameters-to-a-controller-when-loading-an-fxml
-        // Used to wait until the non-GUI component (controller) is finished, making sure getUser() is not null.
-        Platform.runLater(() -> {
-            try {
-                setupController();
-            } catch (IOException | InvalidArgumentValueException e) {
-                e.printStackTrace();
-            }
-            startBackgroundThread();
-        });
+        start();
     }
 
     /**
      * Sets up the controller
      * @throws IOException Required by JavaFX
      */
-    private void setupController() throws IOException, InvalidArgumentValueException {
+    @Override
+    protected void setupController() throws IOException, InvalidArgumentValueException {
         localDatabase = new AdminLocalDatabase();
         fetchDatabase();
 
