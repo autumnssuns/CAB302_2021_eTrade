@@ -1,6 +1,7 @@
 package client.guiControls.adminMain.assetsController;
 
 import client.IViewUnit;
+import client.Styler;
 import client.guiControls.adminMain.AdminMainController;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Response;
@@ -51,14 +52,14 @@ public class AssetInfoBox extends HBox implements IViewUnit {
         this.setSpacing(3);
 
         idLabel = new Label();
-        idLabel.getStyleClass().add("blackLabel");
+        idLabel.getStyleClass().add(Styler.STANDARD_ASSET_NAME_BOX.styleClass());
         idLabel.setAlignment(Pos.CENTER);
         idLabel.setPrefWidth(100);
         idLabel.setPrefHeight(80);
 
         nameTextField = new TextField();
-        nameTextField.setPrefWidth(200);
-        nameTextField.setPrefHeight(30);
+        nameTextField.setPrefWidth(Styler.STANDARD_ASSET_NAME_BOX.width());
+        nameTextField.setPrefHeight(Styler.STANDARD_ASSET_BOX.height());
         nameTextField.setId("assetName" + asset.getId());
 
         descriptionTextField = new TextField();
