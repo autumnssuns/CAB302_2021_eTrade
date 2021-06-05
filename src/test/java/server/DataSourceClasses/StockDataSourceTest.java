@@ -1,10 +1,9 @@
-package server.DataSourcesTest;
+package server.DataSourceClasses;
 import static org.junit.jupiter.api.Assertions.*;
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.*;
 import org.junit.jupiter.api.*;
 import server.DBConnection;
-import server.DataSourceClasses.*;
 
 
 class StockDataSourceTest {
@@ -50,7 +49,7 @@ class StockDataSourceTest {
             stock1.add(new Item(asset1, 10));
             stock1.add(new Item(asset2, 10));
             stock1.add(new Item(asset2, 10));
-            stockDataSource.updateUnitStock(stock1);
+            stockDataSource.editStock(stock1);
             Stock userStock = stockDataSource.getStock(testuser.getUnitId());
             //check all items id in the stock
             assertEquals(userStock.get(0).getId(),stock1.get(0).getId());
@@ -99,11 +98,11 @@ class StockDataSourceTest {
         stock1.add(new Item(asset1,100));
         stock1.add(new Item(asset1, 10));
         stock1.add(new Item(asset2, 10));
-        stockDataSource.updateUnitStock(stock1);
+        stockDataSource.editStock(stock1);
         //stock0
         stock0.add(new Item(asset1, 10));
         stock0.add(new Item(asset2, 10));
-        stockDataSource.updateUnitStock(stock0);
+        stockDataSource.editStock(stock0);
         //get all stocks in database (put in a list)
         stocks = stockDataSource.getStockList();
 

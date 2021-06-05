@@ -14,6 +14,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import server.DataSourceClasses.OrderDataSource;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -148,9 +149,11 @@ public class SaleController extends DisplayController {
      * Sells all items in the cart.
      */
     public void checkOut() throws InvalidArgumentValueException {
+        OrderDataSource orderDataSource = new OrderDataSource();
         int unitId = ((UserLocalDatabase)controller.getDatabase()).getOrganisationalUnit().getId();
         for (CartItem cartItem : sellCart){
-            Order newOrder = new Order(-1, Order.Type.SELL, unitId, cartItem.getId(), cartItem.getQuantity(), 0, cartItem.getPrice(),
+            int id = orderDataSource.getOrderList().size();
+            Order newOrder = new Order(id, Order.Type.SELL, unitId, cartItem.getId(), cartItem.getQuantity(), 0, cartItem.getPrice(),
                     null, LocalDateTime.now(), Order.Status.PENDING);
             controller.sendRequest("add", newOrder, Order.class);
         }

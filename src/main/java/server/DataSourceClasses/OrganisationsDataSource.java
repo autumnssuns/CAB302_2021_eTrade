@@ -13,11 +13,12 @@ public class OrganisationsDataSource extends DataSource {
     //Create environment
     //SQL queries
     private static final String CREATE_TABLE =
-            "CREATE TABLE IF NOT EXISTS     organisationalUnits (\n" +
-                    "    organisation_id            INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                    "    organisation_name          VARCHAR(16) NOT NULL,\n" +
-                    "    credits  DECIMAL(2)        NOT NULL DEFAULT 0\n" +
-                    "    );";
+            """
+                    CREATE TABLE IF NOT EXISTS     organisationalUnits (
+                        organisation_id            INTEGER PRIMARY KEY AUTOINCREMENT,
+                        organisation_name          VARCHAR(16) NOT NULL,
+                        credits  DECIMAL(2)        NOT NULL DEFAULT 0
+                        );""";
     private static final String ADD_ORGANISATION = "INSERT INTO organisationalUnits(organisation_id, organisation_name, credits) VALUES (?, ?, ?);";
     private static final String DELETE_ORGANISATION = "DELETE FROM organisationalUnits WHERE organisation_id=?";
     private static final String GET_ORGANISATION = "SELECT * FROM organisationalUnits WHERE organisation_id=?";
@@ -81,7 +82,7 @@ public class OrganisationsDataSource extends DataSource {
 
     /**
      * Delete an OrganisationalUnit if exists
-     * @param id
+     * @param id of the organisation
      */
     public void deleteOrganisation(int id){
         try {
@@ -101,7 +102,7 @@ public class OrganisationsDataSource extends DataSource {
     public OrganisationalUnit getOrganisation(int id) {
         //Create dummy object to store data
         OrganisationalUnit dummy = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             getOrganisation.setInt(1, id);
             rs = getOrganisation.executeQuery();
@@ -109,8 +110,6 @@ public class OrganisationsDataSource extends DataSource {
             dummy = new OrganisationalUnit(rs.getInt("organisation_id"),
                     rs.getString("organisation_name"),
                     rs.getFloat("credits"));
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -130,8 +129,6 @@ public class OrganisationsDataSource extends DataSource {
                         )
                 );
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

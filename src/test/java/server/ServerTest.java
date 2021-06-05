@@ -9,7 +9,6 @@ import common.dataClasses.User;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,6 +27,7 @@ class ServerTest {
     DataCollection<OrganisationalUnit> expectedOrganisationalUnits;
     DataCollection<Stock> expectedStocks;
     DataCollection<Order> expectedOrders;
+    DataCollection<Notification> expectedNotifications;
 
     @BeforeAll
     void setUp() throws Exception {
@@ -49,6 +49,7 @@ class ServerTest {
         expectedOrganisationalUnits = new DataCollection<>();
         expectedStocks = new DataCollection<>();
         expectedOrders = new DataCollection<>();
+        expectedNotifications = new DataCollection<>();
 
         expectedUsers.add(new User(0, "Admin", "admin", "root", "admin", null).hashPassword());
         expectedUsers.add(new User(1, "Dan Tran", "dan", "123", "user", 0).hashPassword());
@@ -81,12 +82,12 @@ class ServerTest {
         stock1.add(new Item(expectedAssets.get(2), 44));
         stock1.add(new Item(expectedAssets.get(3), 49));
 
-        stock2.add(new Item(expectedAssets.get(0), 10));
-        stock2.add(new Item(expectedAssets.get(1), 10));
-        stock2.add(new Item(expectedAssets.get(2), 10));
-        stock2.add(new Item(expectedAssets.get(3), 10));
+        stock2.add(new Item(expectedAssets.get(0), 50));
+        stock2.add(new Item(expectedAssets.get(1), 50));
+        stock2.add(new Item(expectedAssets.get(2), 50));
+        stock2.add(new Item(expectedAssets.get(3), 50));
 
-        stock3.add(new Item(expectedAssets.get(0), 15));
+        stock3.add(new Item(expectedAssets.get(0), 50));
         stock3.add(new Item(expectedAssets.get(1), 50));
         stock3.add(new Item(expectedAssets.get(2), 50));
         stock3.add(new Item(expectedAssets.get(3), 50));
@@ -109,6 +110,34 @@ class ServerTest {
         expectedOrders.add(new Order(13, Order.Type.BUY, 3, 1, 50, 50, 12.5f, null, LocalDateTime.of(2021, 5, 4, 8, 30), Order.Status.COMPLETED));
         expectedOrders.add(new Order(14, Order.Type.BUY, 3, 2, 50, 50, 14.5f, null, LocalDateTime.of(2021, 5, 11, 0, 11), Order.Status.COMPLETED));
         expectedOrders.add(new Order(15, Order.Type.BUY, 3, 3, 50, 50, 15.5f, null, LocalDateTime.of(2021, 5, 13, 3, 42), Order.Status.COMPLETED));
+
+        expectedNotifications.add(new Notification().setNotificationId(0)
+                .setMessage("Your order #8 to BUY 40 CPU Hours has been resolved.")
+                .addReceiverUnit(2));
+        expectedNotifications.add(new Notification().setNotificationId(1)
+                .setMessage("Your order #9 to BUY 40 10 GB Database Server has been resolved.")
+                .addReceiverUnit(2));
+        expectedNotifications.add(new Notification().setNotificationId(2)
+                .setMessage("Your order #10 to BUY 40 A Generic Video Game has been resolved.")
+                .addReceiverUnit(2));
+        expectedNotifications.add(new Notification().setNotificationId(3)
+                .setMessage("Your order #11 to BUY 40 Coffin Dance Video has been resolved.")
+                .addReceiverUnit(2));
+        expectedNotifications.add(new Notification().setNotificationId(4)
+                .setMessage("Your order #4 to SELL 55 CPU Hours has been resolved.")
+                .addReceiverUnit(1));
+        expectedNotifications.add(new Notification().setNotificationId(5)
+                .setMessage("Your order #12 to BUY 50 CPU Hours has been resolved.")
+                .addReceiverUnit(3));
+        expectedNotifications.add(new Notification().setNotificationId(6)
+                .setMessage("Your order #13 to BUY 50 10 GB Database Server has been resolved.")
+                .addReceiverUnit(3));
+        expectedNotifications.add(new Notification().setNotificationId(7)
+                .setMessage("Your order #14 to BUY 50 A Generic Video Game has been resolved.")
+                .addReceiverUnit(3));
+        expectedNotifications.add(new Notification().setNotificationId(8)
+                .setMessage("Your order #15 to BUY 50 Coffin Dance Video has been resolved.")
+                .addReceiverUnit(3));
     }
 
     @Nested
@@ -119,8 +148,13 @@ class ServerTest {
         @AfterEach
         void executeAssertion() throws Exception {
             actualResponse = server.createResponse(request);
-//            for (int i = 0; i < ((DataCollection) actualResponse.getAttachment()).size(); i++){
-//                System.out.println(((DataCollection) actualResponse.getAttachment()).get(i).equals(((DataCollection) expectedResponse.getAttachment()).get(i)));
+//            try{
+//                for (int i = 0; i < ((DataCollection) actualResponse.getAttachment()).size(); i++){
+//                    System.out.println(((DataCollection) actualResponse.getAttachment()).get(i).equals(((DataCollection) expectedResponse.getAttachment()).get(i)));
+//                }
+//            }
+//            catch (IndexOutOfBoundsException ignored){
+//
 //            }
             assertEquals(expectedResponse, actualResponse);
         }
@@ -167,13 +201,6 @@ class ServerTest {
             expectedResponse = new Response<>(true, expectedStocks);
         }
 
-        @Disabled
-        @Test
-        void queryOrdersTest(){
-            request = new Request<>(expectedUsers.get(0), "query orders");
-            expectedResponse = new Response<>(true, expectedOrders);
-        }
-
         @RepeatedTest(4)
         void queryStockTest(RepetitionInfo repetitionInfo) {
             request = new Request<>(expectedUsers.get(repetitionInfo.getCurrentRepetition()), "query stock");
@@ -184,6 +211,20 @@ class ServerTest {
         void queryOrganisationalUnitTest(RepetitionInfo repetitionInfo) {
             request = new Request<User>(expectedUsers.get(repetitionInfo.getCurrentRepetition()), "query stock");
             expectedResponse = new Response<>(true, expectedStocks.get(repetitionInfo.getCurrentRepetition() - 1));
+        }
+
+        @RepeatedTest(4)
+        void queryNotificationsTest(RepetitionInfo repetitionInfo) {
+            User testUser = expectedUsers.get(repetitionInfo.getCurrentRepetition());
+            DataCollection<Notification> filteredNotifications = new DataCollection();
+            for (Notification notification : expectedNotifications){
+                if (notification.containsReceiver(testUser.getUnitId())){
+                    filteredNotifications.add(notification);
+                }
+            }
+
+            request = new Request<User>(testUser, "query notifications");
+            expectedResponse = new Response<>(true, filteredNotifications);
         }
     }
 
@@ -207,7 +248,7 @@ class ServerTest {
 
             @Test
             void userCreationTest() {
-                User newUser = new User(0, "New User", "newuser", "012345", "user", 0);
+                User newUser = new User(0, "New UserGUI", "newuser", "012345", "user", 0);
 
                 request = new Request<>(admin, "add", newUser);
                 request.setAttachmentType(User.class);
@@ -249,7 +290,7 @@ class ServerTest {
 
             @Test
             void orderCreationTest() throws Exception {
-                Order newOrder = new Order(0, Order.Type.BUY, 0, 0, 23, 0,
+                Order newOrder = new Order(null, Order.Type.BUY, 0, 0, 23, 0,
                         22f, null, LocalDateTime.of(2021, 5, 13, 16, 52), Order.Status.PENDING);
 
                 request = new Request<>(admin, "add", newOrder);
@@ -274,7 +315,7 @@ class ServerTest {
             @RepeatedTest(5)
              void userUpdatingTest(RepetitionInfo repetitionInfo){
                 User overrideUser = new User(repetitionInfo.getCurrentRepetition() - 1,
-                        "User " + (repetitionInfo.getCurrentRepetition() - 1),
+                        "UserGUI " + (repetitionInfo.getCurrentRepetition() - 1),
                         "user" + (repetitionInfo.getCurrentRepetition() - 1),
                         "p@ssw" + (repetitionInfo.getCurrentRepetition() - 1) + "rd",
                         "user",
