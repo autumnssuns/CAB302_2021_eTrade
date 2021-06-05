@@ -172,6 +172,58 @@ public class AdminMainController extends MainController {
     }
 
     /**
+     * Find the previous states of the request's attached object in the local database.
+     * @param request The request whose attachment is to be found.
+     * @return The previous states of the request's attached object in the local database.
+     */
+    // TODO: Refactor IData
+    @Override
+    protected <T extends IData> T findPreviousState(Request request) {
+        // The table to look into, depending on the object's type
+        AdminLocalDatabase localDatabase = (AdminLocalDatabase) this.localDatabase;
+        DataCollection table;
+        switch (request.getObjectType()){
+            case ASSET:
+                table = localDatabase.getAssets();
+                Asset newAsset = (Asset) request.getAttachment();
+                for (Asset previous : (DataCollection<Asset>) table){
+                    if (previous.getId().equals(newAsset.getId())){
+                        return (T) previous;
+                    }
+                }
+                break;
+            case USER:
+                table = localDatabase.getUsers();
+                User newUser = (User) request.getAttachment();
+                for (User previous : (DataCollection<User>) table){
+                    if (previous.getUserId().equals(newUser.getUserId())){
+                        return (T) previous;
+                    }
+                }
+                break;
+            case ORGANISATIONAL_UNIT:
+                table = localDatabase.getOrganisationalUnits();
+                OrganisationalUnit newOrg = (OrganisationalUnit) request.getAttachment();
+                for (OrganisationalUnit previous : (DataCollection<OrganisationalUnit>) table){
+                    if (previous.getId().equals(newOrg.getId())){
+                        return (T) previous;
+                    }
+                }
+                break;
+            case STOCK:
+                table = localDatabase.getStocks();
+                Stock newStock = (Stock) request.getAttachment();
+                for (Stock previous : (DataCollection<Stock>) table){
+                    if (previous.getUnitId().equals(newStock.getUnitId())){
+                        return (T) previous;
+                    }
+                }
+                break;
+        }
+        return null;
+    }
+
+    /**
      * Updates the view of the main page
      */
     @Override

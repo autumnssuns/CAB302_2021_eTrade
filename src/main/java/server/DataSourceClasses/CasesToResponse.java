@@ -301,6 +301,11 @@ public class CasesToResponse  {
      * @throws InvalidArgumentValueException
      */
     public static <T extends IData> Response<IData> edit(Request<T> request) throws InvalidArgumentValueException {
+        // If a request is not valid, it is denied immediately
+        if (!isValid(request)){
+            return new Response(false, null);
+        }
+
         T attachment = request.getAttachment();
         Request.ObjectType type = request.getObjectType();
         if (type.equals(Request.ObjectType.USER)){
@@ -429,6 +434,20 @@ public class CasesToResponse  {
 
             }
         }
+    }
+
+    /**
+     * Checks the request's previous state with the current state in the server's database if it is valid.
+     * A request is valid only if its previous state matches the state in the server's database.
+     * This is implemented to handle two admins updating the same data, the latter must reload before they can commit
+     * their changes.
+     * @param request The request containing the object's to check
+     * @param <T> The type of the attachment
+     * @return true if the request's previous state is valid with the current state of that object in the server's database.
+     */
+    public static <T extends IData> boolean isValid(Request<T> request){
+        T serverCurrentState = (T) query(request).getAttachment();
+        return request.getPreviousObjectState().equals(serverCurrentState);
     }
 
     //Todo: Overload Query method
@@ -585,6 +604,11 @@ public class CasesToResponse  {
      * @return a Response object or null
      */
     public static <T extends IData> Response<IData> delete(Request<T> request) {
+        // If a request is not valid, it is denied immediately
+        if (!isValid(request)){
+            return new Response(false, null);
+        }
+
         T attachment = request.getAttachment();
         Request.ObjectType type = request.getObjectType();
         if (type.equals(Request.ObjectType.USER)){

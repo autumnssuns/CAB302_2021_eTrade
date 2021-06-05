@@ -23,7 +23,7 @@ import java.io.IOException;
  * // TODO: Needs redesign & refactor & documentation.
  */
 public abstract class MainController {
-    protected ILocalDatabase localDatabase;
+    protected LocalDatabase localDatabase;
 
     /**
      * The server connection
@@ -67,6 +67,7 @@ public abstract class MainController {
     public <T extends IData> Response sendRequest(Request.ActionType action, T attachment, Request.ObjectType attachmentType) {
         Request request = new Request(getUser(), action, attachment);
         request.setObjectType(attachmentType);
+        request.setPreviousObjectState(findPreviousState(request));
         Response response = new Response(false, null);
         try{
             serverConnection.Start();
@@ -140,10 +141,18 @@ public abstract class MainController {
     public abstract void updateLocalDatabase(Request.ObjectType type) throws InvalidArgumentValueException;
 
     /**
+     * Finds the version of an object attached in a request that is stored in the local database.
+     * Before any update, the local database contains the previous state of the object in request.
+     * @param request The request whose attachment is to be found.
+     * @return The previous state of the object in request.
+     */
+    protected abstract <T extends IData> T findPreviousState(Request request);
+
+    /**
      * Returns the local database for the current user.
      * @return The local database for the current user.
      */
-    public ILocalDatabase getDatabase(){
+    public LocalDatabase getDatabase(){
         return localDatabase;
     }
 

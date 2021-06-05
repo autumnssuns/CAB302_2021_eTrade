@@ -157,6 +157,11 @@ public class LoginController extends MainController {
     }
 
     @Override
+    protected <T extends IData> T findPreviousState(Request request) {
+        return null;
+    }
+
+    @Override
     public void update() throws InvalidArgumentValueException {
 
     }

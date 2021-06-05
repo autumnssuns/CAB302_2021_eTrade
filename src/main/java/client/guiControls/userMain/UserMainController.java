@@ -1,6 +1,7 @@
 package client.guiControls.userMain;
 
 import client.guiControls.MainController;
+import client.guiControls.adminMain.AdminLocalDatabase;
 import client.guiControls.userMain.buyController.BuyController;
 import client.guiControls.userMain.homeController.HomeController;
 import client.guiControls.userMain.notificationController.NotificationFactory;
@@ -301,5 +302,16 @@ public class UserMainController extends MainController {
             this.notificationBox.getChildren().add(NotificationFactory.createNotification(notification, hasRead));
         }
         notificationNumberLabel.setText(String.valueOf(unreadCount));
+    }
+
+    /**
+     * Since a normal user cannot make direct changes to the local database, there is no need
+     * to check for conflict.
+     * @param request The request whose attachment is to be found.
+     * @return The previous states of the request's attached object in the local database.
+     */
+    @Override
+    protected <T extends IData> T findPreviousState(Request request) {
+        return null;
     }
 }

@@ -13,6 +13,7 @@ import java.util.Objects;
 public class Request<T extends IData> implements Serializable {
     private User sender;
     private ActionType actionType;
+    private T previousObjectState;
     private T attachment;
     private ObjectType objectType;
 
@@ -50,6 +51,25 @@ public class Request<T extends IData> implements Serializable {
     public Request setObjectType(ObjectType objectType){
         this.objectType = objectType;
         return this;
+    }
+
+    /**
+     * Sets the previous state of the attachment
+     * @param previousObjectState The previous state of the attachment
+     * @return The current instance for building
+     */
+    public Request setPreviousObjectState(T previousObjectState){
+        this.previousObjectState = previousObjectState;
+        return this;
+    }
+
+    /**
+     * Returns the previous state of the attachment. This can be used to check for conflict when
+     * the server handles the request queue.
+     * @return The previous state of the attachment
+     */
+    public T getPreviousObjectState(){
+        return previousObjectState;
     }
 
     /**

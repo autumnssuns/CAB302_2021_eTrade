@@ -1,14 +1,11 @@
 package client.guiControls.userMain;
 
 import common.Exceptions.InvalidArgumentValueException;
-import common.dataClasses.Cart;
-import client.guiControls.ILocalDatabase;
+import client.guiControls.LocalDatabase;
 import common.dataClasses.*;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
@@ -16,7 +13,7 @@ import java.util.LinkedList;
  * Represents a local database for a user. This local database is initiated using data fetched from server.
  * The UserMainController can interact with this database to write or read from it.
  */
-public class UserLocalDatabase extends ILocalDatabase {
+public class UserLocalDatabase extends LocalDatabase {
     private OrganisationalUnit organisationalUnit;
     private Stock stock;
     private DataCollection<Order> orders;
