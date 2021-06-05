@@ -44,6 +44,7 @@ public class ProfileController extends DisplayController {
         usernameLabel.setText(user.getUsername());
         unitLabel.setText(unit.getName());
         roleLabel.setText(user.getAccountType());
+
     }
 
     /**

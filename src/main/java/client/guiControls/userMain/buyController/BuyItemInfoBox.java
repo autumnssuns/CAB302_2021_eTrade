@@ -1,6 +1,7 @@
 package client.guiControls.userMain.buyController;
 
 import client.IViewUnit;
+import client.Styler;
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.Item;
 import javafx.geometry.Pos;
@@ -52,11 +53,11 @@ public class BuyItemInfoBox extends HBox implements IViewUnit {
         this.setSpacing(10);
 
         nameLabel = new Label(item.getName());
-        nameLabel.getStyleClass().add("blackLabel");
+        nameLabel.getStyleClass().add(Styler.STANDARD_ASSET_NAME_BOX.styleClass());
         nameLabel.setId("itemNameLabel" + item.getId());
 
         availabilityLabel = new Label(item.getQuantity() + " available");
-        availabilityLabel.getStyleClass().add("blackLabel");
+        availabilityLabel.getStyleClass().add(Styler.STANDARD_ASSET_NAME_BOX.styleClass());
         availabilityLabel.setId("itemAvailabilityLabel" + item.getId());
 
         quantityTextField = new TextField();

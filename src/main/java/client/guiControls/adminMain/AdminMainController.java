@@ -36,7 +36,7 @@ public class AdminMainController extends MainController {
 
     //Preset components
     @FXML StackPane displayStack;
-    @FXML Pane filterPane;
+    //@FXML Pane filterPane;
     @FXML Button assetsButton;
     @FXML Button usersButton;
     @FXML Button organisationalUnitsButton;

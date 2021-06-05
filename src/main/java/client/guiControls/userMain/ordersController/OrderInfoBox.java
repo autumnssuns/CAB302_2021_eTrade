@@ -1,6 +1,7 @@
 package client.guiControls.userMain.ordersController;
 
 import client.IViewUnit;
+import client.Styler;
 import client.guiControls.DisplayController;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
@@ -86,7 +87,7 @@ public class OrderInfoBox extends HBox implements IViewUnit {
                     invalidArgumentValueException.printStackTrace();
                 }
             });
-            cancelButton.setPrefWidth(100);
+            cancelButton.setPrefWidth(Styler.STANDARD_BUTTON.width());
             this.getChildren().add(cancelButton);
         }
     }
