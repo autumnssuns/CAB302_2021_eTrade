@@ -7,6 +7,10 @@ import java.util.ArrayList;
  */
 public class DataCollection<T extends IData> extends ArrayList<T> implements IData {
 
+    /**
+     * Adds an array of IData objects to the collection
+     * @param dataCollection
+     */
     public void addAll(T[] dataCollection) {
         for (T data : dataCollection){
             add(data);

@@ -4,6 +4,8 @@ import common.Exceptions.InvalidArgumentValueException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class OrderTest {
@@ -37,6 +39,14 @@ class OrderTest {
     void getAsset() {
         buy.setAsset(sampleAsset);
         assertEquals(buy.getAsset(), sampleAsset);
+    }
+
+    @Test
+    void validResolvedQuantity() throws Exception {
+        buy.setPlacedQuantity(10);
+        buy.ResolvedQuantity(5);
+        buy.ResolvedQuantity(3);
+        assertEquals(8, buy.getResolvedQuantity());
     }
 
     @Test
@@ -133,6 +143,14 @@ class OrderTest {
     }
 
     @Test
+    void resolvedOrder() {
+        buy.setPlacedQuantity(100);
+        buy.setResolvedQuantity(100);
+        assertEquals(buy.getStatus(), Order.Status.COMPLETED);
+        assertNotNull(buy.getFinishDate());
+    }
+
+    @Test
     void setPrice() {
         buy.setPrice(999.9f);
         assertEquals(buy.getPrice(), 999.9f);
@@ -140,10 +158,16 @@ class OrderTest {
 
     @Test
     void setOrderDate() {
+        LocalDateTime time = LocalDateTime.of(2021, 6,6,20,12);
+        buy.setOrderDate(time);
+        assertEquals(time, buy.getOrderDate());
     }
 
     @Test
     void setFinishDate() {
+        LocalDateTime time = LocalDateTime.of(2021, 6,6,20,12);
+        buy.setFinishDate(time);
+        assertEquals(time, buy.getFinishDate());
     }
 
     @Test
