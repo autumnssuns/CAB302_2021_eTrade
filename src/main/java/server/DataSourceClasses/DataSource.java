@@ -1,5 +1,6 @@
 package server.DataSourceClasses;
 
+import common.dataClasses.IData;
 import server.DBConnection;
 
 import java.sql.*;

@@ -219,7 +219,7 @@ public class MockDatabase {
      * @return The index of the user in the database.
      */
     private static int find(User user){
-        int key = user.getUserId();
+        int key = user.getId();
         Object[] match = new Object[]{};
         for (Object[] row : users){
             if (row[0].equals(key)){
@@ -365,7 +365,7 @@ public class MockDatabase {
      * @param user The user to override, can be identified by ID.
      */
     private static Response edit(User user){
-        Object[] overrideRow = new Object[]{user.getUserId(), user.getFullName(), user.getUsername(), user.getPassword(), user.getAccountType(), user.getUnitId()};
+        Object[] overrideRow = new Object[]{user.getId(), user.getFullName(), user.getUsername(), user.getPassword(), user.getAccountType(), user.getUnitId()};
         users.set(find(user), overrideRow);
         Response<User> response = new Response(true, user);
         return response;

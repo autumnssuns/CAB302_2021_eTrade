@@ -36,10 +36,10 @@ class AssetsDataSourceTest {
 
     @Test
     void addAndGetAsset() throws InvalidArgumentValueException {
-        assetsDataSource.addAsset(new Asset(0, "Bitcoin", "Crypto currency"));
-        assertEquals(0, assetsDataSource.getAsset(0).getId());
-        assertEquals("Bitcoin", assetsDataSource.getAsset(0).getName()) ;
-        assertEquals("Crypto currency", assetsDataSource.getAsset(0).getDescription());
+        Asset expected = new Asset(0, "Bitcoin", "Crypto currency");
+        assetsDataSource.addAsset(expected);
+        Asset result = assetsDataSource.getAsset(0);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -56,7 +56,7 @@ class AssetsDataSourceTest {
         assetsDataSource.addAsset(new Asset(3, "Ethereum", "Crypto currency"));
         assetsDataSource.addAsset(new Asset(1, "GPU 100x", "GPU cal power"));
         assetsDataSource.addAsset(new Asset(2, "GPU 500x", "GPU cal power"));
-        assetsDataSource.deleteAllAsset();
+        assetsDataSource.deleteAll();
         assertEquals(0, assetsDataSource.getAssetList().size()) ;
     }
 
