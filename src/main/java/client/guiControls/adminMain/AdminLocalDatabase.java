@@ -17,17 +17,10 @@ public class AdminLocalDatabase extends ILocalDatabase {
     private DataCollection<Stock> stocks;
 
     /**
-     * Initialises the database with initial data (fetched from server)
-     * @param users The users in the system
-     * @param assets The assets in the system
-     * @param organisationalUnits The organisationalUnits in the system
-     * @param stocks The stocks in the system
+     * Initialises the local database
      */
-    public AdminLocalDatabase(DataCollection users, DataCollection assets, DataCollection organisationalUnits, DataCollection stocks){
-        this.users = users;
-        this.assets = assets;
-        this.organisationalUnits = organisationalUnits;
-        this.stocks = stocks;
+    public AdminLocalDatabase(){
+
     }
 
     /**

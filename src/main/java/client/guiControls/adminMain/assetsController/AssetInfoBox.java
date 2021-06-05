@@ -182,9 +182,6 @@ public class AssetInfoBox extends HBox implements IViewUnit {
         disable();
         updateValues();
         Response response = controller.sendRequest(Request.ActionType.UPDATE, asset, Request.ObjectType.ASSET);
-        if (response.isFulfilled()){
-            controller.updateLocalDatabase(Request.ObjectType.ASSET);
-        }
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
@@ -220,8 +217,7 @@ public class AssetInfoBox extends HBox implements IViewUnit {
      */
     private void removeEntry() throws InvalidArgumentValueException {
         Response response = controller.sendRequest(Request.ActionType.DELETE, asset, Request.ObjectType.ASSET);
-        if (response.isFulfilled()){
-            controller.updateLocalDatabase(Request.ObjectType.ASSET);
+        if (response.isAccepted()){
             ((VBox) this.getParent()).getChildren().remove(this);
         }
     }

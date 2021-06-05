@@ -13,6 +13,14 @@
     -fx-background-color: "#4d965b";
 }
 
+.scroll-pane{
+   -fx-background-color:transparent;
+}
+
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
 .displayPane{
     -fx-background-color: "#2B4358";
 }
@@ -80,7 +88,7 @@
     -fx-font-size: 20px;
 }
 
-.smallTextField{
+.small-text{
     -fx-font-size: 12px;
 }
 
@@ -102,6 +110,14 @@
   -fx-background-color: transparent;
 }
 
-.highlight {
+.highlight-message {
     -fx-background-color: "#adffeb";
+}
+
+.error-message {
+    -fx-background-color: "#ff5959";
+}
+
+.success-message {
+    -fx-background-color: "#59ff75";
 }

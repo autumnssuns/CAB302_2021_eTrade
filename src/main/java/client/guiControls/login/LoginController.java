@@ -2,11 +2,12 @@ package client.guiControls.login;
 
 import client.data.IServerConnection;
 import client.data.ServerConnection;
+import client.guiControls.ILocalDatabase;
 import client.guiControls.MainController;
+import client.guiControls.MessageFactory;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
-import common.dataClasses.IData;
 import common.dataClasses.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -70,9 +71,8 @@ public class LoginController extends MainController {
         User tempUser = new User(username, password);
         tempUser.hashPassword();
         this.setUser(tempUser);
-        System.out.println(this.getUser().getPassword());
         Response response = this.sendRequest(Request.ActionType.LOGIN, null);
-        boolean loginSuccess = response.isFulfilled();
+        boolean loginSuccess = response.isAccepted();
 
         //TODO: Wait for response from server
         if(loginSuccess){
@@ -152,12 +152,17 @@ public class LoginController extends MainController {
     }
 
     @Override
-    public void updateLocalDatabase(Request.ObjectType type) throws InvalidArgumentValueException {
-
+    public ILocalDatabase getDatabase() {
+        return null;
     }
 
     @Override
     public void update() throws InvalidArgumentValueException {
+
+    }
+
+    @Override
+    public void pushMessage(String message, MessageFactory.MessageType type) {
 
     }
 }
