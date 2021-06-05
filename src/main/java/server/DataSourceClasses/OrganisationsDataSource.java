@@ -10,8 +10,8 @@ import java.sql.*;
  * Provides needed functions to interact with "organisationalUnits" database for data
  */
 public class OrganisationsDataSource extends DataSource {
-    //Create environment
-    //SQL queries
+
+    // SQL query strings
     private static final String CREATE_TABLE =
             """
                     CREATE TABLE IF NOT EXISTS     organisationalUnits (
@@ -28,7 +28,10 @@ public class OrganisationsDataSource extends DataSource {
                     "SET organisation_name=?, credits=?" +
                     "WHERE organisation_id=?";
     private static final String DELETE_ALL = "DELETE FROM organisationalUnits";
-    //Prepared statements
+    protected static final String GET_MAX_ID = "SELECT organisation_id FROM organisationalUnits";
+
+
+    // Prepared statements
     private PreparedStatement addOrganisation;
     private PreparedStatement deleteOrganisation;
     private PreparedStatement getOrganisation;
@@ -50,11 +53,15 @@ public class OrganisationsDataSource extends DataSource {
             editOrganisation = connection.prepareStatement(EDIT_ORGANISATION);
             getAllOrganisation = connection.prepareStatement(GET_ALL_ORGANISATION);
             deleteAll = connection.prepareStatement(DELETE_ALL);
+            getMaxId = connection.prepareStatement(GET_MAX_ID);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Delete all organisations from the database
+     */
     public void deleteAll()
     {
         try {
@@ -71,7 +78,8 @@ public class OrganisationsDataSource extends DataSource {
     public void addOrganisation(OrganisationalUnit newOrganisationalUnit){
         try {
             //set values into the above query
-            addOrganisation.setInt(1, newOrganisationalUnit.getId());
+            int newOrgId = newOrganisationalUnit.getId() == null ? getNextId() : newOrganisationalUnit.getId();
+            addOrganisation.setInt(1, newOrgId);
             addOrganisation.setString(2, newOrganisationalUnit.getName());
             addOrganisation.setFloat(3, newOrganisationalUnit.getBalance());
             addOrganisation.executeUpdate();
@@ -116,23 +124,22 @@ public class OrganisationsDataSource extends DataSource {
         return dummy;
     }
 
-    //Todo: Get Organisation list method
+    /**
+     * Get all organisations from the database
+     * @return an Organisation DataCollection
+     */
     public DataCollection<OrganisationalUnit> getOrganisationList(){
-        DataCollection<OrganisationalUnit> Organisations = new DataCollection<>();
+        DataCollection<OrganisationalUnit> organisations = new DataCollection<>();
         try {
             ResultSet rs = getAllOrganisation.executeQuery();
             while (rs.next()){
-                Organisations.add(new OrganisationalUnit(
-                                rs.getInt("organisation_id"),
-                                rs.getString("organisation_name"),
-                                rs.getFloat("credits")
-                        )
-                );
+                Integer nextId = rs.getInt(1);
+                organisations.add(getOrganisation(nextId));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Organisations;
+        return organisations;
     }
     /**
      * A method to update an Organisational Unit information on  database

@@ -34,14 +34,6 @@ public class Order implements IData {
     protected Status status;
     private Asset asset;
 
-    public void setAsset(Asset asset) {
-        this.asset = asset;
-    }
-
-    public Asset getAsset(){
-        return asset;
-    }
-
     public Order(Integer orderId, Type orderType, Integer unitId, Integer assetId, int placedQuantity, int resolvedQuantity, float price, LocalDateTime finishDate, LocalDateTime orderDate, Status status) throws InvalidArgumentValueException {
         setOrderId(orderId);
         this.orderType = orderType;
@@ -55,80 +47,47 @@ public class Order implements IData {
         this.status = status;
     }
 
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }
+
+    public Asset getAsset(){
+        return asset;
+    }
+
+    public Integer getOrderId(){return orderId;}
+
+    public Type getOrderType() {return orderType;}
+
+    public Integer getUnitId(){return unitId;}
+
+    public Integer getAssetId(){return assetId;}
+
+    public int getPlacedQuantity() {return placedQuantity;}
+
+    public int getResolvedQuantity() {return resolvedQuantity;}
+
+    public float getPrice() {return price;}
+
+    public LocalDateTime getFinishDate(){return finishDate;}
+
+    public LocalDateTime getOrderDate() {return orderDate;}
+
+    public Status getStatus() {return status;}
+
     /**
-     * A method to record how many assets in an order have been successfully purchased
+     * Record how many assets in an order have been successfully purchased
      * @param assetnumber number of the assets in the transaction
      */
     public  void ResolvedQuantity(int assetnumber) throws Exception {
-        if(assetnumber > placedQuantity + resolvedQuantity)
-        {
+        if(assetnumber > placedQuantity + resolvedQuantity) {
             throw new Exception();
         }
         resolvedQuantity += assetnumber;
     }
 
     /**
-     *
-     * @return Order ID
-     */
-    public Integer getOrderId(){return orderId;}
-
-    /**
-     *
-     * @return the Order's type (Buy/Sell)
-     */
-    public Type getOrderType() {return orderType;}
-
-    /**
-     *
-     * @return OrganisationalUnit ID
-     */
-    public Integer getUnitId(){return unitId;}
-
-    /**
-     *
-     * @return Asset ID
-     */
-    public Integer getAssetId(){return assetId;}
-
-    /**
-     *
-     * @return Order's Placed Quantity
-     */
-    public int getPlacedQuantity() {return placedQuantity;}
-
-    /**
-     *
-     * @return Order's Resolved Quantity
-     */
-    public int getResolvedQuantity() {return resolvedQuantity;}
-
-    /**
-     *
-     * @return Order total price
-     */
-    public float getPrice() {return price;}
-
-    /**
-     *
-     * @return Transaction finished date
-     */
-    public LocalDateTime getFinishDate(){return finishDate;}
-
-    /**
-     *
-     * @return Transaction placed date
-     */
-    public LocalDateTime getOrderDate() {return orderDate;}
-
-    /**
-     *
-     * @return return Transaction's status (Finished/Remaining)
-     */
-    public Status getStatus() {return status;}
-
-    /**
-     * set the order id to given Int
+     * Set the order id to given Int
      * @param order_id
      */
     public void setOrderId(Integer order_id) throws InvalidArgumentValueException{
@@ -140,7 +99,7 @@ public class Order implements IData {
     }
 
     /**
-     * set order type to new type
+     * Set order type to new type
      * @param order_type
      */
     public void setOrderType(Type order_type) { this.orderType = order_type;
@@ -182,28 +141,28 @@ public class Order implements IData {
     }
 
     /**
-     * Set new price
+     * Set new price to the order
      * @param price
      */
     public void setPrice(float price) { this.price = price;
     }
 
     /**
-     * Set new order date
+     * Set new order date to the order
      * @param order_date
      */
     public void setOrderDate(LocalDateTime order_date) { this.orderDate = order_date;
     }
 
     /**
-     * Set new Finished date
+     * Set new Finished date to the order
      * @param finished_date
      */
     public void setFinishDate(LocalDateTime finished_date) { this.finishDate = finished_date;
     }
 
     /**
-     * Set new status
+     * Set new status to the order
      * @param status
      */
     public void setStatus(Status status) { this.status = status;

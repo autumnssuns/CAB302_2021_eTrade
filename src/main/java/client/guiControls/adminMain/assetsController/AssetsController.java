@@ -4,6 +4,7 @@ import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
 import client.guiControls.adminMain.AdminMainController;
 import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
 import common.Response;
 import common.dataClasses.Asset;
 import javafx.fxml.FXML;
@@ -52,7 +53,7 @@ public class AssetsController extends DisplayController {
         String description = newDescriptionTextField.getText();
 
         Asset newAsset = new Asset(assetId, name, description);
-        Response response = controller.sendRequest("add", newAsset, Asset.class);
+        Response response = controller.sendRequest(Request.ActionType.CREATE, newAsset, Request.ObjectType.ASSET);
         update();
 
         if (response.isFulfilled()){

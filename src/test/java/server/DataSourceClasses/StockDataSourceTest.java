@@ -69,7 +69,7 @@ class StockDataSourceTest {
         //create environment
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
-        assetsDataSource.deleteAllAsset();
+        assetsDataSource.deleteAll();
         organisationsDataSource.deleteAll();
         Asset asset1 = null;
         Asset asset2 = null;

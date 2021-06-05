@@ -4,6 +4,7 @@ import client.IViewUnit;
 import client.Styler;
 import client.guiControls.adminMain.AdminMainController;
 import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
 import common.Response;
 import common.dataClasses.Asset;
 import javafx.geometry.Pos;
@@ -181,9 +182,9 @@ public class AssetInfoBox extends HBox implements IViewUnit {
     private void confirmEdit() throws InvalidArgumentValueException {
         disable();
         updateValues();
-        Response response = controller.sendRequest("edit", asset, Asset.class);
+        Response response = controller.sendRequest(Request.ActionType.UPDATE, asset, Request.ObjectType.ASSET);
         if (response.isFulfilled()){
-            controller.updateLocalDatabase(Asset.class);
+            controller.updateLocalDatabase(Request.ObjectType.ASSET);
         }
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
@@ -219,9 +220,9 @@ public class AssetInfoBox extends HBox implements IViewUnit {
      * Removes the current entry.
      */
     private void removeEntry() throws InvalidArgumentValueException {
-        Response response = controller.sendRequest("delete", asset, Asset.class);
+        Response response = controller.sendRequest(Request.ActionType.DELETE, asset, Request.ObjectType.ASSET);
         if (response.isFulfilled()){
-            controller.updateLocalDatabase(Asset.class);
+            controller.updateLocalDatabase(Request.ObjectType.ASSET);
             ((VBox) this.getParent()).getChildren().remove(this);
         }
     }

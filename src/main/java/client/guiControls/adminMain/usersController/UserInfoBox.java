@@ -5,6 +5,7 @@ import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
 import client.guiControls.adminMain.AdminMainController;
 import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
 import common.Response;
 import common.dataClasses.Asset;
 import common.dataClasses.DataCollection;
@@ -67,24 +68,24 @@ public class UserInfoBox extends HBox implements IViewUnit {
         nameTextField = new TextField();
         nameTextField.setPrefWidth(190);
         nameTextField.setPrefHeight(30);
-        nameTextField.setId("userFullname" + user.getUserId());
+        nameTextField.setId("userFullname" + user.getId());
 
         usernameTextField = new TextField();
         usernameTextField.setPrefWidth(190);
         usernameTextField.setPrefHeight(30);
-        usernameTextField.setId("username" + user.getUserId());
+        usernameTextField.setId("username" + user.getId());
 
         passwordField = new PasswordField();
         passwordField.setPrefWidth(190);
         passwordField.setPrefHeight(30);
-        passwordField.setId("password" + user.getUserId());
+        passwordField.setId("password" + user.getId());
 
         organisationUnitSelectionBox = new ComboBox();
         organisationUnitSelectionBox.setPromptText("Organisational Unit");
         organisationUnitSelectionBox.setPrefWidth(300);
         organisationUnitSelectionBox.setPrefHeight(30);
         organisationUnitSelectionBox.setEditable(true);
-        organisationUnitSelectionBox.setId("userOrganisation" + user.getUserId());
+        organisationUnitSelectionBox.setId("userOrganisation" + user.getId());
 
         roleSelectionBox = new ComboBox();
         roleSelectionBox.setPromptText("Role");
@@ -92,14 +93,14 @@ public class UserInfoBox extends HBox implements IViewUnit {
         roleSelectionBox.setPrefHeight(30);
         roleSelectionBox.setEditable(false);
         roleSelectionBox.getItems().addAll("user","admin");
-        roleSelectionBox.setId("userRole" + user.getUserId());
+        roleSelectionBox.setId("userRole" + user.getId());
 
         editButton = new Button("Edit");
         editButton.setPrefWidth(80);
         editButton.setPrefHeight(30);
         editButton.setStyle("-fx-font-size:10");
         editButton.setOnAction(e -> startEdit());
-        editButton.setId("userEditButton" + user.getUserId());
+        editButton.setId("userEditButton" + user.getId());
 
         removeButton = new Button("Remove");
         removeButton.setPrefWidth(80);
@@ -112,7 +113,7 @@ public class UserInfoBox extends HBox implements IViewUnit {
                 invalidArgumentValueException.printStackTrace();
             }
         });
-        removeButton.setId("userRemoveButton" + user.getUserId());
+        removeButton.setId("userRemoveButton" + user.getId());
 
         this.getChildren().addAll(idLabel, nameTextField, usernameTextField, passwordField, organisationUnitSelectionBox, roleSelectionBox, editButton, removeButton);
         disable();
@@ -148,7 +149,7 @@ public class UserInfoBox extends HBox implements IViewUnit {
      * Loads a label to display the user's id.
      */
     private void loadIdLabel(){
-        idLabel.setText(String.valueOf(user.getUserId()));
+        idLabel.setText(String.valueOf(user.getId()));
     }
 
     /**
@@ -238,7 +239,7 @@ public class UserInfoBox extends HBox implements IViewUnit {
     private void confirmEdit() throws InvalidArgumentValueException {
         disable();
         updateValues();
-        controller.sendRequest("edit", user, User.class);
+        controller.sendRequest(Request.ActionType.UPDATE, user, Request.ObjectType.USER);
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
@@ -273,6 +274,6 @@ public class UserInfoBox extends HBox implements IViewUnit {
      * Removes the current entry.
      */
     private void removeEntry() throws InvalidArgumentValueException {
-        controller.sendRequest("delete", user, User.class);
+        controller.sendRequest(Request.ActionType.DELETE, user, Request.ObjectType.USER);
     }
 }

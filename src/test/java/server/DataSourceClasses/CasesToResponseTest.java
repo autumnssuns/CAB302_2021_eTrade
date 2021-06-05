@@ -5,8 +5,6 @@ import common.dataClasses.*;
 import common.dataClasses.Order;
 import org.junit.jupiter.api.*;
 import server.DBConnection;
-import server.DataSourceClasses.CasesToResponse;
-import server.DataSourceClasses.OrderDataSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static server.DataSourceClasses.CasesToResponse.findItem;
@@ -43,10 +41,10 @@ public class CasesToResponseTest {
     public void LoginTest() {
         // Register for user???
         User test = new User("duy","abcd").hashPassword();
-        Request loginRequest = new Request(test,"");
+        Request loginRequest = new Request(test,Request.ActionType.PING);
         Response response = CasesToResponse.login(loginRequest);
         test = (User) response.getAttachment();
-        assertEquals(2, test.getUserId());
+        assertEquals(2, test.getId());
         assertEquals(1, test.getUnitId());
         assertEquals("Daniel Pham", test.getFullName());
     }

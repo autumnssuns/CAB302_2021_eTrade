@@ -12,24 +12,63 @@ import java.util.Objects;
  */
 public class Request<T extends IData> implements Serializable {
     private User sender;
-    private String action;
+    private ActionType actionType;
     private T attachment;
+    private T oldState;
     private Class<T> attachmentType;
+    private ObjectType objectType;
+
+    /**
+     * The types of action a request can carry
+     */
+    public enum ActionType {
+        PING,
+        TEST,
+        LOGIN,
+        READ,
+        READ_ALL,
+        CREATE,
+        UPDATE,
+        DELETE,
+        CLEAN
+    }
+
+    /**
+     * The type of the object targeted by the request
+     */
+    public enum ObjectType {
+        STOCK,
+        ASSET,
+        ORGANISATIONAL_UNIT,
+        USER,
+        ORDER,
+        NOTIFICATION
+    }
+
+    /**
+     * Sets the old state of the object attached in the request
+     * @param oldState The old state of the object attached in the request
+     */
+    public Request setOldState(T oldState){
+        this.oldState = oldState;
+        return this;
+    }
 
     /**
      * Sets the type of the request's attachment
-     * @param attachmentType The type of the request's attachment.
+     * @param objectType The type of the request's attachment.
      */
-    public void setAttachmentType(Class<T> attachmentType){
-        this.attachmentType = attachmentType;
+    public Request setObjectType(ObjectType objectType){
+        this.objectType = objectType;
+        return this;
     }
 
     /**
      * Gets the attachment's type of this request.
      * @return The attachment's type.
      */
-    public Class<T> getAttachmentType(){
-        return attachmentType;
+    public ObjectType getObjectType(){
+        return objectType;
     }
 
     /**
@@ -37,20 +76,20 @@ public class Request<T extends IData> implements Serializable {
      * @param sender The user sending the request.
      * @param query The query string.
      */
-    public Request(User sender, String query){
+    public Request(User sender, ActionType query){
         this.sender = sender;
-        this.action = query;
+        this.actionType = query;
     }
 
     /**
      * Initialises a request that can be serialised and sent to the server, including the sender's information.
      * @param sender The user sending the request.
-     * @param action The action as a string (update, commit or delete).
+     * @param actionType The action as a string (update, commit or delete).
      * @param attachment The data to be sent.
      */
-    public Request(User sender, String action, T attachment) {
+    public Request(User sender, ActionType actionType, T attachment) {
         this.sender = sender;
-        this.action = action;
+        this.actionType = actionType;
         this.attachment = attachment;
     }
 
@@ -66,8 +105,8 @@ public class Request<T extends IData> implements Serializable {
      * Returns the action requested by the client.
      * @return The action requested by the client.
      */
-    public String getAction(){
-        return action;
+    public ActionType getActionType(){
+        return actionType;
     }
 
     /**
@@ -88,7 +127,7 @@ public class Request<T extends IData> implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Request<?> request = (Request<?>) o;
-        return Objects.equals(sender, request.sender) && Objects.equals(action, request.action) && Objects.equals(attachment, request.attachment) && Objects.equals(attachmentType, request.attachmentType);
+        return Objects.equals(sender, request.sender) && Objects.equals(actionType, request.actionType) && Objects.equals(attachment, request.attachment) && Objects.equals(objectType, request.objectType);
     }
 
     /**
@@ -97,6 +136,14 @@ public class Request<T extends IData> implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(sender, action, attachment, attachmentType);
+        return Objects.hash(sender, actionType, attachment, objectType);
+    }
+
+    /**
+     * Returns the old state of the attachment
+     * @return The old state of the attachment
+     */
+    public T getOldState() {
+        return this.oldState;
     }
 }

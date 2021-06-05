@@ -11,6 +11,7 @@ import java.sql.*;
 
 public class StockDataSource extends DataSource {
 
+    // SQL query strings
     public static final String CREATE_TABLE =
             """
                     CREATE TABLE IF NOT EXISTS stock (
@@ -32,8 +33,6 @@ public class StockDataSource extends DataSource {
     private static final String DELETE_UNIT_STOCK =
             "DELETE FROM stock WHERE organisation_id = ?";
     private static final  String DELETE_ALL_DATA = "DELETE FROM stock";
-
-
 
     private PreparedStatement updateStock;
     private PreparedStatement getStock;
@@ -60,7 +59,9 @@ public class StockDataSource extends DataSource {
         }
     }
 
-
+    /**
+     * Delete all stocks from the database
+     */
     public void deleteAll() {
         try {
             deleteAll.executeUpdate();
@@ -68,7 +69,6 @@ public class StockDataSource extends DataSource {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Update a unit's stock on stock table
@@ -88,8 +88,6 @@ public class StockDataSource extends DataSource {
             }
         }
     }
-
-
 
     /**
      * Get stocks list from an organization

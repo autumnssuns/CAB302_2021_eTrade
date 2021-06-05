@@ -3,6 +3,7 @@ package client.guiControls.userMain.profileController;
 import client.guiControls.DisplayController;
 import client.guiControls.userMain.UserLocalDatabase;
 import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.User;
 import javafx.fxml.FXML;
@@ -50,7 +51,7 @@ public class ProfileController extends DisplayController {
      * Changes the user's password.
      */
     public void changePassword() throws InvalidArgumentValueException {
-        User tempUser = new User(user.getUserId(), user.getFullName(), user.getUsername(),
+        User tempUser = new User(user.getId(), user.getFullName(), user.getUsername(),
                 currentPasswordField.getText(), user.getAccountType(), user.getUnitId());
         tempUser.setPassword(tempUser.getPassword());
         tempUser.hashPassword();
@@ -59,7 +60,7 @@ public class ProfileController extends DisplayController {
         if (tempUser.equals(user) && confirmPassword()){
             user.setPassword(newPasswordField.getText());
             user.hashPassword();
-            controller.sendRequest("edit", user, User.class);
+            controller.sendRequest(Request.ActionType.UPDATE, user, Request.ObjectType.USER);
             currentPasswordField.clear();
             newPasswordField.clear();
             confirmNewPasswordField.clear();
