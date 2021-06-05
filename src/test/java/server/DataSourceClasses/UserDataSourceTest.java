@@ -64,8 +64,6 @@ public class UserDataSourceTest {
 
     }
 
-
-
     @Test
     void getUserList() {
         User testuser1 = new User(0, "DuyPham", "new1", "123", "user", 1);

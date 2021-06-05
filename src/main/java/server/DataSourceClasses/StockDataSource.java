@@ -58,7 +58,9 @@ public class StockDataSource extends DataSource {
         }
     }
 
-
+    /**
+     * Delete all stocks in the database
+     */
     public void deleteAll() {
         try {
             deleteAll.executeUpdate();

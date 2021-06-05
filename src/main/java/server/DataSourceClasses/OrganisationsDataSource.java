@@ -59,6 +59,9 @@ public class OrganisationsDataSource extends DataSource {
         }
     }
 
+    /**
+     * Delete all organisations from the database
+     */
     public void deleteAll()
     {
         try {

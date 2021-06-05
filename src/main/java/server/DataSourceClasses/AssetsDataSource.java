@@ -128,13 +128,17 @@ public class AssetsDataSource extends DataSource {
 
     }
 
+    /**
+     * Get all assets from the database
+     * @return an Asset DataCollection
+     */
     public DataCollection<Asset> getAssetList(){
         DataCollection<Asset> assets = new DataCollection<>();
         try {
             ResultSet rs = getAllAsset.executeQuery();
             while (rs.next()){
-                Integer nextID = rs.getInt(1);
-                assets.add(getAsset(1));
+                Integer nextId = rs.getInt(1);
+                assets.add(getAsset(nextId));
             }
         } catch (SQLException e) {
             e.printStackTrace();

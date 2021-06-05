@@ -156,14 +156,6 @@ public class UserDataSource extends DataSource {
             ResultSet rs = getAllUser.executeQuery();
             while (rs.next()){
                 users.add(getUser(rs.getString("username")));
-
-//                        new User(
-//                        rs.getInt("user_id"),
-//                        rs.getString("fullname"),
-//                        rs.getString("username"),
-//                        rs.getString("password"),
-//                        rs.getString("user_type"),
-//                        (Integer) rs.getObject("organisation_id")));
             }
 
         } catch (SQLException e) {

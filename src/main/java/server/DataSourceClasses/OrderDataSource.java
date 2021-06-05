@@ -123,7 +123,7 @@ public class OrderDataSource extends DataSource {
     }
 
     /**
-     * Delete all orders
+     * Delete all orders from the database
      */
     public void deleteAll(){
         try {
@@ -172,7 +172,7 @@ public class OrderDataSource extends DataSource {
     }
 
     /**
-     * Get all orders in the database
+     * Get all orders from the database
      * @return an Order DataCollection
      */
     public DataCollection<Order> getOrderList(){
