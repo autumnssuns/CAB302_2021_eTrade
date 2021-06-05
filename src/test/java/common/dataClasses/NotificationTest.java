@@ -28,8 +28,7 @@ class NotificationTest {
 
     @Test
     void addValidReceiverUnit() throws InvalidArgumentValueException {
-        Notification notification = new Notification().addReceiverUnit(0)
-                .addReceiverUnit(1)
+        Notification notification = new Notification().addReceiverUnit(0).addReceiverUnit(1)
                 .addReceiverUnit(2);
         for (int i = 0; i < 3; i++){
             assertTrue(notification.containsReceiver(i));

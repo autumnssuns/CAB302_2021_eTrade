@@ -1,6 +1,5 @@
 package server.DataSourceClasses;
 
-import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.DataCollection;
 import common.dataClasses.Order;
 import common.dataClasses.Order.Type;
@@ -47,7 +46,7 @@ public class OrderDataSource extends DataSource {
                     UPDATE orders
                     SET order_type=?, organisation_id=?, asset_id=?, placed_quantity=?, resolved_quantity=?, price=?, order_date=?, finished_date=?, status=?
                     WHERE order_id=?""";
-    protected static final String GET_MAX_ID = "SELECT order_id from orders";
+    protected static final String GET_MAX_ID = "SELECT order_id FROM orders";
 
     // Prepare statements.
     private PreparedStatement addOrder;
@@ -85,8 +84,8 @@ public class OrderDataSource extends DataSource {
      */
     public void addOrder(Order order){
         try {
-            int newOrderInt = order.getOrderId() == null ? getNextId() : order.getOrderId();
-            addOrder.setInt(1, newOrderInt);
+            int newOrderId = order.getOrderId() == null ? getNextId() : order.getOrderId();
+            addOrder.setInt(1, newOrderId);
             addOrder.setString(2, order.getOrderType().name());
             addOrder.setFloat(3, order.getUnitId());
             addOrder.setInt(4, order.getAssetId());
@@ -125,7 +124,7 @@ public class OrderDataSource extends DataSource {
     /**
      * Delete all orders from the database
      */
-    public void deleteAllOrders(){
+    public void deleteAll(){
         try {
             deleteAllOrders.executeUpdate();
         } catch (SQLException e) {
@@ -135,15 +134,15 @@ public class OrderDataSource extends DataSource {
 
     /**
      * Return existed order
-     * @param OrderId ID of the order wanted to return (Int value)
+     * @param orderId ID of the order wanted to return (Int value)
      * @return Order Object
      */
-    public Order getOrder(int OrderId){
+    public Order getOrder(int orderId){
         //create a dummy Order Object to store values
         Order dummy = null;
         try {
             //set value
-            getOrder.setInt(1, OrderId);
+            getOrder.setInt(1, orderId);
             ResultSet rs = getOrder.executeQuery();
             while( rs.next() ) {
                 LocalDateTime finishedDate;
@@ -172,40 +171,22 @@ public class OrderDataSource extends DataSource {
     }
 
     /**
-     * Method to return all orders in the database
-     * @return an Order data collection of Buy Order
+     * Get all orders from the database
+     * @return an Order DataCollection
      */
     public DataCollection<Order> getOrderList(){
         DataCollection<Order> orders = new DataCollection<>();
         try {
-            ResultSet rs = getAllOrder.executeQuery();
-            while (rs.next()){
-                LocalDateTime finishedDate;
-                try{
-                    finishedDate = LocalDateTime.parse(rs.getString("finished_date"), formatter);
+                ResultSet rs = getAllOrder.executeQuery();
+                while (rs.next()){
+                    Integer nextId = rs.getInt(1);
+                    orders.add(getOrder(nextId));
                 }
-                catch (NullPointerException e){
-                    finishedDate = null;
-                }
-                orders.add(new Order(
-                        rs.getInt("order_id"),
-                        Type.valueOf(rs.getString("order_type")),
-                        rs.getInt("organisation_id"),
-                        rs.getInt("asset_id"),
-                        rs.getInt("placed_quantity"),
-                        rs.getInt("resolved_quantity"),
-                        rs.getFloat("price"),
-                        finishedDate,
-                        LocalDateTime.parse(rs.getString("order_date"), formatter),
-                        Order.Status.valueOf(rs.getString("status")))
-                );
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            return orders;
         }
-        return orders;
-    }
-
 
     /**
      * A method to update an Order information on  database

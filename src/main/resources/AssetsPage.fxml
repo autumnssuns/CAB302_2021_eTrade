@@ -9,14 +9,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="691.0" prefWidth="1346.0" styleClass="displayPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.adminMain.assetsController.AssetsController">
+<AnchorPane prefHeight="768.0" prefWidth="1322.0" styleClass="displayPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.adminMain.assetsController.AssetsController">
    <children>
-      <ScrollPane hbarPolicy="NEVER" layoutY="160.0" prefHeight="481.0" prefWidth="1346.0" styleClass="bodyPane">
+      <ScrollPane hbarPolicy="NEVER" layoutY="180.0" prefHeight="481.0" prefWidth="1362.0" styleClass="bodyPane">
          <content>
             <VBox fx:id="assetsDisplayBox" prefWidth="1362.0" spacing="20.0" />
          </content>
       </ScrollPane>
-      <HBox alignment="CENTER" layoutY="80.0" prefHeight="60.0" prefWidth="1340.0" spacing="20.0">
+      <HBox alignment="CENTER" layoutY="100.0" prefHeight="80.0" prefWidth="1363.0" spacing="20.0">
          <children>
             <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" text="ID" />
             <Label alignment="CENTER" prefHeight="80.0" prefWidth="300.0" text="Name" />
@@ -25,9 +25,10 @@
             <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="42.0" layoutY="10.0" prefHeight="80.0" prefWidth="1200.0" spacing="20.0" styleClass="whitePane">
+      <HBox alignment="CENTER" layoutX="42.0" layoutY="10.0" prefHeight="80.0" prefWidth="1363.0" spacing="20.0" styleClass="whitePane">
          <children>
-            <Button fx:id="refreshAssetsButton" mnemonicParsing="false" onAction="#update" prefHeight="31.0" prefWidth="153.0" text="Refresh" />
+            <Button fx:id="refreshAssetsButton" mnemonicParsing="false" onAction="#update" prefHeight="48.0" prefWidth="113.0" text="Refresh" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
             <TextField fx:id="newNameTextField" prefHeight="30.0" prefWidth="300.0" promptText="Name">
                <HBox.margin>
                   <Insets />

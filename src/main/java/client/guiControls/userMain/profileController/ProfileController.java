@@ -44,13 +44,14 @@ public class ProfileController extends DisplayController {
         usernameLabel.setText(user.getUsername());
         unitLabel.setText(unit.getName());
         roleLabel.setText(user.getAccountType());
+
     }
 
     /**
      * Changes the user's password.
      */
     public void changePassword() throws InvalidArgumentValueException {
-        User tempUser = new User(user.getUserId(), user.getFullName(), user.getUsername(),
+        User tempUser = new User(user.getId(), user.getFullName(), user.getUsername(),
                 currentPasswordField.getText(), user.getAccountType(), user.getUnitId());
         tempUser.setPassword(tempUser.getPassword());
         tempUser.hashPassword();

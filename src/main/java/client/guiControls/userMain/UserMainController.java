@@ -20,7 +20,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import java.io.IOException;
 
 //TODO: Refactor magic numbers & Node creation
@@ -67,6 +68,9 @@ public class UserMainController extends MainController {
      */
     @FXML
     public void initialize() throws IOException {
+       /* Image img = new Image("notification.png");
+        ImageView view = new ImageView(img);
+        notificationButton.setGraphic(view);*/
         // Run later to wait for non-GUI thread to finish before loading GUI thread
         Platform.runLater(() -> {
             try {
@@ -76,6 +80,8 @@ public class UserMainController extends MainController {
             }
             startBackgroundThread();
         });
+
+
     }
 
     /**
@@ -119,6 +125,7 @@ public class UserMainController extends MainController {
         update();
         displayStack.getChildren().addAll(homePane, sellPane, buyPane, ordersPane, profilePane);
         switchToSellPage();
+
     }
 
     //Pane switching methods

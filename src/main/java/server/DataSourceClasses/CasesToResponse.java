@@ -76,7 +76,7 @@ public class CasesToResponse  {
 
     /**
      * Empties the database
-     * @return
+     * @return a Response object
      */
     public static Response<IData> cleanDatabase(){
         NotificationDataSource notificationData = new NotificationDataSource();
@@ -87,9 +87,9 @@ public class CasesToResponse  {
         OrganisationsDataSource organisationalUnitData = new OrganisationsDataSource();
         notificationData.deleteAll();
         stockData.deleteAll();
-        orderData.deleteAllOrders();
+        orderData.deleteAll();
         userData.deleteAll();
-        assetData.deleteAllAsset();
+        assetData.deleteAll();
         organisationalUnitData.deleteAll();
         return new Response<>(true, null);
     }
@@ -360,7 +360,7 @@ public class CasesToResponse  {
 
     /**
      * Edit quantity of an item in a stock of an org unit
-     * @param attachment
+     * @param attachment a Stock object
      * @return Response object
      */
     public static Response<IData> edit(Stock attachment){
@@ -426,7 +426,6 @@ public class CasesToResponse  {
                     stockDataSource.editStock(unitStock);
                     break;
                 }
-
             }
         }
     }
@@ -610,7 +609,7 @@ public class CasesToResponse  {
      */
     public static Response<IData> delete(User attachment){
         UserDataSource userDataSource = new UserDataSource();
-        userDataSource.deleteUser(attachment.getUserId());
+        userDataSource.deleteUser(attachment.getId());
         return new Response<>(true, null);
     }
 
