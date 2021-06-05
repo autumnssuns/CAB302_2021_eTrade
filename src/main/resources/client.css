@@ -9,6 +9,13 @@
     -fx-font-size: 12px;
 }
 
+.division{
+    -fx-background-radius: 10px;
+}
+.boldText{
+    -fx-font-weight: bolder;
+}
+
 .button:hover{
     -fx-background-color: "#4d965b";
 }

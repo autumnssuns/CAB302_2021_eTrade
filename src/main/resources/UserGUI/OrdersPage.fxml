@@ -8,8 +8,8 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1322.0" styleClass="displayPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.ordersController.OrdersController">
     <children>
-      <Pagination fx:id="ordersDisplay" layoutX="52.0" layoutY="100.0" pageCount="10" prefHeight="670.0" prefWidth="1300.0" styleClass="bodyPane" />
-      <HBox alignment="CENTER" layoutX="52.0" layoutY="80.0" prefHeight="60.0" prefWidth="1300.0" spacing="20.0">
+      <Pagination fx:id="ordersDisplay" layoutX="52.0" layoutY="150.0" pageCount="10" prefHeight="550.0" prefWidth="1250.0" styleClass="bodyPane" />
+      <HBox alignment="CENTER" layoutX="52.0" layoutY="80.0" prefHeight="60.0" prefWidth="1250.0" spacing="20.0" style="-fx-background-color: #000000;">
          <children>
             <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" text="ID" />
             <Label alignment="CENTER" prefHeight="80.0" prefWidth="200.0" text="Asset Name" />
