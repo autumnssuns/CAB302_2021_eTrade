@@ -189,25 +189,27 @@ public class OrderDataSource extends DataSource {
         try {
             ResultSet rs = getAllOrder.executeQuery();
             while (rs.next()){
-                LocalDateTime finishedDate;
-                try{
-                    finishedDate = LocalDateTime.parse(rs.getString("finished_date"), formatter);
-                }
-                catch (NullPointerException e){
-                    finishedDate = null;
-                }
-                orders.add(new Order(
-                        rs.getInt("order_id"),
-                        Type.valueOf(rs.getString("order_type")),
-                        rs.getInt("organisation_id"),
-                        rs.getInt("asset_id"),
-                        rs.getInt("placed_quantity"),
-                        rs.getInt("resolved_quantity"),
-                        rs.getFloat("price"),
-                        finishedDate,
-                        LocalDateTime.parse(rs.getString("order_date"), formatter),
-                        Order.Status.valueOf(rs.getString("status")))
-                );
+//                LocalDateTime finishedDate;
+//                try{
+//                    finishedDate = LocalDateTime.parse(rs.getString("finished_date"), formatter);
+//                }
+//                catch (NullPointerException e){
+//                    finishedDate = null;
+//                }
+                Integer nextId = rs.getInt(1);
+                orders.add(getOrder(nextId));
+//                orders.add(new Order(
+//                        rs.getInt("order_id"),
+//                        Type.valueOf(rs.getString("order_type")),
+//                        rs.getInt("organisation_id"),
+//                        rs.getInt("asset_id"),
+//                        rs.getInt("placed_quantity"),
+//                        rs.getInt("resolved_quantity"),
+//                        rs.getFloat("price"),
+//                        finishedDate,
+//                        LocalDateTime.parse(rs.getString("order_date"), formatter),
+//                        Order.Status.valueOf(rs.getString("status")))
+//                );
             }
         } catch (Exception e) {
             e.printStackTrace();

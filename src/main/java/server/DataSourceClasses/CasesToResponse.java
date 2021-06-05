@@ -259,6 +259,9 @@ public class CasesToResponse  {
     //Todo: Overload Edit method
     public static <T extends IData> Response<IData> edit(Request<T> request) throws InvalidArgumentValueException {
         T attachment = request.getAttachment();
+        T oldState = request.getOldState();
+
+
         Class<T> type = request.getAttachmentType();
         if (type.equals(User.class)){
             return edit((User) attachment);
