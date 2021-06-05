@@ -3,6 +3,7 @@ package client.guiControls.adminMain.organisationalUnitsController;
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
 import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
 import common.Response;
 import common.dataClasses.*;
 import javafx.fxml.FXML;
@@ -104,9 +105,9 @@ public class OrganisationalUnitsController extends DisplayController {
         float credit = Float.parseFloat(creditTextField.getText());
 
         OrganisationalUnit organisationalUnit = new OrganisationalUnit(unitId, name, credit);
-        Response response = controller.sendRequest("add", organisationalUnit, OrganisationalUnit.class);
+        Response response = controller.sendRequest(Request.ActionType.CREATE, organisationalUnit, Request.ObjectType.ORGANISATIONAL_UNIT);
         tempStock.setUnitId(unitId);
-        controller.sendRequest("edit", tempStock, Stock.class);
+        controller.sendRequest(Request.ActionType.UPDATE, tempStock, Request.ObjectType.STOCK);
         update();
         if (response.isFulfilled()){
             addOrganisationalUnitInfoBox(organisationalUnit, tempStock);
@@ -123,9 +124,9 @@ public class OrganisationalUnitsController extends DisplayController {
         float credit = Float.parseFloat(creditTextField.getText());
 
         OrganisationalUnit organisationalUnit = new OrganisationalUnit(caller.getUnitId(), name, credit);
-        Response response = controller.sendRequest("edit", organisationalUnit, OrganisationalUnit.class);
+        Response response = controller.sendRequest(Request.ActionType.UPDATE, organisationalUnit, Request.ObjectType.ORGANISATIONAL_UNIT);
         tempStock.setUnitId(caller.getUnitId());
-        controller.sendRequest("edit", tempStock, Stock.class);
+        controller.sendRequest(Request.ActionType.UPDATE, tempStock, Request.ObjectType.STOCK);
         caller.setStock(tempStock);
         if (response.isFulfilled()){
             caller.setName(name);
@@ -211,14 +212,14 @@ public class OrganisationalUnitsController extends DisplayController {
 
     /**
      * Creates a request and pass to the main controller
-     * @param action The request action "query", "add", "edit", "delete"
+     * @param action The request action "query", Request.ActionType.CREATE, Request.ActionType.UPDATE, Request.ActionType.DELETE
      * @param attachment The attachment related to the request.
      * @param attachmentType The type of the attachment that can be read.
      * @param <T> The type of the object contained in the request's attachment
      * @return A response from the server.
      * @throws InvalidArgumentValueException Thrown when the attachment contains invalid arguments.
      */
-    public <T extends IData> Response sendRequest(String action, T attachment, Class<T> attachmentType) throws InvalidArgumentValueException {
+    public <T extends IData> Response sendRequest(Request.ActionType action, T attachment, Request.ObjectType attachmentType) throws InvalidArgumentValueException {
         return controller.sendRequest(action, attachment, attachmentType);
     }
 

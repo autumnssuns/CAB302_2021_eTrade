@@ -12,13 +12,13 @@ import java.util.Objects;
 public class Response<T extends IData> implements Serializable {
     private boolean status;
     private T attachment;
-    private Class<T> attachmentType;
+    private Request.ObjectType attachmentType;
 
     /**
      * Sets the type of the request's attachment
      * @param attachmentType The type of the request's attachment.
      */
-    public void setAttachmentType(Class<T> attachmentType){
+    public void setAttachmentType(Request.ObjectType attachmentType){
         this.attachmentType = attachmentType;
     }
 
@@ -26,7 +26,7 @@ public class Response<T extends IData> implements Serializable {
      * Gets the attachment's type of this request.
      * @return The attachment's type.
      */
-    public Class<T> getAttachmentType(){
+    public Request.ObjectType getAttachmentType(){
         return attachmentType;
     }
 

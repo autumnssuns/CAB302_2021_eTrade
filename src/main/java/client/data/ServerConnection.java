@@ -34,7 +34,7 @@ public final class ServerConnection implements IServerConnection{
             port = Integer.parseInt(props.getProperty("port"));
 
             Start();
-            sendRequest(new Request(null, "test"));
+            sendRequest(new Request(null, Request.ActionType.TEST));
             Close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
