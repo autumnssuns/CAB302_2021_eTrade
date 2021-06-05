@@ -60,9 +60,12 @@ public abstract class MainController {
     }
 
     /**
-     * Asks the server connection to send a request to the server.
-     * @param action
-     * @param attachment
+     * Sends a request to the server with an attachment
+     * @param action The action to be performed with the attachment
+     * @param attachment The attachment
+     * @param attachmentType The type of data the request targets
+     * @param <T> The type of the attachment
+     * @return The server's response for the given request
      */
     public <T extends IData> Response sendRequest(Request.ActionType action, T attachment, Request.ObjectType attachmentType) {
         Request request = new Request(getUser(), action, attachment);
@@ -70,18 +73,28 @@ public abstract class MainController {
         request.setPreviousObjectState(findPreviousState(request));
         Response response = new Response(false, null);
         try{
+            // Send a requests to the server socket
             serverConnection.Start();
             response = serverConnection.sendRequest(request);
             serverConnection.Close();
-            updateLocalDatabase(attachmentType);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidArgumentValueException e) {
+            // Report the status
+            String message = response.getMessage();
+            MessageFactory.MessageType messageType = response.isAccepted() ? MessageFactory.MessageType.SUCCESS : MessageFactory.MessageType.ERROR;
+            pushMessage(message, messageType);
+            // Update the GUI after the request
+            update();
+        } catch (IOException | InvalidArgumentValueException e) {
             e.printStackTrace();
         }
         return response;
     }
 
+    /**
+     * Send an attachment-less request
+     * @param action he action to be performed
+     * @param objectType The type of data the request targets
+     * @return The server's response for the given request
+     */
     public Response sendRequest(Request.ActionType action, Request.ObjectType objectType) {
         Response response = new Response(false, null);
         try{
@@ -152,15 +165,20 @@ public abstract class MainController {
      * Returns the local database for the current user.
      * @return The local database for the current user.
      */
-    public LocalDatabase getDatabase(){
-        return localDatabase;
-    }
+    public abstract LocalDatabase getDatabase();
 
     /**
      * Updates the GUI with new data from server
      * @throws InvalidArgumentValueException
      */
     public abstract void update() throws InvalidArgumentValueException;
+
+    /**
+     * Push a message for the user
+     * @param message The string containing the message
+     * @param type The type of the message (error, success or default)
+     */
+    public abstract void pushMessage(String message, MessageFactory.MessageType type);
 
     /**
      * Starts a background thread to continually updates the GUI
@@ -176,7 +194,6 @@ public abstract class MainController {
                 }
                 Platform.runLater(() -> {
                     try {
-                        System.out.println("Updated");
                         update();
                     } catch (InvalidArgumentValueException e) {
                         e.printStackTrace();

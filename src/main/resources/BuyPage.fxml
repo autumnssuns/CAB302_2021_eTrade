@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -14,14 +13,9 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1322.0" styleClass="displayPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.buyController.BuyController">
    <children>
-      <VBox layoutX="10.0" layoutY="5.0" prefHeight="680.0" prefWidth="280.0" spacing="20.0" styleClass="division">
+      <VBox layoutX="10.0" layoutY="5.0" prefHeight="736.0" prefWidth="280.0" spacing="20.0">
          <children>
-            <Label alignment="CENTER" prefHeight="54.0" prefWidth="280.0" style="-fx-background-color: #3eb7ff;" text="BASKET">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="592.0" prefWidth="280.0" styleClass="bodyPane">
+            <ScrollPane hbarPolicy="NEVER" prefHeight="627.0" prefWidth="280.0" styleClass="bodyPane">
                <content>
                   <VBox fx:id="buyCartDisplayBox" alignment="CENTER_LEFT" prefWidth="350.0" spacing="20.0">
                      <padding>
@@ -32,56 +26,44 @@
             </ScrollPane>
             <HBox prefHeight="54.0" prefWidth="200.0" spacing="20.0">
                <children>
-                  <Label fx:id="buyTotalLabel" alignment="CENTER" prefHeight="55.0" prefWidth="155.0" style="-fx-font-weight: 20; -fx-background-color: #000000;" text="Total: " wrapText="true" />
+                  <Label fx:id="buyTotalLabel" alignment="CENTER" prefHeight="55.0" prefWidth="155.0" text="Total: " />
                   <Button fx:id="buyAllButton" layoutY="18.0" mnemonicParsing="false" onAction="#checkOut" prefHeight="55.0" prefWidth="155.0" text="Buy All" />
                </children>
             </HBox>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="810.0" layoutY="5.0" prefHeight="612.0" prefWidth="538.0">
+      <VBox alignment="CENTER" layoutX="810.0" layoutY="10.0" prefHeight="612.0" prefWidth="538.0">
          <children>
-            <Label alignment="CENTER" prefHeight="35.0" prefWidth="538.0" style="-fx-background-color: #3eb7ff;" text="Market's current sales">
+            <Label prefHeight="35.0" prefWidth="250.0" text="Market's current sales">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
             <HBox prefHeight="50.0" prefWidth="550.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="200.0" text="Asset" wrapText="true">
-                     <styleClass>
-                        <String fx:value="boldText" />
-                        <String fx:value="blackLabel" />
-                     </styleClass></Label>
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="75.0" text="Quantity">
-                     <styleClass>
-                        <String fx:value="blackLabel" />
-                        <String fx:value="boldText" />
-                     </styleClass></Label>
-                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="75.0" text="Price">
-                     <styleClass>
-                        <String fx:value="blackLabel" />
-                        <String fx:value="boldText" />
-                     </styleClass></Label>
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="200.0" text="Asset" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="75.0" text="Quantity" />
+                  <Label alignment="CENTER" prefHeight="50.0" prefWidth="75.0" text="Price" />
                   <Label alignment="CENTER" prefHeight="50.0" prefWidth="100.0" />
                   <Label alignment="CENTER" prefHeight="50.0" prefWidth="100.0" />
                </children>
             </HBox>
             <Pagination fx:id="marketSellOrdersDisplay" pageCount="10" prefHeight="400.0" prefWidth="550.0" styleClass="whitePane" />
-            <Label alignment="CENTER" layoutX="154.0" layoutY="10.0" prefHeight="34.0" prefWidth="538.0" style="-fx-background-color: #3eb7ff;" text="My current sales">
+            <Label layoutX="154.0" layoutY="10.0" prefHeight="35.0" prefWidth="250.0" text="My current sales">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <ScrollPane hbarPolicy="NEVER" layoutX="10.0" layoutY="88.0" prefHeight="97.0" prefWidth="538.0">
-               <content>
-                  <VBox fx:id="myCurrentSales" prefWidth="538.0" />
-               </content>
+            <ScrollPane layoutX="10.0" layoutY="88.0" prefHeight="97.0" prefWidth="538.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+              </content>
             </ScrollPane>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="300.0" layoutY="5.0" prefHeight="719.0" prefWidth="500.0" style="-fx-border-radius: 10;" styleClass="whitePane">
+      <VBox alignment="CENTER" layoutX="300.0" layoutY="7.0" prefHeight="719.0" prefWidth="500.0" styleClass="whitePane">
          <children>
-            <Label alignment="CENTER" prefHeight="35.0" prefWidth="501.0" style="-fx-background-color: #3eb7ff;" text="All Assets">
+            <Label alignment="CENTER" prefHeight="35.0" prefWidth="235.0" styleClass="blackLabel" text="All Assets">
                <font>
                   <Font size="24.0" />
                </font>

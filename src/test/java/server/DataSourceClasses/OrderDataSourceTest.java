@@ -3,8 +3,6 @@ package server.DataSourceClasses;
 import common.dataClasses.Order;
 import org.junit.jupiter.api.*;
 import server.DBConnection;
-import server.DataSourceClasses.CasesToResponse;
-import server.DataSourceClasses.OrderDataSource;
 
 import java.time.LocalDateTime;
 
@@ -68,7 +66,7 @@ class OrderDataSourceTest {
     @Test
     void deleteAllOrders() {
         orders.addOrder(order02);
-        orders.deleteAllOrders();
+        orders.deleteAll();
         assertEquals(orders.getOrder(1), null);
         assertEquals(orders.getOrder(2), null);
     }

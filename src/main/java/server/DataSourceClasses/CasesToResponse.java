@@ -76,7 +76,7 @@ public class CasesToResponse  {
 
     /**
      * Empties the database
-     * @return
+     * @return a Response object
      */
     public static Response<IData> cleanDatabase(){
         NotificationDataSource notificationData = new NotificationDataSource();
@@ -87,9 +87,9 @@ public class CasesToResponse  {
         OrganisationsDataSource organisationalUnitData = new OrganisationsDataSource();
         notificationData.deleteAll();
         stockData.deleteAll();
-        orderData.deleteAllOrders();
+        orderData.deleteAll();
         userData.deleteAll();
-        assetData.deleteAllAsset();
+        assetData.deleteAll();
         organisationalUnitData.deleteAll();
         return new Response<>(true, null);
     }
@@ -365,7 +365,7 @@ public class CasesToResponse  {
 
     /**
      * Edit quantity of an item in a stock of an org unit
-     * @param attachment
+     * @param attachment a Stock object
      * @return Response object
      */
     public static Response<IData> edit(Stock attachment){
@@ -431,7 +431,6 @@ public class CasesToResponse  {
                     stockDataSource.editStock(unitStock);
                     break;
                 }
-
             }
         }
     }
@@ -466,7 +465,7 @@ public class CasesToResponse  {
             case ASSET:
                 return query((Asset) attachment);
             case ORGANISATIONAL_UNIT:
-                return query((OrganisationalUnit) attachment);
+                return queryOrganisationalUnit(request.getUser());
             case ORDER:
                 return query((Order) attachment);
             case STOCK:
@@ -489,13 +488,13 @@ public class CasesToResponse  {
     }
 
     /**
-     * Query an organisation unit row
-     * @param attachment an Organisation object
+     * Query an organisation unit row based on the current user
+     * @param sender an Organisation object
      * @return a Response object
      */
-    public static Response<IData> query(OrganisationalUnit attachment){
+    public static Response<IData> queryOrganisationalUnit(User sender){
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
-        attachment = organisationsDataSource.getOrganisation(attachment.getId());
+        OrganisationalUnit attachment = organisationsDataSource.getOrganisation(sender.getUnitId());
         return new Response<>(true, attachment);
     }
 
@@ -634,7 +633,7 @@ public class CasesToResponse  {
      */
     public static Response<IData> delete(User attachment){
         UserDataSource userDataSource = new UserDataSource();
-        userDataSource.deleteUser(attachment.getUserId());
+        userDataSource.deleteUser(attachment.getId());
         return new Response<>(true, null);
     }
 

@@ -1,6 +1,7 @@
 package client.guiControls.userMain.buyController;
 
 import client.IViewUnit;
+import client.Styler;
 import common.dataClasses.CartItem;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -44,21 +45,22 @@ public class BuyCartItemInfoBox extends VBox implements IViewUnit {
         this.setAlignment(Pos.CENTER_LEFT);
 
         nameLabel = new Label();
-        nameLabel.getStyleClass().add("blackLabel");
+        //nameLabel.getStyleClass().add("blackLabel");
+        nameLabel.getStyleClass().add(Styler.STANDARD_ASSET_NAME_BOX.styleClass());
         nameLabel.setId("cartItemNameLabel" + cartItem.getId());
 
         totalPriceLabel = new Label();
-        totalPriceLabel.getStyleClass().add("blackLabel");
+        totalPriceLabel.getStyleClass().add(Styler.STANDARD_ASSET_NAME_BOX.styleClass());
         totalPriceLabel.setId("cartItemTotalPriceLabel" + cartItem.getId());
 
         quantityTextField = new Label("Quantity: " + cartItem.getQuantity());
-        quantityTextField.setPrefWidth(150);
-        quantityTextField.getStyleClass().add("blackLabel");
+        quantityTextField.setPrefWidth(Styler.STANDARD_ASSET_NAME_BOX.width());
+        quantityTextField.getStyleClass().add(Styler.STANDARD_ASSET_NAME_BOX.styleClass());
         quantityTextField.setId("cartItemBuyQuantityTextField" + cartItem.getId());
 
         priceTextField = new Label("Price: " + cartItem.getPrice());
-        priceTextField.setPrefWidth(150);
-        priceTextField.getStyleClass().add("blackLabel");
+        priceTextField.setPrefWidth(Styler.STANDARD_ASSET_NAME_BOX.width());
+        priceTextField.getStyleClass().add(Styler.STANDARD_ASSET_NAME_BOX.styleClass());
         priceTextField.setId("cartItemBuyPriceTextField" + cartItem.getId());
 
         removeButton = new Button("x");
@@ -66,15 +68,15 @@ public class BuyCartItemInfoBox extends VBox implements IViewUnit {
         removeButton.setId("cartItemRemoveButton" + cartItem.getId());
 
         HBox upperInfoRow = new HBox();
-        upperInfoRow.setSpacing(20);
+        upperInfoRow.setSpacing(Styler.STANDARD_ASSET_NAME_BOX.spacing());
         upperInfoRow.setAlignment(Pos.CENTER_LEFT);
-        upperInfoRow.setPrefWidth(300);
+        upperInfoRow.setPrefWidth(Styler.STANDARD_ASSET_NAME_BOX.width());
         upperInfoRow.getChildren().addAll(priceTextField, totalPriceLabel);
 
         HBox lowerInfoRow = new HBox();
-        lowerInfoRow.setSpacing(20);
+        lowerInfoRow.setSpacing(Styler.STANDARD_ASSET_NAME_BOX.spacing());
         lowerInfoRow.setAlignment(Pos.CENTER_LEFT);
-        lowerInfoRow.setPrefWidth(300);
+        lowerInfoRow.setPrefWidth(Styler.STANDARD_ASSET_NAME_BOX.width());
         lowerInfoRow.getChildren().addAll(quantityTextField, removeButton);
 
         this.getChildren().addAll(nameLabel, upperInfoRow, lowerInfoRow);

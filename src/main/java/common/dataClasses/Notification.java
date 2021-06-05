@@ -135,7 +135,7 @@ public class Notification implements IData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Notification that = (Notification) o;
-        return Objects.equals(notificationId, that.notificationId) && Objects.equals(receiverIds, that.receiverIds) && Objects.equals(message, that.message);
+        return Objects.equals(notificationId, that.notificationId) && Objects.equals(message, that.message);
     }
 
     @Override

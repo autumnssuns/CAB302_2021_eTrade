@@ -19,24 +19,14 @@ public class UserLocalDatabase extends LocalDatabase {
     private DataCollection<Order> orders;
     private DataCollection<Asset> assets;
     private DataCollection<Notification> notifications;
+    // It is useful to keep track of new notifications for live pushing
+    private DataCollection<Notification> newNotifications;
 
     /**
      * Initialises the database with initial data (fetched from server)
-     * @param organisationalUnit The organisational unit associated with the user.
-     * @param stock The stock associated with the current user's organisational unit.
-     * @param orders The current orders in the system.
-     * @param assets The current assets in the system.
      */
-    public UserLocalDatabase(OrganisationalUnit organisationalUnit,
-                             Stock stock,
-                             DataCollection<Order> orders,
-                             DataCollection<Asset> assets,
-                             DataCollection<Notification> notifications) {
-        setAssets(assets);
-        setOrganisationalUnit(organisationalUnit);
-        setStock(stock);
-        setOrders(orders);
-        setNotifications(notifications);
+    public UserLocalDatabase() {
+
     }
 
     /**
@@ -120,7 +110,37 @@ public class UserLocalDatabase extends LocalDatabase {
      * @param notifications The new notifications for the current organisational unit
      */
     public void setNotifications(DataCollection<Notification> notifications) {
+        newNotifications = new DataCollection<Notification>();
+//        try {
+//
+//        }
+//        catch (NullPointerException e){
+//            // If there is currently no notifications, all of them are new
+//            newNotifications = notifications;
+//        }
+        if (this.notifications != null){
+            for (Notification notification : notifications){
+                // A notification is considered new if it is NOT already in the current database,
+                // and it is also NOT read by the current unit.
+                if (!this.notifications.contains(notification) && !notification.containsReader(organisationalUnit.getId())){
+                    newNotifications.add(notification);
+                }
+            }
+        }
+        else{
+            // If there are currently no notifications, all of them are new
+            newNotifications = notifications;
+        }
+
         this.notifications = notifications;
+    }
+
+    /**
+     * Returns the new notifications (those that are newly updated in the latest refreshment)
+     * @return The new notifications
+     */
+    public DataCollection<Notification> getNewNotifications(){
+        return newNotifications;
     }
 
     /**
@@ -255,9 +275,6 @@ public class UserLocalDatabase extends LocalDatabase {
             float[] ratesOfChange = new float[timestamps.size() - 1];
             for (int i = 0; i < timestamps.size() - 1; i++){
                 ratesOfChange[i] = (prices.get(i + 1) - prices.get(i)) / (float) ChronoUnit.DAYS.between(timestamps.get(i), timestamps.get(i + 1));
-                System.out.println("Rate of change");
-                System.out.println(prices.get(i + 1) - prices.get(i));
-                System.out.println(ChronoUnit.DAYS.between(timestamps.get(i), timestamps.get(i + 1)));
             }
 
             LocalDate currentDate = timestamps.get(0);

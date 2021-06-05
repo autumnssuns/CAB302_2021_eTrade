@@ -61,7 +61,7 @@ public class UsersController extends DisplayController {
         User newUser = new User(userId, name, username, password, role, unitId);
         Response response = controller.sendRequest(Request.ActionType.CREATE, newUser, Request.ObjectType.USER);
         update();
-        if (response.isFulfilled()){
+        if (response.isAccepted()){
             addUserInfoBox(newUser);
             clearAddEntry();
         }

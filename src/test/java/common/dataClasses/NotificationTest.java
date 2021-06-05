@@ -28,8 +28,7 @@ class NotificationTest {
 
     @Test
     void addValidReceiverUnit() throws InvalidArgumentValueException {
-        Notification notification = new Notification().addReceiverUnit(0)
-                .addReceiverUnit(1)
+        Notification notification = new Notification().addReceiverUnit(0).addReceiverUnit(1)
                 .addReceiverUnit(2);
         for (int i = 0; i < 3; i++){
             assertTrue(notification.containsReceiver(i));
@@ -74,8 +73,8 @@ class NotificationTest {
 
     @Test
     void testNotEquals() throws InvalidArgumentValueException {
-        Notification notification = new Notification().setNotificationId(0).setMessage("Test").addReceiverUnit(0);
-        Notification other = new Notification().setNotificationId(0).setMessage("Test").addReceiverUnit(0).addReceiverUnit(1);
+        Notification notification = new Notification().setNotificationId(0).setMessage("Test1");
+        Notification other = new Notification().setNotificationId(1).setMessage("Test2");
         assertFalse(notification.equals(other) && other.equals(notification));
         assertFalse(notification.hashCode() == other.hashCode());
     }

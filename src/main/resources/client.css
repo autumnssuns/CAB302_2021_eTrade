@@ -3,18 +3,44 @@
 }
 
 .button{
+    -fx-cursor: hand;
     -fx-background-radius: 10px;
     -fx-background-color: "#51B765";
     -fx-text-fill: "#F3F1F1";
-    -fx-font-size: 20px;
+    -fx-font-size: 12px;
+}
+
+.division{
+    -fx-background-radius: 10px;
+}
+.boldText{
+    -fx-font-weight: bolder;
 }
 
 .button:hover{
     -fx-background-color: "#4d965b";
 }
 
+.cartButton{
+    -fx-background-radius: 10px;
+    -fx-background-color: "#51B765";
+    -fx-text-fill: "#F3F1F1";
+    -fx-font-size: 12px;
+    -fx-width: 150;
+    transition: all 150ms ease-in-out;
+
+}
+
+.scroll-pane{
+   -fx-background-color:transparent;
+}
+
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
 .displayPane{
-    -fx-background-color: "#2B4358";
+    -fx-background-color: "#f2f2f3";
 }
 
 .buttonPane{
@@ -22,11 +48,11 @@
 }
 
 .menuPane{
-    -fx-background-color: "#78999F";
+    -fx-background-color: "#2e323e";
 }
 
 .bodyPane{
-    -fx-background-color: "#8792A5";
+    -fx-background-color: "#e3e3e3";
 }
 
 .whitePane{
@@ -62,7 +88,7 @@
 
 .itemTotalLabel{
     -fx-background-color: "#FEDB41";
-    -fx-font-size: 14px;
+    -fx-font-size: 12px;
 }
 
 .cartTotalLabel{
@@ -80,7 +106,7 @@
     -fx-font-size: 20px;
 }
 
-.smallTextField{
+.small-text{
     -fx-font-size: 12px;
 }
 
@@ -102,6 +128,23 @@
   -fx-background-color: transparent;
 }
 
-.highlight {
+.highlight-message {
     -fx-background-color: "#adffeb";
+}
+
+.error-message {
+    -fx-background-color: "#ff5959";
+}
+
+.success-message {
+    -fx-background-color: "#59ff75";
+}
+
+.message{
+    -fx-cursor: hand;
+}
+
+.message:hover {
+    -fx-scale-x: 0.9;
+    -fx-scale-y: 0.9;
 }

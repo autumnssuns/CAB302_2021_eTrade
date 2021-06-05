@@ -106,7 +106,6 @@ public class UnitAssetInfoBox extends HBox implements IViewUnit {
      * Loads a label to display the asset's name
      */
     private void loadNameLabel(){
-        System.out.println(item.getName());
         nameLabel.setText(item.getName());
     }
 

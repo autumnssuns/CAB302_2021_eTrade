@@ -56,7 +56,7 @@ public class AssetsController extends DisplayController {
         Response response = controller.sendRequest(Request.ActionType.CREATE, newAsset, Request.ObjectType.ASSET);
         update();
 
-        if (response.isFulfilled()){
+        if (response.isAccepted()){
             addAssetInfoBox(newAsset);
             clearAddEntry();
         }

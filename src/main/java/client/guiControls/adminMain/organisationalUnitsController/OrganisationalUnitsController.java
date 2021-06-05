@@ -109,7 +109,7 @@ public class OrganisationalUnitsController extends DisplayController {
         tempStock.setUnitId(unitId);
         controller.sendRequest(Request.ActionType.UPDATE, tempStock, Request.ObjectType.STOCK);
         update();
-        if (response.isFulfilled()){
+        if (response.isAccepted()){
             addOrganisationalUnitInfoBox(organisationalUnit, tempStock);
             closeEditor();
         }
@@ -128,7 +128,7 @@ public class OrganisationalUnitsController extends DisplayController {
         tempStock.setUnitId(caller.getUnitId());
         controller.sendRequest(Request.ActionType.UPDATE, tempStock, Request.ObjectType.STOCK);
         caller.setStock(tempStock);
-        if (response.isFulfilled()){
+        if (response.isAccepted()){
             caller.setName(name);
             caller.setCredit(credit);
             caller.reloadEntries();
@@ -233,7 +233,6 @@ public class OrganisationalUnitsController extends DisplayController {
             boolean isAlreadyInStock = false;
             try{
                 for (Item item : tempStock){
-                    System.out.println(item.getId());
                     if (item.getId().equals(asset.getId())){
                         isAlreadyInStock = true;
                     }

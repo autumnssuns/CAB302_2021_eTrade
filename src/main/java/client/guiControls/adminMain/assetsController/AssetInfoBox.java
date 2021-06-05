@@ -1,6 +1,7 @@
 package client.guiControls.adminMain.assetsController;
 
 import client.IViewUnit;
+import client.Styler;
 import client.guiControls.adminMain.AdminMainController;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
@@ -51,14 +52,14 @@ public class AssetInfoBox extends HBox implements IViewUnit {
         this.setSpacing(3);
 
         idLabel = new Label();
-        idLabel.getStyleClass().add("blackLabel");
+        idLabel.getStyleClass().add(Styler.STANDARD_ASSET_NAME_BOX.styleClass());
         idLabel.setAlignment(Pos.CENTER);
         idLabel.setPrefWidth(100);
         idLabel.setPrefHeight(80);
 
         nameTextField = new TextField();
-        nameTextField.setPrefWidth(200);
-        nameTextField.setPrefHeight(30);
+        nameTextField.setPrefWidth(Styler.STANDARD_ASSET_NAME_BOX.width());
+        nameTextField.setPrefHeight(Styler.STANDARD_ASSET_BOX.height());
         nameTextField.setId("assetName" + asset.getId());
 
         descriptionTextField = new TextField();
@@ -181,9 +182,6 @@ public class AssetInfoBox extends HBox implements IViewUnit {
         disable();
         updateValues();
         Response response = controller.sendRequest(Request.ActionType.UPDATE, asset, Request.ObjectType.ASSET);
-        if (response.isFulfilled()){
-            controller.updateLocalDatabase(Request.ObjectType.ASSET);
-        }
         editButton.setText("Edit");
         editButton.setOnAction(e -> startEdit());
         removeButton.setText("Remove");
@@ -219,8 +217,7 @@ public class AssetInfoBox extends HBox implements IViewUnit {
      */
     private void removeEntry() throws InvalidArgumentValueException {
         Response response = controller.sendRequest(Request.ActionType.DELETE, asset, Request.ObjectType.ASSET);
-        if (response.isFulfilled()){
-            controller.updateLocalDatabase(Request.ObjectType.ASSET);
+        if (response.isAccepted()){
             ((VBox) this.getParent()).getChildren().remove(this);
         }
     }

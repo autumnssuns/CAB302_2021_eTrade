@@ -120,7 +120,7 @@ public class User implements IData {
      * Returns the user id.
      * @return The user id.
      */
-    public Integer getUserId() {
+    public Integer getId() {
         return userId;
     }
 
