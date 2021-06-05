@@ -3,6 +3,7 @@ package client.guiControls.userMain.ordersController;
 import client.IViewUnit;
 import client.guiControls.DisplayController;
 import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
 import common.dataClasses.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -132,7 +133,7 @@ public class OrderInfoBox extends HBox implements IViewUnit {
     public void cancelOrder() throws InvalidArgumentValueException {
         order.setStatus(Order.Status.CANCELLED);
         this.getChildren().remove(cancelButton);
-        controller.sendRequest("edit", order, Order.class);
+        controller.sendRequest(Request.ActionType.UPDATE, order, Request.ObjectType.ORDER);
         controller.update();
     }
 

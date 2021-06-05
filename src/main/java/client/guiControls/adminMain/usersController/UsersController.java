@@ -3,6 +3,7 @@ package client.guiControls.adminMain.usersController;
 import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
 import common.Exceptions.InvalidArgumentValueException;
+import common.Request;
 import common.Response;
 import common.dataClasses.DataCollection;
 import common.dataClasses.OrganisationalUnit;
@@ -12,6 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
 
 /**
  * A controller to control the USERS Page (which allows the admin to add / remove or edit users' information).
@@ -45,7 +47,7 @@ public class UsersController extends DisplayController {
         int userId = usersDisplayBox.getChildren().size();
         String name = newUserNameTextField.getText();
         String username = newUsernameTextField.getText();
-        String password = newPasswordField.getText();
+        String password = HashPassword.HashPassword(newPasswordField.getText());
         String organisationalUnit = newOrganisationUnitSelectionBox.getValue();
         String role = newRoleSelectionBox.getValue();
 
@@ -57,7 +59,7 @@ public class UsersController extends DisplayController {
             }
         }
         User newUser = new User(userId, name, username, password, role, unitId);
-        Response response = controller.sendRequest("add", newUser, User.class);
+        Response response = controller.sendRequest(Request.ActionType.CREATE, newUser, Request.ObjectType.USER);
         update();
         if (response.isFulfilled()){
             addUserInfoBox(newUser);

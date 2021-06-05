@@ -32,7 +32,7 @@ class NotificationTest {
                 .addReceiverUnit(1)
                 .addReceiverUnit(2);
         for (int i = 0; i < 3; i++){
-            assertTrue(notification.containsUnit(i));
+            assertTrue(notification.containsReceiver(i));
         }
     }
 

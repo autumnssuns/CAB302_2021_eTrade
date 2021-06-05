@@ -27,17 +27,18 @@ class ServerTest {
     DataCollection<OrganisationalUnit> expectedOrganisationalUnits;
     DataCollection<Stock> expectedStocks;
     DataCollection<Order> expectedOrders;
+    DataCollection<Notification> expectedNotifications;
 
     @BeforeAll
     void setUp() throws Exception {
         server = new Server();
         DBConnection.setTestMode(true);
-        server.createResponse(new Request(null, "init"));
+        server.createResponse(new Request(null, Request.ActionType.TEST));
     }
 
     @AfterAll
     void cleanUp() throws Exception {
-        server.createResponse(new Request(null, "clean"));
+        server.createResponse(new Request(null, Request.ActionType.CLEAN));
         DBConnection.setTestMode(false);
     }
 
@@ -48,6 +49,7 @@ class ServerTest {
         expectedOrganisationalUnits = new DataCollection<>();
         expectedStocks = new DataCollection<>();
         expectedOrders = new DataCollection<>();
+        expectedNotifications = new DataCollection<>();
 
         expectedUsers.add(new User(0, "Admin", "admin", "root", "admin", null).hashPassword());
         expectedUsers.add(new User(1, "Dan Tran", "dan", "123", "user", 0).hashPassword());
@@ -108,6 +110,34 @@ class ServerTest {
         expectedOrders.add(new Order(13, Order.Type.BUY, 3, 1, 50, 50, 12.5f, null, LocalDateTime.of(2021, 5, 4, 8, 30), Order.Status.COMPLETED));
         expectedOrders.add(new Order(14, Order.Type.BUY, 3, 2, 50, 50, 14.5f, null, LocalDateTime.of(2021, 5, 11, 0, 11), Order.Status.COMPLETED));
         expectedOrders.add(new Order(15, Order.Type.BUY, 3, 3, 50, 50, 15.5f, null, LocalDateTime.of(2021, 5, 13, 3, 42), Order.Status.COMPLETED));
+
+        expectedNotifications.add(new Notification().setNotificationId(0)
+                .setMessage("Your order #8 to BUY 40 CPU Hours has been resolved.")
+                .addReceiverUnit(2));
+        expectedNotifications.add(new Notification().setNotificationId(1)
+                .setMessage("Your order #9 to BUY 40 10 GB Database Server has been resolved.")
+                .addReceiverUnit(2));
+        expectedNotifications.add(new Notification().setNotificationId(2)
+                .setMessage("Your order #10 to BUY 40 A Generic Video Game has been resolved.")
+                .addReceiverUnit(2));
+        expectedNotifications.add(new Notification().setNotificationId(3)
+                .setMessage("Your order #11 to BUY 40 Coffin Dance Video has been resolved.")
+                .addReceiverUnit(2));
+        expectedNotifications.add(new Notification().setNotificationId(4)
+                .setMessage("Your order #4 to SELL 55 CPU Hours has been resolved.")
+                .addReceiverUnit(1));
+        expectedNotifications.add(new Notification().setNotificationId(5)
+                .setMessage("Your order #12 to BUY 50 CPU Hours has been resolved.")
+                .addReceiverUnit(3));
+        expectedNotifications.add(new Notification().setNotificationId(6)
+                .setMessage("Your order #13 to BUY 50 10 GB Database Server has been resolved.")
+                .addReceiverUnit(3));
+        expectedNotifications.add(new Notification().setNotificationId(7)
+                .setMessage("Your order #14 to BUY 50 A Generic Video Game has been resolved.")
+                .addReceiverUnit(3));
+        expectedNotifications.add(new Notification().setNotificationId(8)
+                .setMessage("Your order #15 to BUY 50 Coffin Dance Video has been resolved.")
+                .addReceiverUnit(3));
     }
 
     @Nested
@@ -118,8 +148,13 @@ class ServerTest {
         @AfterEach
         void executeAssertion() throws Exception {
             actualResponse = server.createResponse(request);
-//            for (int i = 0; i < ((DataCollection) actualResponse.getAttachment()).size(); i++){
-//                System.out.println(((DataCollection) actualResponse.getAttachment()).get(i).equals(((DataCollection) expectedResponse.getAttachment()).get(i)));
+//            try{
+//                for (int i = 0; i < ((DataCollection) actualResponse.getAttachment()).size(); i++){
+//                    System.out.println(((DataCollection) actualResponse.getAttachment()).get(i).equals(((DataCollection) expectedResponse.getAttachment()).get(i)));
+//                }
+//            }
+//            catch (IndexOutOfBoundsException ignored){
+//
 //            }
             assertEquals(expectedResponse, actualResponse);
         }
@@ -129,7 +164,7 @@ class ServerTest {
             String username = expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1).getUsername();
             String password  =expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1).getPassword();
             User tempUser = new User(username, password);
-            request = new Request<>(tempUser, "login");
+            request = new Request(tempUser, Request.ActionType.LOGIN);
             User expectedUser = expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1);
             expectedUser.setPassword(expectedUser.getPassword());
             expectedResponse = new Response(true, expectedUser);
@@ -138,51 +173,58 @@ class ServerTest {
         @Test
         void invalidLoginTest() {
             User tempUser = new User("dan", "12345");
-            request = new Request<>(tempUser, "login");
+            request = new Request(tempUser, Request.ActionType.LOGIN);
             expectedResponse = new Response<>(false, null);
         }
 
         @Test
         void queryUsersTest() throws InvalidArgumentValueException {
-            request = new Request<>(admin, "query users");
+            request = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.USER);
             expectedResponse = new Response<>(true, expectedUsers);
         }
 
         @Test
         void queryAssetsTest() throws InvalidArgumentValueException {
-            request = new Request<User>(admin, "query assets");
+            request = new Request<User>(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.ASSET);
             expectedResponse = new Response<>(true, expectedAssets);
         }
 
         @Test
         void queryOrganisationalUnitsTest() throws InvalidArgumentValueException {
-            request = new Request<>(admin, "query organisationalUnits");
+            request = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.ORGANISATIONAL_UNIT);
             expectedResponse = new Response<>(true, expectedOrganisationalUnits);
         }
 
         @Test
         void queryStocksTest(){
-            request = new Request<>(admin, "query stocks");
+            request = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.STOCK);
             expectedResponse = new Response<>(true, expectedStocks);
-        }
-
-        @Disabled
-        @Test
-        void queryOrdersTest(){
-            request = new Request<>(expectedUsers.get(0), "query orders");
-            expectedResponse = new Response<>(true, expectedOrders);
         }
 
         @RepeatedTest(4)
         void queryStockTest(RepetitionInfo repetitionInfo) {
-            request = new Request<>(expectedUsers.get(repetitionInfo.getCurrentRepetition()), "query stock");
+            request = new Request(expectedUsers.get(repetitionInfo.getCurrentRepetition()), Request.ActionType.READ).setObjectType(Request.ObjectType.STOCK);
             expectedResponse = new Response<>(true, expectedStocks.get(repetitionInfo.getCurrentRepetition() - 1));
         }
 
         @RepeatedTest(4)
         void queryOrganisationalUnitTest(RepetitionInfo repetitionInfo) {
-            request = new Request<User>(expectedUsers.get(repetitionInfo.getCurrentRepetition()), "query stock");
+            request = new Request<User>(expectedUsers.get(repetitionInfo.getCurrentRepetition()), Request.ActionType.READ).setObjectType(Request.ObjectType.STOCK);
             expectedResponse = new Response<>(true, expectedStocks.get(repetitionInfo.getCurrentRepetition() - 1));
+        }
+
+        @RepeatedTest(4)
+        void queryNotificationsTest(RepetitionInfo repetitionInfo) {
+            User testUser = expectedUsers.get(repetitionInfo.getCurrentRepetition());
+            DataCollection<Notification> filteredNotifications = new DataCollection();
+            for (Notification notification : expectedNotifications){
+                if (notification.containsReceiver(testUser.getUnitId())){
+                    filteredNotifications.add(notification);
+                }
+            }
+
+            request = new Request<User>(testUser, Request.ActionType.READ).setObjectType(Request.ObjectType.NOTIFICATION);
+            expectedResponse = new Response<>(true, filteredNotifications);
         }
     }
 
@@ -208,57 +250,57 @@ class ServerTest {
             void userCreationTest() {
                 User newUser = new User(0, "New UserGUI", "newuser", "012345", "user", 0);
 
-                request = new Request<>(admin, "add", newUser);
-                request.setAttachmentType(User.class);
+                request = new Request(admin, Request.ActionType.CREATE, newUser);
+                request.setObjectType(Request.ObjectType.USER);
 
                 newUser.setUserId(5);
                 expectedUsers.add(newUser);
                 expectedCollection = expectedUsers;
 
-                queryRequest = new Request<>(admin, "query users");
+                queryRequest = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.USER);
             }
 
             @Test
             void assetCreationTest() throws InvalidArgumentValueException {
                 Asset newAsset = new Asset(0, "New Asset","N/A");
 
-                request = new Request<>(admin, "add", newAsset);
-                request.setAttachmentType(Asset.class);
+                request = new Request(admin, Request.ActionType.CREATE, newAsset);
+                request.setObjectType(Request.ObjectType.ASSET);
 
                 newAsset.setId(4);
                 expectedAssets.add(newAsset);
                 expectedCollection = expectedAssets;
 
-                queryRequest = new Request<>(admin, "query assets");
+                queryRequest = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.ASSET);
             }
 
             @Test
             void organisationalUnitCreationTest() throws Exception {
                 OrganisationalUnit newOrganisationalUnit = new OrganisationalUnit(0, "New OrganisationalUnit",150f);
 
-                request = new Request<>(admin, "add", newOrganisationalUnit);
-                request.setAttachmentType(OrganisationalUnit.class);
+                request = new Request(admin, Request.ActionType.CREATE, newOrganisationalUnit);
+                request.setObjectType(Request.ObjectType.ORGANISATIONAL_UNIT);
 
                 newOrganisationalUnit.setId(4);
                 expectedOrganisationalUnits.add(newOrganisationalUnit);
                 expectedCollection = expectedOrganisationalUnits;
 
-                queryRequest = new Request<>(admin, "query organisationalUnits");
+                queryRequest = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.ORGANISATIONAL_UNIT);
             }
 
             @Test
             void orderCreationTest() throws Exception {
-                Order newOrder = new Order(0, Order.Type.BUY, 0, 0, 23, 0,
+                Order newOrder = new Order(null, Order.Type.BUY, 0, 0, 23, 0,
                         22f, null, LocalDateTime.of(2021, 5, 13, 16, 52), Order.Status.PENDING);
 
-                request = new Request<>(admin, "add", newOrder);
-                request.setAttachmentType(Order.class);
+                request = new Request(admin, Request.ActionType.CREATE, newOrder);
+                request.setObjectType(Request.ObjectType.ORDER);
 
                 newOrder.setOrderId(16);
                 expectedOrders.add(newOrder);
                 expectedCollection = expectedOrders;
 
-                queryRequest = new Request<>(admin, "query orders");
+                queryRequest = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.ORDER);
             }
         }
 
@@ -279,13 +321,13 @@ class ServerTest {
                         "user",
                         (repetitionInfo.getCurrentRepetition() - 1));
 
-                request = new Request<>(admin, "edit", overrideUser);
-                request.setAttachmentType(User.class);
+                request = new Request(admin, Request.ActionType.UPDATE, overrideUser);
+                request.setObjectType(Request.ObjectType.USER);
 
                 expectedUsers.set(repetitionInfo.getCurrentRepetition() - 1, overrideUser);
                 expectedCollection = expectedUsers;
 
-                queryRequest = new Request<>(admin, "query users");
+                queryRequest = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.USER);
             }
 
             @RepeatedTest(4)
@@ -294,13 +336,13 @@ class ServerTest {
                         "Asset " + (repetitionInfo.getCurrentRepetition() - 1),
                         "This is asset " + (repetitionInfo.getCurrentRepetition() - 1));
 
-                request = new Request<>(admin, "edit", overrideAsset);
-                request.setAttachmentType(Asset.class);
+                request = new Request(admin, Request.ActionType.UPDATE, overrideAsset);
+                request.setObjectType(Request.ObjectType.ASSET);
 
                 expectedAssets.set(repetitionInfo.getCurrentRepetition() - 1, overrideAsset);
                 expectedCollection = expectedAssets;
 
-                queryRequest = new Request<>(admin, "query assets");
+                queryRequest = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.ASSET);
             }
 
             @RepeatedTest(4)
@@ -309,13 +351,13 @@ class ServerTest {
                         "OrganisationalUnit " + (repetitionInfo.getCurrentRepetition() - 1),
                         1000f * (repetitionInfo.getCurrentRepetition() - 1));
 
-                request = new Request<>(admin, "edit", overrideOrganisationalUnit);
-                request.setAttachmentType(OrganisationalUnit.class);
+                request = new Request(admin, Request.ActionType.UPDATE, overrideOrganisationalUnit);
+                request.setObjectType(Request.ObjectType.ORGANISATIONAL_UNIT);
 
                 expectedOrganisationalUnits.set(repetitionInfo.getCurrentRepetition() - 1, overrideOrganisationalUnit);
                 expectedCollection = expectedOrganisationalUnits;
 
-                queryRequest = new Request<>(admin, "query organisationalUnits");
+                queryRequest = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.ORGANISATIONAL_UNIT);
             }
 
             @RepeatedTest(16)
@@ -323,13 +365,13 @@ class ServerTest {
                 Order overrideOrder = expectedOrders.get(repetitionInfo.getCurrentRepetition() - 1);
                 overrideOrder.setStatus(Order.Status.CANCELLED);
 
-                request = new Request<>(admin, "edit", overrideOrder);
-                request.setAttachmentType(Order.class);
+                request = new Request(admin, Request.ActionType.UPDATE, overrideOrder);
+                request.setObjectType(Request.ObjectType.ORDER);
 
                 expectedOrders.set(repetitionInfo.getCurrentRepetition() - 1, overrideOrder);
                 expectedCollection = expectedOrders;
 
-                queryRequest = new Request<>(admin, "query orders");
+                queryRequest = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.ORDER);
             }
 
             @RepeatedTest(4)
@@ -337,13 +379,13 @@ class ServerTest {
                 Stock overrideStock = new Stock(repetitionInfo.getCurrentRepetition());
                 overrideStock.add(new Item(expectedAssets.get(repetitionInfo.getTotalRepetitions() - 1), repetitionInfo.getCurrentRepetition() * 5));
 
-                request = new Request<>(admin, "edit", overrideStock);
-                request.setAttachmentType(Stock.class);
+                request = new Request(admin, Request.ActionType.UPDATE, overrideStock);
+                request.setObjectType(Request.ObjectType.STOCK);
 
                 expectedStocks.set(repetitionInfo.getCurrentRepetition() - 1, overrideStock);
                 expectedCollection = expectedStocks;
 
-                queryRequest = new Request<>(admin, "query stocks");
+                queryRequest = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.STOCK);
             }
         }
 
@@ -357,46 +399,46 @@ class ServerTest {
 
             @RepeatedTest(5)
             void userUpdatingTest(RepetitionInfo repetitionInfo){
-                request = new Request<>(admin, "delete", expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1));
-                request.setAttachmentType(User.class);
+                request = new Request(admin, Request.ActionType.DELETE, expectedUsers.get(repetitionInfo.getCurrentRepetition() - 1));
+                request.setObjectType(Request.ObjectType.USER);
 
                 expectedUsers.remove(repetitionInfo.getCurrentRepetition() - 1);
                 expectedCollection = expectedUsers;
 
-                queryRequest = new Request<>(admin, "query users");
+                queryRequest = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.USER);
             }
 
             @RepeatedTest(4)
             void assetUpdatingTest(RepetitionInfo repetitionInfo) throws InvalidArgumentValueException {
-                request = new Request<>(admin, "delete", expectedAssets.get(repetitionInfo.getCurrentRepetition() - 1));
-                request.setAttachmentType(Asset.class);
+                request = new Request(admin, Request.ActionType.DELETE, expectedAssets.get(repetitionInfo.getCurrentRepetition() - 1));
+                request.setObjectType(Request.ObjectType.ASSET);
 
                 expectedAssets.remove(repetitionInfo.getCurrentRepetition() - 1);
                 expectedCollection = expectedAssets;
 
-                queryRequest = new Request<>(admin, "query assets");
+                queryRequest = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.ASSET);
             }
 
             @RepeatedTest(4)
             void organisationalUnitUpdatingTest(RepetitionInfo repetitionInfo){
-                request = new Request<>(admin, "delete", expectedOrganisationalUnits.get(repetitionInfo.getCurrentRepetition() - 1));
-                request.setAttachmentType(OrganisationalUnit.class);
+                request = new Request(admin, Request.ActionType.DELETE, expectedOrganisationalUnits.get(repetitionInfo.getCurrentRepetition() - 1));
+                request.setObjectType(Request.ObjectType.ORGANISATIONAL_UNIT);
 
                 expectedOrganisationalUnits.remove(repetitionInfo.getCurrentRepetition() - 1);
                 expectedCollection = expectedOrganisationalUnits;
 
-                queryRequest = new Request<>(admin, "query organisationalUnits");
+                queryRequest = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.ORGANISATIONAL_UNIT);
             }
 
             @RepeatedTest(16)
             void orderUpdatingTest(RepetitionInfo repetitionInfo){
-                request = new Request<>(admin, "delete", expectedOrders.get(repetitionInfo.getCurrentRepetition() - 1));
-                request.setAttachmentType(Order.class);
+                request = new Request(admin, Request.ActionType.DELETE, expectedOrders.get(repetitionInfo.getCurrentRepetition() - 1));
+                request.setObjectType(Request.ObjectType.ORDER);
 
                 expectedOrders.remove(repetitionInfo.getCurrentRepetition() - 1);
                 expectedCollection = expectedOrders;
 
-                queryRequest = new Request<>(admin, "query orders");
+                queryRequest = new Request(admin, Request.ActionType.READ_ALL).setObjectType(Request.ObjectType.ORDER);
             }
         }
     }

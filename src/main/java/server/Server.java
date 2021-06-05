@@ -4,11 +4,8 @@ import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.IData;
-import common.dataClasses.OrganisationalUnit;
-import common.dataClasses.Stock;
 import common.dataClasses.User;
 import server.DataSourceClasses.CasesToResponse;
-import server.DataSourceClasses.OrganisationsDataSource;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -107,7 +104,7 @@ public final class Server implements IServer{
                 try {
                     // Create a response and write to stream
                     final Request request = (Request) inputStream.readObject();
-                    System.out.println(request.getAction());
+                    System.out.println(request.getActionType());
                     Response response = createResponse(request);
                     outputStream.flush();
                     outputStream.writeObject(response);
@@ -141,76 +138,71 @@ public final class Server implements IServer{
 
     /**
      * Create a response based on the request.
-     * @param clientRequest The request sent by client.
+     * @param request The request sent by client.
      * @return An appropriate response.
      * @throws InvalidArgumentValueException
      */
     @Override
-    public Response createResponse(Request clientRequest) throws InvalidArgumentValueException {
+    public Response createResponse(Request request) throws InvalidArgumentValueException {
         // Unidentified requests are denied by default
         //Get senders' information
-        User sender = clientRequest.getUser();
-        IData attachment = clientRequest.getAttachment();
-        Response serverResponse = new Response(false, null);
-        switch (clientRequest.getAction()){
-            case "init":
+        User sender = request.getUser();
+        IData attachment = request.getAttachment();
+        Response response = new Response(false, null);
+        switch (request.getActionType()){
+            case TEST:
                 if (firstRun){
                     CasesToResponse.initiate();
                     firstRun = false;
-                    serverResponse = new Response(true, null);
+                    response = new Response(true, null);
                 }
                 break;
 
-            case "login":
-                serverResponse = CasesToResponse.login(clientRequest);
+            case LOGIN:
+                response = CasesToResponse.login(request);
                 break;
 
-            case "query users":
-                serverResponse = CasesToResponse.queryUsers();
+            case READ_ALL:
+                switch (request.getObjectType()){
+                    case USER:
+                        response = CasesToResponse.queryUsers();
+                        break;
+
+                    case ASSET:
+                        response = CasesToResponse.queryAssets();
+                        break;
+
+                    case ORGANISATIONAL_UNIT:
+                        response = CasesToResponse.queryOrganisations();
+                        break;
+
+                    case STOCK:
+                        response = CasesToResponse.queryStocks();
+                        break;
+
+                    case ORDER:
+                        response = CasesToResponse.queryOrders();
+                        break;
+                }
                 break;
 
-            case "query assets":
-                serverResponse = CasesToResponse.queryAssets();
+            case READ:
+                response = CasesToResponse.query(request);
                 break;
 
-            case "query organisationalUnits":
-                serverResponse = CasesToResponse.queryOrganisations();
+
+            case CREATE:
+                response = CasesToResponse.add(request);
                 break;
 
-            case "query stocks":
-                serverResponse = CasesToResponse.queryStocks();
+            case UPDATE:
+                response = CasesToResponse.edit(request);
                 break;
 
-            case "query organisational unit":
-                OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
-                OrganisationalUnit unit = organisationsDataSource.getOrganisation(sender.getUnitId());
-                serverResponse = CasesToResponse.query(unit);
-                break;
-
-            case "query stock":
-                serverResponse = CasesToResponse.queryStock(sender);
-                break;
-
-            case "query orders":
-                serverResponse = CasesToResponse.queryOrders();
-                break;
-
-            case "add":
-                serverResponse = CasesToResponse.add(clientRequest);
-                break;
-
-            case "edit":
-                serverResponse = CasesToResponse.edit(clientRequest);
-                break;
-
-            case "delete":
-                serverResponse = CasesToResponse.delete(clientRequest);
-                break;
-
-            case "clean":
-                serverResponse = CasesToResponse.cleanDatabase();
+            case DELETE:
+                response = CasesToResponse.delete(request);
                 break;
         }
-        return serverResponse;
+        return response;
     }
 }
