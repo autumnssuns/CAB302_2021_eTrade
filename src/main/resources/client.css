@@ -20,6 +20,17 @@
     -fx-background-color: "#4d965b";
 }
 
+
+.cartButton{
+    -fx-background-radius: 10px;
+    -fx-background-color: "#51B765";
+    -fx-text-fill: "#F3F1F1";
+    -fx-font-size: 12px;
+    -fx-width: 150;
+    transition: all 150ms ease-in-out;
+
+}
+
 .displayPane{
     -fx-background-color: "#f2f2f3";
 }

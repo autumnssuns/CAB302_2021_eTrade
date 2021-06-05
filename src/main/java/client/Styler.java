@@ -4,8 +4,11 @@ package client;
  * A styling class to define the properties of different UI elements
  */
 public enum Styler {
-    STANDARD_ASSET_BOX(30, 0, "", 30),
-    STANDARD_ASSET_NAME_BOX(30, 200, "blackLabel",0);
+    STANDARD_ASSET_BOX(30, 100, "", 20),
+    STANDARD_BUTTON(30,100,"",0),
+    STANDARD_ASSET_NAME_BOX(30, 150, "blackLabel",0);
+
+
 
     private final int height;
     private final int width;
