@@ -1,4 +1,4 @@
-package server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE;
+package common;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

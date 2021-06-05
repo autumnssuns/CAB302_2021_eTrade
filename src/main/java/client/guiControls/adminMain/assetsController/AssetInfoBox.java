@@ -33,7 +33,6 @@ public class AssetInfoBox extends HBox implements IViewUnit {
      */
     public AssetInfoBox(Asset asset){
         super();
-
         this.asset = asset;
 
         initialize();

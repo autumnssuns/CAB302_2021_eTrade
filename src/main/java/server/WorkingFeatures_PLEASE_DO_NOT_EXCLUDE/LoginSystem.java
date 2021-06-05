@@ -1,5 +1,6 @@
 package server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE;
 
+import common.HashPassword;
 import server.DBConnection;
 
 import java.security.NoSuchAlgorithmException;

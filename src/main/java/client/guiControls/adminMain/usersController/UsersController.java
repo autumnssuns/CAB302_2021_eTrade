@@ -13,7 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
+import common.HashPassword;
 
 /**
  * A controller to control the USERS Page (which allows the admin to add / remove or edit users' information).

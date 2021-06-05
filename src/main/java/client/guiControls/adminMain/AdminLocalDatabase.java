@@ -1,6 +1,6 @@
 package client.guiControls.adminMain;
 
-import client.guiControls.ILocalDatabase;
+import client.guiControls.LocalDatabase;
 import common.dataClasses.*;
 
 import java.util.Objects;
@@ -9,7 +9,7 @@ import java.util.Objects;
  * Represents a local database for an admin. This local database is initiated using data fetched from server.
  * The AdminMainController can interact with this database to write or read from it.
  */
-public class AdminLocalDatabase extends ILocalDatabase {
+public class AdminLocalDatabase extends LocalDatabase {
 
     private DataCollection<User> users;
     private DataCollection<Asset> assets;

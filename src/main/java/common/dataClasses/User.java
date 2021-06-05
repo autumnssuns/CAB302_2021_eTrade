@@ -1,6 +1,6 @@
 package common.dataClasses;
 
-import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
+import common.HashPassword;
 
 import java.util.Objects;
 
