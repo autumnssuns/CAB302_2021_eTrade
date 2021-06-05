@@ -55,10 +55,6 @@ public class OrdersController extends DisplayController {
         UserLocalDatabase localDatabase = (UserLocalDatabase) controller.getDatabase();
         orders = new DataCollection<>();
         for (Order order : localDatabase.getOrders()){
-            System.out.println("Order Unit ID:" + order.getUnitId());
-            System.out.println("Unit ID: " + controller.getUser().getUnitId());
-            System.out.println("Type " + order.getOrderType());
-            System.out.println("Match: " + (order.getUnitId() == controller.getUser().getUnitId() && order.getOrderType().equals(typeFilter)));
             if (order.getUnitId().equals(controller.getUser().getUnitId()) && order.getOrderType().equals(typeFilter)){
                 orders.add(order);
             }

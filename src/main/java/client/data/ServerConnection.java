@@ -34,7 +34,7 @@ public final class ServerConnection implements IServerConnection{
             port = Integer.parseInt(props.getProperty("port"));
 
             Start();
-            sendRequest(new Request(null, Request.ActionType.TEST));
+            sendRequest(new Request(null, Request.ActionType.PING));
             Close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -51,7 +51,6 @@ public final class ServerConnection implements IServerConnection{
         try {
             socket = new Socket(address, port);
             // Temporary prompt message
-            System.out.println("Connected");
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
         } catch (UnknownHostException e) {
@@ -68,6 +67,7 @@ public final class ServerConnection implements IServerConnection{
     public Response sendRequest(Request request) {
         try{
             out.writeObject(request);
+            System.out.println("Sending request " + request.getActionType() + " on " + request.getObjectType());
             return (Response) in.readObject();
         } catch (IOException e) {
             e.printStackTrace();

@@ -52,7 +52,8 @@
             <Button layoutX="971.0" layoutY="5.0" mnemonicParsing="false" onAction="#logOut" prefHeight="40.0" prefWidth="178.0" style="-fx-border-radius: 50;" styleClass="circularButton" text="Log out">
                <font>
                   <Font size="12.0" />
-               </font></Button>
+               </font>
+            </Button>
             <Label fx:id="userLabel" alignment="CENTER_RIGHT" layoutX="460.0" layoutY="2.0" prefHeight="30.0" prefWidth="400.0" textAlignment="RIGHT">
                <font>
                   <Font size="30.0" />
@@ -72,7 +73,12 @@
       </Pane>
       <ScrollPane fx:id="notificationPane" hbarPolicy="NEVER" layoutX="900.0" layoutY="49.0" prefHeight="360.0" prefWidth="240.0" visible="false">
          <content>
-            <VBox fx:id="notificationBox" prefWidth="240.0" />
+            <VBox fx:id="notificationBox" prefWidth="240.0" styleClass="whitePane" />
+         </content>
+      </ScrollPane>
+      <ScrollPane focusTraversable="false" hbarPolicy="NEVER" layoutX="1200.0" layoutY="450.0" prefHeight="300.0" prefWidth="240.0">
+         <content>
+            <VBox fx:id="messageBox" prefWidth="240.0" />
          </content>
       </ScrollPane>
    </children>

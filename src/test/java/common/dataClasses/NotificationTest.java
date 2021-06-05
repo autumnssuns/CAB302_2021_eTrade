@@ -73,8 +73,8 @@ class NotificationTest {
 
     @Test
     void testNotEquals() throws InvalidArgumentValueException {
-        Notification notification = new Notification().setNotificationId(0).setMessage("Test").addReceiverUnit(0);
-        Notification other = new Notification().setNotificationId(0).setMessage("Test").addReceiverUnit(0).addReceiverUnit(1);
+        Notification notification = new Notification().setNotificationId(0).setMessage("Test1");
+        Notification other = new Notification().setNotificationId(1).setMessage("Test2");
         assertFalse(notification.equals(other) && other.equals(notification));
         assertFalse(notification.hashCode() == other.hashCode());
     }

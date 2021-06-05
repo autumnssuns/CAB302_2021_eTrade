@@ -1,6 +1,8 @@
 package client.guiControls.userMain;
 
 import client.guiControls.MainController;
+import client.guiControls.MessageFactory;
+import client.guiControls.MessageViewUnit;
 import client.guiControls.userMain.buyController.BuyController;
 import client.guiControls.userMain.homeController.HomeController;
 import client.guiControls.userMain.notificationController.NotificationFactory;
@@ -26,6 +28,9 @@ import java.io.IOException;
 //TODO: Commenting & Documenting
 
 public class UserMainController extends MainController {
+    // The linked local database
+    UserLocalDatabase localDatabase;
+
     // Display controllers
     private HomeController homeController;
     private SaleController saleController;
@@ -55,6 +60,7 @@ public class UserMainController extends MainController {
     @FXML private Button notificationButton;
     @FXML private VBox notificationBox;
     @FXML private Label notificationNumberLabel;
+    @FXML private VBox messageBox;
 
     /**
      * Initialise the controller
@@ -83,6 +89,7 @@ public class UserMainController extends MainController {
      * @throws IOException
      */
     private void setupController() throws IOException, InvalidArgumentValueException {
+        localDatabase = new UserLocalDatabase();
         fetchDatabase();
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("UserGUI/HomePage.fxml"));
@@ -125,7 +132,7 @@ public class UserMainController extends MainController {
 
     /**
      * Switches the display to the ORDERS tab.
-     * @throws IOException
+     * @throws InvalidArgumentValueException
      */
     public void switchToHomePage() throws InvalidArgumentValueException {
         homeController.update();
@@ -152,7 +159,7 @@ public class UserMainController extends MainController {
 
     /**
      * Switches the display to the BUY tab.
-     * @throws IOException
+     * @throws InvalidArgumentValueException
      */
     public void switchToBuyPage() throws InvalidArgumentValueException {
         buyController.update();
@@ -166,7 +173,7 @@ public class UserMainController extends MainController {
 
     /**
      * Switches the display to the ORDERS tab.
-     * @throws IOException
+     * @throws InvalidArgumentValueException
      */
     public void switchToHistoryPage() throws InvalidArgumentValueException {
         ordersController.update();
@@ -180,7 +187,7 @@ public class UserMainController extends MainController {
 
     /**
      * Switches the display to the ORDERS tab.
-     * @throws IOException
+     * @throws InvalidArgumentValueException
      */
     public void switchToProfilePage() throws InvalidArgumentValueException {
         profileController.update();
@@ -199,7 +206,6 @@ public class UserMainController extends MainController {
     public void fetchDatabase() {
         Response response = this.sendRequest(Request.ActionType.READ, Request.ObjectType.ORGANISATIONAL_UNIT);
         OrganisationalUnit organisationalUnit = (OrganisationalUnit) response.getAttachment();
-        System.out.println(organisationalUnit.getId() +" "+ organisationalUnit.getName() + " " + getDatabase());
 
         response = this.sendRequest(Request.ActionType.READ, Request.ObjectType.STOCK);
         Stock stock = (Stock) response.getAttachment();
@@ -213,33 +219,32 @@ public class UserMainController extends MainController {
         response = this.sendRequest(Request.ActionType.READ, Request.ObjectType.NOTIFICATION);
         DataCollection<Notification> notifications = (DataCollection) response.getAttachment();
 
-        localDatabase = new UserLocalDatabase(organisationalUnit, stock, orders, assets, notifications);
-    }
-
-
-    @Override
-    public UserLocalDatabase getDatabase(){
-        return (UserLocalDatabase) localDatabase;
-    }
-
-    @Override
-    public void updateLocalDatabase(Request.ObjectType type) throws InvalidArgumentValueException {
-        Response response;
-        if (type.equals(Request.ObjectType.ORDER)){
-            response = this.sendRequest(Request.ActionType.READ_ALL, Request.ObjectType.ORDER);
-            DataCollection orders = (DataCollection) response.getAttachment();
-            ((UserLocalDatabase) localDatabase).setOrders(orders);
-        }
+        localDatabase.setAssets(assets);
+        localDatabase.setOrganisationalUnit(organisationalUnit);
+        localDatabase.setStock(stock);
+        localDatabase.setOrders(orders);
+        localDatabase.setNotifications(notifications);
     }
 
     /**
-     * Updates the view of the main page
+     * Returns the local database for the current user.
+     * @return The local database for the current user.
+     */
+    @Override
+    public UserLocalDatabase getDatabase(){
+        return localDatabase;
+    }
+
+    /**
+     * Updates the view of the main page by fetching the database from server, pushes notification, then
+     * updates each controller individually
      */
     @Override
     public void update() throws InvalidArgumentValueException {
         fetchDatabase();
         pushNotifications();
-        OrganisationalUnit unit = ((UserLocalDatabase) localDatabase).getOrganisationalUnit();
+        pushLiveNotifications();
+        OrganisationalUnit unit = localDatabase.getOrganisationalUnit();
         organisationalUnitLabel.setText(unit.getName());
         userLabel.setText(getUser().getFullName());
         creditLabel.setText("Balance: $" + unit.getBalance());
@@ -251,12 +256,23 @@ public class UserMainController extends MainController {
     }
 
     /**
+     * Displays a live message to the user
+     * @param message The string containing the message
+     * @param type The type of the message (error, success or default)
+     */
+    @Override
+    public void pushMessage(String message, MessageFactory.MessageType type) {
+        MessageViewUnit messageViewUnit = MessageFactory.createMessage(message, type);
+        messageBox.getChildren().add(messageViewUnit);
+        messageBox.setVisible(true);
+    }
+
+    /**
      * Show the notification panel. Also marks the current unit as having read the message.
      */
     public void showNotifications() throws InvalidArgumentValueException {
-        System.out.println("Showing notification");
         notificationPane.setVisible(true);
-        DataCollection<Notification> notifications = ((UserLocalDatabase) localDatabase).getNotifications();
+        DataCollection<Notification> notifications = localDatabase.getNotifications();
         DataCollection<Notification> overridingNotifications = new DataCollection<>();
         Integer unitId = getUser().getUnitId();
         // Loops through the notifications, if the current unit is not already a reader, add it
@@ -297,9 +313,11 @@ public class UserMainController extends MainController {
     private void pushNotifications(){
         DataCollection<Notification> notifications = ((UserLocalDatabase) localDatabase).getNotifications();
         notificationBox.getChildren().clear();
+        // Counts the number of unread messages
         int unreadCount = 0;
         boolean hasRead;
         for (int i = 0; i < notifications.size(); i++){
+            // Retrieve the latest first
             Notification notification = notifications.get(notifications.size() - i - 1);
             hasRead = notification.containsReader(getUser().getUnitId());
             if (!hasRead){
@@ -308,5 +326,15 @@ public class UserMainController extends MainController {
             this.notificationBox.getChildren().add(NotificationFactory.createNotification(notification, hasRead));
         }
         notificationNumberLabel.setText(String.valueOf(unreadCount));
+    }
+
+    /**
+     * Pushes the new notifications (not already read or not already in local database) as a pop up
+     */
+    private void pushLiveNotifications(){
+        DataCollection<Notification> newNotifications = localDatabase.getNewNotifications();
+        for (Notification notification : newNotifications){
+            pushMessage(notification.getMessage(), MessageFactory.MessageType.DEFAULT);
+        }
     }
 }
