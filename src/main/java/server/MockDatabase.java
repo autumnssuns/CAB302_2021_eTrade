@@ -27,7 +27,7 @@ public class MockDatabase {
     static ArrayList<Object[]> notifications = new ArrayList();
 
     public MockDatabase() {
-        add(new User(0, "Admin", "admin", "root", "admin", 0).hashPassword());
+        add(new User(0, "Admin", "admin", "root", "admin", null).hashPassword());
     }
 
     /**
@@ -89,8 +89,6 @@ public class MockDatabase {
         add(new Order(13, Order.Type.BUY, 3, 1, 50, 0, 12.5f, null, LocalDateTime.of(2021, 5, 9, 8, 30), Order.Status.PENDING));
         add(new Order(14, Order.Type.BUY, 3, 2, 50, 0, 14.5f, null, LocalDateTime.of(2021, 5, 9, 0, 11), Order.Status.PENDING));
         add(new Order(15, Order.Type.BUY, 3, 3, 50, 0, 15.5f, null, LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
-
-
     }
 
     /**
@@ -103,7 +101,12 @@ public class MockDatabase {
         User sender = request.getUser();
         for (Object[] user : users) {
             if (user[2].equals(sender.getUsername()) && user[3].equals(sender.getPassword())) {
-                return new Response(true, new User((int) user[0], (String) user[1], (String) user[2], (String) user[3], (String) user[4], (int) user[5]));
+                if(user[4] == "user") {
+                    return new Response(true, new User((int) user[0], (String) user[1], (String) user[2], (String) user[3], (String) user[4], (int) user[5]));
+                }
+                else if(user[4] == "admin"){
+                    return new Response(true, new User((int) user[0], (String) user[1], (String) user[2], (String) user[3], (String) user[4], null));
+                }
             }
         }
         return new Response(false, null);
@@ -118,7 +121,12 @@ public class MockDatabase {
     public static Response queryUsers(Request request) {
         DataCollection<User> attachedUsers = new DataCollection<>();
         for (Object[] user : users) {
-            attachedUsers.add(new User((int) user[0], (String) user[1], (String) user[2], (String) user[3], (String) user[4], (int) user[5]));
+            if(user[4] == "user") {
+                attachedUsers.add(new User((int) user[0], (String) user[1], (String) user[2], (String) user[3], (String) user[4], (int) user[5]));
+            }
+            else if (user[4] == "admin"){
+                attachedUsers.add(new User((int) user[0], (String) user[1], (String) user[2], (String) user[3], (String) user[4], null));
+            }
         }
         return new Response(true, attachedUsers);
     }
