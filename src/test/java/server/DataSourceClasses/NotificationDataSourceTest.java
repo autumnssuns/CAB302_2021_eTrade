@@ -6,8 +6,6 @@ import common.dataClasses.Notification;
 import org.junit.jupiter.api.*;
 import server.DBConnection;
 
-import java.sql.SQLException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class NotificationDataSourceTest {
@@ -26,12 +24,12 @@ class NotificationDataSourceTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        CasesToResponse.cleanDatabase();
+        RequestHandler.cleanDatabase();
     }
 
     @AfterEach
     void tearDown() throws Exception {
-        CasesToResponse.cleanDatabase();
+        RequestHandler.cleanDatabase();
     }
 
     @Test

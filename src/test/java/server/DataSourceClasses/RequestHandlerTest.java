@@ -8,10 +8,9 @@ import org.junit.jupiter.api.Test;
 import server.DBConnection;
 import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
-import static server.DataSourceClasses.CasesToResponse.findItem;
-import java.sql.SQLException;
+import static server.DataSourceClasses.RequestHandler.findItem;
 
-public class CasesToResponseTest {
+public class RequestHandlerTest {
     static Boolean createTable = true; //change this to create a table
 
     @BeforeAll
@@ -26,9 +25,9 @@ public class CasesToResponseTest {
 
     @BeforeAll
     public static void SetUp() throws Exception {
-        CasesToResponse.cleanDatabase();
+        RequestHandler.cleanDatabase();
         if(createTable == true) {
-            CasesToResponse.initiate();
+            RequestHandler.initiate();
         }
     }
 
@@ -36,7 +35,7 @@ public class CasesToResponseTest {
     public void LoginTest() throws Exception {
         User test = new User("duy","abcd").hashPassword();
         Request loginRequest = new Request(test,Request.ActionType.PING);
-        Response response = CasesToResponse.login(loginRequest);
+        Response response = RequestHandler.login(loginRequest);
         test = (User) response.getAttachment();
         assertEquals(2, test.getId());
         assertEquals(1, test.getUnitId());
@@ -49,8 +48,8 @@ public class CasesToResponseTest {
         User wrongAccountName = new User("WrongName", "abcd").hashPassword();
         Request loginRequest = new Request(wrongPassLogin,Request.ActionType.PING);
         Request loginRequest2 = new Request(wrongAccountName,Request.ActionType.PING);
-        Response response = CasesToResponse.login(loginRequest);
-        Response response2 = CasesToResponse.login(loginRequest2);
+        Response response = RequestHandler.login(loginRequest);
+        Response response2 = RequestHandler.login(loginRequest2);
         wrongPassLogin = (User) response.getAttachment();
         wrongAccountName = (User) response2.getAttachment();
         assertEquals(null,wrongPassLogin);
@@ -59,12 +58,12 @@ public class CasesToResponseTest {
 
     @Test
     public void CleanDatabase() throws Exception {
-        CasesToResponse.cleanDatabase();
-        DataCollection<User> users = (DataCollection<User>) CasesToResponse.queryUsers().getAttachment();
-        DataCollection<Asset> assets = (DataCollection<Asset>) CasesToResponse.queryAssets().getAttachment();
-        DataCollection<OrganisationalUnit> organisationalUnits = (DataCollection<OrganisationalUnit>) CasesToResponse.queryOrganisations().getAttachment();
-        DataCollection<Stock> stocks = (DataCollection<Stock>) CasesToResponse.queryStocks().getAttachment();
-        DataCollection<Order> orders = (DataCollection<Order>) CasesToResponse.queryOrders().getAttachment();
+        RequestHandler.cleanDatabase();
+        DataCollection<User> users = (DataCollection<User>) RequestHandler.queryUsers().getAttachment();
+        DataCollection<Asset> assets = (DataCollection<Asset>) RequestHandler.queryAssets().getAttachment();
+        DataCollection<OrganisationalUnit> organisationalUnits = (DataCollection<OrganisationalUnit>) RequestHandler.queryOrganisations().getAttachment();
+        DataCollection<Stock> stocks = (DataCollection<Stock>) RequestHandler.queryStocks().getAttachment();
+        DataCollection<Order> orders = (DataCollection<Order>) RequestHandler.queryOrders().getAttachment();
         NotificationDataSource notificationDataSource = new NotificationDataSource();
         DataCollection<Notification> notifications = notificationDataSource.getAll();
         assertEquals(1,
@@ -73,9 +72,9 @@ public class CasesToResponseTest {
 
     @Test
     public void addOrder() throws Exception {
-        CasesToResponse.add(new Order(16, Order.Type.SELL, 3, 3, 50, 0, 15.5f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
-        CasesToResponse.add(new Order(17, Order.Type.BUY, 2, 3, 50, 0, 15.5f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
-        CasesToResponse.add(new Order(18, Order.Type.BUY, 0, 3, 59, 0, 15.5f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
+        RequestHandler.add(new Order(16, Order.Type.SELL, 3, 3, 50, 0, 15.5f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
+        RequestHandler.add(new Order(17, Order.Type.BUY, 2, 3, 50, 0, 15.5f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
+        RequestHandler.add(new Order(18, Order.Type.BUY, 0, 3, 59, 0, 15.5f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
 
         OrderDataSource orderDataSource = new OrderDataSource();
         assertEquals(2, orderDataSource.getOrder(10).getAssetId());
@@ -87,7 +86,7 @@ public class CasesToResponseTest {
     @Test
     public void addUser() throws Exception{
 
-        CasesToResponse.add(new User (1245,"ABC","ABC","123456789", "Admin",1 ));
+        RequestHandler.add(new User (1245,"ABC","ABC","123456789", "Admin",1 ));
 
         UserDataSource userDataSource = new UserDataSource();
         User user = userDataSource.getUser("ABC");
@@ -98,7 +97,7 @@ public class CasesToResponseTest {
 
     @Test
     public void addOrganisationalUnit() throws Exception{
-        CasesToResponse.add(new OrganisationalUnit(99, "SuperTeam", 1586));
+        RequestHandler.add(new OrganisationalUnit(99, "SuperTeam", 1586));
         OrganisationsDataSource orgDataSource = new OrganisationsDataSource();
         OrganisationalUnit org = orgDataSource.getOrganisation(99);
 
@@ -107,7 +106,7 @@ public class CasesToResponseTest {
     }
     @Test
     public void addStock() throws Exception{
-        CasesToResponse.add(new Stock(100));
+        RequestHandler.add(new Stock(100));
         StockDataSource stockDataSource = new StockDataSource();
         Stock stock = stockDataSource.getStock(100);
         assertNotNull(stock);
@@ -116,7 +115,7 @@ public class CasesToResponseTest {
     @Test
     public void editOrder() throws Exception{
         Order edited = new Order(0, Order.Type.BUY, 0, 0, 99, 0, 10f, null, LocalDateTime.of(2021, 5, 6, 16, 52), Order.Status.PENDING);
-        Response r = CasesToResponse.edit(edited);
+        Response r = RequestHandler.edit(edited);
         OrderDataSource order = new OrderDataSource();;
         Order result = order.getOrder(0);
         assertEquals(result, r.getAttachment());
@@ -126,7 +125,7 @@ public class CasesToResponseTest {
     public void queryUser() throws Exception{
         UserDataSource userDataSource = new UserDataSource();
         User expected = new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3);
-        Response r = CasesToResponse.query(expected);
+        Response r = RequestHandler.query(expected);
         assertEquals(userDataSource.getUser("rodo"),r.getAttachment());
 
     }

@@ -4,7 +4,6 @@ import common.dataClasses.Order;
 import org.junit.jupiter.api.*;
 import server.DBConnection;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,7 +37,7 @@ class OrderDataSourceTest {
 
     @BeforeEach
     void setUpWithOneOrderSuccessfully() throws Exception {
-        CasesToResponse.cleanDatabase();
+        RequestHandler.cleanDatabase();
         orders = new OrderDataSource();
         orders.addOrder(new Order(1, Order.Type.BUY, 0, 9,
                 99, 0, 10f,
@@ -49,7 +48,7 @@ class OrderDataSourceTest {
 
     @AfterEach
     void tearDown() throws Exception {
-        CasesToResponse.cleanDatabase();
+        RequestHandler.cleanDatabase();
     }
 
     @Test

@@ -8,7 +8,7 @@ import common.dataClasses.*;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-public class CasesToResponse  {
+public class RequestHandler {
 
     /**
      * Initiate a mini database (for testing purpose)

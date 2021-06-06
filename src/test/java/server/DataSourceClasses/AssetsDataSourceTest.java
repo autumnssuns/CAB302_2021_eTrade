@@ -27,13 +27,13 @@ class AssetsDataSourceTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        CasesToResponse.cleanDatabase();
+        RequestHandler.cleanDatabase();
         assetsDataSource = new AssetsDataSource();
     }
 
     @AfterEach
     void tearDown() throws Exception {
-        CasesToResponse.cleanDatabase();
+        RequestHandler.cleanDatabase();
     }
 
     @Test
