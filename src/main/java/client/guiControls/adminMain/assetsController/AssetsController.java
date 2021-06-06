@@ -22,8 +22,6 @@ public class AssetsController extends DisplayController {
     TextField newNameTextField;
     @FXML
     TextField newDescriptionTextField;
-    @FXML
-    Button refreshAssetsButton;
 
     /**
      * Creates a GUI to view a linked asset
