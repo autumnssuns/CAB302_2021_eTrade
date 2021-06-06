@@ -76,7 +76,7 @@
             <VBox fx:id="notificationBox" prefWidth="240.0" styleClass="whitePane" />
          </content>
       </ScrollPane>
-      <ScrollPane focusTraversable="false" hbarPolicy="NEVER" layoutX="1200.0" layoutY="450.0" prefHeight="300.0" prefWidth="240.0">
+      <ScrollPane focusTraversable="false" hbarPolicy="NEVER" layoutX="1085.0" layoutY="692.0" prefHeight="78.0" prefWidth="365.0">
          <content>
             <VBox fx:id="messageBox" prefWidth="240.0" />
          </content>
