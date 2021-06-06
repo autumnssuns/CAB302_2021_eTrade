@@ -6,14 +6,11 @@ import client.guiControls.MessageViewUnit;
 import client.guiControls.adminMain.assetsController.AssetsController;
 import client.guiControls.adminMain.organisationalUnitsController.OrganisationalUnitsController;
 import client.guiControls.adminMain.usersController.UsersController;
-import client.guiControls.userMain.UserLocalDatabase;
+import client.guiControls.adminMain.profileController.AdminProfileController;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
-import common.dataClasses.DataCollection;
-import common.dataClasses.IData;
 import common.dataClasses.*;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -40,6 +37,7 @@ public class AdminMainController extends MainController {
     private Pane assetsPane;
     private AssetsController assetsController;
     private Pane profilePane;
+    private AdminProfileController adminProfileController;
 
     //Preset components
     @FXML private StackPane displayStack;
@@ -47,6 +45,7 @@ public class AdminMainController extends MainController {
     @FXML private Button assetsButton;
     @FXML private Button usersButton;
     @FXML private Button organisationalUnitsButton;
+    @FXML private Button profileButton;
     @FXML private AnchorPane anchorPane;
     @FXML private Label userLabel;
     @FXML private VBox messageBox;
@@ -89,7 +88,12 @@ public class AdminMainController extends MainController {
         assetsController.setController(this);
         assetsController.update();
 
-        profilePane = new Pane();
+        fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("AdminGUI/AdminProfilePage.fxml"));
+        profilePane = fxmlLoader.load();
+        adminProfileController = fxmlLoader.getController();
+        adminProfileController.setController(this);
+        adminProfileController.update();
+        //profilePane = new Pane();
 
         displayStack.getChildren().addAll(usersPane, organisationUnitsPane, assetsPane, profilePane);
         toOrganisationUnits();
@@ -104,6 +108,7 @@ public class AdminMainController extends MainController {
         organisationalUnitsButton.setDisable(true);
         assetsButton.setDisable(false);
         usersButton.setDisable(false);
+        profileButton.setDisable(false);
     }
 
     /**
@@ -115,6 +120,7 @@ public class AdminMainController extends MainController {
         organisationalUnitsButton.setDisable(false);
         assetsButton.setDisable(false);
         usersButton.setDisable(true);
+        profileButton.setDisable(false);
     }
 
     /**
@@ -125,6 +131,15 @@ public class AdminMainController extends MainController {
         assetsPane.toFront();
         organisationalUnitsButton.setDisable(false);
         assetsButton.setDisable(true);
+        usersButton.setDisable(false);
+        profileButton.setDisable(false);
+    }
+
+    public void toProfile(){
+        //adminProfileController.update();
+        profilePane.toFront();
+        organisationalUnitsButton.setDisable(false);
+        profileButton.setDisable(true);
         usersButton.setDisable(false);
     }
 
@@ -221,6 +236,7 @@ public class AdminMainController extends MainController {
         assetsController.update();
         usersController.update();
         organisationalUnitsController.update();
+        adminProfileController.update();
     }
 
     /**

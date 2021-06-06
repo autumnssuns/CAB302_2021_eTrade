@@ -50,7 +50,7 @@ public class BuyItemInfoBox extends HBox implements IViewUnit {
     public void initialize(){
         this.setId("buyItemInfoBox" + item.getId());
         this.setAlignment(Pos.CENTER_LEFT);
-        this.setSpacing(10);
+        this.setSpacing(20);
 
         nameLabel = new Label(item.getName());
         nameLabel.getStyleClass().add(Styler.STANDARD_ASSET_NAME_BOX.styleClass());
@@ -61,13 +61,13 @@ public class BuyItemInfoBox extends HBox implements IViewUnit {
         availabilityLabel.setId("itemAvailabilityLabel" + item.getId());
 
         quantityTextField = new TextField();
-        quantityTextField.setPrefWidth(100);
+        quantityTextField.setPrefWidth(150);
         quantityTextField.setPromptText("Quantity");
         quantityTextField.setId("itemBuyQuantityTextField" + item.getId());
         quantityTextField.setOnKeyTyped(e -> limitSellQuantity());
 
         priceTextField = new TextField();
-        priceTextField.setPrefWidth(100);
+        priceTextField.setPrefWidth(150);
         priceTextField.setPromptText("Price");
         priceTextField.setId("itemBuyPriceTextField" + item.getId());
         priceTextField.setOnKeyTyped(e -> limitPrice());
