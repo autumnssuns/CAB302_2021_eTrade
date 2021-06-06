@@ -549,7 +549,13 @@ public class RequestHandler {
     public static Response<IData> queryStock(User attachment){
         Integer unitId = attachment.getUnitId();
         StockDataSource stockDataSource = new StockDataSource();
-        Stock unitStock = stockDataSource.getStock(unitId);
+        Stock unitStock;
+        try{
+            unitStock = stockDataSource.getStock(unitId);
+        }
+        catch (Exception e){
+            unitStock = new Stock(null);
+        }
         return new Response<>(true, unitStock);
     }
 
