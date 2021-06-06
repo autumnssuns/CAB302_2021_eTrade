@@ -191,7 +191,7 @@ public class RequestHandler {
      * @param order an Order object
      * @throws InvalidArgumentValueException
      */
-    private static void placeOrder(Order order) throws InvalidArgumentValueException {
+    private static boolean placeOrder(Order order) throws InvalidArgumentValueException {
         //if order is SELL: reduce seller stock's item quantity
         if (order.getOrderType().equals(Order.Type.SELL)){
             int assetId = order.getAssetId();
@@ -217,10 +217,15 @@ public class RequestHandler {
             OrganisationalUnit sellerUnit = organisationsDataSource.getOrganisation(order.getUnitId());
             if(sellerUnit != null)
             {
+                // If the total price is too much, the order is failed to add
+                if (order.getPrice() * order.getPlacedQuantity() > sellerUnit.getBalance()){
+                    return false;
+                }
                 sellerUnit.setBalance(sellerUnit.getBalance() - order.getPrice() * order.getPlacedQuantity());
                 organisationsDataSource.editOrganisation(sellerUnit);
             }
         }
+        return true;
     }
 
 
@@ -281,10 +286,15 @@ public class RequestHandler {
                 //add order into the database
                 orderDataSource.addOrder(attachment);
                 //analyse the orders' information with other existed orders then update
-                placeOrder(attachment);
+                boolean placedSuccess = placeOrder(attachment);
                 reconcileOrder(attachment);
             }
-            else {System.out.println("Insufficient balance.");}
+            else
+                {
+                    Response response = new Response(false, null);
+                    response.setMessage("Denied: Your organisational unit does not have enough credits for the order.");
+                    return response;
+                }
         }
 
         return new Response<>(true, null);
