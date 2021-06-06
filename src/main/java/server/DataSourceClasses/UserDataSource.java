@@ -52,38 +52,35 @@ public class UserDataSource extends DataSource {
     /**
      * Connect to database then create the table if not exist.
      */
-    public UserDataSource() {
+    public UserDataSource() throws SQLException {
         connection = DBConnection.getInstance();
-        try {
-            Statement st = connection.createStatement();
-            st.execute(CREATE_TABLE);
-            addUser = connection.prepareStatement(ADD_USER);
-            deleteUser = connection.prepareStatement(DELETE_USER);
-            getUser = connection.prepareStatement(GET_USER);
-            editUser = connection.prepareStatement(EDIT_USER);
-            getAllUser = connection.prepareStatement(GET_ALL_USER);
-            deleteAll = connection.prepareStatement(DELETE_ALL);
-            getMaxId = connection.prepareStatement(GET_MAX_ID);
-        } catch (SQLException e)
-        {e.printStackTrace();}
+
+        Statement st = connection.createStatement();
+        st.execute(CREATE_TABLE);
+        addUser = connection.prepareStatement(ADD_USER);
+        deleteUser = connection.prepareStatement(DELETE_USER);
+        getUser = connection.prepareStatement(GET_USER);
+        editUser = connection.prepareStatement(EDIT_USER);
+        getAllUser = connection.prepareStatement(GET_ALL_USER);
+        deleteAll = connection.prepareStatement(DELETE_ALL);
+        getMaxId = connection.prepareStatement(GET_MAX_ID);
     }
 
     /**
      * Delete all users from the database
      */
-    public void deleteAll() {
-        try {
-            deleteAll.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void deleteAll() throws SQLException {
+        deleteAll.executeUpdate();
     }
 
     /**
      * Add a new user to the table if not exists
      * @param newUser user object to add
      */
-    public void addUser(User newUser){
+    public void addUser(User newUser) throws Exception {
+        if (newUser.getUsername().length() > 20) {
+            throw new Exception("Username exceeds the permitted length");
+        }
         try{
             //Set values for the above SQL query
             int newUserId = newUser.getId() == null ? getNextId() : newUser.getId();
@@ -98,7 +95,6 @@ public class UserDataSource extends DataSource {
             else{
                 addUser.setInt(6, newUser.getUnitId());
             }
-
             addUser.executeUpdate();
         } catch (SQLException e) {e.printStackTrace();}
     }
@@ -107,7 +103,10 @@ public class UserDataSource extends DataSource {
      * Delete a user from the table if exists
      * @param userId id of user
      */
-    public void deleteUser(int userId){
+    public void deleteUser(int userId) throws Exception {
+        if (userId < 0) {
+            throw new Exception("Negative user id is not allowed!");
+        }
         try {
             //Set values for the above SQL query
             deleteUser.setInt(1, userId);
@@ -179,7 +178,7 @@ public class UserDataSource extends DataSource {
             editUser.setInt(5, userNewInfo.getUnitId());
             editUser.setInt(6, userNewInfo.getId());
             editUser.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e){
             e.printStackTrace();
         }
     }

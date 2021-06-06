@@ -9,6 +9,7 @@ import server.DBConnection;
 import static org.junit.jupiter.api.Assertions.*;
 import static server.DataSourceClasses.CasesToResponse.findItem;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class CasesToResponseTest {
@@ -38,7 +39,7 @@ public class CasesToResponseTest {
 //    }
 
     @Test
-    public void LoginTest() {
+    public void LoginTest() throws SQLException {
         // Register for user???
         User test = new User("duy","abcd").hashPassword();
         Request loginRequest = new Request(test,Request.ActionType.PING);

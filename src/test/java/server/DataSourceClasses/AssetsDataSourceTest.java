@@ -26,13 +26,13 @@ class AssetsDataSourceTest {
     }
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws SQLException {
         CasesToResponse.cleanDatabase();
         assetsDataSource = new AssetsDataSource();
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() throws SQLException {
         CasesToResponse.cleanDatabase();
     }
 
