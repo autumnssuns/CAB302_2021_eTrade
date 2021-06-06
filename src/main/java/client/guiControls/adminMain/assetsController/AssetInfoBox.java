@@ -53,19 +53,22 @@ public class AssetInfoBox extends HBox implements IViewUnit {
 
         idLabel = new Label();
         idLabel.getStyleClass().add(Styler.STANDARD_ASSET_NAME_BOX.styleClass());
-        idLabel.setAlignment(Pos.CENTER);
+        idLabel.setAlignment(Pos.CENTER_LEFT);
         idLabel.setPrefWidth(100);
         idLabel.setPrefHeight(80);
+        idLabel.getStyleClass().add("mediumText");
 
         nameTextField = new TextField();
         nameTextField.setPrefWidth(Styler.STANDARD_ASSET_NAME_BOX.width());
         nameTextField.setPrefHeight(Styler.STANDARD_ASSET_BOX.height());
         nameTextField.setId("assetName" + asset.getId());
+        nameTextField.getStyleClass().add("mediumText");
 
         descriptionTextField = new TextField();
         descriptionTextField.setPrefWidth(450);
         descriptionTextField.setPrefHeight(30);
         descriptionTextField.setId("assetDescription" + asset.getId());
+        descriptionTextField.getStyleClass().add("mediumText");
 
         editButton = new Button("Edit");
         editButton.setPrefWidth(100);
@@ -73,19 +76,9 @@ public class AssetInfoBox extends HBox implements IViewUnit {
         editButton.setOnAction(e -> startEdit());
         editButton.setId("assetEditButton" + asset.getId());
 
-        removeButton = new Button("Remove");
-        removeButton.setPrefWidth(100);
-        removeButton.setPrefHeight(30);
-        removeButton.setOnAction(e -> {
-            try {
-                removeEntry();
-            } catch (InvalidArgumentValueException invalidArgumentValueException) {
-                invalidArgumentValueException.printStackTrace();
-            }
-        });
-        removeButton.setId("assetRemoveButton" + asset.getId());
 
-        this.getChildren().addAll(idLabel, nameTextField, descriptionTextField, editButton, removeButton);
+
+        this.getChildren().addAll(idLabel, nameTextField, descriptionTextField, editButton);
         disable();
     }
 

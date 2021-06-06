@@ -110,6 +110,19 @@
     -fx-font-size: 12px;
 }
 
+.mediumText{
+-fx-font-size: 16px;
+}
+.bigText{
+-fx-font-size: 20px;
+
+}
+.tableHeadlines{
+  -fx-font-size: 16px;
+  -fx-font-weight: bolder;
+   -fx-text-fill: "#000000";
+}
+
 .rectangle{
     -fx-background-radius: 10px;
 }

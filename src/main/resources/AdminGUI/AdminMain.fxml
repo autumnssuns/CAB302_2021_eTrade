@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="768.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.adminMain.AdminMainController">
+<AnchorPane fx:id="anchorPane" prefHeight="760.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.adminMain.AdminMainController">
    <children>
-      <Pane fx:id="tabPane" prefHeight="768.0" prefWidth="179.0" styleClass="buttonPane">
+      <Pane fx:id="tabPane" prefHeight="768.0" prefWidth="179.0" style="-fx-background-color: #2e323e;" styleClass="buttonPane">
          <children>
             <Button fx:id="assetsButton" layoutY="309.0" mnemonicParsing="false" onAction="#toAssets" prefHeight="100.0" prefWidth="178.0" styleClass="tabButton" text="ASSETS">
                <font>
@@ -34,7 +34,7 @@
          </children>
       </Pane>
       <StackPane fx:id="displayStack" layoutX="178.0" layoutY="55.0" prefHeight="691.0" prefWidth="1346.0" />
-      <Pane fx:id="menuPane" layoutX="178.0" prefHeight="49.0" prefWidth="1390.0" styleClass="menuPane">
+      <Pane fx:id="menuPane" layoutX="178.0" prefHeight="49.0" prefWidth="1390.0" style="-fx-background-color: #2e323e;" styleClass="menuPane">
          <children>
             <Label fx:id="userLabel" layoutX="785.0" layoutY="1.0" prefHeight="40.0" prefWidth="400.0" text="username">
                <font>

@@ -11,28 +11,26 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="691.0" prefWidth="1320.0" styleClass="displayPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.adminMain.usersController.UsersController">
+<AnchorPane prefHeight="691.0" prefWidth="1346.0" styleClass="displayPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.adminMain.usersController.UsersController">
    <children>
-      <TextField layoutX="210.0" layoutY="21.0" prefHeight="31.0" prefWidth="319.0" promptText="Search for username" />
-      <Button layoutX="1179.0" layoutY="21.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="140.0" text="Filter" />
-      <ScrollPane hbarPolicy="NEVER" layoutY="230.0" prefHeight="461.0" prefWidth="1362.0" styleClass="bodyPane">
+      <ScrollPane hbarPolicy="NEVER" layoutY="120.0" prefHeight="493.0" prefWidth="1320.0" styleClass="bodyPane">
          <content>
             <VBox fx:id="usersDisplayBox" prefWidth="1362.0" spacing="20.0" />
          </content>
       </ScrollPane>
-      <HBox alignment="CENTER" layoutX="-6.0" layoutY="150.0" prefHeight="80.0" prefWidth="1363.0" spacing="20.0">
+      <HBox alignment="CENTER" layoutX="60.0" layoutY="60.0" prefHeight="60.0" prefWidth="1300.0" spacing="20.0" styleClass="tableHeadlines">
          <children>
-            <Label alignment="CENTER" prefHeight="80.0" prefWidth="59.0" text="ID" />
-            <Label alignment="CENTER" prefHeight="80.0" prefWidth="150.0" text="Name" />
-            <Label alignment="CENTER" prefHeight="80.0" prefWidth="160.0" text="Username" />
-            <Label alignment="CENTER" prefHeight="80.0" prefWidth="160.0" text="Password" />
-            <Label alignment="CENTER" prefHeight="80.0" prefWidth="263.0" text="Organisational Unit" />
-            <Label alignment="CENTER" prefHeight="80.0" prefWidth="172.0" text="Role" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="59.0" styleClass="tableHeadlines" text="ID" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="150.0" styleClass="tableHeadlines" text="Name" />
+            <Label alignment="CENTER" prefHeight="60.0" prefWidth="164.0" styleClass="tableHeadlines" text="Username" />
+            <Label alignment="CENTER" prefHeight="60.0" prefWidth="188.0" styleClass="tableHeadlines" text="Password" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="263.0" styleClass="tableHeadlines" text="Organisational Unit" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="172.0" styleClass="tableHeadlines" text="Role" />
             <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
             <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutY="70.0" prefHeight="72.0" prefWidth="1320.0" spacing="10.0" styleClass="whitePane">
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="5.0" prefHeight="72.0" prefWidth="1320.0" spacing="10.0" style="-fx-background-radius: 20;" styleClass="whitePane">
          <children>
             <TextField fx:id="newUserNameTextField" prefHeight="31.0" prefWidth="122.0" promptText="Name">
                <HBox.margin>
@@ -58,7 +56,5 @@
             </Button>
          </children>
       </HBox>
-      <ComboBox layoutX="620.0" layoutY="21.0" prefHeight="31.0" prefWidth="239.0" promptText="Organisational Unit" />
-      <ComboBox layoutX="898.0" layoutY="21.0" prefHeight="31.0" prefWidth="239.0" promptText="Role" />
    </children>
 </AnchorPane>
