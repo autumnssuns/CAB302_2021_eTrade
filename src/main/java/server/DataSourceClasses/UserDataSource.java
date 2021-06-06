@@ -27,7 +27,9 @@ public class UserDataSource extends DataSource {
                             username
                         ),
                         CONSTRAINT user_organisaion
-                    );""";
+                    );
+                    
+                    I""";
     private static final String ADD_USER = "INSERT INTO users(user_id, fullname, username, password, user_type, organisation_id) VALUES (?, ?, ?, ?, ?, ?);";
     private static final String DELETE_USER = "DELETE FROM users WHERE user_id = ?";
     private static final String GET_USER = "SELECT * FROM users WHERE username = ?";
@@ -66,6 +68,7 @@ public class UserDataSource extends DataSource {
             getMaxId = connection.prepareStatement(GET_MAX_ID);
         } catch (SQLException e)
         {e.printStackTrace();}
+        addUser(new User(0, "Admin", "admin", "root", "admin", null).hashPassword());
     }
 
     /**
