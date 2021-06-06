@@ -25,6 +25,7 @@ public class UserDataSourceTest {
     void setUP(){
         CasesToResponse.cleanDatabase();
         userDataSource = new UserDataSource();
+        userDataSource.deleteUser(0);
     }
 
     @AfterEach
@@ -80,18 +81,18 @@ public class UserDataSourceTest {
 
     @Test
     void editUser() {
-        User testuser1 = new User(0, "DuyPham", "new1", "123", "user", 1).hashPassword();
+        User testuser1 = new User(0, "Rodo", "new7", "123", "user", 1);
         userDataSource.addUser(testuser1);
-        User testuser1_New = new User(0, "NEW NAME", "NEW USER NAME", "NEW PASS", "NEW", 0).hashPassword();
+        User testuser1_New = new User(0, "NEW NAME", "NEW USER NAME", "NEW PASS", "NEW", 0);
         userDataSource.editUser(testuser1_New);
         User newData = userDataSource.getUser(testuser1_New.getUsername());
-        assertEquals(newData.getUsername(),testuser1_New.getUsername());
-        assertEquals(newData.getId(),testuser1_New.getId());
-        assertEquals(newData.getFullName(),testuser1_New.getFullName());
-        assertEquals(newData.getAccountType(), testuser1_New.getAccountType());
-        assertEquals(newData.getUnitId(), testuser1_New.getUnitId());
-        assertEquals(testuser1_New.getPassword(),
-                newData.getPassword());
+
+        assertEquals(testuser1_New.getUsername(), newData.getUsername());
+        assertEquals(testuser1_New.getId(), newData.getId());
+        assertEquals(testuser1_New.getFullName(), newData.getFullName());
+        assertEquals(testuser1_New.getAccountType(), newData.getAccountType());
+        assertEquals(testuser1_New.getUnitId(), newData.getUnitId());
+        assertEquals(testuser1_New.getPassword(),newData.getPassword());
     }
 
 }

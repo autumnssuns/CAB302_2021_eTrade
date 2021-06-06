@@ -25,8 +25,8 @@ public class OrganisationsDataSource extends DataSource {
     private static final String GET_ALL_ORGANISATION = "SELECT * FROM organisationalUnits";
     private static final String EDIT_ORGANISATION =
             "UPDATE organisationalUnits\n" +
-                    "SET organisation_name=?, credits=?" +
-                    "WHERE organisation_id=?";
+            "SET organisation_name=?, credits=? " +
+            "WHERE organisation_id=?";
     private static final String DELETE_ALL = "DELETE FROM organisationalUnits";
     protected static final String GET_MAX_ID = "SELECT organisation_id FROM organisationalUnits";
 

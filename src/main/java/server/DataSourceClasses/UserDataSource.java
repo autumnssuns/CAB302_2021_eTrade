@@ -27,17 +27,18 @@ public class UserDataSource extends DataSource {
                             username
                         ),
                         CONSTRAINT user_organisaion
-                    );""";
+                    );
+                    
+                    """;
     private static final String ADD_USER = "INSERT INTO users(user_id, fullname, username, password, user_type, organisation_id) VALUES (?, ?, ?, ?, ?, ?);";
     private static final String DELETE_USER = "DELETE FROM users WHERE user_id = ?";
     private static final String GET_USER = "SELECT * FROM users WHERE username = ?";
     private static final String GET_ALL_USER = "SELECT * FROM users";
     private static final String EDIT_USER =
             """
-                    UPDATE users\s
-                    SET fullname = ?, username = ?, password = ?, user_type = ?, organisation_id = ?\s
-                    WHERE\s
-                    user_id = ?""";
+                    UPDATE users\n
+                    SET fullname = ?, username = ?, password = ?, user_type = ?, organisation_id = ?\n
+                    WHERE user_id = ?""";
     private static final  String DELETE_ALL = "DELETE FROM users";
     protected static final String GET_MAX_ID = "SELECT user_id FROM users";
 
@@ -66,6 +67,19 @@ public class UserDataSource extends DataSource {
             getMaxId = connection.prepareStatement(GET_MAX_ID);
         } catch (SQLException e)
         {e.printStackTrace();}
+        // Checks if at least one admin exists in the server
+        // If not, create a default one
+        boolean hasAdmin = false;
+        for (User user : getUserList()){
+            hasAdmin = user.getAccountType().equals("admin");
+            if (hasAdmin) {
+                break;
+            }
+        }
+        if(!hasAdmin){
+            addUser(new User(null, "Admin",
+                    "admin", "root", "admin", null).hashPassword());
+        }
     }
 
     /**
@@ -98,7 +112,6 @@ public class UserDataSource extends DataSource {
             else{
                 addUser.setInt(6, newUser.getUnitId());
             }
-
             addUser.executeUpdate();
         } catch (SQLException e) {e.printStackTrace();}
     }
