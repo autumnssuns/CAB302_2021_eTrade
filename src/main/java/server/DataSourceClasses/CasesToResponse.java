@@ -251,7 +251,7 @@ public class CasesToResponse  {
      * @return a Response object
      * @throws InvalidArgumentValueException
      */
-    public static Response<IData> add(Order attachment) throws InvalidArgumentValueException {
+    public static Response<IData> add(Order attachment) throws InvalidArgumentValueException, SQLException {
         OrderDataSource orderDataSource = new OrderDataSource();
         attachment.setOrderId(orderDataSource.getNextId());
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
@@ -549,8 +549,7 @@ public class CasesToResponse  {
      * Query all stocks
      * @return a Response object
      */
-    public static Response<DataCollection<Stock>> queryStocks()
-    {
+    public static Response<DataCollection<Stock>> queryStocks() throws SQLException {
         StockDataSource stockDataSource = new StockDataSource();
         DataCollection<Stock> stocks = stockDataSource.getStockList();
         return new Response<>(true, stocks);
@@ -560,8 +559,7 @@ public class CasesToResponse  {
      * Query all organisations
      * @return a Response object
      */
-    public static Response<DataCollection<OrganisationalUnit>> queryOrganisations()
-    {
+    public static Response<DataCollection<OrganisationalUnit>> queryOrganisations() throws SQLException {
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         DataCollection<OrganisationalUnit> attachment = organisationsDataSource.getOrganisationList();
         return new Response<>(true, attachment);
@@ -655,7 +653,7 @@ public class CasesToResponse  {
      * @param attachment
      * @return a Response object
      */
-    public static Response<IData> delete(OrganisationalUnit attachment){
+    public static Response<IData> delete(OrganisationalUnit attachment) throws Exception {
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         StockDataSource stockDataSource = new StockDataSource();
         organisationsDataSource.deleteOrganisation(attachment.getId());
@@ -747,7 +745,7 @@ public class CasesToResponse  {
      * - Adds assets to buyer
      * @param order an Order object
      */
-    private static void reconcileOrder(Order order) throws InvalidArgumentValueException {
+    private static void reconcileOrder(Order order) throws InvalidArgumentValueException, SQLException {
         //Prepare data sources
         OrderDataSource orderDataSource = new OrderDataSource();
         AssetsDataSource assetsDataSource = new AssetsDataSource();

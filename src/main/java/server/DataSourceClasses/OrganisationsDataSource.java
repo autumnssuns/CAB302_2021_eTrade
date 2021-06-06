@@ -92,14 +92,11 @@ public class OrganisationsDataSource extends DataSource {
      * Delete an OrganisationalUnit if exists
      * @param id of the organisation
      */
-    public void deleteOrganisation(int id){
-        try {
-            //set values into the above query
-            deleteOrganisation.setInt(1, id);
-            deleteOrganisation.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void deleteOrganisation(int id) throws Exception {
+        if (id < 0) throw new Exception("Parameter id must not be negative");
+        //set values into the above query
+        deleteOrganisation.setInt(1, id);
+        deleteOrganisation.executeUpdate();
     }
 
     /**
@@ -128,16 +125,12 @@ public class OrganisationsDataSource extends DataSource {
      * Get all organisations from the database
      * @return an Organisation DataCollection
      */
-    public DataCollection<OrganisationalUnit> getOrganisationList(){
+    public DataCollection<OrganisationalUnit> getOrganisationList() throws SQLException {
         DataCollection<OrganisationalUnit> organisations = new DataCollection<>();
-        try {
-            ResultSet rs = getAllOrganisation.executeQuery();
-            while (rs.next()){
-                Integer nextId = rs.getInt(1);
-                organisations.add(getOrganisation(nextId));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        ResultSet rs = getAllOrganisation.executeQuery();
+        while (rs.next()) {
+            Integer nextId = rs.getInt(1);
+            organisations.add(getOrganisation(nextId));
         }
         return organisations;
     }
@@ -151,7 +144,7 @@ public class OrganisationsDataSource extends DataSource {
             editOrganisation.setFloat(2, organisationNewInfo.getBalance());
             editOrganisation.setInt(3, organisationNewInfo.getId());
             editOrganisation.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e){
             e.printStackTrace();
         }
     }
