@@ -166,15 +166,4 @@ public class StockDataSource extends DataSource {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Close the connection to database
-     */
-    public void Close() {
-        try {
-            connection.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
 }
