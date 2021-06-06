@@ -1,4 +1,5 @@
 package server.DataSourceClasses;
+import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.*;
@@ -135,6 +136,17 @@ public class RequestHandlerTest {
         Response r = RequestHandler.query(asset);
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         assertEquals(r.getAttachment(), assetsDataSource.getAsset(0));
+    }
+
+    @Test
+    public void sendAnEditRequest() throws Exception {
+        Asset asset0 = new Asset(0, "GPU hours", "GPU for rent");
+        AssetsDataSource assetsDataSource = new AssetsDataSource();
+        UserDataSource userDataSource = new UserDataSource();
+
+        RequestHandler.edit(new Request(userDataSource.getUser("admin"),
+                Request.ActionType.UPDATE, asset0).setObjectType(Request.ObjectType.ASSET));
+        assertEquals("GPU hours", assetsDataSource.getAsset(0).getName());
     }
 
 
