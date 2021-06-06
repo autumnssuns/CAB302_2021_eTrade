@@ -64,8 +64,8 @@ class ServerTest {
 
         expectedOrganisationalUnits.add(new OrganisationalUnit(0, "The Justice League", 11429.0f));
         expectedOrganisationalUnits.add(new OrganisationalUnit(1, "The supervillains", 5995.0f));
-        expectedOrganisationalUnits.add(new OrganisationalUnit(2, "The random civilians", 1220.0f));
-        expectedOrganisationalUnits.add(new OrganisationalUnit(3, "The brokers", 200.0f));
+        expectedOrganisationalUnits.add(new OrganisationalUnit(2, "The random civilians", 2200.0f));
+        expectedOrganisationalUnits.add(new OrganisationalUnit(3, "The brokers", 1930.0f));
 
         Stock stock0 = new Stock(0);
         Stock stock1 = new Stock(1);
