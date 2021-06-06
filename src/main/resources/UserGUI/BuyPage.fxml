@@ -16,12 +16,12 @@
    <children>
       <VBox layoutX="10.0" layoutY="5.0" prefHeight="680.0" prefWidth="280.0" spacing="20.0" styleClass="division">
          <children>
-            <Label alignment="CENTER" prefHeight="54.0" prefWidth="280.0" style="-fx-background-color: #3eb7ff;" text="BASKET">
+            <Label alignment="CENTER" prefHeight="54.0" prefWidth="280.0" style="-fx-background-color: #3eb7ff; -fx-background-radius: 10;" text="BASKET">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="592.0" prefWidth="280.0" styleClass="bodyPane">
+            <ScrollPane hbarPolicy="NEVER" prefHeight="592.0" prefWidth="280.0" style="-fx-background-color: #fdfdfd;" styleClass="bodyPane">
                <content>
                   <VBox fx:id="buyCartDisplayBox" alignment="CENTER_LEFT" prefWidth="350.0" spacing="20.0">
                      <padding>
@@ -40,7 +40,7 @@
       </VBox>
       <VBox alignment="CENTER" layoutX="810.0" layoutY="5.0" prefHeight="612.0" prefWidth="538.0">
          <children>
-            <Label alignment="CENTER" prefHeight="35.0" prefWidth="538.0" style="-fx-background-color: #3eb7ff;" text="Market's current sales">
+            <Label alignment="CENTER" prefHeight="35.0" prefWidth="538.0" style="-fx-background-color: #3eb7ff; -fx-background-radius: 10;" text="Market's current sales">
                <font>
                   <Font size="24.0" />
                </font>
@@ -67,12 +67,12 @@
                </children>
             </HBox>
             <Pagination fx:id="marketSellOrdersDisplay" pageCount="10" prefHeight="400.0" prefWidth="550.0" styleClass="whitePane" />
-            <Label alignment="CENTER" layoutX="154.0" layoutY="10.0" prefHeight="34.0" prefWidth="538.0" style="-fx-background-color: #3eb7ff;" text="My current sales">
+            <Label alignment="CENTER" layoutX="154.0" layoutY="10.0" prefHeight="34.0" prefWidth="538.0" style="-fx-background-color: #3eb7ff; -fx-background-radius: 10;" text="My current sales">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <ScrollPane hbarPolicy="NEVER" layoutX="10.0" layoutY="88.0" prefHeight="97.0" prefWidth="538.0">
+            <ScrollPane hbarPolicy="NEVER" layoutX="10.0" layoutY="88.0" prefHeight="97.0" prefWidth="538.0" style="-fx-background-color: #fdfdfd;">
                <content>
                   <VBox fx:id="myCurrentSales" prefWidth="538.0" />
                </content>
@@ -81,13 +81,13 @@
       </VBox>
       <VBox alignment="CENTER" layoutX="300.0" layoutY="5.0" prefHeight="719.0" prefWidth="500.0" style="-fx-border-radius: 10;" styleClass="whitePane">
          <children>
-            <Label alignment="CENTER" prefHeight="35.0" prefWidth="501.0" style="-fx-background-color: #3eb7ff;" text="All Assets">
+            <Label alignment="CENTER" prefHeight="35.0" prefWidth="501.0" style="-fx-background-color: #3eb7ff; -fx-background-radius: 10;" text="All Assets">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
             <Pane fx:id="sellChartContainer" prefHeight="300.0" styleClass="whilePane" />
-            <ScrollPane hbarPolicy="NEVER" prefHeight="400.0" prefWidth="570.0" styleClass="bodyPane">
+            <ScrollPane hbarPolicy="NEVER" prefHeight="400.0" prefWidth="570.0" style="-fx-background-color: #fdfdfd;" styleClass="bodyPane">
                <content>
                   <VBox fx:id="marketDisplayBox" alignment="CENTER_LEFT" prefWidth="570.0" spacing="20.0">
                      <padding>

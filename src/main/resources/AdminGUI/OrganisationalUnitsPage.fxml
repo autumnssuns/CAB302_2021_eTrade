@@ -13,7 +13,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="691.0" prefWidth="1346.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.adminMain.organisationalUnitsController.OrganisationalUnitsController">
    <children>
-      <AnchorPane fx:id="displayPane" layoutX="-5.0" prefHeight="691.0" prefWidth="730.0" style="-fx-background-radius: 20;" styleClass="displayPane">
+      <AnchorPane fx:id="displayPane" prefHeight="691.0" prefWidth="730.0" style="-fx-background-radius: 20;" styleClass="displayPane">
          <children>
             <Label layoutX="41.0" layoutY="53.0" prefHeight="58.0" prefWidth="287.0" text="Organisational units">
                <font>
@@ -32,7 +32,7 @@
             </ScrollPane>
             <HBox alignment="CENTER_RIGHT" layoutX="41.0" layoutY="100.0" prefHeight="50.0" prefWidth="650.0" spacing="20.0">
                <children>
-                  <HBox alignment="CENTER" layoutX="30.0" prefHeight="40.0" prefWidth="650.0" spacing="20.0">
+                  <HBox alignment="CENTER" layoutX="50.0" prefHeight="40.0" prefWidth="650.0" spacing="20.0">
                      <children>
                         <Label alignment="CENTER" prefHeight="80.0" prefWidth="50.0" styleClass="tableHeadlines" text="ID" />
                         <Label alignment="CENTER" prefHeight="80.0" prefWidth="200.0" styleClass="tableHeadlines" text="Name" />

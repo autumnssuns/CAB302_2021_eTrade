@@ -16,7 +16,7 @@
             <VBox fx:id="assetsDisplayBox" prefWidth="1362.0" spacing="20.0" />
          </content>
       </ScrollPane>
-      <HBox alignment="CENTER" layoutX="80.0" layoutY="80.0" prefHeight="60.0" prefWidth="1300.0" spacing="20.0" style="-fx-background-color: 000000;">
+      <HBox alignment="CENTER" layoutX="90.0" layoutY="80.0" prefHeight="60.0" prefWidth="1300.0" spacing="20.0" style="-fx-background-color: 000000;">
          <children>
             <Label alignment="CENTER" prefHeight="60.0" prefWidth="33.0" styleClass="tableHeadlines" text="ID" />
             <Label alignment="CENTER" prefHeight="60.0" prefWidth="137.0" styleClass="tableHeadlines" text="Name" />
@@ -28,12 +28,12 @@
       <HBox alignment="CENTER" layoutX="10.0" layoutY="5.0" prefHeight="80.0" prefWidth="1200.0" spacing="20.0" style="-fx-background-radius: 20;" styleClass="whitePane">
          <children>
             <Button fx:id="refreshAssetsButton" mnemonicParsing="false" onAction="#update" prefHeight="31.0" prefWidth="153.0" text="Refresh" />
-            <TextField fx:id="newNameTextField" prefHeight="30.0" prefWidth="300.0" promptText="Name">
+            <TextField fx:id="newNameTextField" prefHeight="30.0" prefWidth="300.0" promptText="Name" scaleX="0.75" scaleY="0.75">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </TextField>
-            <TextField fx:id="newDescriptionTextField" prefHeight="30.0" prefWidth="700.0" promptText="Description">
+            <TextField fx:id="newDescriptionTextField" prefHeight="30.0" prefWidth="700.0" promptText="Description" scaleX="0.75" scaleY="0.75">
                <HBox.margin>
                   <Insets />
                </HBox.margin>

@@ -32,23 +32,23 @@
       </HBox>
       <HBox alignment="CENTER" layoutX="10.0" layoutY="5.0" prefHeight="72.0" prefWidth="1320.0" spacing="10.0" style="-fx-background-radius: 20;" styleClass="whitePane">
          <children>
-            <TextField fx:id="newUserNameTextField" prefHeight="31.0" prefWidth="122.0" promptText="Name">
+            <TextField fx:id="newUserNameTextField" prefHeight="31.0" prefWidth="122.0" promptText="Name" scaleX="0.75" scaleY="0.75">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </TextField>
-            <TextField fx:id="newUsernameTextField" prefHeight="31.0" prefWidth="112.0" promptText="Username">
+            <TextField fx:id="newUsernameTextField" prefHeight="31.0" prefWidth="112.0" promptText="Username" scaleX="0.75" scaleY="0.75">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </TextField>
-            <PasswordField fx:id="newPasswordField" prefHeight="31.0" prefWidth="138.0" promptText="Password">
+            <PasswordField fx:id="newPasswordField" prefHeight="31.0" prefWidth="138.0" promptText="Password" scaleX="0.75" scaleY="0.75">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </PasswordField>
-            <ComboBox fx:id="newOrganisationUnitSelectionBox" editable="true" prefHeight="31.0" prefWidth="220.0" promptText="Organisational Unit" />
-            <ComboBox fx:id="newRoleSelectionBox" editable="true" prefHeight="31.0" prefWidth="125.0" promptText="Role" />
+            <ComboBox fx:id="newOrganisationUnitSelectionBox" editable="true" prefHeight="31.0" prefWidth="220.0" promptText="Organisational Unit" scaleX="0.75" scaleY="0.75" />
+            <ComboBox fx:id="newRoleSelectionBox" editable="true" prefHeight="31.0" prefWidth="125.0" promptText="Role" scaleX="0.75" scaleY="0.75" />
             <Button fx:id="addNewUserButton" mnemonicParsing="false" onAction="#addEntry" prefHeight="38.0" prefWidth="245.0" text="Add">
                <HBox.margin>
                   <Insets />
