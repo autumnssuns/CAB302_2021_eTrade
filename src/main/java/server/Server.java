@@ -98,22 +98,18 @@ public final class Server implements IServer{
             // Initiates the IO streams
             final ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
             final ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-
             // Wait until the requests is sent through
-            while (true) {
+            while (inputStream.available() != 0) {
                 try {
                     // Create a response and write to stream
-                    final Request request = (Request) inputStream.readObject();
+                    Request request = (Request) inputStream.readObject();
                     System.out.println(request.getActionType());
                     Response response = createResponse(request);
-                    outputStream.flush();
+                    //outputStream.flush();
                     outputStream.writeObject(response);
                     // Closes the socket after writing
                     socket.close();
-                } catch (SocketTimeoutException e) {
-                    continue;
-                } catch (InvalidArgumentValueException e) {
-                    e.printStackTrace();
+                } catch (SocketTimeoutException ignored) {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
