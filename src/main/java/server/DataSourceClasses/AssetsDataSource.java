@@ -150,14 +150,10 @@ public class AssetsDataSource extends DataSource {
      * Update an asset on the database
      * @param assetNewInfo an Asset class object containing new data
      */
-    public void editAsset(Asset assetNewInfo)  {
-        try {
-            editAsset.setString(1, assetNewInfo.getName());
-            editAsset.setString(2, assetNewInfo.getDescription());
-            editAsset.setInt(3, assetNewInfo.getId());
-            editAsset.executeUpdate();
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
+    public void editAsset(Asset assetNewInfo) throws SQLException {
+        editAsset.setString(1, assetNewInfo.getName());
+        editAsset.setString(2, assetNewInfo.getDescription());
+        editAsset.setInt(3, assetNewInfo.getId());
+        editAsset.executeUpdate();
     }
 }

@@ -4,6 +4,8 @@ import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.*;
+
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -162,8 +164,8 @@ public class CasesToResponse  {
     }
 
     /**
-     * Process add OrganisationUnit request
-     * @param attachment a OrganisationUnit object
+     * Process adding OrganisationUnit request
+     * @param attachment a OrganisationUnit object to be added
      * @return a Response object
      */
     public static Response add(OrganisationalUnit attachment){
@@ -171,7 +173,12 @@ public class CasesToResponse  {
         organisationsDataSource.addOrganisation(attachment);
         return new Response<>(true, null);
     }
-    //Asset Type
+
+    /**
+     * Process adding Asset request
+     * @param attachment an Asset object to be added
+     * @return a Response object
+     */
     public static Response<IData> add(Asset attachment) {
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         assetsDataSource.addAsset(attachment);
@@ -179,7 +186,8 @@ public class CasesToResponse  {
     }
 
     /**
-     * Process when a user place an Order: Reduce their stock when sell or reduce their balance when buy
+     * Process user placing an Order:
+     *      Reduce their stock when sell or reduce their balance when buy
      * @param order an Order object
      * @throws InvalidArgumentValueException
      */
@@ -358,9 +366,12 @@ public class CasesToResponse  {
      * @return a Response object
      */
     public static Response<IData> edit(Asset attachment){
-
         AssetsDataSource assetsDataSource = new AssetsDataSource();
-        assetsDataSource.editAsset(attachment);
+        try {
+            assetsDataSource.editAsset(attachment);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return new Response<>(true, attachment);
     }
 
