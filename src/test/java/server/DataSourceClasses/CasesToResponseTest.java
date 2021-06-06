@@ -112,4 +112,24 @@ public class CasesToResponseTest {
         Stock stock = stockDataSource.getStock(100);
         assertNotNull(stock);
     }
+
+    @Test
+    public void editOrder() throws Exception{
+        Order edited = new Order(0, Order.Type.BUY, 0, 0, 99, 0, 10f, null, LocalDateTime.of(2021, 5, 6, 16, 52), Order.Status.PENDING);
+        Response r = CasesToResponse.edit(edited);
+        OrderDataSource order = new OrderDataSource();;
+        Order result = order.getOrder(0);
+        assertEquals(result, r.getAttachment());
+    }
+
+    @Test
+    public void queryUser() throws Exception{
+        UserDataSource userDataSource = new UserDataSource();
+        User expected = new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3);
+        Response r = CasesToResponse.query(expected);
+        assertEquals(userDataSource.getUser("rodo"),r.getAttachment());
+
+    }
+
+
 }
