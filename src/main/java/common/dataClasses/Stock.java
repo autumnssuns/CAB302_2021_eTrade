@@ -47,11 +47,7 @@ public class Stock extends ArrayList<Item> implements IData{
         for(int i = 0; i < this.size(); i++){
             Item currentItem = this.get(i);
             if (currentItem.getId().equals(newItem.getId())){
-                try {
-                    this.get(i).add(newItem.getQuantity());
-                } catch (InvalidArgumentValueException e) {
-                    e.printStackTrace();
-                }
+                this.get(i).add(newItem.getQuantity());
                 result = true;
                 break;
             }

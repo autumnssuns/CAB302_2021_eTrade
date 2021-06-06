@@ -58,6 +58,37 @@ class NotificationTest {
     }
 
     @Test
+    void addValidReaderUnit() throws InvalidArgumentValueException {
+        Notification notification = new Notification().addReaderUnit(0).addReaderUnit(1)
+                .addReaderUnit(2);
+        for (int i = 0; i < 3; i++){
+            assertTrue(notification.containsReader(i));
+        }
+    }
+
+    @Test
+    void getReadersTest() throws InvalidArgumentValueException {
+        Notification notification = new Notification().addReaderUnit(0)
+                .addReaderUnit(1)
+                .addReaderUnit(2);
+        assertEquals("0,1,2,", notification.getReaders());
+    }
+
+    @Test
+    void addNullReaderUnit() {
+        assertThrows(InvalidArgumentValueException.class, () -> {
+            Notification notification = new Notification().addReaderUnit(null);
+        });
+    }
+
+    @Test
+    void addInvalidReaderUnit() {
+        assertThrows(InvalidArgumentValueException.class, () -> {
+            Notification notification = new Notification().addReaderUnit(-1);
+        });
+    }
+
+    @Test
     void setMessage() {
         Notification notification = new Notification().setMessage("Test message");
         assertEquals("Test message", notification.getMessage());
@@ -73,8 +104,8 @@ class NotificationTest {
 
     @Test
     void testNotEquals() throws InvalidArgumentValueException {
-        Notification notification = new Notification().setNotificationId(0).setMessage("Test").addReceiverUnit(0);
-        Notification other = new Notification().setNotificationId(0).setMessage("Test").addReceiverUnit(0).addReceiverUnit(1);
+        Notification notification = new Notification().setNotificationId(0).setMessage("Test1");
+        Notification other = new Notification().setNotificationId(1).setMessage("Test2");
         assertFalse(notification.equals(other) && other.equals(notification));
         assertFalse(notification.hashCode() == other.hashCode());
     }

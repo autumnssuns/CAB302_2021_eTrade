@@ -203,8 +203,6 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
      */
     public void setOrganisationalUnitAssetsBox(VBox newBox){
         organisationalUnitAssetsBox.getChildren().addAll(newBox.getChildren());
-        System.out.println(organisationalUnitAssetsBox);
-        System.out.println(organisationalUnitAssetsBox.getChildren().size());
     }
 
     /**
@@ -212,7 +210,7 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
      */
     private void removeEntry() throws InvalidArgumentValueException {
         Response response = controller.sendRequest(Request.ActionType.DELETE, unit, Request.ObjectType.ORGANISATIONAL_UNIT);
-        if (response.isFulfilled()){
+        if (response.isAccepted()){
             ((VBox) this.getParent()).getChildren().remove(this);
         }
     }

@@ -10,42 +10,27 @@ import java.util.Objects;
  * were successfully executed and an optional data-containing object (IData).
  */
 public class Response<T extends IData> implements Serializable {
-    private boolean status;
+    private boolean accepted;
     private T attachment;
-    private Request.ObjectType attachmentType;
-
-    /**
-     * Sets the type of the request's attachment
-     * @param attachmentType The type of the request's attachment.
-     */
-    public void setAttachmentType(Request.ObjectType attachmentType){
-        this.attachmentType = attachmentType;
-    }
-
-    /**
-     * Gets the attachment's type of this request.
-     * @return The attachment's type.
-     */
-    public Request.ObjectType getAttachmentType(){
-        return attachmentType;
-    }
+    private String message;
 
     /**
      * Initialises a response that can be sent back to the client.
-     * @param status The status of whether or not the request was fulfilled.
+     * @param accepted The status of whether or not the request was fulfilled.
      * @param attachment The object attached to the response.
      */
-    public Response(boolean status, T attachment){
-        this.status = status;
+    public Response(boolean accepted, T attachment){
+        this.accepted = accepted;
         this.attachment = attachment;
+        message = accepted ? "Your request was successfully resolved!" : "Your request was denied!";
     }
 
     /**
      * Retrieves the status of the request.
      * @return The status of whether or not the request was fulfilled.
      */
-    public boolean isFulfilled(){
-        return status;
+    public boolean isAccepted(){
+        return accepted;
     }
 
     /**
@@ -57,24 +42,30 @@ public class Response<T extends IData> implements Serializable {
     }
 
     /**
-     * Indicates if some object is equal to this instance.
-     * @param o The object to compare.
-     * @return true if the object is equal to the instance, false otherwise.
+     * Sets a message to be sent with this request.
+     * @param message The message enclosed within this request.
      */
+    public void setMessage(String message){
+        this.message = message;
+    }
+
+    /**
+     * Retrieves the message sent with this request.
+     */
+    public String getMessage(){
+        return this.message;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Response<?> response = (Response<?>) o;
-        return status == response.status && Objects.equals(attachment, response.attachment) && Objects.equals(attachmentType, response.attachmentType);
+        return accepted == response.accepted && Objects.equals(attachment, response.attachment) && Objects.equals(message, response.message);
     }
 
-    /**
-     * Returns the hashCode of this instance.
-     * @return The hashCode of this instance.
-     */
     @Override
     public int hashCode() {
-        return Objects.hash(status, attachment, attachmentType);
+        return Objects.hash(accepted, attachment, message);
     }
 }

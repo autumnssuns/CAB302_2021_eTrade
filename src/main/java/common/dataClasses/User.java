@@ -1,6 +1,6 @@
 package common.dataClasses;
 
-import server.WorkingFeatures_PLEASE_DO_NOT_EXCLUDE.HashPassword;
+import common.HashPassword;
 
 import java.util.Objects;
 
@@ -21,7 +21,7 @@ public class User implements IData {
      * @param password The password of the user.
      */
     public User(String username, String password){
-        this.username = username;
+        setUsername(username);
         setPassword(password);
     }
 
@@ -33,10 +33,9 @@ public class User implements IData {
      * @param unitId The ID of the organisational unit the user belongs to.
      */
     public User(Integer userId, String fullName, String username, String password, String accountType, Integer unitId){
+        this(username, password);
         setUserId(userId);
-        setUsername(username);
         setFullName(fullName);
-        setPassword(password);
         setAccountType(accountType);
         setOrganisation(unitId);
     }

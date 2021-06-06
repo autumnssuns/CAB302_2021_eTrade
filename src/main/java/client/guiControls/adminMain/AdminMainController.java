@@ -1,9 +1,12 @@
 package client.guiControls.adminMain;
 
 import client.guiControls.MainController;
+import client.guiControls.MessageFactory;
+import client.guiControls.MessageViewUnit;
 import client.guiControls.adminMain.assetsController.AssetsController;
 import client.guiControls.adminMain.organisationalUnitsController.OrganisationalUnitsController;
 import client.guiControls.adminMain.usersController.UsersController;
+import client.guiControls.userMain.UserLocalDatabase;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
@@ -18,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -25,6 +29,9 @@ import java.io.IOException;
 //TODO: Commenting & Documenting
 
 public class AdminMainController extends MainController {
+    // The linked local database
+    AdminLocalDatabase localDatabase;
+
     //Reusable elements that can be updated
     private Pane usersPane;
     private UsersController usersController;
@@ -35,13 +42,14 @@ public class AdminMainController extends MainController {
     private Pane profilePane;
 
     //Preset components
-    @FXML StackPane displayStack;
-    //@FXML Pane filterPane;
-    @FXML Button assetsButton;
-    @FXML Button usersButton;
-    @FXML Button organisationalUnitsButton;
-    @FXML AnchorPane anchorPane;
-    @FXML Label userLabel;
+    @FXML private StackPane displayStack;
+    @FXML private Pane filterPane;
+    @FXML private Button assetsButton;
+    @FXML private Button usersButton;
+    @FXML private Button organisationalUnitsButton;
+    @FXML private AnchorPane anchorPane;
+    @FXML private Label userLabel;
+    @FXML private VBox messageBox;
 
     /**
      * Initialises the controller by loading the sub-panes.
@@ -49,25 +57,19 @@ public class AdminMainController extends MainController {
      */
     @FXML
     public void initialize() throws IOException {
-        // https://stackoverflow.com/questions/14370183/passing-parameters-to-a-controller-when-loading-an-fxml
-        // Used to wait until the non-GUI component (controller) is finished, making sure getUser() is not null.
-        Platform.runLater(() -> {
-            try {
-                setupController();
-            } catch (IOException | InvalidArgumentValueException e) {
-                e.printStackTrace();
-            }
-            startBackgroundThread();
-        });
+        start();
     }
 
     /**
      * Sets up the controller
      * @throws IOException Required by JavaFX
      */
-    private void setupController() throws IOException, InvalidArgumentValueException {
-        userLabel.setText(getUser().getUsername());
+    @Override
+    protected void setupController() throws IOException, InvalidArgumentValueException {
+        localDatabase = new AdminLocalDatabase();
         fetchDatabase();
+
+        userLabel.setText(getUser().getUsername());
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("AdminGUI/UsersPage.fxml"));
         usersPane = fxmlLoader.load();
@@ -143,32 +145,71 @@ public class AdminMainController extends MainController {
         response = this.sendRequest(Request.ActionType.READ_ALL, Request.ObjectType.STOCK);
         DataCollection stocks = (DataCollection) response.getAttachment();
 
-        localDatabase = new AdminLocalDatabase(users, assets, organisationalUnits, stocks);
-        System.out.println(localDatabase);
+        localDatabase.setUsers(users);
+        localDatabase.setAssets(assets);
+        localDatabase.setOrganisationalUnits(organisationalUnits);
+        localDatabase.setStocks(stocks);
     }
 
     /**
-     * Updates the local database, depending on what type of IData is being updated
-     * @param type
+     * Returns the local database for the current admin.
+     * @return The local database for the current admin.
      */
     @Override
-    public void updateLocalDatabase(Request.ObjectType type) throws InvalidArgumentValueException {
-        Response response = this.sendRequest(Request.ActionType.READ_ALL, type);
-        DataCollection attachment = (DataCollection) response.getAttachment();
-        switch (type){
+    public AdminLocalDatabase getDatabase() {
+        return localDatabase;
+    }
+
+    /**
+     * Find the previous states of the request's attached object in the local database.
+     * @param request The request whose attachment is to be found.
+     * @return The previous states of the request's attached object in the local database.
+     */
+    // TODO: Refactor IData
+    @Override
+    protected <T extends IData> T findPreviousState(Request request) {
+        // The table to look into, depending on the object's type
+        AdminLocalDatabase localDatabase = (AdminLocalDatabase) this.localDatabase;
+        DataCollection table;
+        switch (request.getObjectType()){
             case ASSET:
-                ((AdminLocalDatabase) localDatabase).setAssets(attachment);
+                table = localDatabase.getAssets();
+                Asset newAsset = (Asset) request.getAttachment();
+                for (Asset previous : (DataCollection<Asset>) table){
+                    if (previous.getId().equals(newAsset.getId())){
+                        return (T) previous;
+                    }
+                }
                 break;
             case USER:
-                ((AdminLocalDatabase) localDatabase).setUsers(attachment);
+                table = localDatabase.getUsers();
+                User newUser = (User) request.getAttachment();
+                for (User previous : (DataCollection<User>) table){
+                    if (previous.getId().equals(newUser.getId())){
+                        return (T) previous;
+                    }
+                }
                 break;
             case ORGANISATIONAL_UNIT:
-                ((AdminLocalDatabase) localDatabase).setOrganisationalUnits(attachment);
+                table = localDatabase.getOrganisationalUnits();
+                OrganisationalUnit newOrg = (OrganisationalUnit) request.getAttachment();
+                for (OrganisationalUnit previous : (DataCollection<OrganisationalUnit>) table){
+                    if (previous.getId().equals(newOrg.getId())){
+                        return (T) previous;
+                    }
+                }
                 break;
             case STOCK:
-                ((AdminLocalDatabase) localDatabase).setStocks(attachment);
+                table = localDatabase.getStocks();
+                Stock newStock = (Stock) request.getAttachment();
+                for (Stock previous : (DataCollection<Stock>) table){
+                    if (previous.getUnitId().equals(newStock.getUnitId())){
+                        return (T) previous;
+                    }
+                }
                 break;
         }
+        return null;
     }
 
     /**
@@ -180,5 +221,16 @@ public class AdminMainController extends MainController {
         assetsController.update();
         usersController.update();
         organisationalUnitsController.update();
+    }
+
+    /**
+     * Displays a live message to the user
+     * @param message The string containing the message
+     * @param type The type of the message (error, success or default)
+     */
+    @Override
+    public void pushMessage(String message, MessageFactory.MessageType type) {
+        MessageViewUnit messageViewUnit = MessageFactory.createMessage(message, type);
+        messageBox.getChildren().add(messageViewUnit);
     }
 }
