@@ -41,20 +41,21 @@ class OrganisationsDataSourceTest {
         CasesToResponse.cleanDatabase();
     }
 
+
     @Test
-    void deleteAll() {
+    void deleteAll() throws SQLException {
         organisationsDataSource.deleteAll();
         assertEquals(0,organisationsDataSource.getOrganisationList().size());
     }
 
     @Test
-    void addOrganisation() {
+    void addOrganisation() throws SQLException {
         organisationsDataSource.addOrganisation(org01);
         assertEquals(2,organisationsDataSource.getOrganisationList().size());
     }
 
     @Test
-    void deleteOrganisation() {
+    void deleteOrganisation() throws Exception {
         organisationsDataSource.deleteOrganisation(0);
         assertEquals(organisationsDataSource.getOrganisationList().size(), 0);
     }

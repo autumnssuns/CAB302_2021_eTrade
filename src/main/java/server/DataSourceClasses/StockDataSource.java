@@ -121,7 +121,7 @@ public class StockDataSource extends DataSource {
      * Get a list of stocks of all organisation available in database
      * @return Datacollection<Stock> </>
      */
-    public DataCollection<Stock> getStockList(){
+    public DataCollection<Stock> getStockList() throws SQLException {
 
         DataCollection<Stock> stocks = new DataCollection<>();
 
