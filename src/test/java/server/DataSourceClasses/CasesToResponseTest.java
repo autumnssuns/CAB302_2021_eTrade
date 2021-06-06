@@ -31,11 +31,6 @@ public class CasesToResponseTest {
             CasesToResponse.initiate();
         }
     }
-//
-//    @AfterAll
-//    public static void tearDownn() throws IOException {
-//        DBConnection.dropDatabase();
-//    }
 
     @Test
     public void LoginTest() {
@@ -76,16 +71,11 @@ public class CasesToResponseTest {
                 users.size() + assets.size() + organisationalUnits.size() + stocks.size() + orders.size() + notifications.size());
     }
 
-//    @Test
-
-
-
     @Test
     public void addOrder() throws Exception {
         CasesToResponse.add(new Order(16, Order.Type.SELL, 3, 3, 50, 0, 15.5f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
         CasesToResponse.add(new Order(17, Order.Type.BUY, 2, 3, 50, 0, 15.5f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
         CasesToResponse.add(new Order(18, Order.Type.BUY, 0, 3, 59, 0, 15.5f, LocalDateTime.of(0000, 1, 1, 00, 00), LocalDateTime.of(2021, 5, 9, 3, 42), Order.Status.PENDING));
-
 
         OrderDataSource orderDataSource = new OrderDataSource();
         assertEquals(2, orderDataSource.getOrder(10).getAssetId());
