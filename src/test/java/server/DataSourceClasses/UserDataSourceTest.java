@@ -25,9 +25,8 @@ public class UserDataSourceTest {
 
     @BeforeEach
     void setUP() throws Exception {
-        CasesToResponse.cleanDatabase();
         userDataSource = new UserDataSource();
-        userDataSource.deleteUser(0);
+        CasesToResponse.cleanDatabase();
     }
 
     @AfterEach
