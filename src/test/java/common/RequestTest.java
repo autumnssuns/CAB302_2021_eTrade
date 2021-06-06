@@ -1,5 +1,7 @@
 package common;
 
+import common.dataClasses.IData;
+import common.dataClasses.Order;
 import common.dataClasses.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,9 @@ class RequestTest {
     private Request<User> updateRequest;
     private Request<User> deleteRequest;
 
+    private User user;
+    private User userAsAttachment;
+
     @BeforeEach
     void setUp(){
         String username = "dan";
@@ -20,10 +25,10 @@ class RequestTest {
         User tempUser = new User(username, password);
         loginRequest = new Request<>(tempUser, Request.ActionType.LOGIN);
 
-        User user = new User(0, username, username, password, "user", 0);
+        user = new User(0, username, username, password, "user", 0);
         queryRequest = new Request<>(user, Request.ActionType.READ).setObjectType(Request.ObjectType.STOCK);
 
-        User userAsAttachment = new User(1, "Dan Tran ", "dan", "123", "user", 0);
+        userAsAttachment = new User(1, "Dan Tran", "dan", "123", "user", 0);
         updateRequest = new Request<>(user, Request.ActionType.UPDATE, userAsAttachment);
         updateRequest.setObjectType(Request.ObjectType.USER);
 
@@ -50,7 +55,7 @@ class RequestTest {
     void getAttachment() {
         assertNull(loginRequest.getAttachment());
         assertNull(queryRequest.getAttachment());
-        assertEquals(new User(1, "Dan Tran ", "dan", "123", "user", 0), updateRequest.getAttachment());
+        assertEquals(new User(1, "Dan Tran", "dan", "123", "user", 0), updateRequest.getAttachment());
         assertEquals(new User(2, "Rodo Nguyen","rodo", "rodo", "user", 0), deleteRequest.getAttachment());
     }
 
@@ -60,5 +65,43 @@ class RequestTest {
         assertEquals(Request.ObjectType.STOCK,queryRequest.getObjectType());
         assertEquals(Request.ObjectType.USER, updateRequest.getObjectType());
         assertEquals(Request.ObjectType.USER, deleteRequest.getObjectType());
+    }
+
+    @Test
+    void modifyAndCheckPreviousObjectState() {
+        updateRequest.setPreviousObjectState(user);
+        assertEquals(user,updateRequest.getPreviousObjectState());
+    }
+
+    @Test
+    void trueEquals() {
+        user = new User(0, "dan", "dan", "123", "user", 0);
+        userAsAttachment = new User(1, "Dan Tran", "dan", "123", "user", 0);
+        updateRequest = new Request<>(user, Request.ActionType.UPDATE, userAsAttachment);
+
+        Request sameRequest =  new Request<>(user,
+                Request.ActionType.UPDATE, userAsAttachment);
+
+        assertTrue(updateRequest.equals(sameRequest));
+    }
+
+    @Test
+    void falseEquals() {
+        user = new User(0, "dan", "dan", "123", "user", 0);
+        userAsAttachment = new User(1, "Dan Tran", "dan", "123", "user", 0);
+
+        Request differentInType =  new Request<>(user,
+                Request.ActionType.DELETE, userAsAttachment);
+        assertFalse(updateRequest.equals(differentInType));
+
+        User user1 = new User(99, "Dan Tran", "dan", "123", "user", 0);
+        Request differentInSender = new Request<>(user1,
+                Request.ActionType.UPDATE, userAsAttachment);
+        assertFalse(updateRequest.equals(differentInSender));
+    }
+
+    @Test
+    void hashCodeWorking() {
+        deleteRequest.hashCode();
     }
 }

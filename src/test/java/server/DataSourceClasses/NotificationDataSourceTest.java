@@ -64,6 +64,26 @@ class NotificationDataSourceTest {
     }
 
     @Test
+    void getFromUnitIdTest() throws InvalidArgumentValueException {
+        Notification first = new Notification()
+                                    .addReceiverUnit(2)
+                                    .setMessage("Test1");
+        Notification second = new Notification()
+                            .addReceiverUnit(2)
+                            .setMessage("Test2");
+        notificationDataSource.add(first);
+        notificationDataSource.add(second);
+        first.setNotificationId(0);
+        second.setNotificationId(1);
+        DataCollection<Notification> expected = new DataCollection();
+        expected.add(first);
+        expected.add(second);
+        DataCollection<Notification> result = notificationDataSource.getFromUnitId(2);
+        assertEquals(expected, result);
+
+    }
+
+    @Test
     void getAll() throws InvalidArgumentValueException {
         DataCollection<Notification> notifications = new DataCollection<>();
         for (int i = 0; i < 5; i++){

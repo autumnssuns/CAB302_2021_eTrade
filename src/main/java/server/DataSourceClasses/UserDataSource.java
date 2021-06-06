@@ -186,15 +186,4 @@ public class UserDataSource extends DataSource {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Close the connection to database
-     */
-    public void close() {
-        try {
-            connection.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
 }
