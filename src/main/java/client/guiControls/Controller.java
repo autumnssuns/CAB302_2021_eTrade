@@ -72,6 +72,8 @@ public  abstract class Controller {
             e.printStackTrace();
         } catch (InvalidArgumentValueException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return response;
     }

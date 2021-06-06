@@ -6,6 +6,8 @@ import server.DBConnection;
 import server.DataSourceClasses.CasesToResponse;
 import server.DataSourceClasses.OrganisationsDataSource;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class OrganisationsDataSourceTest {
@@ -28,14 +30,14 @@ class OrganisationsDataSourceTest {
     }
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws SQLException {
         CasesToResponse.cleanDatabase();
         organisationsDataSource = new OrganisationsDataSource();
         organisationsDataSource.addOrganisation(org00);
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() throws SQLException {
         CasesToResponse.cleanDatabase();
     }
 

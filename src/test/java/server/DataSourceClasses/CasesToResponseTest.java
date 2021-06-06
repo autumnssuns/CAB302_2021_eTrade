@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 import static server.DataSourceClasses.CasesToResponse.findItem;
 
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+
 public class CasesToResponseTest {
     static Boolean createTable = true; //change this to create a table
 

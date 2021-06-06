@@ -59,6 +59,8 @@ public abstract class MainController extends Controller{
             update();
         } catch (IOException | InvalidArgumentValueException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return response;
     }
