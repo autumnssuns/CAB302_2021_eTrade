@@ -75,9 +75,7 @@ public final class ServerConnection implements IServerConnection{
             out.writeObject(request);
             System.out.println("Sending request " + request.getActionType() + " on " + request.getObjectType());
             return (Response) in.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return new Response(false, null);
