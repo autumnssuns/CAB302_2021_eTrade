@@ -5,7 +5,7 @@ import common.Request;
 import common.Response;
 import common.dataClasses.IData;
 import common.dataClasses.User;
-import server.DataSourceClasses.CasesToResponse;
+import server.DataSourceClasses.RequestHandler;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -114,9 +114,11 @@ public final class Server implements IServer{
                     continue;
                 } catch (InvalidArgumentValueException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-        } catch (IOException | ClassCastException | ClassNotFoundException e) {
+        } catch (IOException | ClassCastException e) {
             System.out.println(String.format("Connection %s closed", socket.toString()));
         }
     }
@@ -143,7 +145,7 @@ public final class Server implements IServer{
      * @throws InvalidArgumentValueException
      */
     @Override
-    public Response createResponse(Request request) throws InvalidArgumentValueException {
+    public Response createResponse(Request request) throws Exception {
         // Unidentified requests are denied by default
         //Get senders' information
         User sender = request.getUser();
@@ -152,55 +154,54 @@ public final class Server implements IServer{
         switch (request.getActionType()){
             case TEST:
                 if (firstRun){
-                    CasesToResponse.initiate();
+                    RequestHandler.initiate();
                     firstRun = false;
                     response = new Response(true, null);
                 }
                 break;
 
             case LOGIN:
-                response = CasesToResponse.login(request);
+                response = RequestHandler.login(request);
                 break;
 
             case READ_ALL:
                 switch (request.getObjectType()){
                     case USER:
-                        response = CasesToResponse.queryUsers();
+                        response = RequestHandler.queryUsers();
                         break;
 
                     case ASSET:
-                        response = CasesToResponse.queryAssets();
+                        response = RequestHandler.queryAssets();
                         break;
 
                     case ORGANISATIONAL_UNIT:
-                        response = CasesToResponse.queryOrganisations();
+                        response = RequestHandler.queryOrganisations();
                         break;
 
                     case STOCK:
-                        response = CasesToResponse.queryStocks();
+                        response = RequestHandler.queryStocks();
                         break;
 
                     case ORDER:
-                        response = CasesToResponse.queryOrders();
+                        response = RequestHandler.queryOrders();
                         break;
                 }
                 break;
 
             case READ:
-                response = CasesToResponse.query(request);
+                response = RequestHandler.query(request);
                 break;
 
-
             case CREATE:
-                response = CasesToResponse.add(request);
+                response = RequestHandler.add(request);
                 break;
 
             case UPDATE:
-                response = CasesToResponse.edit(request);
+                response = RequestHandler.edit(request);
                 break;
 
             case DELETE:
-                response = CasesToResponse.delete(request);
+                response = RequestHandler.delete(request);
                 break;
         }
         return response;

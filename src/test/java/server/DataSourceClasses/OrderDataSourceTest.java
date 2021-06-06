@@ -37,7 +37,7 @@ class OrderDataSourceTest {
 
     @BeforeEach
     void setUpWithOneOrderSuccessfully() throws Exception {
-        CasesToResponse.cleanDatabase();
+        RequestHandler.cleanDatabase();
         orders = new OrderDataSource();
         orders.addOrder(new Order(1, Order.Type.BUY, 0, 9,
                 99, 0, 10f,
@@ -47,8 +47,8 @@ class OrderDataSourceTest {
     }
 
     @AfterEach
-    void tearDown(){
-        CasesToResponse.cleanDatabase();
+    void tearDown() throws Exception {
+        RequestHandler.cleanDatabase();
     }
 
     @Test

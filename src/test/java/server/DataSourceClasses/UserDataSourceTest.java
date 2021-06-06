@@ -22,19 +22,20 @@ public class UserDataSourceTest {
     }
 
     @BeforeEach
-    void setUP(){
-        CasesToResponse.cleanDatabase();
+    void setUP() throws Exception {
         userDataSource = new UserDataSource();
+        RequestHandler.cleanDatabase();
     }
 
     @AfterEach
-    void tearDown(){
-        CasesToResponse.cleanDatabase();
+    void tearDown() throws Exception {
+        RequestHandler.cleanDatabase();
     }
 
     @Test
-    void addNewUser_getUser() {
-        User testuser = new User(1, "DuyPham", "new", "123", "user", 1).hashPassword();
+    void addNewUser_getUser() throws Exception {
+        User testuser = new User(1, "DuyPham",
+                "new", "123", "user", 1).hashPassword();
         userDataSource.addUser(testuser);
         User userData = userDataSource.getUser(testuser.getUsername());
         assertEquals(testuser.getId(),userData.getId());
@@ -43,29 +44,32 @@ public class UserDataSourceTest {
                 userData.getPassword());
     }
 
-//    @Test
-//    void tooLongUserName() {
-//        UserGUI testuser = new UserGUI(1, "DuyPham",
-//                "loooooooooooooooooooooooooo0000000000000000000000000oong",
-//                "123",
-//                "user", 1);
-//        assertThrows(Exception.class, () -> {
-//            userDataSource.addUser(testuser);}
-//        );
-//    }
-
     @Test
-    void deleteUser() {
-        User testuser = new User(1, "DuyPham", "new", "123", "user", 1);
-        userDataSource.addUser(testuser);
-        userDataSource.deleteUser(testuser.getId());
-        User userData = userDataSource.getUser(testuser.getUsername());
-        assertEquals(userData, null);
-
+    void tooLongUserName() {
+        User longgg = new User(1, "DuyPham",
+                "looooooooooooooooooooooooooooo0000000000000000000000000oong",
+                "123", "user", 1);
+        assertThrows(Exception.class, () -> {
+            userDataSource.addUser(longgg);}
+        );
     }
 
     @Test
-    void getUserList() {
+    void deleteUser() throws Exception {
+        User testuser = new User(1, "DuyPham", "new", "123", "user", 1);
+        userDataSource.addUser(testuser);
+        userDataSource.deleteUser(1);
+        User userData = userDataSource.getUser(testuser.getUsername());
+        assertEquals(userData, null);
+    }
+
+    @Test
+    void deleteNegativeId() throws Exception {
+        assertThrows(Exception.class, () -> userDataSource.deleteUser(-11));
+    }
+
+    @Test
+    void getUserList() throws Exception {
         User testuser1 = new User(0, "DuyPham", "new1", "123", "user", 1);
         User testuser2 = new User(1, "DuyPham", "new2", "123", "user", 1);
         User testuser3 = new User(2, "DuyPham", "new3", "123", "user", 1);
@@ -79,19 +83,19 @@ public class UserDataSourceTest {
     }
 
     @Test
-    void editUser() {
+    void editUser() throws Exception {
         User testuser1 = new User(0, "DuyPham", "new1", "123", "user", 1).hashPassword();
         userDataSource.addUser(testuser1);
         User testuser1_New = new User(0, "NEW NAME", "NEW USER NAME", "NEW PASS", "NEW", 0).hashPassword();
         userDataSource.editUser(testuser1_New);
         User newData = userDataSource.getUser(testuser1_New.getUsername());
-        assertEquals(newData.getUsername(),testuser1_New.getUsername());
-        assertEquals(newData.getId(),testuser1_New.getId());
-        assertEquals(newData.getFullName(),testuser1_New.getFullName());
-        assertEquals(newData.getAccountType(), testuser1_New.getAccountType());
-        assertEquals(newData.getUnitId(), testuser1_New.getUnitId());
-        assertEquals(testuser1_New.getPassword(),
-                newData.getPassword());
+
+        assertEquals(testuser1_New.getUsername(), newData.getUsername());
+        assertEquals(testuser1_New.getId(), newData.getId());
+        assertEquals(testuser1_New.getFullName(), newData.getFullName());
+        assertEquals(testuser1_New.getAccountType(), newData.getAccountType());
+        assertEquals(testuser1_New.getUnitId(), newData.getUnitId());
+        assertEquals(testuser1_New.getPassword(),newData.getPassword());
     }
 
 }

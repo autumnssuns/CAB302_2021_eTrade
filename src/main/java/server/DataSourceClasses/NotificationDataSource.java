@@ -150,12 +150,7 @@ public class NotificationDataSource extends DataSource{
      * @return The latest notification in the database.
      */
     public Notification get(){
-        try {
-            return get(getMaxId());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
-        }
+        return get(getMaxId());
     }
 
     /**

@@ -21,18 +21,16 @@ class StockDataSourceTest {
     }
 
     @BeforeEach
-    void setUp() {
-        CasesToResponse.cleanDatabase();
+    void setUp() throws Exception {
+        RequestHandler.cleanDatabase();
         assetsDataSource = new AssetsDataSource();
         stockDataSource = new StockDataSource();
     }
 
     @AfterEach
-    void tearDown(){
-        CasesToResponse.cleanDatabase();
+    void tearDown() throws Exception {
+        RequestHandler.cleanDatabase();
     }
-
-
 
     @Test
     void updateStock_and_queryUnitStock() {
@@ -61,8 +59,6 @@ class StockDataSourceTest {
             e.printStackTrace();
         }
     }
-
-
 
     @Test
     void getStockList() throws Exception {

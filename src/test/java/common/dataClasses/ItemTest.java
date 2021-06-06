@@ -36,7 +36,7 @@ class ItemTest {
     }
 
     @Test
-    void add() {
+    void add() throws Exception {
         item.add(10);
         assertEquals(item.getQuantity(), 10);
         item.add(5);
@@ -44,9 +44,10 @@ class ItemTest {
     }
 
     @Test
-    void addInvalid() {
+    void addInvalid() throws Exception {
         item.add(10);
-        item.add(-15);
+        assertThrows(Exception.class, () -> {
+            item.add(-15); });
         // Invalid addition is not executed
         assertEquals(item.getQuantity(), 10);
     }
@@ -57,13 +58,13 @@ class ItemTest {
     }
 
     @Test
-    void isNotOutOfStock() throws InvalidArgumentValueException {
+    void isNotOutOfStock() throws Exception {
         item.add(1);
         assertFalse(item.isOutOfStock());
     }
 
     @Test
-    void moveToCart() throws InvalidArgumentValueException {
+    void moveToCart() throws Exception {
         item.add(15);
         CartItem actualCartItem = item.moveToCart(10, 2f);
         CartItem expectedCartItem = new CartItem(asset, 10, 2f);

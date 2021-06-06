@@ -23,13 +23,13 @@ class NotificationDataSourceTest {
     }
 
     @BeforeEach
-    void setUp() {
-        CasesToResponse.cleanDatabase();
+    void setUp() throws Exception {
+        RequestHandler.cleanDatabase();
     }
 
     @AfterEach
-    void tearDown(){
-        CasesToResponse.cleanDatabase();
+    void tearDown() throws Exception {
+        RequestHandler.cleanDatabase();
     }
 
     @Test
@@ -61,6 +61,26 @@ class NotificationDataSourceTest {
         notification.setNotificationId(0);
         Notification result = notificationDataSource.get();
         assertEquals(notification, result);
+    }
+
+    @Test
+    void getFromUnitIdTest() throws InvalidArgumentValueException {
+        Notification first = new Notification()
+                                    .addReceiverUnit(2)
+                                    .setMessage("Test1");
+        Notification second = new Notification()
+                            .addReceiverUnit(2)
+                            .setMessage("Test2");
+        notificationDataSource.add(first);
+        notificationDataSource.add(second);
+        first.setNotificationId(0);
+        second.setNotificationId(1);
+        DataCollection<Notification> expected = new DataCollection();
+        expected.add(first);
+        expected.add(second);
+        DataCollection<Notification> result = notificationDataSource.getFromUnitId(2);
+        assertEquals(expected, result);
+
     }
 
     @Test
