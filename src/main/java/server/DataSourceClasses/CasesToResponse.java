@@ -7,7 +7,6 @@ import common.dataClasses.*;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 public class CasesToResponse  {
 
@@ -211,9 +210,8 @@ public class CasesToResponse  {
                     break;
                 }
             }
-
         }
-        //if order is BUY: reduce organisation's balance
+        // If order is BUY: reduce organisation's balance
         else if (order.getOrderType().equals(Order.Type.BUY)){
             OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
             OrganisationalUnit sellerUnit = organisationsDataSource.getOrganisation(order.getUnitId());

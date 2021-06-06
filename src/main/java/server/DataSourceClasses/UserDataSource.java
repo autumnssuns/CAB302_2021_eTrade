@@ -25,18 +25,16 @@ public class UserDataSource extends DataSource {
                         organisation_id INT          DEFAULT NULL,
                         PRIMARY KEY (
                             username
-                        )
-                    );""";
+                        ));""";
     private static final String ADD_USER = "INSERT INTO users(user_id, fullname, username, password, user_type, organisation_id) VALUES (?, ?, ?, ?, ?, ?);";
     private static final String DELETE_USER = "DELETE FROM users WHERE user_id = ?";
     private static final String GET_USER = "SELECT * FROM users WHERE username = ?";
     private static final String GET_ALL_USER = "SELECT * FROM users";
     private static final String EDIT_USER =
             """
-                    UPDATE users\s
-                    SET fullname = ?, username = ?, password = ?, user_type = ?, organisation_id = ?\s
-                    WHERE\s
-                    user_id = ?""";
+                    UPDATE users\n
+                    SET fullname = ?, username = ?, password = ?, user_type = ?, organisation_id = ?\n
+                    WHERE user_id = ?""";
     private static final  String DELETE_ALL = "DELETE FROM users";
     protected static final String GET_MAX_ID = "SELECT user_id FROM users";
 
@@ -63,7 +61,22 @@ public class UserDataSource extends DataSource {
         getAllUser = connection.prepareStatement(GET_ALL_USER);
         deleteAll = connection.prepareStatement(DELETE_ALL);
         getMaxId = connection.prepareStatement(GET_MAX_ID);
+
+        // Check and add an admin account if does not have any
+        boolean hasAdmin = false;
+        for (User user : getUserList()){
+            hasAdmin = user.getAccountType().equals("admin");
+            if (hasAdmin) {
+                break;
+            }
+        }
+        if(!hasAdmin){
+            addUser(new User(null, "Admin",
+                    "admin", "root", "admin", null).hashPassword());
+        }
     }
+
+
 
     /**
      * Delete all users from the database

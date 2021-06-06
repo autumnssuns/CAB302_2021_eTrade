@@ -27,6 +27,7 @@ public class UserDataSourceTest {
     void setUP() throws SQLException {
         CasesToResponse.cleanDatabase();
         userDataSource = new UserDataSource();
+        userDataSource.deleteUser(0);
     }
 
     @AfterEach
@@ -91,13 +92,13 @@ public class UserDataSourceTest {
         User testuser1_New = new User(0, "NEW NAME", "NEW USER NAME", "NEW PASS", "NEW", 0).hashPassword();
         userDataSource.editUser(testuser1_New);
         User newData = userDataSource.getUser(testuser1_New.getUsername());
-        assertEquals(newData.getUsername(),testuser1_New.getUsername());
-        assertEquals(newData.getId(),testuser1_New.getId());
-        assertEquals(newData.getFullName(),testuser1_New.getFullName());
-        assertEquals(newData.getAccountType(), testuser1_New.getAccountType());
-        assertEquals(newData.getUnitId(), testuser1_New.getUnitId());
-        assertEquals(testuser1_New.getPassword(),
-                newData.getPassword());
+
+        assertEquals(testuser1_New.getUsername(), newData.getUsername());
+        assertEquals(testuser1_New.getId(), newData.getId());
+        assertEquals(testuser1_New.getFullName(), newData.getFullName());
+        assertEquals(testuser1_New.getAccountType(), newData.getAccountType());
+        assertEquals(testuser1_New.getUnitId(), newData.getUnitId());
+        assertEquals(testuser1_New.getPassword(),newData.getPassword());
     }
 
 }
