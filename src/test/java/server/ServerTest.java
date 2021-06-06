@@ -31,7 +31,7 @@ class ServerTest {
 
     @BeforeAll
     void setUp() throws Exception {
-        server = new MockServer();
+        server = new Server();
         DBConnection.setTestMode(true);
         server.createResponse(new Request(null, Request.ActionType.TEST));
     }
