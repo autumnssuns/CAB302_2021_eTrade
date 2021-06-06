@@ -32,7 +32,7 @@ public class NotificationViewUnit extends HBox implements IViewUnit {
     public void initialize() {
         this.setId("notificationViewUnit" + notification.getNotificationId());
         this.setAlignment(Pos.CENTER_LEFT);
-        this.setSpacing(0);
+        this.setSpacing(1);
 
         messageLabel = new Label();
         messageLabel.getStyleClass().add("blackLabel");
@@ -40,6 +40,7 @@ public class NotificationViewUnit extends HBox implements IViewUnit {
         messageLabel.setPrefWidth(236);
         messageLabel.setPrefHeight(60);
         messageLabel.setWrapText(true);
+        messageLabel.getStyleClass().add("notification");
 
         this.getChildren().addAll(messageLabel);
     }
