@@ -50,6 +50,7 @@ public final class MockServer implements IServer{
                     case ORDER:
                         response = MockDatabase.queryOrders(request);
                         break;
+
                 }
                 break;
 
@@ -61,6 +62,10 @@ public final class MockServer implements IServer{
 
                     case STOCK:
                         response = MockDatabase.queryStock(request);
+                        break;
+
+                    case NOTIFICATION:
+                        response = MockDatabase.getFromUnitId(request.getUser().getUnitId());
                         break;
                 }
                 break;
