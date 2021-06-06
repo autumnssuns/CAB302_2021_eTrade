@@ -91,8 +91,8 @@ public  abstract class Controller {
         Thread thread = new Thread(() -> {
             while (true) {
                 try{
-                    // Updates every 10 seconds
-                    Thread.sleep(1000*10);
+                    // Updates every 5 minutes
+                    Thread.sleep(1000*300);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

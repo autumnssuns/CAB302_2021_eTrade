@@ -271,7 +271,6 @@ public class UserMainController extends MainController {
                 overridingNotifications.add(notification);
             }
         }
-
         sendRequest(Request.ActionType.UPDATE, overridingNotifications, Request.ObjectType.NOTIFICATION);
         notificationButton.setOnAction(e -> hideNotifications());
     }
@@ -288,11 +287,6 @@ public class UserMainController extends MainController {
                 invalidArgumentValueException.printStackTrace();
             }
         });
-        try {
-            update();
-        } catch (InvalidArgumentValueException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
