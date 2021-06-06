@@ -25,12 +25,12 @@ class NotificationDataSourceTest {
     }
 
     @BeforeEach
-    void setUp() throws SQLException {
+    void setUp() throws Exception {
         CasesToResponse.cleanDatabase();
     }
 
     @AfterEach
-    void tearDown() throws SQLException {
+    void tearDown() throws Exception {
         CasesToResponse.cleanDatabase();
     }
 

@@ -30,14 +30,14 @@ class OrganisationsDataSourceTest {
     }
 
     @BeforeEach
-    void setUp() throws SQLException {
+    void setUp() throws Exception {
         CasesToResponse.cleanDatabase();
         organisationsDataSource = new OrganisationsDataSource();
         organisationsDataSource.addOrganisation(org00);
     }
 
     @AfterEach
-    void tearDown() throws SQLException {
+    void tearDown() throws Exception {
         CasesToResponse.cleanDatabase();
     }
 

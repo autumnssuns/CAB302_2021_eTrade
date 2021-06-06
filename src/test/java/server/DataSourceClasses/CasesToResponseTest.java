@@ -6,14 +6,10 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import server.DBConnection;
-
 import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static server.DataSourceClasses.CasesToResponse.findItem;
-
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 public class CasesToResponseTest {
     static Boolean createTable = true; //change this to create a table
@@ -37,7 +33,7 @@ public class CasesToResponseTest {
     }
 
     @Test
-    public void LoginTest() {
+    public void LoginTest() throws Exception {
         User test = new User("duy","abcd").hashPassword();
         Request loginRequest = new Request(test,Request.ActionType.PING);
         Response response = CasesToResponse.login(loginRequest);
@@ -48,7 +44,7 @@ public class CasesToResponseTest {
     }
 
     @Test
-    public void FailLogin() {
+    public void FailLogin() throws Exception {
         User wrongPassLogin = new User("duy","wrongpass").hashPassword();
         User wrongAccountName = new User("WrongName", "abcd").hashPassword();
         Request loginRequest = new Request(wrongPassLogin,Request.ActionType.PING);
@@ -62,7 +58,7 @@ public class CasesToResponseTest {
     }
 
     @Test
-    public void CleanDatabase() {
+    public void CleanDatabase() throws Exception {
         CasesToResponse.cleanDatabase();
         DataCollection<User> users = (DataCollection<User>) CasesToResponse.queryUsers().getAttachment();
         DataCollection<Asset> assets = (DataCollection<Asset>) CasesToResponse.queryAssets().getAttachment();

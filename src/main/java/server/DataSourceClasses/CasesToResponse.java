@@ -82,7 +82,7 @@ public class CasesToResponse  {
      * Empties the database
      * @return a Response object
      */
-    public static Response<IData> cleanDatabase() throws SQLException {
+    public static Response<IData> cleanDatabase() throws Exception {
         NotificationDataSource notificationData = new NotificationDataSource();
         AssetsDataSource assetData = new AssetsDataSource();
         UserDataSource userData = new UserDataSource();
@@ -103,7 +103,7 @@ public class CasesToResponse  {
      * @param request a Request object
      * @return a Response object
      */
-    public static Response login(Request request) throws SQLException {
+    public static Response login(Request request) throws Exception {
         Response<User> serverResponse = new Response<>(false, null);
         User sender = request.getUser();
         UserDataSource userdata = new UserDataSource();
@@ -308,7 +308,7 @@ public class CasesToResponse  {
      * @return a Response object or null
      * @throws InvalidArgumentValueException
      */
-    public static <T extends IData> Response<IData> edit(Request<T> request) throws InvalidArgumentValueException, SQLException {
+    public static <T extends IData> Response<IData> edit(Request<T> request) throws Exception {
         // If a request is not valid, it is denied immediately
         if (!isValid(request)){
             return new Response(false, null);
@@ -342,7 +342,7 @@ public class CasesToResponse  {
      * @param attachment
      * @return a Response object
      */
-    public static Response<IData> edit(User attachment) throws SQLException {
+    public static Response<IData> edit(User attachment) throws Exception {
         UserDataSource userDataSource = new UserDataSource();
         userDataSource.editUser(attachment);
         return new Response<>(true, attachment);
@@ -455,7 +455,7 @@ public class CasesToResponse  {
      * @param <T> The type of the attachment
      * @return true if the request's previous state is valid with the current state of that object in the server's database.
      */
-    public static <T extends IData> boolean isValid(Request<T> request) throws SQLException {
+    public static <T extends IData> boolean isValid(Request<T> request) throws Exception {
         T serverCurrentState = (T) query(request).getAttachment();
         return request.getPreviousObjectState() == null || request.getPreviousObjectState().equals(serverCurrentState);
     }
@@ -467,7 +467,7 @@ public class CasesToResponse  {
      * @param <T>
      * @return a Response object or null
      */
-    public static <T extends IData> Response<IData> query(Request<T> request) throws SQLException {
+    public static <T extends IData> Response<IData> query(Request<T> request) throws Exception {
         T attachment = request.getAttachment();
         Request.ObjectType type = request.getObjectType();
         switch (type){
@@ -492,7 +492,7 @@ public class CasesToResponse  {
      * @param attachment a User object
      * @return a Response object
      */
-    public static Response<IData> query(User attachment) throws SQLException {
+    public static Response<IData> query(User attachment) throws Exception {
         UserDataSource userDataSource = new UserDataSource();
         attachment = userDataSource.getUser(attachment.getUsername());
         return new Response<>(true, attachment);
@@ -588,7 +588,7 @@ public class CasesToResponse  {
      * Query all users
      * @return a Response object
      */
-    public static Response<DataCollection<User>> queryUsers() throws SQLException {
+    public static Response<DataCollection<User>> queryUsers() throws Exception {
         UserDataSource userDataSource = new UserDataSource();
         DataCollection<User> attachment = userDataSource.getUserList();
         return new Response<>(true, attachment);

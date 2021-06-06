@@ -48,7 +48,7 @@ class OrderDataSourceTest {
     }
 
     @AfterEach
-    void tearDown() throws SQLException {
+    void tearDown() throws Exception {
         CasesToResponse.cleanDatabase();
     }
 

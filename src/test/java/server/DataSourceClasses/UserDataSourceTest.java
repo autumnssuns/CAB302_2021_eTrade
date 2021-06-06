@@ -24,14 +24,14 @@ public class UserDataSourceTest {
     }
 
     @BeforeEach
-    void setUP() throws SQLException {
+    void setUP() throws Exception {
         CasesToResponse.cleanDatabase();
         userDataSource = new UserDataSource();
         userDataSource.deleteUser(0);
     }
 
     @AfterEach
-    void tearDown() throws SQLException {
+    void tearDown() throws Exception {
         CasesToResponse.cleanDatabase();
     }
 

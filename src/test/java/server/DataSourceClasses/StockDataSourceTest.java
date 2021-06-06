@@ -23,14 +23,14 @@ class StockDataSourceTest {
     }
 
     @BeforeEach
-    void setUp() throws SQLException {
+    void setUp() throws Exception {
         CasesToResponse.cleanDatabase();
         assetsDataSource = new AssetsDataSource();
         stockDataSource = new StockDataSource();
     }
 
     @AfterEach
-    void tearDown() throws SQLException {
+    void tearDown() throws Exception {
         CasesToResponse.cleanDatabase();
     }
 

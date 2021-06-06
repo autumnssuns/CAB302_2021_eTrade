@@ -49,7 +49,7 @@ public class UserDataSource extends DataSource {
     /**
      * Connect to database then create the table if not exist.
      */
-    public UserDataSource() throws SQLException {
+    public UserDataSource() throws Exception {
         connection = DBConnection.getInstance();
 
         Statement st = connection.createStatement();
