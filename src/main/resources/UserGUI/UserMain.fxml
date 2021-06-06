@@ -12,9 +12,9 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="768.0" prefWidth="1500.0" style="-fx-background-color: #f2f2f3;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.userMain.UserMainController">
    <children>
-      <VBox prefHeight="768.0" prefWidth="178.0" spacing="20.0" style="-fx-background-color: #2e323e;">
+      <VBox prefHeight="771.0" prefWidth="178.0" spacing="20.0" style="-fx-background-color: #2e323e;">
          <children>
-            <Label fx:id="creditLabel" prefHeight="137.0" prefWidth="178.0">
+            <Label fx:id="creditLabel" prefHeight="113.0" prefWidth="178.0" style="-fx-background-color: #fbc02d; -fx-background-radius: 10;">
                <font>
                   <Font size="20.0" />
                </font>
@@ -46,23 +46,23 @@
             </Button>
          </children>
       </VBox>
-      <StackPane fx:id="displayStack" layoutX="178.0" layoutY="67.0" prefHeight="691.0" prefWidth="1346.0" />
+      <StackPane fx:id="displayStack" layoutX="178.0" layoutY="67.0" prefHeight="704.0" prefWidth="1346.0" style="-fx-background-color: #e3e3e3;" />
       <Pane fx:id="menuPane" layoutX="178.0" prefHeight="55.0" prefWidth="1390.0" styleClass="menuPane">
          <children>
-            <Button layoutX="971.0" layoutY="5.0" mnemonicParsing="false" onAction="#logOut" prefHeight="40.0" prefWidth="178.0" style="-fx-border-radius: 50;" styleClass="circularButton" text="Log out">
+            <Button layoutX="971.0" layoutY="5.0" mnemonicParsing="false" onAction="#logOut" prefHeight="40.0" prefWidth="129.0" style="-fx-border-radius: 50;" styleClass="circularButton" text="Log out">
                <font>
                   <Font size="12.0" />
                </font>
             </Button>
-            <Label fx:id="userLabel" alignment="CENTER_RIGHT" layoutX="460.0" layoutY="2.0" prefHeight="30.0" prefWidth="400.0" textAlignment="RIGHT">
+            <Label fx:id="userLabel" alignment="CENTER_RIGHT" layoutX="580.0" layoutY="10.0" prefHeight="35.0" prefWidth="289.0" textAlignment="RIGHT">
                <font>
-                  <Font size="30.0" />
+                  <Font size="24.0" />
                </font>
             </Label>
             <Button fx:id="notificationButton" layoutX="872.0" layoutY="5.0" mnemonicParsing="false" onAction="#showNotifications" prefHeight="40.0" prefWidth="81.0" text="Notification" />
-            <Label fx:id="organisationalUnitLabel" alignment="CENTER_RIGHT" graphicTextGap="0.0" layoutX="14.0" layoutY="2.0" prefHeight="40.0" prefWidth="262.0" textAlignment="RIGHT">
+            <Label fx:id="organisationalUnitLabel" alignment="CENTER_RIGHT" graphicTextGap="0.0" layoutY="3.0" prefHeight="45.0" prefWidth="305.0" textAlignment="RIGHT">
                <font>
-                  <Font size="30.0" />
+                  <Font size="24.0" />
                </font>
             </Label>
             <Label fx:id="notificationNumberLabel" layoutX="950.0" layoutY="37.0" text="0" />

@@ -1,19 +1,13 @@
 package client.guiControls.adminMain.usersController;
 
 import client.IViewUnit;
-import client.guiControls.DisplayController;
-import client.guiControls.adminMain.AdminLocalDatabase;
-import client.guiControls.adminMain.AdminMainController;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
-import common.Response;
-import common.dataClasses.Asset;
-import common.dataClasses.DataCollection;
 import common.dataClasses.OrganisationalUnit;
 import common.dataClasses.User;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
 
 /**
  * A box to display user information and can be interacted with.
@@ -64,32 +58,37 @@ public class UserInfoBox extends HBox implements IViewUnit {
         idLabel.setAlignment(Pos.CENTER);
         idLabel.setPrefWidth(80);
         idLabel.setPrefHeight(80);
+        idLabel.getStyleClass().add("mediumText");
 
         nameTextField = new TextField();
         nameTextField.setPrefWidth(190);
         nameTextField.setPrefHeight(30);
+        nameTextField.getStyleClass().add("mediumText");
         nameTextField.setId("userFullname" + user.getId());
 
         usernameTextField = new TextField();
         usernameTextField.setPrefWidth(190);
         usernameTextField.setPrefHeight(30);
+        usernameTextField.getStyleClass().add("mediumText");
         usernameTextField.setId("username" + user.getId());
 
         passwordField = new PasswordField();
         passwordField.setPrefWidth(190);
         passwordField.setPrefHeight(30);
+        passwordField.getStyleClass().add("mediumText");
         passwordField.setId("password" + user.getId());
 
         organisationUnitSelectionBox = new ComboBox();
         organisationUnitSelectionBox.setPromptText("Organisational Unit");
         organisationUnitSelectionBox.setPrefWidth(300);
         organisationUnitSelectionBox.setPrefHeight(30);
+        organisationUnitSelectionBox.getStyleClass().add("mediumText");
         organisationUnitSelectionBox.setEditable(true);
         organisationUnitSelectionBox.setId("userOrganisation" + user.getId());
 
         roleSelectionBox = new ComboBox();
         roleSelectionBox.setPromptText("Role");
-        roleSelectionBox.setPrefWidth(190);
+        roleSelectionBox.setPrefWidth(80);
         roleSelectionBox.setPrefHeight(30);
         roleSelectionBox.setEditable(false);
         roleSelectionBox.getItems().addAll("user","admin");

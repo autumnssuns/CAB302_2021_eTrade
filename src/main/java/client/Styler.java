@@ -6,7 +6,7 @@ package client;
 public enum Styler {
     STANDARD_ASSET_BOX(30, 100, "", 20),
     STANDARD_BUTTON(30,100,"",0),
-    STANDARD_ASSET_NAME_BOX(30, 150, "blackLabel",0);
+    STANDARD_ASSET_NAME_BOX(30, 200, "blackLabel",0);
 
 
 

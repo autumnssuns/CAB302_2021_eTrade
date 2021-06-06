@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1322.0" styleClass="displayPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.adminMain.profileController.AdminProfileController">
+<AnchorPane prefHeight="691.0" prefWidth="1322.0" styleClass="displayPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.guiControls.adminMain.profileController.AdminProfileController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="400.0" layoutY="30.0" opacity="0.54" prefHeight="650.0" prefWidth="700.0" style="-fx-background-color: #2e323e;" styleClass="bodyPane">
          <children>
@@ -100,7 +100,7 @@
                   </Label>
                   <Label alignment="CENTER_RIGHT" text="Change Password" textAlignment="RIGHT" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="26.0" />
                      </font>
                   </Label>
                   <PasswordField fx:id="confirmNewPasswordField" onKeyTyped="#confirmPassword" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4">

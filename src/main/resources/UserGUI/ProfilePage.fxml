@@ -111,7 +111,7 @@
                   </Label>
                   <Label alignment="CENTER_RIGHT" text="Change Password" textAlignment="RIGHT" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
                   <PasswordField fx:id="confirmNewPasswordField" onKeyTyped="#confirmPassword" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4">

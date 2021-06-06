@@ -57,7 +57,7 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
 
         idLabel = new Label();
         idLabel.getStyleClass().add("blackLabel");
-        idLabel.setAlignment(Pos.CENTER);
+        idLabel.setAlignment(Pos.CENTER_LEFT);
         idLabel.setPrefWidth(30);
         idLabel.setPrefHeight(80);
 
@@ -80,25 +80,14 @@ public class OrganisationalUnitInfoBox extends HBox implements IViewUnit {
 
         Button editButton = new Button("Edit");
         editButton.setStyle("-fx-font-size:10");
-        editButton.setPrefWidth(50);
+        editButton.setPrefWidth(100);
         editButton.setPrefHeight(30);
         editButton.setOnAction(e -> startEdit());
         editButton.setId("organisationalUnitEditButton" + unit.getId());
 
-        Button removeButton = new Button("Remove");
-        removeButton.setStyle("-fx-font-size:10");
-        removeButton.setPrefWidth(50);
-        removeButton.setPrefHeight(30);
-        removeButton.setOnAction(e -> {
-            try {
-                removeEntry();
-            } catch (InvalidArgumentValueException invalidArgumentValueException) {
-                invalidArgumentValueException.printStackTrace();
-            }
-        });
-        removeButton.setId("organisationalUnitRemoveButton" + unit.getId());
 
-        this.getChildren().addAll(idLabel, nameLabel, creditLabel, assetQuantityLabel, editButton, removeButton);
+
+        this.getChildren().addAll(idLabel, nameLabel, creditLabel, assetQuantityLabel, editButton);
     }
 
     /**
