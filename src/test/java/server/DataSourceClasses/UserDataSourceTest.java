@@ -25,6 +25,7 @@ public class UserDataSourceTest {
     void setUP(){
         CasesToResponse.cleanDatabase();
         userDataSource = new UserDataSource();
+        userDataSource.deleteUser(0);
     }
 
     @AfterEach
