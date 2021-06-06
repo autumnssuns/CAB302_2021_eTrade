@@ -11,14 +11,14 @@
       <Pagination fx:id="ordersDisplay" layoutX="52.0" layoutY="150.0" pageCount="10" prefHeight="550.0" prefWidth="1250.0" styleClass="bodyPane" />
       <HBox alignment="CENTER" layoutX="52.0" layoutY="80.0" prefHeight="60.0" prefWidth="1250.0" spacing="20.0" style="-fx-background-color: #000000;">
          <children>
-            <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" text="ID" />
-            <Label alignment="CENTER" prefHeight="80.0" prefWidth="200.0" text="Asset Name" />
-            <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" text="Place Qty" />
-            <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" text="Resolved Qty" />
-            <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" text="Price" />
-            <Label alignment="CENTER" prefHeight="80.0" prefWidth="190.0" text="Order Date" />
-            <Label alignment="CENTER" prefHeight="80.0" prefWidth="190.0" text="Finish Date" />
-            <Label alignment="CENTER" prefHeight="80.0" prefWidth="120.0" text="Status" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" styleClass="boldText" text="ID" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="200.0" styleClass="boldText" text="Asset Name" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" styleClass="boldText" text="Place Qty" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" styleClass="boldText" text="Resolved Qty" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" styleClass="boldText" text="Price" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="190.0" styleClass="boldText" text="Order Date" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="190.0" styleClass="boldText" text="Finish Date" />
+            <Label alignment="CENTER" prefHeight="80.0" prefWidth="120.0" styleClass="boldText" text="Status" />
             <Label alignment="CENTER" prefHeight="80.0" prefWidth="100.0" />
          </children>
       </HBox>
