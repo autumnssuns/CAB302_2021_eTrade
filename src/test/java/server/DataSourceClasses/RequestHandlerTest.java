@@ -115,7 +115,7 @@ public class RequestHandlerTest {
 
     @Test
     public void editOrder() throws Exception{
-        Order edited = new Order(0, Order.Type.BUY, 0, 0, 99, 0, 10f, null, LocalDateTime.of(2021, 5, 6, 16, 52), Order.Status.PENDING);
+        Order edited = new Order(0, Order.Type.BUY, 0, 0, 80, 0, 10f, null, LocalDateTime.of(2021, 5, 6, 16, 52), Order.Status.PENDING);
         Response r = RequestHandler.edit(edited);
         OrderDataSource order = new OrderDataSource();;
         Order result = order.getOrder(0);
@@ -128,7 +128,14 @@ public class RequestHandlerTest {
         User expected = new User(4, "Rodo Nguyen", "rodo", "rodo", "user", 3);
         Response r = RequestHandler.query(expected);
         assertEquals(userDataSource.getUser("rodo"),r.getAttachment());
+    }
 
+    @Test
+    public void queryAsset() throws Exception{
+        Asset asset = new Asset(0, "CPU Hours", "CPU for rent");
+        Response r = RequestHandler.query(asset);
+        AssetsDataSource assetsDataSource = new AssetsDataSource();
+        assertEquals(r.getAttachment(), assetsDataSource.getAsset(0));
     }
 
     @Test
