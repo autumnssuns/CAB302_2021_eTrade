@@ -771,6 +771,10 @@ public class RequestHandler {
             float price = order.getOrderType() == Order.Type.SELL ? order.getPrice() : matchOrder.getPrice();
             float total = reconcileQuantity * price;
 
+            // Find the refund amount when the buy price is higher than the sell price
+            float placedBuyTotal = Math.max(order.getPrice(), matchOrder.getPrice()) * reconcileQuantity;
+            float refund = placedBuyTotal - total;
+
             // Update the resolved quantity of both orders & write edits to database
             order.setResolvedQuantity(order.getResolvedQuantity() + reconcileQuantity);
             matchOrder.setResolvedQuantity(matchOrder.getResolvedQuantity() + reconcileQuantity);
@@ -804,6 +808,14 @@ public class RequestHandler {
                         stockDataSource.editStock(stock);
                         break;
                     }
+                }
+            }
+            // also refund the buyer
+            for (OrganisationalUnit organisation : organisationalUnits){
+                if (organisation.getId() == buyerId){
+                    organisation.setBalance( organisation.getBalance() + refund );
+                    organisationsDataSource.editOrganisation(organisation);
+                    break;
                 }
             }
             //If not create new
