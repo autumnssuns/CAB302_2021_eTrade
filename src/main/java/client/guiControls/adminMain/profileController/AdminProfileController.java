@@ -4,7 +4,7 @@ import client.guiControls.DisplayController;
 import client.guiControls.adminMain.AdminLocalDatabase;
 import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
-//import common.dataClasses.OrganisationalUnit;
+
 import common.dataClasses.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -36,12 +36,9 @@ public class AdminProfileController extends DisplayController {
     @Override
     public void update() throws InvalidArgumentValueException{
         AdminLocalDatabase localDatabase = (AdminLocalDatabase) controller.getDatabase();
-        //OrganisationalUnit unit = localDatabase.getOrganisationalUnit();
-
         user = controller.getUser();
         fullNameLabel.setText(user.getFullName());
         usernameLabel.setText(user.getUsername());
-
         roleLabel.setText(user.getAccountType());
 
     }
