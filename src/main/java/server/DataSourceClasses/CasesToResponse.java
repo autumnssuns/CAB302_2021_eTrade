@@ -4,6 +4,8 @@ import common.Exceptions.InvalidArgumentValueException;
 import common.Request;
 import common.Response;
 import common.dataClasses.*;
+
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -364,9 +366,12 @@ public class CasesToResponse  {
      * @return a Response object
      */
     public static Response<IData> edit(Asset attachment){
-
         AssetsDataSource assetsDataSource = new AssetsDataSource();
-        assetsDataSource.editAsset(attachment);
+        try {
+            assetsDataSource.editAsset(attachment);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return new Response<>(true, attachment);
     }
 

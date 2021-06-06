@@ -6,7 +6,6 @@ import common.dataClasses.CartItem;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -45,12 +44,13 @@ public class BuyCartItemInfoBox extends VBox implements IViewUnit {
         this.setAlignment(Pos.CENTER_LEFT);
 
         nameLabel = new Label();
-        //nameLabel.getStyleClass().add("blackLabel");
+        nameLabel.getStyleClass().add("boldText");
         nameLabel.getStyleClass().add(Styler.STANDARD_ASSET_NAME_BOX.styleClass());
         nameLabel.setId("cartItemNameLabel" + cartItem.getId());
 
         totalPriceLabel = new Label();
         totalPriceLabel.getStyleClass().add(Styler.STANDARD_ASSET_NAME_BOX.styleClass());
+        totalPriceLabel.getStyleClass().add("boldText");
         totalPriceLabel.setId("cartItemTotalPriceLabel" + cartItem.getId());
 
         quantityTextField = new Label("Quantity: " + cartItem.getQuantity());
@@ -121,7 +121,7 @@ public class BuyCartItemInfoBox extends VBox implements IViewUnit {
      * loads a label displaying the cartItem's name.
      */
     private void loadTotalPriceLabel(){
-        totalPriceLabel.setText("Total" + cartItem.getTotalPrice());
+        totalPriceLabel.setText("Total: " + cartItem.getTotalPrice());
     }
 
     /**

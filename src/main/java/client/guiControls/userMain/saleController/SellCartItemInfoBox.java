@@ -1,14 +1,11 @@
 package client.guiControls.userMain.saleController;
 
 import client.IViewUnit;
-import client.guiControls.DisplayController;
-import client.guiControls.userMain.UserMainController;
-import client.guiControls.userMain.buyController.BuyController;
 import common.Exceptions.InvalidArgumentValueException;
 import common.dataClasses.CartItem;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -48,11 +45,16 @@ public class SellCartItemInfoBox extends VBox implements IViewUnit {
 
         nameLabel = new Label();
         nameLabel.getStyleClass().add("blackLabel");
+        nameLabel.getStyleClass().add("boldText");
         nameLabel.setId("cartItemNameLabel" + cartItem.getId());
 
         totalPriceLabel = new Label();
         totalPriceLabel.getStyleClass().add("blackLabel");
+        totalPriceLabel.getStyleClass().add("smallText");
+        totalPriceLabel.getStyleClass().add("boldText");
+        totalPriceLabel.setPrefWidth(100);
         totalPriceLabel.setId("cartItemTotalPriceLabel" + cartItem.getId());
+
 
         quantityTextField = new Label("Quantity: " + cartItem.getQuantity());
         quantityTextField.setPrefWidth(150);
@@ -127,7 +129,7 @@ public class SellCartItemInfoBox extends VBox implements IViewUnit {
      * loads a label displaying the cartItem's name.
      */
     private void loadTotalPriceLabel(){
-        totalPriceLabel.setText("Total" + cartItem.getTotalPrice());
+        totalPriceLabel.setText("Total: " + cartItem.getTotalPrice());
     }
 
     /**
