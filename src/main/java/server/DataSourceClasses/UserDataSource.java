@@ -25,8 +25,7 @@ public class UserDataSource extends DataSource {
                         organisation_id INT          DEFAULT NULL,
                         PRIMARY KEY (
                             username
-                        ),
-                        CONSTRAINT user_organisaion
+                        )
                     );""";
     private static final String ADD_USER = "INSERT INTO users(user_id, fullname, username, password, user_type, organisation_id) VALUES (?, ?, ?, ?, ?, ?);";
     private static final String DELETE_USER = "DELETE FROM users WHERE user_id = ?";

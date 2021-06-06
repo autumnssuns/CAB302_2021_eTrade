@@ -14,10 +14,10 @@ public class OrganisationsDataSource extends DataSource {
     // SQL query strings
     private static final String CREATE_TABLE =
             """
-                    CREATE TABLE IF NOT EXISTS     organisationalUnits (
-                        organisation_id            INTEGER PRIMARY KEY AUTOINCREMENT,
-                        organisation_name          VARCHAR(16) NOT NULL,
-                        credits  DECIMAL(2)        NOT NULL DEFAULT 0
+                    CREATE TABLE IF NOT EXISTS          organisationalUnits (
+                        organisation_id                 INTEGER PRIMARY KEY AUTOINCREMENT,
+                        organisation_name               VARCHAR(16) NOT NULL,
+                        credits  DECIMAL(10,2)          NOT NULL DEFAULT 0
                         );""";
     private static final String ADD_ORGANISATION = "INSERT INTO organisationalUnits(organisation_id, organisation_name, credits) VALUES (?, ?, ?);";
     private static final String DELETE_ORGANISATION = "DELETE FROM organisationalUnits WHERE organisation_id=?";
