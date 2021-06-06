@@ -5,8 +5,6 @@ import common.dataClasses.*;
 import org.junit.jupiter.api.*;
 import server.DBConnection;
 
-import java.sql.SQLException;
-
 
 class StockDataSourceTest {
     private static StockDataSource stockDataSource;
@@ -24,14 +22,14 @@ class StockDataSourceTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        CasesToResponse.cleanDatabase();
+        RequestHandler.cleanDatabase();
         assetsDataSource = new AssetsDataSource();
         stockDataSource = new StockDataSource();
     }
 
     @AfterEach
     void tearDown() throws Exception {
-        CasesToResponse.cleanDatabase();
+        RequestHandler.cleanDatabase();
     }
 
     @Test

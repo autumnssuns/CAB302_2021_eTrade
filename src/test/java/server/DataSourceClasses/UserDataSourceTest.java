@@ -7,8 +7,6 @@ import common.dataClasses.User;
 import org.junit.jupiter.api.*;
 import server.DBConnection;
 
-import java.sql.SQLException;
-
 public class UserDataSourceTest {
 
     private static UserDataSource userDataSource;
@@ -25,14 +23,13 @@ public class UserDataSourceTest {
 
     @BeforeEach
     void setUP() throws Exception {
-        CasesToResponse.cleanDatabase();
         userDataSource = new UserDataSource();
-        userDataSource.deleteUser(0);
+        RequestHandler.cleanDatabase();
     }
 
     @AfterEach
     void tearDown() throws Exception {
-        CasesToResponse.cleanDatabase();
+        RequestHandler.cleanDatabase();
     }
 
     @Test

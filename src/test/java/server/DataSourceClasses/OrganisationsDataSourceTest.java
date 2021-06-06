@@ -3,8 +3,6 @@ package server.DataSourceClasses;
 import common.dataClasses.OrganisationalUnit;
 import org.junit.jupiter.api.*;
 import server.DBConnection;
-import server.DataSourceClasses.CasesToResponse;
-import server.DataSourceClasses.OrganisationsDataSource;
 
 import java.sql.SQLException;
 
@@ -31,14 +29,14 @@ class OrganisationsDataSourceTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        CasesToResponse.cleanDatabase();
+        RequestHandler.cleanDatabase();
         organisationsDataSource = new OrganisationsDataSource();
         organisationsDataSource.addOrganisation(org00);
     }
 
     @AfterEach
     void tearDown() throws Exception {
-        CasesToResponse.cleanDatabase();
+        RequestHandler.cleanDatabase();
     }
 
 
