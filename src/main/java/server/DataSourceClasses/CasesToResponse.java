@@ -164,8 +164,8 @@ public class CasesToResponse  {
     }
 
     /**
-     * Process add OrganisationUnit request
-     * @param attachment a OrganisationUnit object
+     * Process adding OrganisationUnit request
+     * @param attachment a OrganisationUnit object to be added
      * @return a Response object
      */
     public static Response add(OrganisationalUnit attachment){
@@ -173,7 +173,12 @@ public class CasesToResponse  {
         organisationsDataSource.addOrganisation(attachment);
         return new Response<>(true, null);
     }
-    //Asset Type
+
+    /**
+     * Process adding Asset request
+     * @param attachment an Asset object to be added
+     * @return a Response object
+     */
     public static Response<IData> add(Asset attachment) {
         AssetsDataSource assetsDataSource = new AssetsDataSource();
         assetsDataSource.addAsset(attachment);
@@ -181,7 +186,8 @@ public class CasesToResponse  {
     }
 
     /**
-     * Process when a user place an Order: Reduce their stock when sell or reduce their balance when buy
+     * Process user placing an Order:
+     *      Reduce their stock when sell or reduce their balance when buy
      * @param order an Order object
      * @throws InvalidArgumentValueException
      */
