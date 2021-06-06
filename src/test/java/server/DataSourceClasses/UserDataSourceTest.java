@@ -7,6 +7,8 @@ import common.dataClasses.User;
 import org.junit.jupiter.api.*;
 import server.DBConnection;
 
+import java.sql.SQLException;
+
 public class UserDataSourceTest {
 
     private static UserDataSource userDataSource;
@@ -22,20 +24,21 @@ public class UserDataSourceTest {
     }
 
     @BeforeEach
-    void setUP(){
+    void setUP() throws Exception {
         CasesToResponse.cleanDatabase();
         userDataSource = new UserDataSource();
         userDataSource.deleteUser(0);
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() throws Exception {
         CasesToResponse.cleanDatabase();
     }
 
     @Test
-    void addNewUser_getUser() {
-        User testuser = new User(1, "DuyPham", "new", "123", "user", 1).hashPassword();
+    void addNewUser_getUser() throws Exception {
+        User testuser = new User(1, "DuyPham",
+                "new", "123", "user", 1).hashPassword();
         userDataSource.addUser(testuser);
         User userData = userDataSource.getUser(testuser.getUsername());
         assertEquals(testuser.getId(),userData.getId());
@@ -44,29 +47,32 @@ public class UserDataSourceTest {
                 userData.getPassword());
     }
 
-//    @Test
-//    void tooLongUserName() {
-//        UserGUI testuser = new UserGUI(1, "DuyPham",
-//                "loooooooooooooooooooooooooo0000000000000000000000000oong",
-//                "123",
-//                "user", 1);
-//        assertThrows(Exception.class, () -> {
-//            userDataSource.addUser(testuser);}
-//        );
-//    }
-
     @Test
-    void deleteUser() {
-        User testuser = new User(1, "DuyPham", "new", "123", "user", 1);
-        userDataSource.addUser(testuser);
-        userDataSource.deleteUser(testuser.getId());
-        User userData = userDataSource.getUser(testuser.getUsername());
-        assertEquals(userData, null);
-
+    void tooLongUserName() {
+        User longgg = new User(1, "DuyPham",
+                "looooooooooooooooooooooooooooo0000000000000000000000000oong",
+                "123", "user", 1);
+        assertThrows(Exception.class, () -> {
+            userDataSource.addUser(longgg);}
+        );
     }
 
     @Test
-    void getUserList() {
+    void deleteUser() throws Exception {
+        User testuser = new User(1, "DuyPham", "new", "123", "user", 1);
+        userDataSource.addUser(testuser);
+        userDataSource.deleteUser(1);
+        User userData = userDataSource.getUser(testuser.getUsername());
+        assertEquals(userData, null);
+    }
+
+    @Test
+    void deleteNegativeId() throws Exception {
+        assertThrows(Exception.class, () -> userDataSource.deleteUser(-11));
+    }
+
+    @Test
+    void getUserList() throws Exception {
         User testuser1 = new User(0, "DuyPham", "new1", "123", "user", 1);
         User testuser2 = new User(1, "DuyPham", "new2", "123", "user", 1);
         User testuser3 = new User(2, "DuyPham", "new3", "123", "user", 1);
@@ -80,10 +86,10 @@ public class UserDataSourceTest {
     }
 
     @Test
-    void editUser() {
-        User testuser1 = new User(0, "Rodo", "new7", "123", "user", 1);
+    void editUser() throws Exception {
+        User testuser1 = new User(0, "DuyPham", "new1", "123", "user", 1).hashPassword();
         userDataSource.addUser(testuser1);
-        User testuser1_New = new User(0, "NEW NAME", "NEW USER NAME", "NEW PASS", "NEW", 0);
+        User testuser1_New = new User(0, "NEW NAME", "NEW USER NAME", "NEW PASS", "NEW", 0).hashPassword();
         userDataSource.editUser(testuser1_New);
         User newData = userDataSource.getUser(testuser1_New.getUsername());
 

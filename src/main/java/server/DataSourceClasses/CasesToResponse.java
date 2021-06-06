@@ -72,6 +72,8 @@ public class CasesToResponse  {
 
         } catch (InvalidArgumentValueException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -80,7 +82,7 @@ public class CasesToResponse  {
      * Empties the database
      * @return a Response object
      */
-    public static Response<IData> cleanDatabase(){
+    public static Response<IData> cleanDatabase() throws Exception {
         NotificationDataSource notificationData = new NotificationDataSource();
         AssetsDataSource assetData = new AssetsDataSource();
         UserDataSource userData = new UserDataSource();
@@ -101,8 +103,7 @@ public class CasesToResponse  {
      * @param request a Request object
      * @return a Response object
      */
-    public static Response login(Request request)
-    {
+    public static Response login(Request request) throws Exception {
         Response<User> serverResponse = new Response<>(false, null);
         User sender = request.getUser();
         UserDataSource userdata = new UserDataSource();
@@ -130,7 +131,7 @@ public class CasesToResponse  {
      * @return a Response object or null
      * @throws InvalidArgumentValueException
      */
-    public static <T extends IData> Response<IData> add(Request<T> request) throws InvalidArgumentValueException {
+    public static <T extends IData> Response<IData> add(Request<T> request) throws Exception {
         T attachment = request.getAttachment();
         Request.ObjectType type = request.getObjectType();
         if(type.equals(Request.ObjectType.USER)) {
@@ -156,7 +157,7 @@ public class CasesToResponse  {
      * @param attachment a User object
      * @return a Response object
      */
-    public static Response add(User attachment){
+    public static Response add(User attachment) throws Exception {
         UserDataSource userDataSource = new UserDataSource();
         userDataSource.addUser(attachment);
         return new Response<>(true, null);
@@ -248,7 +249,7 @@ public class CasesToResponse  {
      * @return a Response object
      * @throws InvalidArgumentValueException
      */
-    public static Response<IData> add(Order attachment) throws InvalidArgumentValueException {
+    public static Response<IData> add(Order attachment) throws InvalidArgumentValueException, SQLException {
         OrderDataSource orderDataSource = new OrderDataSource();
         attachment.setOrderId(orderDataSource.getNextId());
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
@@ -307,7 +308,7 @@ public class CasesToResponse  {
      * @return a Response object or null
      * @throws InvalidArgumentValueException
      */
-    public static <T extends IData> Response<IData> edit(Request<T> request) throws InvalidArgumentValueException {
+    public static <T extends IData> Response<IData> edit(Request<T> request) throws Exception {
         // If a request is not valid, it is denied immediately
         if (!isValid(request)){
             return new Response(false, null);
@@ -341,7 +342,7 @@ public class CasesToResponse  {
      * @param attachment
      * @return a Response object
      */
-    public static Response<IData> edit(User attachment){
+    public static Response<IData> edit(User attachment) throws Exception {
         UserDataSource userDataSource = new UserDataSource();
         userDataSource.editUser(attachment);
         return new Response<>(true, attachment);
@@ -454,7 +455,7 @@ public class CasesToResponse  {
      * @param <T> The type of the attachment
      * @return true if the request's previous state is valid with the current state of that object in the server's database.
      */
-    public static <T extends IData> boolean isValid(Request<T> request){
+    public static <T extends IData> boolean isValid(Request<T> request) throws Exception {
         T serverCurrentState = (T) query(request).getAttachment();
         return request.getPreviousObjectState() == null || request.getPreviousObjectState().equals(serverCurrentState);
     }
@@ -466,7 +467,7 @@ public class CasesToResponse  {
      * @param <T>
      * @return a Response object or null
      */
-    public static <T extends IData> Response<IData> query(Request<T> request) {
+    public static <T extends IData> Response<IData> query(Request<T> request) throws Exception {
         T attachment = request.getAttachment();
         Request.ObjectType type = request.getObjectType();
         switch (type){
@@ -491,7 +492,7 @@ public class CasesToResponse  {
      * @param attachment a User object
      * @return a Response object
      */
-    public static Response<IData> query(User attachment){
+    public static Response<IData> query(User attachment) throws Exception {
         UserDataSource userDataSource = new UserDataSource();
         attachment = userDataSource.getUser(attachment.getUsername());
         return new Response<>(true, attachment);
@@ -546,8 +547,7 @@ public class CasesToResponse  {
      * Query all stocks
      * @return a Response object
      */
-    public static Response<DataCollection<Stock>> queryStocks()
-    {
+    public static Response<DataCollection<Stock>> queryStocks() throws SQLException {
         StockDataSource stockDataSource = new StockDataSource();
         DataCollection<Stock> stocks = stockDataSource.getStockList();
         return new Response<>(true, stocks);
@@ -557,8 +557,7 @@ public class CasesToResponse  {
      * Query all organisations
      * @return a Response object
      */
-    public static Response<DataCollection<OrganisationalUnit>> queryOrganisations()
-    {
+    public static Response<DataCollection<OrganisationalUnit>> queryOrganisations() throws SQLException {
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         DataCollection<OrganisationalUnit> attachment = organisationsDataSource.getOrganisationList();
         return new Response<>(true, attachment);
@@ -589,7 +588,7 @@ public class CasesToResponse  {
      * Query all users
      * @return a Response object
      */
-    public static Response<DataCollection<User>> queryUsers() {
+    public static Response<DataCollection<User>> queryUsers() throws Exception {
         UserDataSource userDataSource = new UserDataSource();
         DataCollection<User> attachment = userDataSource.getUserList();
         return new Response<>(true, attachment);
@@ -612,7 +611,7 @@ public class CasesToResponse  {
      * @param <T>
      * @return a Response object or null
      */
-    public static <T extends IData> Response<IData> delete(Request<T> request) {
+    public static <T extends IData> Response<IData> delete(Request<T> request) throws Exception {
         // If a request is not valid, it is denied immediately
         if (!isValid(request)){
             return new Response(false, null);
@@ -641,7 +640,7 @@ public class CasesToResponse  {
      * @param attachment
      * @return a Response object
      */
-    public static Response<IData> delete(User attachment){
+    public static Response<IData> delete(User attachment) throws Exception {
         UserDataSource userDataSource = new UserDataSource();
         userDataSource.deleteUser(attachment.getId());
         return new Response<>(true, null);
@@ -652,7 +651,7 @@ public class CasesToResponse  {
      * @param attachment
      * @return a Response object
      */
-    public static Response<IData> delete(OrganisationalUnit attachment){
+    public static Response<IData> delete(OrganisationalUnit attachment) throws Exception {
         OrganisationsDataSource organisationsDataSource = new OrganisationsDataSource();
         StockDataSource stockDataSource = new StockDataSource();
         organisationsDataSource.deleteOrganisation(attachment.getId());
@@ -744,7 +743,7 @@ public class CasesToResponse  {
      * - Adds assets to buyer
      * @param order an Order object
      */
-    private static void reconcileOrder(Order order) throws InvalidArgumentValueException {
+    private static void reconcileOrder(Order order) throws InvalidArgumentValueException, SQLException {
         //Prepare data sources
         OrderDataSource orderDataSource = new OrderDataSource();
         AssetsDataSource assetsDataSource = new AssetsDataSource();

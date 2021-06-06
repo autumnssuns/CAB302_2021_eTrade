@@ -14,10 +14,10 @@ public class OrganisationsDataSource extends DataSource {
     // SQL query strings
     private static final String CREATE_TABLE =
             """
-                    CREATE TABLE IF NOT EXISTS     organisationalUnits (
-                        organisation_id            INTEGER PRIMARY KEY AUTOINCREMENT,
-                        organisation_name          VARCHAR(16) NOT NULL,
-                        credits  DECIMAL(2)        NOT NULL DEFAULT 0
+                    CREATE TABLE IF NOT EXISTS          organisationalUnits (
+                        organisation_id                 INTEGER PRIMARY KEY AUTOINCREMENT,
+                        organisation_name               VARCHAR(16) NOT NULL,
+                        credits  DECIMAL(10,2)          NOT NULL DEFAULT 0
                         );""";
     private static final String ADD_ORGANISATION = "INSERT INTO organisationalUnits(organisation_id, organisation_name, credits) VALUES (?, ?, ?);";
     private static final String DELETE_ORGANISATION = "DELETE FROM organisationalUnits WHERE organisation_id=?";
@@ -92,14 +92,11 @@ public class OrganisationsDataSource extends DataSource {
      * Delete an OrganisationalUnit if exists
      * @param id of the organisation
      */
-    public void deleteOrganisation(int id){
-        try {
-            //set values into the above query
-            deleteOrganisation.setInt(1, id);
-            deleteOrganisation.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void deleteOrganisation(int id) throws Exception {
+        if (id < 0) throw new Exception("Parameter id must not be negative");
+        //set values into the above query
+        deleteOrganisation.setInt(1, id);
+        deleteOrganisation.executeUpdate();
     }
 
     /**
@@ -128,16 +125,12 @@ public class OrganisationsDataSource extends DataSource {
      * Get all organisations from the database
      * @return an Organisation DataCollection
      */
-    public DataCollection<OrganisationalUnit> getOrganisationList(){
+    public DataCollection<OrganisationalUnit> getOrganisationList() throws SQLException {
         DataCollection<OrganisationalUnit> organisations = new DataCollection<>();
-        try {
-            ResultSet rs = getAllOrganisation.executeQuery();
-            while (rs.next()){
-                Integer nextId = rs.getInt(1);
-                organisations.add(getOrganisation(nextId));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        ResultSet rs = getAllOrganisation.executeQuery();
+        while (rs.next()) {
+            Integer nextId = rs.getInt(1);
+            organisations.add(getOrganisation(nextId));
         }
         return organisations;
     }
@@ -151,7 +144,7 @@ public class OrganisationsDataSource extends DataSource {
             editOrganisation.setFloat(2, organisationNewInfo.getBalance());
             editOrganisation.setInt(3, organisationNewInfo.getId());
             editOrganisation.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e){
             e.printStackTrace();
         }
     }

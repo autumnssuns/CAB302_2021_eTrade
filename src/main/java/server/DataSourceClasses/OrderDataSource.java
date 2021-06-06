@@ -17,21 +17,21 @@ public class OrderDataSource extends DataSource {
     //SQL queries
     private static final String CREATE_TABLE = """
             CREATE TABLE IF NOT EXISTS orders (
-                order_id          INTEGER      NOT NULL
-                                               PRIMARY KEY AUTOINCREMENT,
-                order_type        VARCHAR (4)  NOT NULL,
-                organisation_id   INT          NOT NULL,
-                asset_id          INT          NOT NULL,
-                placed_quantity   INT          NOT NULL
-                                               DEFAULT 0,
-                resolved_quantity INT          NOT NULL
-                                               DEFAULT 0,
-                price             DECIMAL (10,2)  NOT NULL,
-                order_date        VARCHAR(50)  NOT NULL
-                                               DEFAULT CURRENT_TIMESTAMP,
-                finished_date     VARCHAR(50)  DEFAULT NULL,
-                status            VARCHAR(10)  NOT NULL
-                                               DEFAULT ('placed')\s
+                order_id          INTEGER           NOT NULL
+                                                    PRIMARY KEY AUTOINCREMENT,
+                order_type        VARCHAR(4)        NOT NULL,
+                organisation_id   INT               NOT NULL,
+                asset_id          INT               NOT NULL,
+                placed_quantity   INT               NOT NULL
+                                                    DEFAULT 0,
+                resolved_quantity INT               NOT NULL
+                                                    DEFAULT 0,
+                price             DECIMAL(10,2)     NOT NULL,
+                order_date        VARCHAR(50)       NOT NULL
+                                                    DEFAULT CURRENT_TIMESTAMP,
+                finished_date     VARCHAR(50)       DEFAULT NULL,
+                status            VARCHAR(10)       NOT NULL
+                                                    DEFAULT ('placed')\s
             );""";
 
     private static final String ADD_ORDER = "INSERT INTO orders(order_id, order_type, organisation_id, " +

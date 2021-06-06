@@ -4,6 +4,7 @@ import common.dataClasses.Order;
 import org.junit.jupiter.api.*;
 import server.DBConnection;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,7 +48,7 @@ class OrderDataSourceTest {
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() throws Exception {
         CasesToResponse.cleanDatabase();
     }
 

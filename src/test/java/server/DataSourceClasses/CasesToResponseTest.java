@@ -2,14 +2,14 @@ package server.DataSourceClasses;
 import common.Request;
 import common.Response;
 import common.dataClasses.*;
-import common.dataClasses.Order;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import server.DBConnection;
-
+import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 import static server.DataSourceClasses.CasesToResponse.findItem;
-
-import java.time.LocalDateTime;
+import java.sql.SQLException;
 
 public class CasesToResponseTest {
     static Boolean createTable = true; //change this to create a table
@@ -33,7 +33,7 @@ public class CasesToResponseTest {
     }
 
     @Test
-    public void LoginTest() {
+    public void LoginTest() throws Exception {
         User test = new User("duy","abcd").hashPassword();
         Request loginRequest = new Request(test,Request.ActionType.PING);
         Response response = CasesToResponse.login(loginRequest);
@@ -44,7 +44,7 @@ public class CasesToResponseTest {
     }
 
     @Test
-    public void FailLogin() {
+    public void FailLogin() throws Exception {
         User wrongPassLogin = new User("duy","wrongpass").hashPassword();
         User wrongAccountName = new User("WrongName", "abcd").hashPassword();
         Request loginRequest = new Request(wrongPassLogin,Request.ActionType.PING);
@@ -58,7 +58,7 @@ public class CasesToResponseTest {
     }
 
     @Test
-    public void CleanDatabase() {
+    public void CleanDatabase() throws Exception {
         CasesToResponse.cleanDatabase();
         DataCollection<User> users = (DataCollection<User>) CasesToResponse.queryUsers().getAttachment();
         DataCollection<Asset> assets = (DataCollection<Asset>) CasesToResponse.queryAssets().getAttachment();
@@ -82,5 +82,34 @@ public class CasesToResponseTest {
 
         Item item = findItem(1,0);
         assertEquals(44, item.getQuantity());
+    }
+
+    @Test
+    public void addUser() throws Exception{
+
+        CasesToResponse.add(new User (1245,"ABC","ABC","123456789", "Admin",1 ));
+
+        UserDataSource userDataSource = new UserDataSource();
+        User user = userDataSource.getUser("ABC");
+        assertEquals(user.getAccountType(), "Admin");
+        assertEquals(user.getUnitId(), 1);
+
+    }
+
+    @Test
+    public void addOrganisationalUnit() throws Exception{
+        CasesToResponse.add(new OrganisationalUnit(99, "SuperTeam", 1586));
+        OrganisationsDataSource orgDataSource = new OrganisationsDataSource();
+        OrganisationalUnit org = orgDataSource.getOrganisation(99);
+
+        assertEquals("SuperTeam",org.getName());
+
+    }
+    @Test
+    public void addStock() throws Exception{
+        CasesToResponse.add(new Stock(100));
+        StockDataSource stockDataSource = new StockDataSource();
+        Stock stock = stockDataSource.getStock(100);
+        assertNotNull(stock);
     }
 }
