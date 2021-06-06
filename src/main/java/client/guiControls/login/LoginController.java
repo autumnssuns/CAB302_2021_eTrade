@@ -42,7 +42,6 @@ public class LoginController extends Controller {
         Platform.runLater(() -> {
             if (getServerConnection() == null){
                 serverConnection = new ServerConnection();
-                createInitiationRequest();
             }
             try {
                 update();
@@ -50,20 +49,6 @@ public class LoginController extends Controller {
                 e.printStackTrace();
             }
             startBackgroundThread();
-        });
-    }
-
-    private void createInitiationRequest(){
-        Alert alert = new Alert(Alert.AlertType.NONE);
-        alert.setTitle("Server is not initiated");
-        alert.setContentText("It looks like the server is empty. Would you like to add test data?");
-        ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-        ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
-        alert.getButtonTypes().setAll(yesButton, noButton);
-        alert.showAndWait().ifPresent(type -> {
-            if (type == yesButton) {
-                this.sendRequest(Request.ActionType.TEST, null);
-            }
         });
     }
 
@@ -158,6 +143,7 @@ public class LoginController extends Controller {
     public void update() throws InvalidArgumentValueException {
         boolean isActive = serverConnection.pingServer();
         if (isActive){
+            statusLabel.setText("The server is active...");
             loginButton.setDisable(false);
         }
         else{
