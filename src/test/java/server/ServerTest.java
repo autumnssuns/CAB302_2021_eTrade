@@ -222,7 +222,6 @@ class ServerTest {
                     filteredNotifications.add(notification);
                 }
             }
-
             request = new Request<User>(testUser, Request.ActionType.READ).setObjectType(Request.ObjectType.NOTIFICATION);
             expectedResponse = new Response<>(true, filteredNotifications);
         }
