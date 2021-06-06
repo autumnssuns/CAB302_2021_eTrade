@@ -44,7 +44,10 @@ public class Item extends Asset {
      * Increases the quantity of the related asset in the organisational unit's stock.
      * @param amount The amount to be added.
      */
-    public void add(int amount) {
+    public void add(int amount) throws Exception {
+        if (amount < 0) {
+            throw new Exception("Invalid amount!");
+        }
         try {
             setQuantity(quantity + amount);
         } catch (InvalidArgumentValueException e) {

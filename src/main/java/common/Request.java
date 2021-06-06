@@ -47,15 +47,6 @@ public class Request<T extends IData> implements Serializable {
     }
 
     /**
-     * Sets the old state of the object attached in the request
-     * @param oldState The old state of the object attached in the request
-     */
-    public Request setOldState(T oldState){
-        this.oldState = oldState;
-        return this;
-    }
-
-    /**
      * Sets the type of the request's attachment
      * @param objectType The type of the request's attachment.
      */
@@ -159,11 +150,4 @@ public class Request<T extends IData> implements Serializable {
         return Objects.hash(sender, actionType, attachment, objectType);
     }
 
-    /**
-     * Returns the old state of the attachment
-     * @return The old state of the attachment
-     */
-    public T getOldState() {
-        return this.oldState;
-    }
 }
